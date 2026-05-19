@@ -1,0 +1,21 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'serif'],
+        display: ['Outfit', 'Inter', 'ui-sans-serif', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+      },
+      colors: {
+        bg:      '#0A0A0A',
+        surface: '#161616',
+        warm:    '#E8E4DE',
+        muted:   '#777777',
+        dim:     '#444444',
+        accent:  '#00897B',
+      },
+    },
+  },
+}
