@@ -14,7 +14,7 @@ import {
 import { staggerHero, wordReveal } from '@/lib/animations'
 import { ArrowRight, Check } from 'lucide-react'
 
-// ─── LOGO MARQUEE (Backed by engineers from…) ──────────────────────────────
+// ─── LOGO MARQUEE (backed by Engineers from…) ───────────────────────────────
 function LogoMarquee() {
   const logos = [
     ...ENGINEER_PEDIGREE,
@@ -55,7 +55,7 @@ function LogoMarquee() {
               whiteSpace: 'nowrap',
             }}
           >
-            Engineers from
+            backed by Engineers from
           </span>
         </div>
 
