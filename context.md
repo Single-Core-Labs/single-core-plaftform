@@ -10,8 +10,9 @@ This document provides a comprehensive overview of the **Single Core Labs** corp
 *   **Build Tool**: [Vite 8](https://vitejs.dev/) (ESM-based, high-speed HMR).
 *   **Styling**: 
     *   **Tailwind CSS v4**: Utilizing the new `@theme` block in `index.css` for design tokens.
-    *   **Vanilla CSS**: Used for specialized components like `StarBorder`.
-*   **Animations**: [Framer Motion 12](https://www.framer.com/motion/) for scroll-triggered reveals and interactive states.
+    *   **Vanilla CSS**: Used for custom utilities and layout variables in `index.css`.
+*   **Animations**: [Framer Motion 12](https://www.framer.com/motion/) for scroll-triggered reveals, stagged entries, and smooth accordion transitions.
+*   **Smooth Scrolling**: [Lenis](https://github.com/darkroomengineering/lenis) integrated globally in `App.jsx` for a premium, momentum-based scrolling experience.
 *   **Icons**: [Lucide React](https://lucide.dev/).
 *   **Routing**: [React Router DOM 7](https://reactrouter.com/).
 
@@ -22,46 +23,51 @@ This document provides a comprehensive overview of the **Single Core Labs** corp
 ```text
 D:\new website\single-core-labs-website\
 ├── src/
-│   ├── components/
-│   │   ├── layout/         # Persistent UI (Navbar, Footer, Wrappers)
-│   │   ├── primitives/     # Reusable atomic UI elements (Badges, Orbs)
-│   │   └── sections/       # Major homepage content blocks
+│   ├── components/         # Shared global components (Navbar, Footer, etc.)
+│   │   └── ui/             # Shadcn-style primitives (currently empty)
 │   ├── lib/
-│   │   ├── animations.js   # Framer Motion variant definitions
+│   │   ├── animations.js   # Framer Motion animation definitions
 │   │   ├── constants.js    # Site-wide copy, links, and data arrays
 │   │   └── utils.js        # Helper functions (clsx/tailwind-merge)
-│   ├── pages/              # Top-level route components
-│   ├── assets/             # Static images and SVGs
-│   ├── App.jsx             # Main routing and provider setup
+│   ├── pages/              # Top-level route pages (HomePage, SolutionsPage, etc.)
+│   ├── App.jsx             # Main routing, Lenis scrolling, and provider setup
 │   ├── index.css           # Global styles and Tailwind v4 Theme
 │   └── main.jsx            # React entry point
 ├── public/                 # Static assets (Favicons, Logos)
-└── tailwind.config.js       # Legacy compatibility (Primary config in index.css)
+└── tailwind.config.js      # Legacy compatibility
 ```
 
 ---
 
-## 3. Component Breakdown
+## 3. Component Breakdown & Page Structure
 
-### Layout Components (`src/components/layout/`)
-*   **`Navbar.jsx`**: Responsive navigation with mobile menu and blurred backdrop.
-*   **`Footer.jsx`**: Clean, informative footer with social links (LinkedIn) and a large brand watermark.
-*   **`SectionWrapper.jsx`**: A semantic wrapper that handles standard spacing, background colors (`odd`/`even`), and optional decorative background orbs.
+### Global Components (`src/components/`)
+*   **`Navbar.jsx`**: Responsive navigation with mobile menu, blurred backdrop, links to the homepage, solutions, and enterprise pages.
+*   **`Footer.jsx`**: Clean, elegant footer with social links, contact info, copyright, and a large brand watermark.
+*   **`HorizontalRule.jsx`**: Styled thematic break element used to separate landing sections.
+*   **`RevealText.jsx`**: Scroll-triggered text animation wrappers (`RevealText` and `StaggerReveal`) powered by Framer Motion.
 
-### Section Components (`src/components/sections/`)
-*   **`HeroSection.jsx`**: Above-the-fold value proposition with animated badge and "Book Demo" CTA.
-*   **`ServicesSection.jsx`**: Core "Core Pipeline" layout showcasing the 6-step linear AI architecture.
-*   **`ConversationalAISection.jsx`**: A high-impact interactive diagram. Features an **End-to-End Architecture Flowchart** connected to a simulated **Terminal Console** that streams telemetry data on hover.
-*   **`DifferentiatorsSection.jsx`**: High-authority section highlighting unique value propositions with dark aesthetic and bold typography.
-*   **`VerticalsSection.jsx`**: Grid-based display of industry-specific AI solutions (Healthcare, Finance, Logistics).
-*   **`SocialProofSection.jsx`**: Trust indicators including engineer pedigree from top-tier institutions.
-*   **`CTASection.jsx`**: Final conversion block before the footer.
+### Top-Level Pages & Local Sections (`src/pages/`)
+Each page contains local modular sub-components representing specific layout sections:
 
-### Primitive UI (`src/components/primitives/`)
-*   **`AnimatedBadge.jsx`**: Pill-shaped label with subtle entry animations.
-*   **`GradientText.jsx`**: Utility for applying the brand gradient to text strings.
-*   **`GradientOrb.jsx`**: Decorative blurred background elements for atmosphere.
-*   **`StarBorder.jsx`**: A premium CTA component with a rotating "shimmer" border effect.
+#### `HomePage.jsx`
+*   **`HeroSection`**: Above-the-fold value proposition with subtitle and CTAs ("Book a Demo", "Explore Platform").
+*   **`LogoMarquee`**: Horizontal auto-scrolling marquee showcasing industry origins (e.g. "BACKED BY ENGINEERS FROM Google, Meta, MIT...") with a static text label.
+*   **`PhilosophySection`**: Clean, high-impact editorial block quoting the company's core approach.
+*   **`PipelineSection`**: Step-by-step showcase of the core 5-stage deployment architecture.
+*   **`DifferentiatorsSection`**: Highlights unique value propositions (Autonomous Loop, Privacy by Design, Full-Stack Delivery) with alternating layouts.
+*   **`IndustriesSection`**: Interactive grid of target sectors (Healthcare, Finance, Logistics, etc.) with custom hover styles.
+*   **`SocialProofSection`**: Summary of full-stack AI capabilities mapped to modern enterprise requirements.
+*   **`CTASection`**: High-impact editorial contact block connecting directly to the main inquiry email.
+
+#### `SolutionsPage.jsx`
+*   **Editorial Services Accordion**: Features interactive expandable service blocks (Core AI, Data Engineering, Industry Solutions, Scientific Research, Governance & MLOps) that animate smoothly to show deep granular capability lists.
+
+#### `EnterprisePage.jsx`
+*   **Four Pillars Accordion**: Showcases core enterprise themes (Embedded Experts, Engineering Velocity, Applied AI Research, Enterprise Trust) through interactive expand/collapse panels highlighting delivery methodologies.
+
+#### `ComingSoonPage.jsx`
+*   **Fallback Template**: A minimalist coming-soon fallback for unmapped routes or draft pages.
 
 ---
 
@@ -95,5 +101,6 @@ Animations are standardized in `src/lib/animations.js`:
 *   **Constants over Hardcoding**: Most list data (links, service descriptions, logos) is managed in `src/lib/constants.js`.
 *   **CSpell Configuration**: Technical terms like `DICOM` and `monai` are ignored via top-of-file comments in relevant components.
 *   **Recent Updates**: 
-    *   The `ResearchSection` and "Research" navigation links were removed until publication.
-    *   The `ConversationalAISection` was transformed from a list into a visual tree/flowchart diagram.
+    *   Updated the logo marquee on the homepage to prefix the scrolling text with "BACKED BY ENGINEERS FROM" (instead of "ENGINEERS FROM").
+    *   Unified all section-specific components to be defined directly inside their respective page files (`HomePage.jsx`, `SolutionsPage.jsx`, `EnterprisePage.jsx`) to keep routing clean and simplify file structure.
+    *   Removed `ResearchSection` and legacy draft folders (`sections/`, `primitives/`, `layout/`) to optimize clean directory organization.
