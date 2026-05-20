@@ -4,6 +4,7 @@ import Lenis from 'lenis'
 import HomePage from './pages/HomePage'
 import SolutionsPage from './pages/SolutionsPage'
 import EnterprisePage from './pages/EnterprisePage'
+import ContactPage from './pages/ContactPage'
 import ComingSoonPage from './pages/ComingSoonPage'
 
 function ScrollToHashAndTop() {
@@ -50,6 +51,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/solutions" element={<SolutionsPage />} />
         <Route path="/enterprise" element={<EnterprisePage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/:slug" element={<ComingSoonPage />} />
       </Routes>
     </BrowserRouter>
