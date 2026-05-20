@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText, StaggerReveal } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
+import { ParallaxLayer, ScrollScale, ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
 import {
   CONTACT_EMAIL,
   ENGINEER_PEDIGREE,
@@ -13,6 +14,7 @@ import {
 } from '@/lib/constants'
 import { staggerHero, wordReveal } from '@/lib/animations'
 import { ArrowRight, Check } from 'lucide-react'
+import { useRef } from 'react'
 
 // ─── LOGO MARQUEE (backed by Engineers from…) ───────────────────────────────
 function LogoMarquee() {
@@ -106,9 +108,14 @@ function LogoMarquee() {
 function HeroSection() {
   const line1 = ['AI', 'at', 'scale.']
   const line2 = ['Without', 'the', 'chaos.']
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const heroY    = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '18%']), { stiffness: 60, damping: 20 })
+  const heroOpacity = useSpring(useTransform(scrollYProgress, [0, 0.6], [1, 0]), { stiffness: 60, damping: 20 })
 
   return (
     <section
+      ref={ref}
       aria-labelledby="hero-heading"
       style={{
         position: 'relative',
@@ -120,7 +127,32 @@ function HeroSection() {
         overflow: 'hidden',
       }}
     >
-      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
+      {/* Parallax background orb */}
+      <ParallaxLayer
+        speed={-0.4}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          top: '15%',
+          right: '-10%',
+          width: 'clamp(300px, 50vw, 700px)',
+          height: 'clamp(300px, 50vw, 700px)',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(0,137,123,0.06) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }} />
+      </ParallaxLayer>
+
+      <motion.div
+        className="container-editorial"
+        style={{ position: 'relative', zIndex: 1, y: heroY, opacity: heroOpacity }}
+      >
         <motion.div
           variants={staggerHero}
           initial="hidden"
@@ -184,7 +216,7 @@ function HeroSection() {
             </a>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -195,32 +227,34 @@ function PhilosophySection() {
     <section style={{ padding: 'var(--spacing-section) 0' }}>
       <div className="container-editorial">
         <HorizontalRule style={{ marginBottom: 'clamp(32px, 4vh, 48px)' }} />
-        <RevealText>
-          <blockquote
-            className="text-editorial"
-            style={{
-              maxWidth: '900px',
-              fontStyle: 'italic',
-              lineHeight: 1.4,
-            }}
-          >
-            "We translate deep expertise in building frontier models and agents
-            into enterprise solutions, combining our platform, experienced teams,
-            and advanced processes to accelerate your AI transformation."
-          </blockquote>
-        </RevealText>
-        <RevealText delay={2}>
-          <p style={{
-            marginTop: '20px',
-            fontSize: '12px',
-            fontWeight: 500,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--color-accent)',
-          }}>
-            Single Core Labs
-          </p>
-        </RevealText>
+        <ScrollScale from={0.92}>
+          <RevealText>
+            <blockquote
+              className="text-editorial"
+              style={{
+                maxWidth: '900px',
+                fontStyle: 'italic',
+                lineHeight: 1.4,
+              }}
+            >
+              "We translate deep expertise in building frontier models and agents
+              into enterprise solutions, combining our platform, experienced teams,
+              and advanced processes to accelerate your AI transformation."
+            </blockquote>
+          </RevealText>
+          <RevealText delay={2}>
+            <p style={{
+              marginTop: '20px',
+              fontSize: '12px',
+              fontWeight: 500,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--color-accent)',
+            }}>
+              Single Core Labs
+            </p>
+          </RevealText>
+        </ScrollScale>
       </div>
     </section>
   )
@@ -262,7 +296,7 @@ function PipelineSection() {
 
 function PipelineStep({ step, isLast }) {
   return (
-    <RevealText>
+    <ScrollFade3D>
       <article
         style={{
           display: 'grid',
@@ -309,73 +343,77 @@ function PipelineStep({ step, isLast }) {
           </p>
         </div>
       </article>
-    </RevealText>
+    </ScrollFade3D>
   )
 }
 
 // ─── DIFFERENTIATORS ────────────────────────────────────────────────────────
 function DifferentiatorsSection() {
   return (
-    <section style={{ padding: 'var(--spacing-section-lg) 0' }}>
-      <div className="container-editorial">
-        <div style={{ marginBottom: 'clamp(36px, 5vh, 56px)' }}>
-          <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Why Single Core Labs</p>
-          </RevealText>
-          <RevealText delay={1}>
-            <h2 className="text-display" style={{ maxWidth: '700px' }}>
-              Convert your proprietary data
-              <br />
-              <span className="text-italic-serif">into intelligent agents.</span>
-            </h2>
-          </RevealText>
-          <RevealText delay={2}>
-            <p className="text-body" style={{ maxWidth: '520px', marginTop: '16px' }}>
-              Build AI systems that don't just respond. They learn, adapt, and improve
-              with every interaction.
-            </p>
-          </RevealText>
-        </div>
+    <SectionDepth>
+      <section style={{ padding: 'var(--spacing-section-lg) 0' }}>
+        <div className="container-editorial">
+          <div style={{ marginBottom: 'clamp(36px, 5vh, 56px)' }}>
+            <RevealText>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Why Single Core Labs</p>
+            </RevealText>
+            <RevealText delay={1}>
+              <h2 className="text-display" style={{ maxWidth: '700px' }}>
+                Convert your proprietary data
+                <br />
+                <span className="text-italic-serif">into intelligent agents.</span>
+              </h2>
+            </RevealText>
+            <RevealText delay={2}>
+              <p className="text-body" style={{ maxWidth: '520px', marginTop: '16px' }}>
+                Build AI systems that don't just respond. They learn, adapt, and improve
+                with every interaction.
+              </p>
+            </RevealText>
+          </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {DIFFERENTIATORS.map((item, idx) => (
-            <RevealText key={item.id}>
-              <article
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: 'clamp(20px, 3vw, 56px)',
-                  paddingBlock: 'clamp(24px, 3.5vh, 44px)',
-                  borderTop: '1px solid var(--color-border)',
-                  borderBottom: idx === DIFFERENTIATORS.length - 1 ? '1px solid var(--color-border)' : 'none',
-                  alignItems: 'start',
-                }}
-              >
-                <div style={{ order: idx % 2 === 0 ? 0 : 1 }}>
-                  <h3
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {DIFFERENTIATORS.map((item, idx) => (
+              <ScrollFade3D key={item.id}>
+                <Card3D intensity={4}>
+                  <article
                     style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(20px, 2.8vw, 34px)',
-                      fontWeight: 400,
-                      lineHeight: 1.15,
-                      letterSpacing: '-0.02em',
-                      color: 'var(--color-text)',
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: 'clamp(20px, 3vw, 56px)',
+                      paddingBlock: 'clamp(24px, 3.5vh, 44px)',
+                      borderTop: '1px solid var(--color-border)',
+                      borderBottom: idx === DIFFERENTIATORS.length - 1 ? '1px solid var(--color-border)' : 'none',
+                      alignItems: 'start',
                     }}
                   >
-                    {item.headline}
-                  </h3>
-                </div>
-                <div style={{ order: idx % 2 === 0 ? 1 : 0, paddingTop: '4px' }}>
-                  <p className="text-body" style={{ maxWidth: '420px' }}>
-                    {item.description}
-                  </p>
-                </div>
-              </article>
-            </RevealText>
-          ))}
+                    <div style={{ order: idx % 2 === 0 ? 0 : 1 }}>
+                      <h3
+                        style={{
+                          fontFamily: 'var(--font-serif)',
+                          fontSize: 'clamp(20px, 2.8vw, 34px)',
+                          fontWeight: 400,
+                          lineHeight: 1.15,
+                          letterSpacing: '-0.02em',
+                          color: 'var(--color-text)',
+                        }}
+                      >
+                        {item.headline}
+                      </h3>
+                    </div>
+                    <div style={{ order: idx % 2 === 0 ? 1 : 0, paddingTop: '4px' }}>
+                      <p className="text-body" style={{ maxWidth: '420px' }}>
+                        {item.description}
+                      </p>
+                    </div>
+                  </article>
+                </Card3D>
+              </ScrollFade3D>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </SectionDepth>
   )
 }
 
@@ -408,8 +446,9 @@ function IndustriesSection() {
             }}
           >
             {INDUSTRIES.map((industry) => (
-              <div
+              <Card3D
                 key={industry.id}
+                intensity={6}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -417,6 +456,7 @@ function IndustriesSection() {
                   padding: 'clamp(16px, 2.5vh, 24px) clamp(16px, 2vw, 28px)',
                   borderRight: '1px solid var(--color-border)',
                   borderBottom: '1px solid var(--color-border)',
+                  cursor: 'default',
                   transition: 'background 0.2s',
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-elevated)'}
@@ -443,7 +483,7 @@ function IndustriesSection() {
                 }}>
                   {industry.label}
                 </span>
-              </div>
+              </Card3D>
             ))}
           </div>
         </StaggerReveal>

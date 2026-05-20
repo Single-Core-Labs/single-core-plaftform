@@ -1,11 +1,121 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { NAV_LINKS, CONTACT_EMAIL } from '@/lib/constants'
 
+// ─── Resources mega-dropdown data ────────────────────────────────────────────
+const RESOURCES_LEFT = {
+  label: 'Single Core Labs',
+  items: [
+    { label: 'About',    href: '/about' },
+    { label: 'Security', href: '/security' },
+    { label: 'Guides',   href: '/guides' },
+    { label: 'Careers',  href: '/careers' },
+  ],
+}
+
+const RESOURCES_RIGHT = [
+  { label: 'Contact us',    href: '/contact' },
+  { label: 'Blog',          href: '/blog' },
+  { label: 'Events',        href: '/events' },
+  { label: 'Documentation', href: '/docs' },
+]
+
+// ─── Mega Dropdown ────────────────────────────────────────────────────────────
+function ResourcesDropdown({ onClose }) {
+  const colLinkStyle = {
+    fontFamily: 'var(--font-sans)',
+    fontSize: '15px',
+    fontWeight: 400,
+    color: 'var(--color-text)',
+    textDecoration: 'none',
+    letterSpacing: '-0.01em',
+    lineHeight: 1,
+    transition: 'color 0.15s',
+    display: 'block',
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: 'absolute',
+        top: 'calc(100% + 14px)',
+        right: 0,
+        width: '480px',
+        background: 'rgba(245, 245, 243, 0.98)',
+        border: '1px solid rgba(0,0,0,0.09)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.10)',
+        zIndex: 200,
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+      }}
+    >
+      {/* Left column */}
+      <div style={{
+        padding: '28px 24px 32px',
+        borderRight: '1px solid rgba(0,0,0,0.07)',
+      }}>
+        <span style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '10px',
+          fontWeight: 600,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          color: 'var(--color-text-dim)',
+          display: 'block',
+          marginBottom: '20px',
+        }}>
+          {RESOURCES_LEFT.label}
+        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          {RESOURCES_LEFT.items.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              onClick={onClose}
+              style={colLinkStyle}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Right column */}
+      <div style={{ padding: '28px 24px 32px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginTop: '30px' }}>
+          {RESOURCES_RIGHT.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              onClick={onClose}
+              style={colLinkStyle}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// ─── Navbar ──────────────────────────────────────────────────────────────────
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled]       = useState(false)
+  const [menuOpen, setMenuOpen]       = useState(false)
+  const [resourcesOpen, setResourcesOpen] = useState(false)
+  const resourcesRef = useRef(null)
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -16,6 +126,27 @@ export function Navbar() {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target)) {
+        setResourcesOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  const linkStyle = {
+    fontFamily: 'var(--font-sans)',
+    fontSize: '13px',
+    fontWeight: 400,
+    letterSpacing: '0.02em',
+    color: 'var(--color-text-muted)',
+    textDecoration: 'none',
+    transition: 'color 0.25s',
+  }
 
   return (
     <>
@@ -81,33 +212,76 @@ export function Navbar() {
 
           {/* Desktop Links */}
           <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-            {NAV_LINKS.map((link) => {
-              const isHash = link.href.startsWith('#')
-              const style = {
-                fontFamily: 'var(--font-sans)',
-                fontSize: '13px',
-                fontWeight: 400,
-                letterSpacing: '0.02em',
-                color: 'var(--color-text-muted)',
-                textDecoration: 'none',
-                transition: 'color 0.25s',
-              }
-              return isHash ? (
-                <a key={link.href} href={link.href} style={style}
-                  onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
-                  onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
+
+            {/* Regular nav links from constants */}
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                style={linkStyle}
+                onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
+                onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            {/* Case Studies */}
+            <Link
+              to="/case-studies"
+              style={linkStyle}
+              onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
+              onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
+            >
+              Case Studies
+            </Link>
+
+            {/* Resources dropdown */}
+            <div
+              ref={resourcesRef}
+              style={{ position: 'relative' }}
+            >
+              <button
+                aria-haspopup="true"
+                aria-expanded={resourcesOpen}
+                onClick={() => setResourcesOpen((o) => !o)}
+                style={{
+                  ...linkStyle,
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: 0,
+                  color: resourcesOpen ? 'var(--color-text)' : 'var(--color-text-muted)',
+                }}
+              >
+                Resources
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  style={{
+                    transition: 'transform 0.2s',
+                    transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                    marginTop: '1px',
+                  }}
                 >
-                  {link.label}
-                </a>
-              ) : (
-                <Link key={link.href} to={link.href} style={style}
-                  onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
-                  onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
-                >
-                  {link.label}
-                </Link>
-              )
-            })}
+                  <path d="M2 4l4 4 4-4" />
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {resourcesOpen && (
+                  <ResourcesDropdown onClose={() => setResourcesOpen(false)} />
+                )}
+              </AnimatePresence>
+            </div>
+
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="btn-primary"
@@ -171,48 +345,80 @@ export function Navbar() {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              gap: '40px',
+              gap: '36px',
             }}
           >
-            {NAV_LINKS.map((link, i) => {
-              const isHash = link.href.startsWith('#')
-              const style = {
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(28px, 6vw, 42px)',
-                fontWeight: 400,
-                color: 'var(--color-text)',
-                textDecoration: 'none',
-                letterSpacing: '-0.02em',
-              }
-              return (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            {/* Regular links */}
+            {[...NAV_LINKS, { label: 'Case Studies', href: '/case-studies' }].map((link, i) => (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <Link
+                  to={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: 'clamp(28px, 6vw, 42px)',
+                    fontWeight: 400,
+                    color: 'var(--color-text)',
+                    textDecoration: 'none',
+                    letterSpacing: '-0.02em',
+                  }}
                 >
-                  {isHash ? (
-                    <a href={link.href} onClick={() => setMenuOpen(false)} style={style}>
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link to={link.href} onClick={() => setMenuOpen(false)} style={style}>
-                      {link.label}
-                    </Link>
-                  )}
-                </motion.div>
-              )
-            })}
+                  {link.label}
+                </Link>
+              </motion.div>
+            ))}
+
+            {/* Resources sub-links in mobile */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (NAV_LINKS.length + 1) * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}
+            >
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '10px',
+                fontWeight: 600,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'var(--color-text-dim)',
+              }}>
+                Resources
+              </span>
+              {[...RESOURCES_LEFT.items, ...RESOURCES_RIGHT].map((item) => (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: 'clamp(22px, 4.5vw, 32px)',
+                    fontWeight: 400,
+                    color: 'var(--color-text-muted)',
+                    textDecoration: 'none',
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
             >
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary"
-                style={{ marginTop: '20px' }}
+                style={{ marginTop: '8px' }}
               >
                 Book a Demo
               </a>
