@@ -6,101 +6,219 @@ This document provides a comprehensive overview of the **Single Core Labs** corp
 
 ## 1. Architectural Overview
 
-*   **Framework**: [React 19](https://react.dev/) (Functional Components, Hooks).
-*   **Build Tool**: [Vite 8](https://vitejs.dev/) (ESM-based, high-speed HMR).
-*   **Styling**: 
-    *   **Tailwind CSS v4**: Utilizing the new `@theme` block in `index.css` for design tokens.
-    *   **Vanilla CSS**: Used for custom utilities and layout variables in `index.css`.
-*   **Animations**: [Framer Motion 12](https://www.framer.com/motion/) for scroll-triggered reveals, stagged entries, and smooth accordion transitions.
-*   **Smooth Scrolling**: [Lenis](https://github.com/darkroomengineering/lenis) integrated globally in `App.jsx` for a premium, momentum-based scrolling experience.
-*   **Icons**: [Lucide React](https://lucide.dev/).
-*   **Routing**: [React Router DOM 7](https://reactrouter.com/).
+- **Framework**: [React 19](https://react.dev/) (Functional Components, Hooks)
+- **Build Tool**: [Vite 8](https://vitejs.dev/) (ESM-based, high-speed HMR)
+- **Styling**:
+  - **Tailwind CSS v4**: `@theme` block in `index.css` for design tokens
+  - **Vanilla CSS**: Custom utilities, layout variables, and animation classes in `index.css`
+- **Animations**: [Framer Motion 12](https://www.framer.com/motion/) — scroll-triggered reveals, staggered entries, 3D scroll effects, spring physics
+- **3D Scroll Effects**: Custom `ScrollScene.jsx` component library built on Framer Motion `useScroll` + `useTransform` + `useSpring`
+- **Smooth Scrolling**: [Lenis](https://github.com/darkroomengineering/lenis) integrated globally in `App.jsx`
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Routing**: [React Router DOM 7](https://reactrouter.com/)
 
 ---
 
 ## 2. Directory Structure
 
 ```text
-D:\new website\single-core-labs-website\
-├── src/
-│   ├── components/         # Shared global components (Navbar, Footer, etc.)
-│   │   └── ui/             # Shadcn-style primitives (currently empty)
-│   ├── lib/
-│   │   ├── animations.js   # Framer Motion animation definitions
-│   │   ├── constants.js    # Site-wide copy, links, and data arrays
-│   │   └── utils.js        # Helper functions (clsx/tailwind-merge)
-│   ├── pages/              # Top-level route pages (HomePage, SolutionsPage, etc.)
-│   ├── App.jsx             # Main routing, Lenis scrolling, and provider setup
-│   ├── index.css           # Global styles and Tailwind v4 Theme
-│   └── main.jsx            # React entry point
-├── public/                 # Static assets (Favicons, Logos)
-└── tailwind.config.js      # Legacy compatibility
+src/
+├── components/
+│   ├── Footer.jsx
+│   ├── HorizontalRule.jsx
+│   ├── Navbar.jsx
+│   ├── RevealText.jsx
+│   ├── ScrollScene.jsx       # 3D scroll effect primitives
+│   └── ui/                   # Shadcn-style primitives (currently empty)
+├── lib/
+│   ├── animations.js         # Framer Motion variant definitions
+│   ├── constants.js          # Site-wide copy, nav links, data arrays
+│   └── utils.js              # clsx / tailwind-merge helpers
+├── pages/
+│   ├── HomePage.jsx
+│   ├── SolutionsPage.jsx
+│   ├── EnterprisePage.jsx
+│   ├── ContactPage.jsx
+│   └── ComingSoonPage.jsx
+├── App.jsx                   # Routing, Lenis, providers
+├── index.css                 # Global styles + Tailwind v4 theme
+└── main.jsx                  # React entry point
+
+public/
+├── favicon.svg
+├── icons.svg
+└── logo.webp
 ```
 
 ---
 
-## 3. Component Breakdown & Page Structure
+## 3. Routing
 
-### Global Components (`src/components/`)
-*   **`Navbar.jsx`**: Responsive navigation with mobile menu, blurred backdrop, links to the homepage, solutions, and enterprise pages.
-*   **`Footer.jsx`**: Clean, elegant footer with social links, contact info, copyright, and a large brand watermark.
-*   **`HorizontalRule.jsx`**: Styled thematic break element used to separate landing sections.
-*   **`RevealText.jsx`**: Scroll-triggered text animation wrappers (`RevealText` and `StaggerReveal`) powered by Framer Motion.
+Routes are defined in `App.jsx`:
 
-### Top-Level Pages & Local Sections (`src/pages/`)
-Each page contains local modular sub-components representing specific layout sections:
-
-#### `HomePage.jsx`
-*   **`HeroSection`**: Above-the-fold value proposition with subtitle and CTAs ("Book a Demo", "Explore Platform").
-*   **`LogoMarquee`**: Horizontal auto-scrolling marquee showcasing industry origins (e.g. "BACKED BY ENGINEERS FROM Google, Meta, MIT...") with a static text label.
-*   **`PhilosophySection`**: Clean, high-impact editorial block quoting the company's core approach.
-*   **`PipelineSection`**: Step-by-step showcase of the core 5-stage deployment architecture.
-*   **`DifferentiatorsSection`**: Highlights unique value propositions (Autonomous Loop, Privacy by Design, Full-Stack Delivery) with alternating layouts.
-*   **`IndustriesSection`**: Interactive grid of target sectors (Healthcare, Finance, Logistics, etc.) with custom hover styles.
-*   **`SocialProofSection`**: Summary of full-stack AI capabilities mapped to modern enterprise requirements.
-*   **`CTASection`**: High-impact editorial contact block connecting directly to the main inquiry email.
-
-#### `SolutionsPage.jsx`
-*   **Editorial Services Accordion**: Features interactive expandable service blocks (Core AI, Data Engineering, Industry Solutions, Scientific Research, Governance & MLOps) that animate smoothly to show deep granular capability lists.
-
-#### `EnterprisePage.jsx`
-*   **Four Pillars Accordion**: Showcases core enterprise themes (Embedded Experts, Engineering Velocity, Applied AI Research, Enterprise Trust) through interactive expand/collapse panels highlighting delivery methodologies.
-
-#### `ComingSoonPage.jsx`
-*   **Fallback Template**: A minimalist coming-soon fallback for unmapped routes or draft pages.
+| Path            | Component          | Notes                              |
+|-----------------|--------------------|------------------------------------|
+| `/`             | `HomePage`         |                                    |
+| `/solutions`    | `SolutionsPage`    |                                    |
+| `/enterprise`   | `EnterprisePage`   |                                    |
+| `/contact`      | `ContactPage`      | Full contact form page             |
+| `/:slug`        | `ComingSoonPage`   | Catch-all for unmapped routes      |
 
 ---
 
-## 4. Design System (Tokens)
+## 4. Navigation (`src/lib/constants.js` + `Navbar.jsx`)
 
-Design tokens are centralized in `src/index.css` using Tailwind v4 syntax:
+`NAV_LINKS` in `constants.js` drives the main nav:
 
-*   **Colors**:
-    *   `--color-brand-cyan`: `#00F5D4` (Primary highlight)
-    *   `--color-brand-green`: `#22C55E`
-    *   `--color-brand-blue`: `#3B82F6`
-    *   `--color-dark-bg`: `#080810`
-*   **Typography**:
-    *   `font-serif`: 'Newsreader' (Used for `text-hero` and `text-display`)
-    *   `font-sans`: 'Inter' (Body copy and UI labels)
-    *   `font-mono`: 'JetBrains Mono' (Terminal and system logs)
+```js
+{ label: 'Solutions',    href: '/solutions'    }
+{ label: 'Enterprise',   href: '/enterprise'   }
+{ label: 'Research',     href: '/research'     }
+{ label: 'Contact',      href: '/contact'      }
+```
+
+Additional items rendered directly in `Navbar.jsx`:
+- **Case Studies** → `/case-studies`
+- **Resources** → mega-dropdown (two-column)
+
+### Resources Mega-Dropdown
+
+| Left column — "Single Core Labs" | Right column         |
+|----------------------------------|----------------------|
+| About                            | Contact us           |
+| Security                         | Blog                 |
+| Guides                           | Events               |
+| Careers                          | Documentation        |
+
+The dropdown is built inside `Navbar.jsx` using `AnimatePresence` + Framer Motion. It closes on outside click via a `useRef` + `mousedown` listener. Mobile menu flattens all links into a full-screen overlay.
 
 ---
 
-## 5. Animation Patterns
+## 5. Component Breakdown
 
-Animations are standardized in `src/lib/animations.js`:
-*   **`fadeUp`**: Classic reveal animation with a slight upward translation.
-*   **`staggerContainer`**: Used on parent elements to delay children reveals incrementally.
-*   **`viewport`**: Default config for `whileInView` triggers (usually with `once: true`).
+### `ScrollScene.jsx` — 3D Scroll Primitives
+
+All components use `useScroll` + `useTransform` + `useSpring` from Framer Motion.
+
+| Component       | Effect                                                                 |
+|-----------------|------------------------------------------------------------------------|
+| `ParallaxLayer` | Translates Y at a configurable speed relative to scroll                |
+| `ScrollRotate`  | Rotates element as it scrolls through the viewport                     |
+| `ScrollScale`   | Scales from a smaller size to 1 as element enters viewport             |
+| `ScrollFade3D`  | Fades + rises from a Z-depth offset (coming-out-of-page feel)          |
+| `Card3D`        | Mouse-tracking 3D tilt on hover using `useMotionValue` + springs       |
+| `SectionDepth`  | Wraps a section with a `rotateX` perspective shift as it scrolls past  |
+
+### `Navbar.jsx`
+
+- Fixed, frosted-glass navbar with scroll-aware border/shadow
+- Desktop: inline links + Resources mega-dropdown + "Book a Demo" CTA
+- Mobile: hamburger → full-screen overlay with all links
+- Dropdown closes on outside click (`useRef` + `mousedown`)
+
+### `RevealText.jsx`
+
+- `RevealText`: Intersection Observer fade-up for individual elements
+- `StaggerReveal`: Staggered fade-up for lists of children
+
+### `Footer.jsx`
+
+Clean footer with social links, contact email, copyright, and large brand watermark.
 
 ---
 
-## 6. Development Notes
+## 6. Pages
 
-*   **Constants over Hardcoding**: Most list data (links, service descriptions, logos) is managed in `src/lib/constants.js`.
-*   **CSpell Configuration**: Technical terms like `DICOM` and `monai` are ignored via top-of-file comments in relevant components.
-*   **Recent Updates**: 
-    *   Updated the logo marquee on the homepage to prefix the scrolling text with "BACKED BY ENGINEERS FROM" (instead of "ENGINEERS FROM").
-    *   Unified all section-specific components to be defined directly inside their respective page files (`HomePage.jsx`, `SolutionsPage.jsx`, `EnterprisePage.jsx`) to keep routing clean and simplify file structure.
-    *   Removed `ResearchSection` and legacy draft folders (`sections/`, `primitives/`, `layout/`) to optimize clean directory organization.
+### `HomePage.jsx`
+
+3D scroll effects applied throughout:
+
+| Section               | 3D Effect Applied                                      |
+|-----------------------|--------------------------------------------------------|
+| `HeroSection`         | Parallax exit (content drifts up + fades on scroll), background orb parallax |
+| `PhilosophySection`   | `ScrollScale` — quote grows from 92% → 100%            |
+| `PipelineSection`     | `ScrollFade3D` on each step — rises from Z-depth       |
+| `DifferentiatorsSection` | `SectionDepth` wrapper + `Card3D` tilt on each row  |
+| `IndustriesSection`   | `Card3D` on each industry tile                         |
+
+### `ContactPage.jsx`
+
+Full contact form at `/contact`. Fields:
+- First name, Last name, Company, Role, Work email, Country (dropdown)
+- Budget: pill-toggle radio buttons (₹ INR ranges)
+- "What are you looking to solve?" — custom checkbox list (SCL service areas)
+- Message textarea
+- Submit opens a pre-filled `mailto:` — swap with API call when ready
+- Success state: confirmation screen after submit
+
+### `SolutionsPage.jsx`
+
+Editorial services accordion — expandable blocks for Core AI, Data Engineering, Industry Solutions, Scientific Research, Governance & MLOps.
+
+### `EnterprisePage.jsx`
+
+Four Pillars accordion — Embedded Experts, Engineering Velocity, Applied AI Research, Enterprise Trust.
+
+### `ComingSoonPage.jsx`
+
+Minimalist fallback for unmapped routes.
+
+---
+
+## 7. Design System Tokens (`src/index.css`)
+
+```css
+/* Colors */
+--color-bg:           #FAFAFA
+--color-bg-elevated:  #F0EFED
+--color-bg-surface:   #E8E6E2
+--color-text:         #1A1A1A
+--color-text-muted:   #6B6B6B
+--color-text-dim:     #A0A0A0
+--color-accent:       #00897B   /* teal green */
+--color-accent-dim:   rgba(0, 137, 123, 0.1)
+--color-border:       rgba(0, 0, 0, 0.08)
+--color-border-strong: rgba(0, 0, 0, 0.15)
+
+/* Typography */
+--font-serif:    'Newsreader', Georgia, serif
+--font-sans:     'Inter', ui-sans-serif, system-ui
+--font-display:  'Outfit', 'Inter', ui-sans-serif
+--font-mono:     'JetBrains Mono', 'Fira Code'
+
+/* Spacing */
+--spacing-section:    clamp(48px, 7vh, 88px)
+--spacing-section-lg: clamp(56px, 8vh, 100px)
+```
+
+Typography classes: `.text-hero`, `.text-display`, `.text-editorial`, `.text-body`, `.text-eyebrow`, `.text-label`
+
+Button classes: `.btn-primary`, `.btn-outline`
+
+Layout classes: `.container-editorial` (max 1400px), `.container-narrow` (max 900px)
+
+---
+
+## 8. Animation Patterns (`src/lib/animations.js`)
+
+| Export            | Description                                      |
+|-------------------|--------------------------------------------------|
+| `fadeUp`          | Opacity 0→1 + Y 40→0                            |
+| `fadeUpDelayed`   | Same with 0.15s delay                            |
+| `fadeIn`          | Opacity only                                     |
+| `slideLeft/Right` | Opacity + X translation                          |
+| `staggerContainer`| Parent stagger (0.1s between children)           |
+| `staggerHero`     | Tighter stagger (0.08s) with 0.1s delay          |
+| `wordReveal`      | Per-word hero headline animation                 |
+| `lineReveal`      | Clip-path reveal from bottom                     |
+| `viewport`        | `{ once: true, amount: 0.2, margin: '-60px' }`  |
+
+---
+
+## 9. Development Notes
+
+- **Constants over hardcoding**: All nav links, pipeline steps, differentiators, industries, and capabilities live in `src/lib/constants.js`
+- **Section-local components**: Each page defines its section sub-components inline (e.g. `HeroSection`, `PipelineStep`) to keep routing clean
+- **No test framework** currently configured
+- **Accessibility**: Focus-visible outlines use `--color-accent`; skip link present; ARIA labels on nav, mobile menu dialog, and buttons
+- **Reduced motion**: `@media (prefers-reduced-motion: reduce)` disables all CSS animations and transitions; Framer Motion spring values collapse automatically
