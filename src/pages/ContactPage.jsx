@@ -4,8 +4,8 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { RevealText } from '@/components/RevealText'
-import { CONTACT_EMAIL } from '@/lib/constants'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Loader2 } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 const BUDGET_OPTIONS = [
   { value: 'under-50k',   label: 'Under ₹50L' },
@@ -13,7 +13,7 @@ const BUDGET_OPTIONS = [
   { value: '200k-500k',   label: '₹2Cr – ₹5Cr' },
   { value: '500k-plus',   label: '₹5Cr+' },
 ]
-
+// ... rest of constants ...
 const HELP_OPTIONS = [
   { value: 'agentic-ai',        label: 'Agentic AI & Autonomous Workflows' },
   { value: 'medical-imaging',   label: 'Medical Imaging & Clinical Diagnostics' },
@@ -28,7 +28,7 @@ const COUNTRIES = [
   'India', 'United States', 'United Kingdom', 'Canada', 'Australia',
   'Germany', 'France', 'Singapore', 'UAE', 'Other',
 ]
-
+// ... styles ...
 const inputStyle = {
   width: '100%',
   padding: '14px 16px',
@@ -149,6 +149,8 @@ export default function ContactPage() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [messageFocused, setMessageFocused] = useState(false)
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
@@ -162,20 +164,37 @@ export default function ContactPage() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Build mailto body as a fallback — replace with your API call if needed
-    const body = encodeURIComponent(
-      `Name: ${form.firstName} ${form.lastName}\n` +
-      `Company: ${form.company}\n` +
-      `Role: ${form.role}\n` +
-      `Country: ${form.country}\n` +
-      `Budget: ${form.budget}\n` +
-      `Areas: ${form.helpWith.join(', ')}\n\n` +
-      form.message
-    )
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=Enquiry from ${form.firstName} ${form.lastName}&body=${body}`
-    setSubmitted(true)
+    setLoading(true)
+    setError(null)
+
+    try {
+      const { error: submitError } = await supabase
+        .from('contact_submissions')
+        .insert([
+          {
+            first_name: form.firstName,
+            last_name: form.lastName,
+            company: form.company,
+            role: form.role,
+            email: form.email,
+            country: form.country,
+            budget: form.budget,
+            help_with: form.helpWith,
+            message: form.message,
+          },
+        ])
+
+      if (submitError) throw submitError
+
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Submission error:', err)
+      setError('Something went wrong. Please try again later.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (submitted) {
@@ -512,21 +531,42 @@ export default function ContactPage() {
                       paddingTop: '8px',
                     }}
                   >
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '12px',
-                        color: 'var(--color-text-dim)',
-                        maxWidth: '420px',
-                        lineHeight: 1.6,
-                      }}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      <p
+                        style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '12px',
+                          color: 'var(--color-text-dim)',
+                          maxWidth: '420px',
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        By submitting this form you agree to us contacting you about your enquiry.
+                        We don't share your data with third parties.
+                      </p>
+                      {error && (
+                        <p style={{ color: 'var(--color-accent)', fontSize: '12px', fontWeight: 500 }}>
+                          {error}
+                        </p>
+                      )}
+                    </div>
+                    <button 
+                      type="submit" 
+                      className="btn-primary" 
+                      disabled={loading}
+                      style={{ opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
                     >
-                      By submitting this form you agree to us contacting you about your enquiry.
-                      We don't share your data with third parties.
-                    </p>
-                    <button type="submit" className="btn-primary">
-                      Send enquiry
-                      <ArrowRight size={15} />
+                      {loading ? (
+                        <>
+                          Sending...
+                          <Loader2 size={15} className="animate-spin" />
+                        </>
+                      ) : (
+                        <>
+                          Send enquiry
+                          <ArrowRight size={15} />
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
