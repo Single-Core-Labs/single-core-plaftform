@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { NAV_LINKS, CONTACT_EMAIL } from '@/lib/constants'
+import { NAV_LINKS } from '@/lib/constants'
 
 // ─── Resources mega-dropdown data ────────────────────────────────────────────
 const RESOURCES_LEFT = {
@@ -282,11 +282,7 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="btn-primary"
-              style={{ padding: '8px 24px', fontSize: '13px' }}
-            >
+            <a href="/contact" className="btn-primary">
               Book a Demo
             </a>
           </div>
@@ -415,7 +411,7 @@ export function Navbar() {
               transition={{ delay: 0.4, duration: 0.5 }}
             >
               <a
-                href={`mailto:${CONTACT_EMAIL}`}
+                href="/contact"
                 onClick={() => setMenuOpen(false)}
                 className="btn-primary"
                 style={{ marginTop: '8px' }}

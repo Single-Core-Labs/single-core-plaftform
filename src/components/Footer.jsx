@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { SOCIAL_LINKS, CONTACT_EMAIL } from '@/lib/constants'
+import { SOCIAL_LINKS } from '@/lib/constants'
 import { fadeUp, viewport, staggerContainer } from '@/lib/animations'
 
 const FOOTER_LINKS = [
@@ -81,14 +81,6 @@ export function Footer() {
                   We translate deep expertise in building frontier models and agents
                   into enterprise solutions that operate with precision at scale.
                 </p>
-                <a href={`mailto:${CONTACT_EMAIL}`} style={{
-                  fontSize: '13px', color: 'var(--color-text-muted)', textDecoration: 'none', transition: 'color 0.2s',
-                }}
-                  onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
-                  onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
-                >
-                  {CONTACT_EMAIL}
-                </a>
                 <p style={{ fontSize: '12px', color: 'var(--color-text-dim)' }}>Pune, Maharashtra</p>
               </div>
 

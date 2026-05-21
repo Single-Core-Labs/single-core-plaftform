@@ -5,7 +5,6 @@ import { RevealText, StaggerReveal } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { ParallaxLayer, ScrollScale, ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
 import {
-  CONTACT_EMAIL,
   ENGINEER_PEDIGREE,
   CORE_PIPELINE,
   DIFFERENTIATORS,
@@ -612,22 +611,9 @@ function CTASection() {
 
         <RevealText delay={3}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="btn-primary">
+            <a href="/contact" className="btn-primary">
               Start the Conversation
               <ArrowRight size={15} />
-            </a>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              style={{
-                fontSize: '14px',
-                color: 'var(--color-text-muted)',
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-              }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
-            >
-              {CONTACT_EMAIL}
             </a>
           </div>
         </RevealText>

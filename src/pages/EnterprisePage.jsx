@@ -5,7 +5,6 @@ import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { Plus, Minus, ArrowRight } from 'lucide-react'
-import { CONTACT_EMAIL } from '@/lib/constants'
 
 const PILLARS = [
   {
@@ -252,7 +251,7 @@ export default function EnterprisePage() {
           </RevealText>
           <RevealText delay={2}>
             <a
-              href={`mailto:${CONTACT_EMAIL}?subject=Enterprise%20AI%20Consultation`}
+              href="/contact"
               className="link-underline"
               style={{ marginTop: '40px', display: 'inline-flex', fontSize: '14px', fontWeight: 600 }}
             >
