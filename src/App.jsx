@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import SolutionsPage from './pages/SolutionsPage'
 import EnterprisePage from './pages/EnterprisePage'
 import ContactPage from './pages/ContactPage'
+import CaseStudiesPage from './pages/CaseStudiesPage'
 import ComingSoonPage from './pages/ComingSoonPage'
 
 function ScrollToHashAndTop() {
@@ -52,6 +53,7 @@ function App() {
         <Route path="/solutions" element={<SolutionsPage />} />
         <Route path="/enterprise" element={<EnterprisePage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
         <Route path="/:slug" element={<ComingSoonPage />} />
       </Routes>
     </BrowserRouter>
