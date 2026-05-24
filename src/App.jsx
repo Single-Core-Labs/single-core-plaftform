@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 import HomePage from './pages/HomePage'
@@ -11,6 +11,7 @@ import BlogPage from './pages/BlogPage'
 import BlogPost from './pages/BlogPost'
 import AboutPage from './pages/AboutPage'
 import AIModernizationPage from './pages/AIModernizationPage'
+import ChatModal from '@/components/ChatModal'
 
 function ScrollToHashAndTop() {
   const { pathname, hash } = useLocation()
@@ -49,6 +50,14 @@ function App() {
     return () => lenis.destroy()
   }, [])
 
+  const [chatOpen, setChatOpen] = useState(false)
+  const openChat = () => setChatOpen(true)
+  const closeChat = () => setChatOpen(false)
+  
+  useEffect(() => {
+    window.openChatModal = openChat
+  }, [])
+
   return (
     <BrowserRouter>
       <ScrollToHashAndTop />
@@ -64,6 +73,7 @@ function App() {
           <Route path="/services/ai-modernization" element={<AIModernizationPage />} />
         <Route path="/:slug" element={<ComingSoonPage />} />
       </Routes>
+      <ChatModal open={chatOpen} onClose={closeChat} />
     </BrowserRouter>
   )
 }

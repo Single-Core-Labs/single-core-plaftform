@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion'
+
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { RevealText, StaggerReveal } from '@/components/RevealText'
+import { RevealText } from '@/components/RevealText'
 import { ScrollFade3D } from '@/components/ScrollScene'
 import { usePageMeta } from '@/lib/seo'
 

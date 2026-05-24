@@ -282,9 +282,9 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            <a href="/services/ai-modernization" className="btn-primary">
+            <button type="button" onClick={() => window.openChatModal()} className="btn-primary">
               Book a Demo
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -410,14 +410,14 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-<a
-                 href="/services/ai-modernization"
-                 onClick={() => setMenuOpen(false)}
-                 className="btn-primary"
-                 style={{ marginTop: '8px' }}
-               >
-                Book a Demo
-              </a>
+<button
+  type="button"
+  onClick={() => { setMenuOpen(false); window.openChatModal(); }}
+  className="btn-primary"
+  style={{ marginTop: '8px' }}
+>
+  Book a Demo
+</button>
             </motion.div>
           </motion.div>
         )}
