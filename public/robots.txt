@@ -1,0 +1,10 @@
+# https://singlecorelabs.in — Single Core Labs
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Build artifacts / tooling (not published on static host)
+Disallow: /src/
+
+Sitemap: https://singlecorelabs.in/sitemap.xml

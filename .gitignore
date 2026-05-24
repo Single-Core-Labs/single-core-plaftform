@@ -25,5 +25,6 @@ dist-ssr
 
 node_modules/
 dist/
+public/sitemap.xml
 .env
 .env.local
