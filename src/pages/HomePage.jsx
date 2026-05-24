@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
+import { PoweredBySection } from '@/components/PoweredBySection'
 import { RevealText, StaggerReveal } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { ParallaxLayer, ScrollScale, ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
@@ -598,24 +599,24 @@ function CTASection() {
               marginBottom: '20px',
             }}
           >
-            Let's build something{' '}
+            Let’s build something{' '}
             <span className="text-italic-serif">exceptional.</span>
           </h2>
         </RevealText>
 
         <RevealText delay={2}>
           <p className="text-body" style={{ maxWidth: '480px', marginBottom: '28px' }}>
-            As an applied AI research company, we deploy cutting-edge solutions for
-            enterprises and build innovative in-house products. Book a free 30-minute
+            As an applied AI research company, we deploy cutting‑edge solutions for
+            enterprises and build innovative in‑house products. Book a free 30‑minute
             consultation to learn how we can help.
           </p>
         </RevealText>
 
         <RevealText delay={3}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
-<Link to="/contact" className="btn-primary">
-               Start the Conversation
-               <ArrowRight size={15} />
+            <Link to="/contact" className="btn-primary">
+              Start the Conversation
+              <ArrowRight size={15} />
             </Link>
           </div>
         </RevealText>
@@ -639,9 +640,13 @@ export default function HomePage() {
         <DifferentiatorsSection />
         <IndustriesSection />
         <SocialProofSection />
+        <PoweredBySection />
         <CTASection />
       </main>
       <Footer />
     </>
   )
 }
+
+
+

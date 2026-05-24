@@ -383,3 +383,209 @@ button:focus-visible, a:focus-visible {
   .reveal { opacity: 1; transform: none; }
   .stagger-children > * { opacity: 1; transform: none; }
 }
+
+/* ─────────────────────────────────────────
+   TECH STACK — Layered flowchart (Option D)
+   ───────────────────────────────────────── */
+.tech-stack-section {
+  padding: var(--spacing-section-lg) 0;
+  background: linear-gradient(
+    180deg,
+    var(--color-bg) 0%,
+    var(--color-bg-elevated) 40%,
+    var(--color-bg-elevated) 60%,
+    var(--color-bg) 100%
+  );
+  border-top: 1px solid var(--color-border);
+}
+
+.tech-stack-section__intro {
+  margin-bottom: clamp(40px, 5vh, 64px);
+}
+
+.tech-flow-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.tech-flow-layer {
+  position: relative;
+}
+
+.tech-flow-layer__meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+  margin-bottom: clamp(20px, 3vh, 28px);
+  padding-bottom: clamp(16px, 2vh, 24px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tech-flow-layer__step {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-accent);
+  opacity: 0.35;
+  padding-top: 4px;
+}
+
+.tech-flow-layer__label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.tech-flow-layer__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.tech-flow-layer__summary {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  max-width: 520px;
+}
+
+.tech-flow-layer__nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 2vw, 16px);
+  margin-bottom: clamp(8px, 2vh, 16px);
+}
+
+.tech-flow-node {
+  flex: 1 1 200px;
+  max-width: 320px;
+  min-width: min(100%, 200px);
+  padding: clamp(16px, 2vw, 20px);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.tech-flow-node:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+}
+
+.tech-flow-node__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.tech-flow-node__logo-wrap {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+}
+
+.tech-flow-node__logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.tech-flow-node__monogram {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tech-flow-node__name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  line-height: 1.25;
+}
+
+.tech-flow-node__chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+
+.tech-chip {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  padding: 5px 10px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tech-flow-node:hover .tech-chip {
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.tech-flow-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(20px, 3vh, 32px) 0;
+}
+
+.tech-flow-connector__line {
+  width: 1px;
+  height: clamp(32px, 5vh, 48px);
+  background: linear-gradient(
+    180deg,
+    var(--color-border-strong) 0%,
+    var(--color-accent) 100%
+  );
+}
+
+.tech-flow-connector__arrow {
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .tech-flow-layer__meta {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tech-flow-layer__step {
+    font-size: 1.5rem;
+  }
+
+  .tech-flow-node {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+}
