@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "slug": "large-language-models",
+    "title": "Large Language Models: What They Are, How They Work, and Why You Should Care",
+    "excerpt": "We're living through one of the most significant shifts in the history of computing — and most people still don't fully understand what's actually happening under the hood.",
+    "author": "Manav Sutar",
+    "authorBio": "Building AI systems that actually work in production.",
+    "authorAvatar": "https://avatars.githubusercontent.com/u/37894642?v=4",
+    "authorLinks": {
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com"
+    },
+    "date": "June 2025",
+    "published_at": "2025-06-01",
+    "readTime": "8 min read",
+    "category": "AI Engineering",
+    "heroImage": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
+  }
+]

@@ -51,9 +51,10 @@ export const PAGE_META = {
  * @param {{ fallbackTitle?: string }} [options]
  */
 export function usePageMeta(pathname, options = {}) {
+  const { fallbackTitle, fallbackDescription } = options
+
   useEffect(() => {
     const meta = PAGE_META[pathname]
-    const { fallbackTitle } = options
 
     document.title =
       meta?.title ??
@@ -65,6 +66,9 @@ export function usePageMeta(pathname, options = {}) {
       descriptionTag.setAttribute('name', 'description')
       document.head.appendChild(descriptionTag)
     }
-    descriptionTag.setAttribute('content', meta?.description ?? DEFAULT_DESCRIPTION)
-  }, [pathname, options.fallbackTitle])
+    descriptionTag.setAttribute(
+      'content',
+      meta?.description ?? fallbackDescription ?? DEFAULT_DESCRIPTION
+    )
+  }, [pathname, fallbackTitle, fallbackDescription])
 }

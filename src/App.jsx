@@ -7,6 +7,8 @@ import EnterprisePage from './pages/EnterprisePage'
 import ContactPage from './pages/ContactPage'
 import CaseStudiesPage from './pages/CaseStudiesPage'
 import ComingSoonPage from './pages/ComingSoonPage'
+import BlogPage from './pages/BlogPage'
+import BlogPost from './pages/BlogPost'
 
 function ScrollToHashAndTop() {
   const { pathname, hash } = useLocation()
@@ -54,6 +56,8 @@ function App() {
         <Route path="/enterprise" element={<EnterprisePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/case-studies" element={<CaseStudiesPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/:slug" element={<ComingSoonPage />} />
       </Routes>
     </BrowserRouter>
