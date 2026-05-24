@@ -7,9 +7,13 @@ const FOOTER_LINKS = [
   {
     heading: 'Company',
     links: [
+      { label: 'About', href: '/about' },
       { label: 'Solutions', href: '/solutions' },
       { label: 'Enterprise', href: '/enterprise' },
-      { label: 'Contact', href: '#contact', isHash: true },
+      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Contact', href: '/contact' },
       { label: 'LinkedIn', href: SOCIAL_LINKS.linkedin, isExternal: true },
     ],
   },

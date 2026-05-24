@@ -6,6 +6,7 @@ import { HorizontalRule } from '@/components/HorizontalRule'
 import { RevealText } from '@/components/RevealText'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { usePageMeta } from '@/lib/seo'
 
 const BUDGET_OPTIONS = [
   { value: 'under-50k',   label: 'Under ₹50L' },
@@ -137,6 +138,7 @@ function SelectField({ label, id, required, value, onChange, children }) {
 }
 
 export default function ContactPage() {
+  usePageMeta('/contact')
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',

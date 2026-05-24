@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/webp" href="/logo.webp" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/logo.webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,21 +11,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- SEO -->
-    <title>Single Core Labs — Enterprise Agentic AI</title>
-    <meta name="description" content="Single Core Labs builds autonomous agentic AI systems for enterprise — RAG pipelines, fine-tuned models, and production APIs engineered for precision and scale." />
+    <title>Single Core Labs — Enterprise AI & Research</title>
+    <meta name="description" content="Single Core Labs is an applied AI research lab delivering enterprise AI solutions — RAG pipelines, fine-tuned models, and production deployment for healthcare, finance, and insurance." />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://singlecorelabs.in/" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
     <!-- Open Graph -->
     <meta property="og:type"        content="website" />
-    <meta property="og:title"       content="Single Core Labs — Enterprise Agentic AI" />
-    <meta property="og:description" content="AI at scale. Without the chaos. Production-grade agentic systems for healthcare, finance, and insurance." />
-    <meta property="og:url"         content="https://singlecorelabs.in" />
+    <meta property="og:site_name"   content="Single Core Labs" />
+    <meta property="og:title"       content="Single Core Labs — Enterprise AI & Research" />
+    <meta property="og:description" content="Applied AI research lab. Enterprise AI solutions at scale — without the chaos." />
+    <meta property="og:url"         content="https://singlecorelabs.in/" />
+    <meta property="og:image"       content="https://singlecorelabs.in/logo.webp" />
+    <meta property="og:image:alt"   content="Single Core Labs logo" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card"        content="summary_large_image" />
-    <meta name="twitter:title"       content="Single Core Labs — Enterprise Agentic AI" />
+    <meta name="twitter:title"       content="Single Core Labs — Enterprise AI & Research" />
     <meta name="twitter:description" content="AI at scale. Without the chaos." />
+    <meta name="twitter:image"       content="https://singlecorelabs.in/logo.webp" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://singlecorelabs.in/#organization",
+          "name": "Single Core Labs",
+          "url": "https://singlecorelabs.in/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://singlecorelabs.in/logo.webp"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/company/single-core-labs/"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://singlecorelabs.in/#website",
+          "name": "Single Core Labs",
+          "url": "https://singlecorelabs.in/",
+          "publisher": { "@id": "https://singlecorelabs.in/#organization" },
+          "description": "Applied AI research lab delivering enterprise AI solutions for healthcare, finance, and insurance."
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>

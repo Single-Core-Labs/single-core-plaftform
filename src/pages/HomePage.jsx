@@ -14,6 +14,7 @@ import {
 import { staggerHero, wordReveal } from '@/lib/animations'
 import { ArrowRight, Check } from 'lucide-react'
 import { useRef } from 'react'
+import { usePageMeta } from '@/lib/seo'
 
 // ─── LOGO MARQUEE (backed by Engineers from…) ───────────────────────────────
 function LogoMarquee() {
@@ -160,7 +161,7 @@ function HeroSection() {
         >
           {/* Eyebrow */}
           <motion.p variants={wordReveal} className="text-eyebrow">
-            Enterprise Agentic AI
+            Enterprise AI & Research
           </motion.p>
 
           {/* Headline */}
@@ -624,6 +625,8 @@ function CTASection() {
 
 // ─── PAGE ───────────────────────────────────────────────────────────────────
 export default function HomePage() {
+  usePageMeta('/')
+
   return (
     <>
       <Navbar />

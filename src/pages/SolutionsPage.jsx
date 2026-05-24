@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { usePageMeta } from '@/lib/seo'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -64,6 +65,7 @@ const SOLUTIONS = [
 ]
 
 export default function SolutionsPage() {
+  usePageMeta('/solutions')
   const [openId, setOpenId] = useState(null)
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id))
 

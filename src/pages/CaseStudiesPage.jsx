@@ -6,6 +6,7 @@ import { Footer } from '@/components/Footer'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { RevealText, StaggerReveal } from '@/components/RevealText'
 import { ScrollFade3D } from '@/components/ScrollScene'
+import { usePageMeta } from '@/lib/seo'
 
 // ─── Case study data ──────────────────────────────────────────────────────────
 const CASE_STUDIES = [
@@ -149,6 +150,8 @@ function CaseStudyCard({ study, index }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function CaseStudiesPage() {
+  usePageMeta('/case-studies')
+
   return (
     <>
       <Navbar />

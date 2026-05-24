@@ -1,14 +1,18 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useLocation, Link } from 'react-router-dom'
+import { usePageMeta } from '@/lib/seo'
 import { ArrowRight } from 'lucide-react'
 
 export default function ComingSoonPage() {
   const { slug } = useParams()
+  const { pathname } = useLocation()
 
   const title = slug
     ? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
     : 'Coming Soon'
+
+  usePageMeta(pathname, { fallbackTitle: title })
 
   return (
     <>
