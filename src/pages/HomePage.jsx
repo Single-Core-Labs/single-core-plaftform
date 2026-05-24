@@ -13,6 +13,7 @@ import {
 } from '@/lib/constants'
 import { staggerHero, wordReveal } from '@/lib/animations'
 import { ArrowRight, Check } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useRef } from 'react'
 import { usePageMeta } from '@/lib/seo'
 
@@ -612,10 +613,10 @@ function CTASection() {
 
         <RevealText delay={3}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
-            <a href="/contact" className="btn-primary">
-              Start the Conversation
-              <ArrowRight size={15} />
-            </a>
+<Link to="/contact" className="btn-primary">
+               Start the Conversation
+               <ArrowRight size={15} />
+            </Link>
           </div>
         </RevealText>
       </div>
