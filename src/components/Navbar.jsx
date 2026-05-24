@@ -282,7 +282,7 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            <a href="/contact" className="btn-primary">
+            <a href="/services/ai-modernization" className="btn-primary">
               Book a Demo
             </a>
           </div>
@@ -410,12 +410,12 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              <a
-                href="/contact"
-                onClick={() => setMenuOpen(false)}
-                className="btn-primary"
-                style={{ marginTop: '8px' }}
-              >
+<a
+                 href="/services/ai-modernization"
+                 onClick={() => setMenuOpen(false)}
+                 className="btn-primary"
+                 style={{ marginTop: '8px' }}
+               >
                 Book a Demo
               </a>
             </motion.div>
