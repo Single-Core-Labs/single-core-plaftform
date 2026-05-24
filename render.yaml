@@ -2,7 +2,7 @@ services:
   - type: web
     name: single-core-labs
     runtime: static
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
     pullRequestPreviewsEnabled: false
     headers:

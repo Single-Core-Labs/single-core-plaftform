@@ -1,16 +1,62 @@
-# React + Vite
+# Single Core Labs — Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Enterprise AI & research company site built with **React 19**, **Vite 8**, and **Tailwind CSS v4**. Deployed as a static site on [Render](https://render.com).
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js **20+** (see `.nvmrc`)
+- npm **10+**
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Local dev server with HMR |
+| `npm run build` | Production build → `dist/` (runs sitemap generation first) |
+| `npm run lint` | ESLint |
+| `npm run ci` | Lint + build (same checks as CI) |
+| `npm run preview` | Preview production build locally |
 
-## Expanding the ESLint configuration
+## Local development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm ci
+npm run dev
+```
+
+## CI/CD
+
+### Continuous integration (GitHub Actions)
+
+On every push and pull request to `main`, [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs:
+
+1. `npm ci` — clean install from lockfile  
+2. `npm run lint` — ESLint  
+3. `npm run build` — Vite production build + sitemap  
+4. Uploads `dist/` as a workflow artifact  
+
+### Continuous deployment (Render)
+
+[`render.yaml`](render.yaml) defines a static site:
+
+- **Build:** `npm ci && npm run build`
+- **Publish:** `./dist`
+- **SPA routing:** all routes → `index.html`
+
+Connect the GitHub repo in the Render dashboard with **auto-deploy** enabled on `main`. After CI passes, Render deploys the latest commit automatically.
+
+Optional env vars on Render (for dynamic blog URLs in sitemap):
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+## Project structure
+
+```text
+src/
+  components/     # UI sections (Navbar, Footer, PoweredBySection, …)
+  pages/          # Route pages
+  lib/            # SEO, constants, utilities
+public/           # Static assets, robots.txt, partner logos
+scripts/          # Build-time sitemap generator
+```

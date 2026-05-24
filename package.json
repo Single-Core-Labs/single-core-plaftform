@@ -9,7 +9,12 @@
     "prebuild": "npm run generate:sitemap",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ci": "npm run lint && npm run build"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
