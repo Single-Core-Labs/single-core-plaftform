@@ -209,10 +209,10 @@ function HeroSection() {
 
           {/* CTA */}
           <motion.div variants={wordReveal} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-<button type="button" onClick={() => window.openChatModal()} className="btn-primary">
+<Link to="/contact" className="btn-primary">
                 Book a Demo
                 <ArrowRight size={15} />
-              </button>
+              </Link>
             <a href="#pipeline" className="btn-outline">
               Explore Platform
             </a>

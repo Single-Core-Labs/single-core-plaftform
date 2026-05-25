@@ -282,9 +282,9 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            <button type="button" onClick={() => window.openChatModal()} className="btn-primary">
+            <Link to="/contact" className="btn-primary">
               Book a Demo
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -410,14 +410,14 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-<button
-  type="button"
-  onClick={() => { setMenuOpen(false); window.openChatModal(); }}
+<Link
+  to="/contact"
+  onClick={() => setMenuOpen(false)}
   className="btn-primary"
   style={{ marginTop: '8px' }}
 >
   Book a Demo
-</button>
+</Link>
             </motion.div>
           </motion.div>
         )}
