@@ -110,12 +110,87 @@ function ResourcesDropdown({ onClose }) {
   )
 }
 
-// ─── Navbar ──────────────────────────────────────────────────────────────────
+// ─── Enterprise Dropdown ──────────────────────────────────────────────────────
+function EnterpriseDropdown({ onClose }) {
+  const linkStyle = {
+    fontFamily: 'var(--font-sans)',
+    fontSize: '14px',
+    fontWeight: 400,
+    color: 'var(--color-text)',
+    textDecoration: 'none',
+    letterSpacing: '-0.01em',
+    lineHeight: 1.2,
+    transition: 'color 0.15s, background-color 0.15s',
+    display: 'block',
+    padding: '10px 16px',
+    borderRadius: '6px',
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 8 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: 'absolute',
+        top: 'calc(100% + 14px)',
+        left: 0,
+        width: '240px',
+        background: 'rgba(245, 245, 243, 0.98)',
+        border: '1px solid rgba(0,0,0,0.09)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        boxShadow: '0 12px 32px rgba(0,0,0,0.08)',
+        zIndex: 200,
+        padding: '12px 8px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+      }}
+    >
+      <Link
+        to="/enterprise"
+        onClick={onClose}
+        style={linkStyle}
+        onMouseEnter={e => {
+          e.currentTarget.style.color = 'var(--color-accent)'
+          e.currentTarget.style.backgroundColor = 'var(--color-accent-dim)'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.color = 'var(--color-text)'
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
+      >
+        Overview
+      </Link>
+      <Link
+        to="/solutions/healthcare-intelligence"
+        onClick={onClose}
+        style={linkStyle}
+        onMouseEnter={e => {
+          e.currentTarget.style.color = 'var(--color-accent)'
+          e.currentTarget.style.backgroundColor = 'var(--color-accent-dim)'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.color = 'var(--color-text)'
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
+      >
+        Healthcare Intelligence
+      </Link>
+    </motion.div>
+  )
+}
+
+// ─── Navbar ─────────────────────────────────────────────────────────────────────────────────────────────────
 export function Navbar() {
   const [scrolled, setScrolled]       = useState(false)
   const [menuOpen, setMenuOpen]       = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
+  const [enterpriseOpen, setEnterpriseOpen] = useState(false)
   const resourcesRef = useRef(null)
+  const enterpriseRef = useRef(null)
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
@@ -132,6 +207,9 @@ export function Navbar() {
     function handleClick(e) {
       if (resourcesRef.current && !resourcesRef.current.contains(e.target)) {
         setResourcesOpen(false)
+      }
+      if (enterpriseRef.current && !enterpriseRef.current.contains(e.target)) {
+        setEnterpriseOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClick)
@@ -214,17 +292,69 @@ export function Navbar() {
           <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
 
             {/* Regular nav links from constants */}
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                style={linkStyle}
-                onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
-                onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {NAV_LINKS.map((link) => {
+              if (link.label === 'Enterprise') {
+                return (
+                  <div
+                    key={link.href}
+                    ref={enterpriseRef}
+                    style={{ position: 'relative' }}
+                  >
+                    <button
+                      aria-haspopup="true"
+                      aria-expanded={enterpriseOpen}
+                      onClick={() => setEnterpriseOpen((o) => !o)}
+                      style={{
+                        ...linkStyle,
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: 0,
+                        color: enterpriseOpen ? 'var(--color-text)' : 'var(--color-text-muted)',
+                      }}
+                    >
+                      Enterprise
+                      <svg
+                        width="11"
+                        height="11"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        style={{
+                          transition: 'transform 0.2s',
+                          transform: enterpriseOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                          marginTop: '1px',
+                        }}
+                      >
+                        <path d="M2 4l4 4 4-4" />
+                      </svg>
+                    </button>
+
+                    <AnimatePresence>
+                      {enterpriseOpen && (
+                        <EnterpriseDropdown onClose={() => setEnterpriseOpen(false)} />
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  style={linkStyle}
+                  onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
+                  onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
 
             {/* Case Studies */}
             <Link
@@ -403,6 +533,39 @@ export function Navbar() {
                   {item.label}
                 </Link>
               ))}
+            </motion.div>
+
+            {/* Enterprise sub-links in mobile */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (NAV_LINKS.length + 2) * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}
+            >
+              <span style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '10px',
+                fontWeight: 600,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'var(--color-text-dim)',
+              }}>
+                Enterprise Verticals
+              </span>
+              <Link
+                to="/solutions/healthcare-intelligence"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(22px, 4.5vw, 32px)',
+                  fontWeight: 400,
+                  color: 'var(--color-text-muted)',
+                  textDecoration: 'none',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                Healthcare Intelligence
+              </Link>
             </motion.div>
 
             <motion.div

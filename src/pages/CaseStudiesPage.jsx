@@ -39,12 +39,12 @@ const CASE_STUDIES = [
   },
   {
     id: 'emr-integration',
-    eyebrow: 'Healthcare · System Integration',
-    headline: 'Bidirectional EMR Integration for a Multi-Specialty Clinic',
+    eyebrow: 'Healthcare · Clinical Intelligence',
+    headline: 'Epic-Native Clinical Intelligence & Bidirectional EMR Integration',
     summary:
-      'A multi-specialty clinic chain ran three incompatible EMR systems. We built a unified integration layer that synchronises patient records, lab results, and billing data in real time across all branches.',
-    tags: ['EMR Integration', 'Data Pipelines', 'Healthcare'],
-    stat: { value: '3', label: 'EMR systems unified' },
+      'A multi-specialty clinic chain ran incompatible EMR systems. We built a secure, FHIR/HL7-compliant clinical intelligence layer that syncs patient records in real time and automates chart summaries directly within their Epic environment.',
+    tags: ['Epic Integration', 'FHIR/HL7 APIs', 'Clinical Reasoning'],
+    stat: { value: '94%', label: 'Clinical charting accuracy' },
   },
 ]
 

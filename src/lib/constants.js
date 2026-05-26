@@ -24,7 +24,7 @@ export const CORE_PIPELINE = [
     label: 'Perception',
     headline: 'Multimodal Data Ingestion',
     description:
-      'Ingests, parses, and structures high-resolution DICOM radiology scans, patient EMR text, and raw financial vectors into unified feature spaces.',
+      'Ingests, parses, and structures high-resolution DICOM radiology scans, unstructured patient charts, and EMR logs from core systems like Epic into unified feature spaces.',
   },
   {
     id: 'reasoning',
@@ -40,7 +40,7 @@ export const CORE_PIPELINE = [
     label: 'Action',
     headline: 'Air-Gapped Execution',
     description:
-      'Automated workflows securely write results directly back to local EMRs and clinical CRMs without cloud exposure. Full data sovereignty.',
+      'Automated workflows write results back securely into clinical CRMs and EMRs like Epic via bidirectional FHIR/HL7-compliant integrations. Full data sovereignty.',
   },
 ]
 
@@ -78,6 +78,7 @@ export const INDUSTRIES = [
 
 export const CAPABILITIES_SUMMARY = [
   'Agentic AI Deployment',
+  'EHR-Integrated Clinical Intelligence',
   'Medical Imaging & Diagnostics',
   'AI-Ready Data Pipelines',
   'EMR, CRM & Core System Integration',

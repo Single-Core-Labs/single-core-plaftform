@@ -36,7 +36,7 @@ const SOLUTIONS = [
     label: 'Industry Vertical Solutions',
     tagline: 'Purpose-built AI for regulated, high-stakes sectors.',
     capabilities: [
-      { title: 'Healthcare AI', detail: 'HIPAA-compliant imaging analysis, predictive triage, clinical note summarization, and fraud detection.' },
+      { title: 'EHR-Integrated Clinical Intelligence', detail: 'FHIR/HL7-compliant clinical reasoning systems compatible with Epic. Automates clinical note drafting, structures raw patient charts, and provides secure bedside decision support directly in EMR workflows.' },
       { title: 'Financial AI', detail: 'Algorithmic credit scoring, AML detection, regulatory compliance, and portfolio optimization engines.' },
       { title: 'Insurance AI', detail: 'Computer-vision damage assessment, underwriting automation, and churn prediction at scale.' },
     ],

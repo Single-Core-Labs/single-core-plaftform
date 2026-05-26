@@ -10,6 +10,7 @@ import ComingSoonPage from './pages/ComingSoonPage'
 import BlogPage from './pages/BlogPage'
 import BlogPost from './pages/BlogPost'
 import AboutPage from './pages/AboutPage'
+import HealthcareIntelligencePage from './pages/HealthcareIntelligencePage'
 
 
 function ScrollToHashAndTop() {
@@ -61,6 +62,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/solutions" element={<SolutionsPage />} />
+        <Route path="/solutions/healthcare-intelligence" element={<HealthcareIntelligencePage />} />
         <Route path="/enterprise" element={<EnterprisePage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/case-studies" element={<CaseStudiesPage />} />
