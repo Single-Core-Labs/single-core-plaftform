@@ -18,11 +18,15 @@ function ScrollToHashAndTop() {
 
   useEffect(() => {
     if (hash) {
-      const element = document.querySelector(hash)
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' })
-        }, 120)
+      try {
+        const element = document.querySelector(hash)
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }, 120)
+        }
+      } catch {
+        console.warn('Invalid hash selector:', hash)
       }
     } else {
       window.scrollTo(0, 0)
