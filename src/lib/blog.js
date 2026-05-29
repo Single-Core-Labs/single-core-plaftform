@@ -1,9 +1,11 @@
 import posts from '@/data/blog-posts.json'
 import LargeLanguageModelsContent from '@/content/blog/large-language-models'
+import MedicalImagingAIContent from '@/content/blog/medical-imaging-ai'
 
 /** @type {Record<string, React.ComponentType>} */
 const CONTENT_MAP = {
   'large-language-models': LargeLanguageModelsContent,
+  'medical-imaging-ai': MedicalImagingAIContent,
 }
 
 /** @returns {Array<import('@/data/blog-posts.json')[number] & { Content?: React.ComponentType }>} */

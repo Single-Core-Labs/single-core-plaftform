@@ -1,5 +1,19 @@
 [
   {
+    "slug": "medical-imaging-ai",
+    "title": "Medical Imaging in the Age of Artificial Intelligence",
+    "excerpt": "Advances, Architectures, and the Road to Clinical Translation.",
+    "author": "Akshita Singh",
+    "authorBio": "AI Researcher",
+    "authorAvatar": "/logo.webp",
+    "authorLinks": {},
+    "date": "May 2025",
+    "published_at": "2025-05-01",
+    "readTime": "12 min read",
+    "category": "Research",
+    "heroImage": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=80"
+  },
+  {
     "slug": "large-language-models",
     "title": "Large Language Models: What They Are, How They Work, and Why You Should Care",
     "excerpt": "We're living through one of the most significant shifts in the history of computing — and most people still don't fully understand what's actually happening under the hood.",
