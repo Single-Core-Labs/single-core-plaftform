@@ -14,13 +14,11 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     rollupOptions: {
-      output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'router': ['react-router-dom'],
-          'animation': ['framer-motion', 'lenis', 'gsap'],
-        },
+      manualChunks: {
+        'react-vendor': ['react', 'react-dom'],
+        'router': ['react-router-dom'],
+        'animation': ['framer-motion', 'lenis', 'gsap'],
       },
-    },
+    }
   }
 })
