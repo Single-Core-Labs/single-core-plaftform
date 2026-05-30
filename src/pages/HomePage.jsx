@@ -55,7 +55,7 @@ function LogoMarquee() {
               fontWeight: 600,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              color: 'var(--color-text-dim)',
+              color: 'var(--color-text-muted)',
               whiteSpace: 'nowrap',
             }}
           >
@@ -94,7 +94,7 @@ function LogoMarquee() {
                   width: '3px',
                   height: '3px',
                   borderRadius: '50%',
-                  backgroundColor: 'var(--color-text-dim)',
+                  backgroundColor: 'var(--color-text-muted)',
                   flexShrink: 0,
                 }} />
               </span>

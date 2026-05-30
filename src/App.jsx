@@ -1,17 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
-import HomePage from './pages/HomePage'
-import SolutionsPage from './pages/SolutionsPage'
-import EnterprisePage from './pages/EnterprisePage'
-import ContactPage from './pages/ContactPage'
-import CaseStudiesPage from './pages/CaseStudiesPage'
-import ComingSoonPage from './pages/ComingSoonPage'
-import BlogPage from './pages/BlogPage'
-import BlogPost from './pages/BlogPost'
-import AboutPage from './pages/AboutPage'
-import HealthcareIntelligencePage from './pages/HealthcareIntelligencePage'
 
+const HomePage = lazy(() => import('./pages/HomePage'))
+const SolutionsPage = lazy(() => import('./pages/SolutionsPage'))
+const EnterprisePage = lazy(() => import('./pages/EnterprisePage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'))
+const ComingSoonPage = lazy(() => import('./pages/ComingSoonPage'))
+const BlogPage = lazy(() => import('./pages/BlogPage'))
+const BlogPost = lazy(() => import('./pages/BlogPost'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const HealthcareIntelligencePage = lazy(() => import('./pages/HealthcareIntelligencePage'))
 
 function ScrollToHashAndTop() {
   const { pathname, hash } = useLocation()
@@ -54,28 +54,23 @@ function App() {
     return () => lenis.destroy()
   }, [])
 
-
-
-
-  
-
-
   return (
     <BrowserRouter>
       <ScrollToHashAndTop />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/solutions" element={<SolutionsPage />} />
-        <Route path="/solutions/healthcare-intelligence" element={<HealthcareIntelligencePage />} />
-        <Route path="/enterprise" element={<EnterprisePage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/case-studies" element={<CaseStudiesPage />} />
+      <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/solutions" element={<SolutionsPage />} />
+          <Route path="/solutions/healthcare-intelligence" element={<HealthcareIntelligencePage />} />
+          <Route path="/enterprise" element={<EnterprisePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/case-studies" element={<CaseStudiesPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/:slug" element={<ComingSoonPage />} />
-      </Routes>
-
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/:slug" element={<ComingSoonPage />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

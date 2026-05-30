@@ -272,7 +272,7 @@ export function Navbar() {
             }}
           >
             <img
-              src="/logo.webp"
+              src="/logo-small.webp"
               alt=""
               style={{ height: '24px', width: 'auto', display: 'block' }}
               loading="eager"
