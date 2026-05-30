@@ -14,10 +14,20 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     rollupOptions: {
-      manualChunks: {
-        'react-vendor': ['react', 'react-dom'],
-        'router': ['react-router-dom'],
-        'animation': ['framer-motion', 'lenis', 'gsap'],
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react-router') || id.includes('@remix-run')) {
+              return 'router'
+            }
+            if (id.includes('react') || id.includes('scheduler')) {
+              return 'react-vendor'
+            }
+            if (id.includes('framer-motion') || id.includes('lenis') || id.includes('gsap')) {
+              return 'animation'
+            }
+          }
+        },
       },
     },
   }

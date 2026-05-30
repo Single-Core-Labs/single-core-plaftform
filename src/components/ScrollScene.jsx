@@ -20,7 +20,6 @@ import {
 } from 'framer-motion'
 
 const SPRING = { stiffness: 120, damping: 22, mass: 0.6 }
-const SPRING_SLOW = { stiffness: 60, damping: 20, mass: 1 }
 
 // ─── ParallaxLayer ────────────────────────────────────────────────────────────
 /**
@@ -35,8 +34,7 @@ export function ParallaxLayer({ children, speed = 0.3, style = {}, ...props }) {
     offset: ['start end', 'end start'],
   })
 
-  const rawY = useTransform(scrollYProgress, [0, 1], [`${speed * 80}px`, `${-speed * 80}px`])
-  const y = useSpring(rawY, SPRING_SLOW)
+  const y = useTransform(scrollYProgress, [0, 1], [`${speed * 80}px`, `${-speed * 80}px`])
 
   return (
     <motion.div ref={ref} style={{ y, ...style }} {...props}>
@@ -56,8 +54,7 @@ export function ScrollRotate({ children, degrees = 4, style = {}, ...props }) {
     offset: ['start end', 'end start'],
   })
 
-  const rawRotate = useTransform(scrollYProgress, [0, 1], [-degrees, degrees])
-  const rotate = useSpring(rawRotate, SPRING_SLOW)
+  const rotate = useTransform(scrollYProgress, [0, 1], [-degrees, degrees])
 
   return (
     <motion.div ref={ref} style={{ rotate, ...style }} {...props}>
@@ -77,8 +74,7 @@ export function ScrollScale({ children, from = 0.88, style = {}, ...props }) {
     offset: ['start 0.9', 'start 0.3'],
   })
 
-  const rawScale = useTransform(scrollYProgress, [0, 1], [from, 1])
-  const scale = useSpring(rawScale, SPRING)
+  const scale = useTransform(scrollYProgress, [0, 1], [from, 1])
 
   return (
     <motion.div ref={ref} style={{ scale, ...style }} {...props}>
@@ -99,13 +95,9 @@ export function ScrollFade3D({ children, style = {}, ...props }) {
     offset: ['start 0.95', 'start 0.4'],
   })
 
-  const rawOpacity = useTransform(scrollYProgress, [0, 1], [0, 1])
-  const rawY       = useTransform(scrollYProgress, [0, 1], [48, 0])
-  const rawZ       = useTransform(scrollYProgress, [0, 1], [-40, 0])
-
-  const opacity = useSpring(rawOpacity, SPRING)
-  const y       = useSpring(rawY, SPRING)
-  const z       = useSpring(rawZ, SPRING)
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const y       = useTransform(scrollYProgress, [0, 1], [48, 0])
+  const z       = useTransform(scrollYProgress, [0, 1], [-40, 0])
 
   return (
     <motion.div
@@ -181,8 +173,7 @@ export function SectionDepth({ children, style = {}, ...props }) {
     offset: ['start end', 'end start'],
   })
 
-  const rawRotateX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [3, 0, 0, -3])
-  const rotateX    = useSpring(rawRotateX, SPRING_SLOW)
+  const rotateX = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [3, 0, 0, -3])
 
   return (
     <motion.div
