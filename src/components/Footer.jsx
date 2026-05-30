@@ -35,14 +35,10 @@ function FooterLink({ link }) {
     color: 'var(--color-text-dim)',
     textDecoration: 'none',
     transition: 'color 0.2s',
-  }
-  const handlers = {
-    onMouseEnter: (e) => e.target.style.color = 'var(--color-text-muted)',
-    onMouseLeave: (e) => e.target.style.color = 'var(--color-text-dim)',
-  }
-  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={style} {...handlers}>{link.label}</a>
-  if (link.isHash) return <a href={link.href} style={style} {...handlers}>{link.label}</a>
-  return <Link to={link.href} style={style} {...handlers}>{link.label}</Link>
+  };
+  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={style}>{link.label}</a>;
+  if (link.isHash) return <a href={link.href} style={style}>{link.label}</a>;
+  return <Link to={link.href} style={style}>{link.label}</Link>;
 }
 
 export function Footer() {
@@ -136,8 +132,6 @@ export function Footer() {
                       rel="noopener noreferrer"
                       aria-label={`Single Core Labs on ${social.label}`}
                       style={{ color: 'var(--color-text-dim)', transition: 'color 0.2s' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-text-muted)'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-dim)'}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d={social.path} /></svg>
                     </a>
