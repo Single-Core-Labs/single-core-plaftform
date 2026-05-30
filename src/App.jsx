@@ -2,7 +2,7 @@ import { useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 
-const HomePage = lazy(() => import('./pages/HomePage'))
+import HomePage from './pages/HomePage'
 const SolutionsPage = lazy(() => import('./pages/SolutionsPage'))
 const EnterprisePage = lazy(() => import('./pages/EnterprisePage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))

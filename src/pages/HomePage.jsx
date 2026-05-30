@@ -12,7 +12,7 @@ import {
   INDUSTRIES,
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
-import { staggerHero, wordReveal } from '@/lib/animations'
+import { staggerHero, heroWordReveal } from '@/lib/animations'
 import { ArrowRight, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRef } from 'react'
@@ -162,7 +162,7 @@ function HeroSection() {
           style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
         >
           {/* Eyebrow */}
-          <motion.p variants={wordReveal} className="text-eyebrow">
+          <motion.p variants={heroWordReveal} className="text-eyebrow">
             Enterprise AI & Research
           </motion.p>
 
@@ -175,7 +175,7 @@ function HeroSection() {
           >
             <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
               {line1.map((word, i) => (
-                <motion.span key={`a-${i}`} variants={wordReveal} style={{ display: 'inline-block' }}>
+                <motion.span key={`a-${i}`} variants={heroWordReveal} style={{ display: 'inline-block' }}>
                   {word}
                 </motion.span>
               ))}
@@ -184,7 +184,7 @@ function HeroSection() {
               {line2.map((word, i) => (
                 <motion.span
                   key={`b-${i}`}
-                  variants={wordReveal}
+                  variants={heroWordReveal}
                   style={{
                     display: 'inline-block',
                     fontStyle: 'italic',
@@ -199,7 +199,7 @@ function HeroSection() {
 
           {/* Subtext */}
           <motion.p
-            variants={wordReveal}
+            variants={heroWordReveal}
             className="text-body"
             style={{ maxWidth: '520px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
           >
@@ -208,7 +208,7 @@ function HeroSection() {
           </motion.p>
 
           {/* CTA */}
-          <motion.div variants={wordReveal} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <motion.div variants={heroWordReveal} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
 <Link to="/contact" className="btn-primary">
                 Book a Demo
                 <ArrowRight size={15} />

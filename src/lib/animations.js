@@ -74,6 +74,15 @@ export const wordReveal = {
   },
 }
 
+/** Optimized word animation for hero headlines to improve LCP */
+export const heroWordReveal = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { duration: 0.45, ease },
+  },
+}
+
 /** Line reveal — clip from bottom */
 export const lineReveal = {
   hidden: { clipPath: 'inset(100% 0 0 0)' },
