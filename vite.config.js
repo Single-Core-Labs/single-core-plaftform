@@ -15,14 +15,24 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
+        // Merge any chunk smaller than 15 kB into its importer — eliminates
+        // the tiny HorizontalRule / RevealText / ScrollScene / icon fragments
+        experimentalMinChunkSize: 15_000,
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            // React Router family
             if (id.includes('react-router') || id.includes('@remix-run')) {
               return 'router'
             }
+            // Lucide icons — bundle together instead of one file per icon
+            if (id.includes('lucide-react')) {
+              return 'ui'
+            }
+            // React + ReactDOM + scheduler
             if (id.includes('react') || id.includes('scheduler')) {
               return 'react-vendor'
             }
+            // Heavy animation libraries
             if (id.includes('framer-motion') || id.includes('lenis') || id.includes('gsap')) {
               return 'animation'
             }
@@ -30,5 +40,5 @@ export default defineConfig({
         },
       },
     },
-  }
+  },
 })
