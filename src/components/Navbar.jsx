@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { NAV_LINKS } from '@/lib/constants'
 
 // ─── Resources mega-dropdown data ────────────────────────────────────────────
@@ -9,10 +9,14 @@ const RESOURCES_LEFT = {
   items: [
     { label: 'About',    href: '/about' },
     { label: 'Security', href: '/security' },
-    { label: 'Guides',   href: '/guides' },
     { label: 'Careers',  href: '/careers' },
   ],
 }
+
+const RESOURCES_GUIDES = [
+  { label: 'AI Infrastructure vs Cloud GPUs', href: '/ai-infrastructure-vs-cloud' },
+  { label: 'Indian AI Market Guide',          href: '/indian-ai-cloud-market-alternative' },
+]
 
 const RESOURCES_RIGHT = [
   { label: 'Contact us',    href: '/contact' },
@@ -45,7 +49,7 @@ function ResourcesDropdown({ onClose }) {
         position: 'absolute',
         top: 'calc(100% + 14px)',
         right: 0,
-        width: '480px',
+        width: '520px',
         background: 'rgba(245, 245, 243, 0.98)',
         border: '1px solid rgba(0,0,0,0.09)',
         backdropFilter: 'blur(24px)',
@@ -56,7 +60,7 @@ function ResourcesDropdown({ onClose }) {
         gridTemplateColumns: '1fr 1fr',
       }}
     >
-      {/* Left column */}
+      {/* Left column — company links + guides */}
       <div style={{
         padding: '28px 24px 32px',
         borderRight: '1px solid rgba(0,0,0,0.07)',
@@ -82,6 +86,35 @@ function ResourcesDropdown({ onClose }) {
               style={colLinkStyle}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Guides sub-section */}
+        <span style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '10px',
+          fontWeight: 600,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          color: 'var(--color-text-dim)',
+          display: 'block',
+          marginTop: '28px',
+          marginBottom: '16px',
+        }}>
+          Guides
+        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {RESOURCES_GUIDES.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              onClick={onClose}
+              style={{ ...colLinkStyle, fontSize: '13px', color: 'var(--color-text-muted)' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text-muted)'}
             >
               {item.label}
             </Link>
@@ -516,7 +549,7 @@ export function Navbar() {
               }}>
                 Resources
               </span>
-              {[...RESOURCES_LEFT.items, ...RESOURCES_RIGHT].map((item) => (
+              {[...RESOURCES_LEFT.items, ...RESOURCES_GUIDES, ...RESOURCES_RIGHT].map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}

@@ -12,6 +12,9 @@ const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 const HealthcareIntelligencePage = lazy(() => import('./pages/HealthcareIntelligencePage'))
+const AiVsCloudPage = lazy(() => import('./pages/AiVsCloudPage'))
+const IndianAiCloudAlternativePage = lazy(() => import('./pages/IndianAiCloudAlternativePage'))
+const GuidesPage = lazy(() => import('./pages/GuidesPage'))
 
 function ScrollToHashAndTop() {
   const { pathname, hash } = useLocation()
@@ -57,7 +60,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToHashAndTop />
-      <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+      <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>        
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/solutions" element={<SolutionsPage />} />
@@ -68,6 +71,9 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/guides" element={<GuidesPage />} />
+          <Route path="/ai-infrastructure-vs-cloud" element={<AiVsCloudPage />} />
+          <Route path="/indian-ai-cloud-market-alternative" element={<IndianAiCloudAlternativePage />} />
           <Route path="/:slug" element={<ComingSoonPage />} />
         </Routes>
       </Suspense>

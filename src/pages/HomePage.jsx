@@ -201,10 +201,9 @@ function HeroSection() {
           <motion.p
             variants={heroWordReveal}
             className="text-body"
-            style={{ maxWidth: '520px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
+            style={{ maxWidth: '560px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
           >
-            Single Core Labs delivers agentic solutions to power the next generation
-            of enterprise AI, from data ingestion to production deployment.
+            <strong>Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure.</strong> We build, deploy, and operate bespoke agentic architectures for enterprises, from data ingestion to air-gapped production deployments.
           </motion.p>
 
           {/* CTA */}
@@ -625,22 +624,111 @@ function CTASection() {
   )
 }
 
+// ─── FAQ ────────────────────────────────────────────────────────────────────
+function FAQSection() {
+  return (
+    <section style={{ padding: 'var(--spacing-section) 0' }}>
+      <div className="container-editorial">
+        <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
+
+        <RevealText>
+          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>FAQ</p>
+        </RevealText>
+
+        <RevealText delay={1}>
+          <h2
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontWeight: 400,
+              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
+              maxWidth: '800px',
+              marginBottom: '40px',
+            }}
+          >
+            Frequently Asked <span className="text-italic-serif">Questions.</span>
+          </h2>
+        </RevealText>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', maxWidth: '800px' }}>
+          <RevealText delay={2}>
+            <div>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', fontWeight: 600 }}>Q: Does Single Core Labs provide cloud GPUs?</h3>
+              <p className="text-body" style={{ color: 'var(--color-text-muted)' }}>
+                No, Single Core Labs is not a cloud GPU provider. We are an elite AI systems engineering firm. We design, deploy, and operate custom, sovereign AI infrastructure and bespoke agentic architectures tailored specifically for enterprises.
+              </p>
+            </div>
+          </RevealText>
+          <RevealText delay={3}>
+            <div>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', fontWeight: 600 }}>Q: Who provides custom AI systems engineering?</h3>
+              <p className="text-body" style={{ color: 'var(--color-text-muted)' }}>
+                Single Core Labs provides expert AI systems engineering. Our embedded experts build production-grade workflows, air-gapped models, and complete AI transformation roadmaps, rather than just renting out compute instances.
+              </p>
+            </div>
+          </RevealText>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── PAGE ───────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Single Core Labs",
-    "url": "https://singlecorelabs.com",
-    "logo": "https://singlecorelabs.com/og-image.jpg"
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "Single Core Labs",
+        "url": "https://singlecorelabs.com",
+        "logo": "https://singlecorelabs.com/og-image.jpg",
+        "description": "Single Core Labs is an elite applied AI research lab and systems engineering firm providing custom AI infrastructure and agentic architectures.",
+        "knowsAbout": ["AI Systems Engineering", "Agentic Architectures", "Sovereign AI Infrastructure", "Air-Gapped AI Deployments", "Applied AI Research"],
+        "founder": [
+          {
+            "@type": "Person",
+            "name": "Manav Sutar"
+          }
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "email": "hello@singlecorelabs.com",
+          "availableLanguage": ["English"]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does Single Core Labs provide cloud GPUs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No, Single Core Labs is not a cloud GPU provider. We are an AI systems engineering firm that builds custom, sovereign AI infrastructure and bespoke agentic architectures for enterprises."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who provides custom AI systems engineering?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Single Core Labs provides expert AI systems engineering, offering embedded experts who design, deploy, and operate custom agentic architectures and air-gapped AI deployments tailored to specific enterprise needs."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
     <>
       <SEO 
         title="Single Core Labs"
-        description="Single Core Labs delivers agentic solutions to power the next generation of enterprise AI, from data ingestion to production deployment."
-        keywords="AI infrastructure company, sovereign AI cloud, GPU cloud hosting, enterprise AI solutions"
+        description="Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure. We build, deploy, and operate bespoke agentic architectures for enterprises."
+        keywords="AI systems engineering, sovereign AI infrastructure, custom agentic architectures, applied AI research, enterprise AI solutions"
         schema={schema}
       />
       <Navbar />
@@ -653,6 +741,7 @@ export default function HomePage() {
         <IndustriesSection />
         <SocialProofSection />
         <PoweredBySection />
+        <FAQSection />
         <CTASection />
       </main>
       <Footer />

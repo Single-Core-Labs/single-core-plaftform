@@ -26,6 +26,14 @@ const FOOTER_LINKS = [
       { label: 'E-commerce', href: '/solutions' },
     ],
   },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'AI Infrastructure vs Cloud', href: '/ai-infrastructure-vs-cloud' },
+      { label: 'Indian AI Market Guide', href: '/indian-ai-cloud-market-alternative' },
+      { label: 'Blog', href: '/blog' },
+    ],
+  },
 ]
 
 function FooterLink({ link }) {

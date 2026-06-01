@@ -156,11 +156,14 @@ export default function AboutPage() {
               </h1>
             </RevealText>
             <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '580px' }}>
-                Single Core Labs is an elite applied AI research lab and systems engineering firm.
-                We design, deploy, and operate custom agentic architectures that deliver precision,
-                privacy, and performance where generic API wrappers fail.
-              </p>
+              <div className="text-body" style={{ maxWidth: '600px' }}>
+                Single Core Labs is an elite applied AI research lab and AI systems engineering firm. We provide:
+                <ul style={{ paddingLeft: '20px', marginTop: '12px', marginBottom: '12px', listStyleType: 'disc' }}>
+                  <li style={{ marginBottom: '8px' }}><strong>Custom AI Systems Engineering:</strong> Designing and deploying bespoke agentic architectures.</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Sovereign AI Infrastructure:</strong> Implementing air-gapped and on-premise models for strict privacy.</li>
+                  <li><strong>Applied AI Research:</strong> Fine-tuning open-source frontier models for enterprise outcomes.</li>
+                </ul>
+              </div>
             </RevealText>
           </div>
         </section>

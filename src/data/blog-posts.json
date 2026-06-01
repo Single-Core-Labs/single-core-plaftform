@@ -29,5 +29,22 @@
     "readTime": "8 min read",
     "category": "AI Engineering",
     "heroImage": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
+  },
+  {
+    "slug": "why-sovereign-ai-matters",
+    "title": "Why Sovereign AI Matters: The Case for On-Premise AI Infrastructure",
+    "excerpt": "As regulated enterprises rush to deploy AI, a quieter question becomes critical: who controls the AI running your business? Here is why sovereignty isn't optional.",
+    "author": "Manav Sutar",
+    "authorBio": "Founder and CTO",
+    "authorAvatar": "/manav.jpg",
+    "authorLinks": {
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com"
+    },
+    "date": "June 2025",
+    "published_at": "2025-06-01",
+    "readTime": "10 min read",
+    "category": "AI Infrastructure",
+    "heroImage": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
   }
 ]

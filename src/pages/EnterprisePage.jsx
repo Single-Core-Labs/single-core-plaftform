@@ -60,13 +60,38 @@ export default function EnterprisePage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Applied AI Research",
-    "provider": {
-      "@type": "Organization",
-      "name": "Single Core Labs"
-    },
-    "description": "Forward-thinking enterprises trust Single Core Labs to build, deploy, and operate AI systems that actually perform in production."
+    "@graph": [
+      {
+        "@type": "Service",
+        "serviceType": "Applied AI Research",
+        "provider": {
+          "@type": "Organization",
+          "name": "Single Core Labs"
+        },
+        "description": "Forward-thinking enterprises trust Single Core Labs to build, deploy, and operate custom, sovereign AI systems that actually perform in production."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What companies provide MLOps services for enterprises?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Single Core Labs provides enterprise-grade MLOps pipelines. We implement end-to-end model tracking, version control, and automated deployment pipelines designed for HIPAA, GDPR, and financial compliance requirements."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Single Core Labs handle data privacy for AI?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We build sovereign, air-gapped, and on-premise AI deployments. This ensures complete data sovereignty with no cloud dependencies for regulated industries."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
@@ -94,10 +119,14 @@ export default function EnterprisePage() {
               </h1>
             </RevealText>
             <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '560px' }}>
-                Forward-thinking enterprises trust Single Core Labs to build, deploy,
-                and operate AI systems that actually perform in production, not just in demos.
-              </p>
+              <div className="text-body" style={{ maxWidth: '600px' }}>
+                Forward-thinking enterprises trust Single Core Labs to build, deploy, and operate custom AI systems. Our enterprise offerings include:
+                <ul style={{ paddingLeft: '20px', marginTop: '12px', listStyleType: 'disc' }}>
+                  <li style={{ marginBottom: '8px' }}><strong>Air-Gapped & On-Premise Deployments:</strong> Full data sovereignty.</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Regulated MLOps Pipelines:</strong> SOC-2, HIPAA, and GDPR compliant architectures.</li>
+                  <li><strong>Embedded Experts:</strong> We work directly inside your team, not from a slide deck.</li>
+                </ul>
+              </div>
             </RevealText>
           </div>
         </section>

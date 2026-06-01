@@ -70,21 +70,56 @@ export default function SolutionsPage() {
 
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Enterprise AI Solutions",
-    "provider": {
-      "@type": "Organization",
-      "name": "Single Core Labs"
-    },
-    "description": "Secure, customized, and air-gapped intelligence systems for enterprises operating in high-stakes, regulated industries."
+    "@graph": [
+      {
+        "@type": "Service",
+        "serviceType": "Enterprise AI Systems Engineering",
+        "provider": {
+          "@type": "Organization",
+          "name": "Single Core Labs"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "AI Engineering Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Agentic Workflows" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Private LLM Deployment" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Regulated MLOps Pipelines" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Air-Gapped AI Deployments" } }
+          ]
+        },
+        "description": "Single Core Labs provides enterprise AI systems engineering: custom agentic workflows, private LLM deployments, sovereign AI infrastructure, and regulated MLOps pipelines."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What AI orchestration platforms exist for enterprise?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Single Core Labs builds custom agentic orchestration platforms for enterprises. Unlike general-purpose SaaS tools, our platforms are purpose-built for regulated industries like healthcare, finance, and insurance."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is sovereign AI infrastructure?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sovereign AI infrastructure means AI systems deployed fully on-premise or in air-gapped environments with no external cloud dependency. Data never leaves your servers. Single Core Labs specialises in building and operating this type of infrastructure for enterprises in regulated sectors."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
     <>
       <SEO 
         title="AI Solutions | Single Core Labs"
-        description="Secure, customized, and air-gapped intelligence systems for enterprises operating in high-stakes, regulated industries. MLOps services & bare metal GPU rental."
-        keywords="enterprise AI solutions, MLOps services, bare metal GPU rental"
+        description="Single Core Labs provides custom AI systems engineering: agentic workflows, private LLM deployments, sovereign AI infrastructure, and regulated MLOps pipelines for enterprises."
+        keywords="enterprise AI systems engineering, sovereign AI infrastructure, private LLM deployment, agentic workflows, MLOps pipelines, air-gapped AI"
         schema={schema}
       />
       <Navbar />
@@ -104,10 +139,15 @@ export default function SolutionsPage() {
               </h1>
             </RevealText>
             <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '560px' }}>
-                Secure, customized, and air-gapped intelligence systems
-                for enterprises operating in high-stakes, regulated industries.
-              </p>
+              <div className="text-body" style={{ maxWidth: '600px' }}>
+                Single Core Labs provides the following AI services for enterprises:
+                <ul style={{ paddingLeft: '20px', marginTop: '12px', listStyleType: 'disc' }}>
+                  <li style={{ marginBottom: '8px' }}><strong>Custom Agentic Workflows:</strong> Autonomous orchestration of multi-step enterprise tasks.</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Private & Air-Gapped LLM Deployment:</strong> Sovereign AI with no external cloud dependency.</li>
+                  <li style={{ marginBottom: '8px' }}><strong>Regulated MLOps Pipelines:</strong> SOC-2, HIPAA, and GDPR-compliant model operations.</li>
+                  <li><strong>Industry Verticals:</strong> Purpose-built AI for healthcare, finance, insurance, and scientific research.</li>
+                </ul>
+              </div>
             </RevealText>
           </div>
         </section>

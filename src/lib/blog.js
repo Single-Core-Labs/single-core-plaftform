@@ -1,11 +1,13 @@
 import posts from '@/data/blog-posts.json'
 import LargeLanguageModelsContent from '@/content/blog/large-language-models'
 import MedicalImagingAIContent from '@/content/blog/medical-imaging-ai'
+import WhySovereignAiMattersContent from '@/content/blog/why-sovereign-ai-matters'
 
 /** @type {Record<string, React.ComponentType>} */
 const CONTENT_MAP = {
   'large-language-models': LargeLanguageModelsContent,
   'medical-imaging-ai': MedicalImagingAIContent,
+  'why-sovereign-ai-matters': WhySovereignAiMattersContent,
 }
 
 /** @returns {Array<import('@/data/blog-posts.json')[number] & { Content?: React.ComponentType }>} */
