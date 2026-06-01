@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { NAV_LINKS } from '@/lib/constants'
 
 // ─── Resources mega-dropdown data ────────────────────────────────────────────
@@ -13,10 +13,7 @@ const RESOURCES_LEFT = {
   ],
 }
 
-const RESOURCES_GUIDES = [
-  { label: 'AI Infrastructure vs Cloud GPUs', href: '/ai-infrastructure-vs-cloud' },
-  { label: 'Indian AI Market Guide',          href: '/indian-ai-cloud-market-alternative' },
-]
+
 
 const RESOURCES_RIGHT = [
   { label: 'Contact us',    href: '/contact' },
@@ -86,35 +83,6 @@ function ResourcesDropdown({ onClose }) {
               style={colLinkStyle}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Guides sub-section */}
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '10px',
-          fontWeight: 600,
-          letterSpacing: '0.16em',
-          textTransform: 'uppercase',
-          color: 'var(--color-text-dim)',
-          display: 'block',
-          marginTop: '28px',
-          marginBottom: '16px',
-        }}>
-          Guides
-        </span>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {RESOURCES_GUIDES.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              onClick={onClose}
-              style={{ ...colLinkStyle, fontSize: '13px', color: 'var(--color-text-muted)' }}
-              onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
-              onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text-muted)'}
             >
               {item.label}
             </Link>
@@ -224,18 +192,11 @@ export function Navbar() {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false)
   const resourcesRef = useRef(null)
   const enterpriseRef = useRef(null)
-  const location = useLocation()
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 60)
   })
-
-  useEffect(() => {
-    if (location.pathname.startsWith('/guides') || location.pathname === '/ai-infrastructure-vs-cloud' || location.pathname === '/indian-ai-cloud-market-alternative') {
-      setResourcesOpen(true)
-    }
-  }, [location.pathname])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -556,7 +517,7 @@ export function Navbar() {
               }}>
                 Resources
               </span>
-              {[...RESOURCES_LEFT.items, ...RESOURCES_GUIDES, ...RESOURCES_RIGHT].map((item) => (
+              {[...RESOURCES_LEFT.items, ...RESOURCES_RIGHT].map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
