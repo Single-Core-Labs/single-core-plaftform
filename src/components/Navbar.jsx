@@ -224,11 +224,18 @@ export function Navbar() {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false)
   const resourcesRef = useRef(null)
   const enterpriseRef = useRef(null)
+  const location = useLocation()
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 60)
   })
+
+  useEffect(() => {
+    if (location.pathname.startsWith('/guides') || location.pathname === '/ai-infrastructure-vs-cloud' || location.pathname === '/indian-ai-cloud-market-alternative') {
+      setResourcesOpen(true)
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
