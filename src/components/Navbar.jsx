@@ -273,7 +273,7 @@ export function Navbar() {
           >
             <img
               src="/logo-small.webp"
-              alt=""
+              alt="Single Core Labs Logo"
               style={{ height: '24px', width: 'auto', display: 'block' }}
               loading="eager"
             />

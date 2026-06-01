@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -10,7 +10,6 @@ import { ArrowRight, Eye, ShieldAlert, Cpu, Check, Loader2 } from 'lucide-react'
 import { supabase } /* cspell:ignore supabase */ from '@/lib/supabase'
 
 export default function AboutPage() {
-  usePageMeta('/about')
 
   // Form State
   const [form, setForm] = useState({
@@ -101,6 +100,11 @@ export default function AboutPage() {
 
   return (
     <>
+      <SEO 
+        title="About Us | Single Core Labs"
+        description="Single Core Labs is an elite applied AI research lab and systems engineering firm. We design, deploy, and operate custom agentic architectures."
+        keywords="applied AI research, AI systems engineering firm, custom agentic architectures"
+      />
       <Navbar />
 
       <main style={{ minHeight: '100vh', overflow: 'hidden', paddingBottom: '120px' }}>

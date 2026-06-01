@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -65,12 +65,28 @@ const SOLUTIONS = [
 ]
 
 export default function SolutionsPage() {
-  usePageMeta('/solutions')
   const [openId, setOpenId] = useState(null)
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id))
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Enterprise AI Solutions",
+    "provider": {
+      "@type": "Organization",
+      "name": "Single Core Labs"
+    },
+    "description": "Secure, customized, and air-gapped intelligence systems for enterprises operating in high-stakes, regulated industries."
+  };
+
   return (
     <>
+      <SEO 
+        title="AI Solutions | Single Core Labs"
+        description="Secure, customized, and air-gapped intelligence systems for enterprises operating in high-stakes, regulated industries. MLOps services & bare metal GPU rental."
+        keywords="enterprise AI solutions, MLOps services, bare metal GPU rental"
+        schema={schema}
+      />
       <Navbar />
 
       <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -55,12 +55,28 @@ const PILLARS = [
 ]
 
 export default function EnterprisePage() {
-  usePageMeta('/enterprise')
   const [openId, setOpenId] = useState(null)
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id))
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Applied AI Research",
+    "provider": {
+      "@type": "Organization",
+      "name": "Single Core Labs"
+    },
+    "description": "Forward-thinking enterprises trust Single Core Labs to build, deploy, and operate AI systems that actually perform in production."
+  };
+
   return (
     <>
+      <SEO 
+        title="Enterprise AI | Single Core Labs"
+        description="Forward-thinking enterprises trust Single Core Labs to build, deploy, and operate AI systems that actually perform in production."
+        keywords="enterprise AI solutions, applied AI research, regulated MLOps pipelines"
+        schema={schema}
+      />
       <Navbar />
 
       <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>

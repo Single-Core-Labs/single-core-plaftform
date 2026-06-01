@@ -1,4 +1,4 @@
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
@@ -96,13 +96,13 @@ const STANDALONE_SPECIALTIES = [
 ]
 
 export default function HealthcareIntelligencePage() {
-  usePageMeta('/solutions/healthcare-intelligence', {
-    fallbackTitle: 'Healthcare Intelligence & EHR Co-Pilots',
-    fallbackDescription: 'FHIR/HL7-compliant clinical intelligence layers and Epic-native co-pilots fine-tuned for high-stakes clinical workflows.'
-  })
-
   return (
     <>
+      <SEO 
+        title="Healthcare Intelligence & EHR Co-Pilots | Single Core Labs"
+        description="FHIR/HL7-compliant clinical intelligence layers and Epic-native co-pilots fine-tuned for high-stakes clinical workflows."
+        keywords="healthcare AI, EHR co-pilots, clinical intelligence layer, Epic-native integration"
+      />
       <Navbar />
 
       <main style={{ minHeight: '100vh', overflow: 'hidden', paddingBottom: '120px' }}>

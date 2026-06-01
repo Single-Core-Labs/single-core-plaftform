@@ -6,7 +6,7 @@ import { Footer } from '@/components/Footer'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { RevealText } from '@/components/RevealText'
 import { ScrollFade3D } from '@/components/ScrollScene'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 
 // ─── Case study data ──────────────────────────────────────────────────────────
 const CASE_STUDIES = [
@@ -150,10 +150,13 @@ function CaseStudyCard({ study, index }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function CaseStudiesPage() {
-  usePageMeta('/case-studies')
-
   return (
     <>
+      <SEO 
+        title="Case Studies | Single Core Labs"
+        description="Real problems. Real results. We've deployed production AI systems for enterprises across healthcare, finance, and logistics."
+        keywords="AI case studies, enterprise AI deployments, healthcare AI results"
+      />
       <Navbar />
       <main id="main-content">
         {/* Header */}

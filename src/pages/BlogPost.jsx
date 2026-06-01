@@ -4,7 +4,8 @@ import { motion } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { ArrowLeft, Link2, Check } from 'lucide-react'
-import { usePageMeta, SITE_URL } from '@/lib/seo'
+import SEO from '@/components/SEO'
+import { SITE_URL } from '@/lib/seo'
 import { getPostBySlug, getRelatedPosts } from '@/lib/blog'
 
 function ProgressBar() {
@@ -82,11 +83,6 @@ export default function BlogPost() {
   const related = getRelatedPosts(slug)
   const Content = post?.Content
 
-  usePageMeta(`/blog/${slug}`, {
-    fallbackTitle: post?.title,
-    fallbackDescription: post?.excerpt,
-  })
-
   if (!post || !Content) {
     return (
       <>
@@ -99,14 +95,34 @@ export default function BlogPost() {
     )
   }
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.heroImage ? [`${SITE_URL}${post.heroImage}`] : undefined,
+    "datePublished": post.published_at || post.date,
+    "author": {
+      "@type": "Person",
+      "name": post.author
+    },
+    "description": post.excerpt
+  };
+
   return (
     <>
+      <SEO 
+        title={`${post.title} | Single Core Labs`}
+        description={post.excerpt}
+        image={post.heroImage}
+        type="article"
+        schema={schema}
+      />
       <Navbar />
       <ProgressBar />
 
       <article>
         <header className="blog-hero">
-          <img src={post.heroImage} alt="" className="blog-hero__image" />
+          <img src={post.heroImage} alt={post.title} className="blog-hero__image" />
           <div className="blog-hero__overlay" aria-hidden="true" />
         </header>
 
@@ -151,6 +167,7 @@ export default function BlogPost() {
                 src={post.authorAvatar}
                 alt={post.author}
                 className="blog-author-card__avatar"
+                loading="lazy"
               />
               <div>
                 <p className="blog-author-card__name">{post.author}</p>
@@ -188,7 +205,7 @@ export default function BlogPost() {
                 {related.map((p) => (
                   <Link key={p.slug} to={`/blog/${p.slug}`} className="blog-card">
                     <div className="blog-card__image-wrap">
-                      <img src={p.heroImage} alt="" className="blog-card__image" loading="lazy" />
+                      <img src={p.heroImage} alt={p.title} className="blog-card__image" loading="lazy" />
                     </div>
                     <div className="blog-card__body">
                       <p className="blog-card__category">{p.category}</p>

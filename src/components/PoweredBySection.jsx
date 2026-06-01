@@ -99,7 +99,7 @@ function ProviderLogo({ provider }) {
     return (
       <img
         src={provider.logo}
-        alt=""
+        alt={`${provider.name} Logo`}
         width={32}
         height={32}
         loading="lazy"

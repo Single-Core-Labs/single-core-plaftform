@@ -1,21 +1,20 @@
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { useParams, useLocation, Link } from 'react-router-dom'
-import { usePageMeta } from '@/lib/seo'
+import { useParams, Link } from 'react-router-dom'
+import SEO from '@/components/SEO'
 import { ArrowRight } from 'lucide-react'
 
 export default function ComingSoonPage() {
   const { slug } = useParams()
-  const { pathname } = useLocation()
+
 
   const title = slug
     ? slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
     : 'Coming Soon'
 
-  usePageMeta(pathname, { fallbackTitle: title })
-
   return (
     <>
+      <SEO title={`${title} | Single Core Labs`} description="This page is currently under construction. Check back soon." />
       <Navbar />
       <main
         id="main-content"

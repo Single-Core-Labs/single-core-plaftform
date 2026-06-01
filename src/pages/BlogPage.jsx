@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 import { getAllPosts } from '@/lib/blog'
 
 function BlogCard({ post }) {
@@ -11,7 +11,7 @@ function BlogCard({ post }) {
       <div className="blog-card__image-wrap">
         <img
           src={post.heroImage}
-          alt=""
+          alt={post.title}
           className="blog-card__image"
           loading="lazy"
         />
@@ -30,10 +30,14 @@ function BlogCard({ post }) {
 
 function BlogPage() {
   const posts = getAllPosts()
-  usePageMeta('/blog')
 
   return (
     <>
+      <SEO 
+        title="Blog | Single Core Labs"
+        description="Insights, updates, and practical takes on enterprise AI engineering, infrastructure, and applied research."
+        keywords="AI engineering blog, enterprise AI updates, applied AI research insights"
+      />
       <Navbar />
       <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
         <section

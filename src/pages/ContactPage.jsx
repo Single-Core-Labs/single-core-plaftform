@@ -6,7 +6,7 @@ import { HorizontalRule } from '@/components/HorizontalRule'
 import { RevealText } from '@/components/RevealText'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 
 const BUDGET_OPTIONS = [
   { value: 'under-50k',   label: 'Under ₹50L' },
@@ -138,7 +138,6 @@ function SelectField({ label, id, required, value, onChange, children }) {
 }
 
 export default function ContactPage() {
-  usePageMeta('/contact')
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -202,6 +201,7 @@ export default function ContactPage() {
   if (submitted) {
     return (
       <>
+        <SEO title="Message Sent | Single Core Labs" description="Thank you for reaching out to Single Core Labs." />
         <Navbar />
         <main id="main-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
           <div className="container-editorial" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
@@ -238,6 +238,10 @@ export default function ContactPage() {
 
   return (
     <>
+      <SEO 
+        title="Contact Us | Single Core Labs"
+        description="Tell us about your project and we'll put together a tailored plan. Contact Single Core Labs for enterprise AI solutions."
+      />
       <Navbar />
       <main id="main-content">
         <section

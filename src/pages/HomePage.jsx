@@ -16,7 +16,7 @@ import { staggerHero, heroWordReveal } from '@/lib/animations'
 import { ArrowRight, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRef } from 'react'
-import { usePageMeta } from '@/lib/seo'
+import SEO from '@/components/SEO'
 
 // ─── LOGO MARQUEE (backed by Engineers from…) ───────────────────────────────
 function LogoMarquee() {
@@ -627,10 +627,22 @@ function CTASection() {
 
 // ─── PAGE ───────────────────────────────────────────────────────────────────
 export default function HomePage() {
-  usePageMeta('/')
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Single Core Labs",
+    "url": "https://singlecorelabs.com",
+    "logo": "https://singlecorelabs.com/og-image.jpg"
+  };
 
   return (
     <>
+      <SEO 
+        title="Single Core Labs"
+        description="Single Core Labs delivers agentic solutions to power the next generation of enterprise AI, from data ingestion to production deployment."
+        keywords="AI infrastructure company, sovereign AI cloud, GPU cloud hosting, enterprise AI solutions"
+        schema={schema}
+      />
       <Navbar />
       <main id="main-content">
         <HeroSection />
