@@ -273,9 +273,9 @@ export function Navbar() {
             }}
           >
             <img
-              src="/logo-small.webp"
+              src="/logo-icon.png"
               alt="Single Core Labs Logo"
-              style={{ height: '24px', width: 'auto', display: 'block' }}
+              style={{ height: '28px', width: 'auto', display: 'block' }}
               loading="eager"
             />
             <span style={{
@@ -420,31 +420,40 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
+            id="mobile-menu-toggle"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden"
+            className="mobile-menu-btn"
             style={{
-              display: 'none',
               background: 'none',
-              border: 'none',
+              border: '1px solid rgba(0,0,0,0.10)',
               color: 'var(--color-text)',
               cursor: 'pointer',
-              padding: '8px',
+              padding: '7px 9px',
+              borderRadius: '6px',
+              display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background 0.2s, border-color 0.2s',
             }}
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               {menuOpen ? (
-                <path d="M18 6L6 18M6 6l12 12" />
+                <path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" />
               ) : (
-                <path d="M3 7h18M3 12h18M3 17h18" />
+                <>
+                  <path strokeLinecap="round" d="M3 7h18" />
+                  <path strokeLinecap="round" d="M3 12h12" />
+                  <path strokeLinecap="round" d="M3 17h18" />
+                </>
               )}
             </svg>
           </button>
 
           <style>{`
             @media (max-width: 1023px) {
-              .lg\\:hidden { display: block !important; }
+              .mobile-menu-btn { display: flex !important; }
             }
           `}</style>
         </nav>
