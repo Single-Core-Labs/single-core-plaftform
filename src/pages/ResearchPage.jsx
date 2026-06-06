@@ -41,32 +41,7 @@ const ALL_PAPERS = [
   },
 ]
 
-const UNDER_THE_HOOD = [
-  {
-    id: 'adaptive-threshold',
-    date: 'June 2026',
-    title: 'Adaptive Threshold Calibration for Semantic Caches',
-    excerpt:
-      'How we dynamically tune similarity cutoffs per domain to minimise false-positive cache hits without sacrificing hit rate in production LLM deployments.',
-    href: '/research/semantic-cache#adaptive-threshold',
-  },
-  {
-    id: 'hnsw-two-tier',
-    date: 'June 2026',
-    title: 'Two-Tier Cache Architecture: HNSW + Redis',
-    excerpt:
-      'Deep dive into the hierarchical in-memory HNSW index combined with a Redis persistent store, delivering sub-5ms retrieval at the 99th percentile under concurrent load.',
-    href: '/research/semantic-cache#architecture',
-  },
-  {
-    id: 'encoder-ablation',
-    date: 'June 2026',
-    title: 'Encoder Ablation: Latency vs. Hit-Rate Trade-offs',
-    excerpt:
-      'Comparing MiniLM-L6-v2, MPNet-base, and BGE-large across production traffic traces to identify the optimal embedding strategy for enterprise deployments.',
-    href: '/research/semantic-cache#encoder-ablation',
-  },
-]
+
 
 // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
 
@@ -308,83 +283,7 @@ function PaperCard({ paper, isLast }) {
   )
 }
 
-function UnderTheHoodCard({ item, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <Link
-        to={item.href}
-        style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
-      >
-        <article
-          style={{
-            padding: 'clamp(20px, 2.8vh, 32px)',
-            border: '1px solid var(--color-border)',
-            background: 'var(--color-bg)',
-            transition: 'background 0.2s, border-color 0.2s, transform 0.25s',
-            cursor: 'pointer',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--color-bg-elevated)'
-            e.currentTarget.style.borderColor = 'var(--color-border-strong)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'var(--color-bg)'
-            e.currentTarget.style.borderColor = 'var(--color-border)'
-          }}
-        >
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '16px',
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '10px',
-              fontWeight: 500,
-              color: 'var(--color-text-dim)',
-              letterSpacing: '0.04em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-            }}>
-              <Calendar size={10} />
-              {item.date}
-            </span>
-            <ArrowUpRight
-              size={14}
-              style={{ color: 'var(--color-text-dim)', flexShrink: 0 }}
-            />
-          </div>
-          <h3
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(15px, 1.4vw, 20px)',
-              fontWeight: 400,
-              lineHeight: 1.25,
-              letterSpacing: '-0.015em',
-              color: 'var(--color-text)',
-              marginBottom: '10px',
-            }}
-          >
-            {item.title}
-          </h3>
-          <p
-            className="text-body"
-            style={{ fontSize: '13px', lineHeight: 1.55 }}
-          >
-            {item.excerpt}
-          </p>
-        </article>
-      </Link>
-    </motion.div>
-  )
-}
+
 
 // ─── SECTIONS ───────────────────────────────────────────────────────────────
 
@@ -515,64 +414,7 @@ function AllPapersSection() {
   )
 }
 
-function UnderTheHoodSection() {
-  return (
-    <section
-      style={{
-        padding: 'var(--spacing-section) 0',
-        background: 'var(--color-bg-elevated)',
-      }}
-    >
-      <div className="container-editorial">
-        <div style={{ marginBottom: 'clamp(24px, 4vh, 48px)' }}>
-          <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '12px' }}>
-              Under the Hood
-            </p>
-          </RevealText>
-          <RevealText delay={1}>
-            <h2
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(1.6rem, 3vw, 2.8rem)',
-                fontWeight: 400,
-                letterSpacing: '-0.025em',
-                lineHeight: 1.1,
-              }}
-            >
-              A look at our{' '}
-              <span style={{ fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
-                tech.
-              </span>
-            </h2>
-          </RevealText>
-          <RevealText delay={2}>
-            <p
-              className="text-body"
-              style={{ maxWidth: '480px', marginTop: '12px' }}
-            >
-              Deep dives into the engineering decisions, algorithms, and production
-              trade-offs behind our systems.
-            </p>
-          </RevealText>
-        </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '1px',
-            background: 'var(--color-border)',
-          }}
-        >
-          {UNDER_THE_HOOD.map((item, idx) => (
-            <UnderTheHoodCard key={item.id} item={item} index={idx} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
 
 function CTASection() {
   return (
@@ -667,7 +509,6 @@ export default function ResearchPage() {
         <HeroSection />
         <FeaturedSection />
         <AllPapersSection />
-        <UnderTheHoodSection />
         <CTASection />
       </main>
       <Footer />

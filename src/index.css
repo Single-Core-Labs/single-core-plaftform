@@ -18,8 +18,8 @@
   --color-bg-dark:     #0A0A0A;
 
   --color-text:        #1A1A1A;
-  --color-text-muted:  #6B6B6B;
-  --color-text-dim:    #A0A0A0;
+  --color-text-muted:  #525252;
+  --color-text-dim:    #909090;
 
   --color-accent:      #00695C;
   --color-accent-dim:  rgba(0, 105, 92, 0.1);
@@ -103,7 +103,7 @@ body {
 .text-hero {
   font-family: var(--font-serif);
   font-size: clamp(3.2rem, 10vw, 9rem);
-  line-height: 0.92;
+  line-height: 0.94;
   font-weight: 400;
   letter-spacing: -0.035em;
   color: var(--color-text);
@@ -129,7 +129,7 @@ body {
 
 .text-body {
   font-family: var(--font-sans);
-  font-size: clamp(14px, 1.1vw, 17px);
+  font-size: clamp(15px, 1.1vw, 17px);
   line-height: 1.75;
   color: var(--color-text-muted);
 }
@@ -138,7 +138,7 @@ body {
   font-family: var(--font-display);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--color-accent);
 }
@@ -249,7 +249,7 @@ body {
   padding: 14px 36px;
   font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
   color: #fff;
   background: var(--color-text);
@@ -667,7 +667,7 @@ button:focus-visible, a:focus-visible {
 .blog-post-header__category {
   color: var(--color-accent);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   font-size: 11px;
 }
@@ -891,7 +891,7 @@ button:focus-visible, a:focus-visible {
   font-family: var(--font-display);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--color-accent);
   margin-bottom: 10px;
@@ -923,7 +923,7 @@ button:focus-visible, a:focus-visible {
 .blog-card__meta {
   font-family: var(--font-sans);
   font-size: 13px;
-  color: var(--color-text-dim);
+  color: var(--color-text-muted);
 }
 
 @media (max-width: 767px) {
