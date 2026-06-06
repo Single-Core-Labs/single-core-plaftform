@@ -2,79 +2,54 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { HorizontalRule } from '@/components/HorizontalRule'
-import { RevealText } from '@/components/RevealText'
-import { ArrowRight, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import SEO from '@/components/SEO'
 
-const BUDGET_OPTIONS = [
-  { value: 'under-50k',   label: 'Under ₹50L' },
-  { value: '50k-200k',    label: '₹50L – ₹2Cr' },
-  { value: '200k-500k',   label: '₹2Cr – ₹5Cr' },
-  { value: '500k-plus',   label: '₹5Cr+' },
-]
-// ... rest of constants ...
-const HELP_OPTIONS = [
-  { value: 'agentic-ai',        label: 'Agentic AI & Autonomous Workflows' },
-  { value: 'medical-imaging',   label: 'Medical Imaging & Clinical Diagnostics' },
-  { value: 'data-pipelines',    label: 'AI-Ready Data Pipelines & ETL' },
-  { value: 'llm-finetuning',    label: 'LLM Fine-Tuning & Domain Adaptation' },
-  { value: 'air-gapped',        label: 'Air-Gapped & Offline Deployment' },
-  { value: 'system-integration',label: 'EMR, CRM & Core System Integration' },
-  { value: 'other',             label: 'Something else entirely' },
-]
-
+// ─── CONSTANTS ───────────────────────────────────────────────────────────────
 const COUNTRIES = [
   'India', 'United States', 'United Kingdom', 'Canada', 'Australia',
   'Germany', 'France', 'Singapore', 'UAE', 'Other',
 ]
-// ... styles ...
-const inputStyle = {
+
+const BENEFITS = [
+  'Custom AI systems engineered around your data, infrastructure, and compliance requirements.',
+  'From agentic workflows to air-gapped deployments — built for production, not demos.',
+  'Embedded experts who work alongside your team from day one through go-live.',
+]
+
+// ─── FIELD ATOMS ─────────────────────────────────────────────────────────────
+const baseInput = {
   width: '100%',
-  padding: '14px 16px',
+  padding: '10px 0',
   fontFamily: 'var(--font-sans)',
   fontSize: '14px',
   color: 'var(--color-text)',
   background: 'transparent',
-  border: '1px solid var(--color-border-strong)',
+  border: 'none',
+  borderBottom: '1px solid rgba(0,0,0,0.18)',
   outline: 'none',
-  transition: 'border-color 0.2s',
   borderRadius: 0,
   appearance: 'none',
   WebkitAppearance: 'none',
+  transition: 'border-color 0.2s',
 }
 
-function InputField({ label, id, type = 'text', required, placeholder, value, onChange }) {
+function Field({ label, id, type = 'text', required, placeholder, value, onChange }) {
   const [focused, setFocused] = useState(false)
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-      <label
-        htmlFor={id}
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '11px',
-          fontWeight: 600,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'var(--color-text-muted)',
-        }}
-      >
-        {label}{required && <span style={{ color: 'var(--color-accent)', marginLeft: '3px' }}>*</span>}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      <label htmlFor={id} style={{
+        fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
+        color: 'rgba(0,0,0,0.45)', letterSpacing: '0.01em',
+      }}>
+        {label}{required && <span style={{ color: '#c0392b' }}> *</span>}
       </label>
       <input
-        id={id}
-        type={type}
-        required={required}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        style={{
-          ...inputStyle,
-          borderColor: focused ? 'var(--color-accent)' : 'rgba(0,0,0,0.15)',
-        }}
+        id={id} type={type} required={required}
+        placeholder={placeholder} value={value} onChange={onChange}
+        onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+        style={{ ...baseInput, borderBottomColor: focused ? '#1a1a1a' : 'rgba(0,0,0,0.18)' }}
       />
     </div>
   )
@@ -83,53 +58,27 @@ function InputField({ label, id, type = 'text', required, placeholder, value, on
 function SelectField({ label, id, required, value, onChange, children }) {
   const [focused, setFocused] = useState(false)
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-      <label
-        htmlFor={id}
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '11px',
-          fontWeight: 600,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'var(--color-text-muted)',
-        }}
-      >
-        {label}{required && <span style={{ color: 'var(--color-accent)', marginLeft: '3px' }}>*</span>}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+      <label htmlFor={id} style={{
+        fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
+        color: 'rgba(0,0,0,0.45)', letterSpacing: '0.01em',
+      }}>
+        {label}{required && <span style={{ color: '#c0392b' }}> *</span>}
       </label>
       <div style={{ position: 'relative' }}>
         <select
-          id={id}
-          required={required}
-          value={value}
-          onChange={onChange}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          id={id} required={required} value={value} onChange={onChange}
+          onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           style={{
-            ...inputStyle,
-            borderColor: focused ? 'var(--color-accent)' : 'rgba(0,0,0,0.15)',
-            paddingRight: '40px',
-            cursor: 'pointer',
+            ...baseInput,
+            borderBottomColor: focused ? '#1a1a1a' : 'rgba(0,0,0,0.18)',
+            paddingRight: '24px', cursor: 'pointer',
           }}
         >
           {children}
         </select>
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          style={{
-            position: 'absolute',
-            right: '14px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            pointerEvents: 'none',
-            color: 'var(--color-text-muted)',
-          }}
-        >
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+          style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(0,0,0,0.4)' }}>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>
@@ -137,90 +86,62 @@ function SelectField({ label, id, required, value, onChange, children }) {
   )
 }
 
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    company: '',
-    role: '',
-    email: '',
-    country: '',
-    budget: '',
-    helpWith: [],
-    message: '',
+    firstName: '', lastName: '', email: '', phone: '',
+    company: '', jobTitle: '', country: '', message: '', consent: false,
   })
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [messageFocused, setMessageFocused] = useState(false)
+  const [loading, setLoading]   = useState(false)
+  const [error, setError]       = useState(null)
+  const [msgFocused, setMsgFocused] = useState(false)
 
-  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
-
-  const toggleHelp = (val) => {
-    setForm((f) => ({
-      ...f,
-      helpWith: f.helpWith.includes(val)
-        ? f.helpWith.filter((v) => v !== val)
-        : [...f.helpWith, val],
-    }))
-  }
+  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
-
     try {
-      const { error: submitError } = await supabase
-        .from('contact_submissions')
-        .insert([
-          {
-            first_name: form.firstName,
-            last_name: form.lastName,
-            company: form.company,
-            role: form.role,
-            email: form.email,
-            country: form.country,
-            budget: form.budget,
-            help_with: form.helpWith,
-            message: form.message,
-          },
-        ])
-
-      if (submitError) throw submitError
-
+      const { error: err } = await supabase.from('contact_submissions').insert([{
+        first_name: form.firstName,
+        last_name:  form.lastName,
+        email:      form.email,
+        phone:      form.phone,
+        company:    form.company,
+        role:       form.jobTitle,
+        country:    form.country,
+        message:    form.message,
+      }])
+      if (err) throw err
       setSubmitted(true)
-    } catch (err) {
-      console.error('Submission error:', err)
-      setError('Something went wrong. Please try again later.')
+    } catch (e) {
+      console.error(e)
+      setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
+  // ── Success state ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
       <>
-        <SEO title="Message Sent | Single Core Labs" description="Thank you for reaching out to Single Core Labs." />
+        <SEO title="Message Sent | Single Core Labs" description="Thank you for reaching out." />
         <Navbar />
         <main id="main-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
           <div className="container-editorial" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Message sent</p>
-              <h1
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: 'clamp(2.4rem, 6vw, 5rem)',
-                  fontWeight: 400,
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1.05,
-                  marginBottom: '20px',
-                }}
-              >
+              <h1 style={{
+                fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.4rem, 6vw, 5rem)',
+                fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '20px',
+              }}>
                 We'll be in touch{' '}
                 <span className="text-italic-serif">shortly.</span>
               </h1>
@@ -236,352 +157,290 @@ export default function ContactPage() {
     )
   }
 
+  // ── Main layout ────────────────────────────────────────────────────────────
   return (
     <>
-      <SEO 
-        title="Contact Us | Single Core Labs"
-        description="Tell us about your project and we'll put together a tailored plan. Contact Single Core Labs for enterprise AI solutions."
+      <SEO
+        title="Get a Demo | Single Core Labs"
+        description="Book a personalised demo and see how Single Core Labs can build, deploy, and operate bespoke AI systems for your enterprise."
+        keywords="enterprise AI demo, AI systems engineering contact, sovereign AI infrastructure"
       />
       <Navbar />
-      <main id="main-content">
-        <section
-          style={{
-            paddingTop: 'clamp(100px, 14vh, 140px)',
-            paddingBottom: 'clamp(60px, 8vh, 100px)',
-          }}
-        >
-          <div className="container-editorial">
-            <HorizontalRule style={{ marginBottom: 'clamp(32px, 4vh, 48px)' }} />
 
-            {/* Header */}
-            <div
+      <main id="main-content" style={{ minHeight: '100vh' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          minHeight: '100vh',
+        }}
+          className="contact-grid"
+        >
+          {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
+          <div style={{
+            background: 'var(--color-bg-elevated)',
+            padding: 'clamp(100px, 14vh, 160px) clamp(32px, 6vw, 88px) clamp(60px, 8vh, 100px)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
+            <div>
+              {/* Eyebrow */}
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="text-eyebrow"
+                style={{ marginBottom: '28px' }}
+              >
+                Book a Consultation
+              </motion.p>
+
+              {/* Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: 'clamp(2rem, 3.8vw, 3.4rem)',
+                  fontWeight: 400,
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.025em',
+                  color: 'var(--color-text)',
+                  maxWidth: '480px',
+                  marginBottom: '20px',
+                }}
+              >
+                AI that works the way
+                <br />your business does
+              </motion.h1>
+
+              {/* Sub-copy */}
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                className="text-body"
+                style={{ maxWidth: '400px', marginBottom: '40px' }}
+              >
+                Tell us about your project. We'll put together a focused plan — no
+                generic pitches, no wasted time.
+              </motion.p>
+
+              {/* Numbered benefits */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.24 }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '420px' }}
+              >
+                {BENEFITS.map((b, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    <span style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      color: 'var(--color-text-dim)',
+                      letterSpacing: '0.06em',
+                      flexShrink: 0,
+                      paddingTop: '2px',
+                      minWidth: '18px',
+                    }}>
+                      [{i + 1}]
+                    </span>
+                    <p style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '13px',
+                      lineHeight: 1.65,
+                      color: 'var(--color-text-muted)',
+                    }}>
+                      {b}
+                    </p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+
+          {/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
+          <div style={{
+            background: 'var(--color-bg-surface)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 'clamp(80px, 12vh, 120px) clamp(24px, 4vw, 64px)',
+          }}>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: 'clamp(24px, 4vw, 64px)',
-                marginBottom: 'clamp(48px, 6vh, 72px)',
-                alignItems: 'end',
+                width: '100%',
+                maxWidth: '480px',
+                background: '#fff',
+                padding: 'clamp(28px, 4vh, 44px) clamp(24px, 3.5vw, 40px)',
+                boxShadow: '0 8px 48px rgba(0,0,0,0.10)',
               }}
             >
-              <RevealText>
-                <div>
-                  <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Get in touch</p>
-                  <h1
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(2.4rem, 6vw, 5rem)',
-                      fontWeight: 400,
-                      letterSpacing: '-0.03em',
-                      lineHeight: 1.05,
-                    }}
-                  >
-                    Build something{' '}
-                    <span className="text-italic-serif">real.</span>
-                  </h1>
-                </div>
-              </RevealText>
-              <RevealText delay={2}>
-                <p className="text-body" style={{ maxWidth: '420px' }}>
-                  Tell us about your project and we'll put together a tailored plan.
-                  No generic pitches — just a focused conversation about what you
-                  actually need.
-                </p>
-              </RevealText>
-            </div>
+              <h2 style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
+                fontWeight: 600,
+                color: '#1a1a1a',
+                letterSpacing: '-0.01em',
+                marginBottom: '28px',
+              }}>
+                Start the conversation
+              </h2>
 
-            {/* Form */}
-            <RevealText delay={1}>
               <form onSubmit={handleSubmit} noValidate>
-                <div
-                  style={{
-                    display: 'grid',
-                    gap: 'clamp(20px, 2.5vh, 28px)',
-                  }}
-                >
-                  {/* Row 1 — Name */}
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                      gap: 'clamp(16px, 2vw, 24px)',
-                    }}
-                  >
-                    <InputField
-                      label="First name" id="firstName" required
-                      placeholder="Arjun"
-                      value={form.firstName} onChange={set('firstName')}
-                    />
-                    <InputField
-                      label="Last name" id="lastName" required
-                      placeholder="Sharma"
-                      value={form.lastName} onChange={set('lastName')}
-                    />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+                  {/* Row: First / Last name */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <Field label="First name" id="firstName" required
+                      value={form.firstName} onChange={set('firstName')} />
+                    <Field label="Last name" id="lastName" required
+                      value={form.lastName} onChange={set('lastName')} />
                   </div>
 
-                  {/* Row 2 — Company / Role */}
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                      gap: 'clamp(16px, 2vw, 24px)',
-                    }}
-                  >
-                    <InputField
-                      label="Company" id="company" required
-                      placeholder="Acme Corp"
-                      value={form.company} onChange={set('company')}
-                    />
-                    <InputField
-                      label="Your role" id="role" required
-                      placeholder="CTO"
-                      value={form.role} onChange={set('role')}
-                    />
+                  {/* Work email */}
+                  <Field label="Work email" id="email" type="email" required
+                    value={form.email} onChange={set('email')} />
+
+                  {/* Row: Phone / Company */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <Field label="Phone number (optional)" id="phone"
+                      value={form.phone} onChange={set('phone')} />
+                    <Field label="Company name" id="company" required
+                      value={form.company} onChange={set('company')} />
                   </div>
 
-                  {/* Row 3 — Email / Country */}
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                      gap: 'clamp(16px, 2vw, 24px)',
-                    }}
-                  >
-                    <InputField
-                      label="Work email" id="email" type="email" required
-                      placeholder="arjun@acme.com"
-                      value={form.email} onChange={set('email')}
-                    />
-                    <SelectField
-                      label="Country" id="country" required
+                  {/* Row: Job title / Country */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <Field label="Job title" id="jobTitle" required
+                      value={form.jobTitle} onChange={set('jobTitle')} />
+                    <SelectField label="Country" id="country" required
                       value={form.country} onChange={set('country')}
                     >
-                      <option value="" disabled>Select country</option>
-                      {COUNTRIES.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                      ))}
+                      <option value="" disabled>Country</option>
+                      {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
                     </SelectField>
                   </div>
 
-                  {/* Budget */}
-                  <fieldset style={{ border: 'none', padding: 0 }}>
-                    <legend
-                      style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        letterSpacing: '0.12em',
-                        textTransform: 'uppercase',
-                        color: 'var(--color-text-muted)',
-                        marginBottom: '14px',
-                        display: 'block',
-                      }}
-                    >
-                      Approximate budget
-                    </legend>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                      {BUDGET_OPTIONS.map((opt) => (
-                        <label
-                          key={opt.value}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            cursor: 'pointer',
-                            padding: '10px 18px',
-                            border: `1px solid ${form.budget === opt.value ? 'var(--color-accent)' : 'rgba(0,0,0,0.15)'}`,
-                            background: form.budget === opt.value ? 'var(--color-accent-dim)' : 'transparent',
-                            transition: 'all 0.2s',
-                            userSelect: 'none',
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name="budget"
-                            value={opt.value}
-                            checked={form.budget === opt.value}
-                            onChange={set('budget')}
-                            style={{ display: 'none' }}
-                          />
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-sans)',
-                              fontSize: '13px',
-                              fontWeight: form.budget === opt.value ? 500 : 400,
-                              color: form.budget === opt.value ? 'var(--color-accent)' : 'var(--color-text-muted)',
-                            }}
-                          >
-                            {opt.label}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
-
-                  {/* Help with */}
-                  <fieldset style={{ border: 'none', padding: 0 }}>
-                    <legend
-                      style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        letterSpacing: '0.12em',
-                        textTransform: 'uppercase',
-                        color: 'var(--color-text-muted)',
-                        marginBottom: '14px',
-                        display: 'block',
-                      }}
-                    >
-                      What are you looking to solve? <span style={{ color: 'var(--color-text-dim)', textTransform: 'none', letterSpacing: 0, fontWeight: 400 }}>(select all that apply)</span>
-                    </legend>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-                      {HELP_OPTIONS.map((opt) => {
-                        const checked = form.helpWith.includes(opt.value)
-                        return (
-                          <label
-                            key={opt.value}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '14px',
-                              padding: '13px 0',
-                              borderBottom: '1px solid var(--color-border)',
-                              cursor: 'pointer',
-                              userSelect: 'none',
-                            }}
-                          >
-                            <input
-                              type="checkbox"
-                              value={opt.value}
-                              checked={checked}
-                              onChange={() => toggleHelp(opt.value)}
-                              style={{ display: 'none' }}
-                            />
-                            {/* Custom checkbox */}
-                            <span
-                              style={{
-                                width: '16px',
-                                height: '16px',
-                                border: `1px solid ${checked ? 'var(--color-accent)' : 'rgba(0,0,0,0.2)'}`,
-                                background: checked ? 'var(--color-accent)' : 'transparent',
-                                flexShrink: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transition: 'all 0.15s',
-                              }}
-                            >
-                              {checked && (
-                                <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
-                                  <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              )}
-                            </span>
-                            <span
-                              style={{
-                                fontFamily: 'var(--font-sans)',
-                                fontSize: '14px',
-                                fontWeight: checked ? 500 : 400,
-                                color: checked ? 'var(--color-text)' : 'var(--color-text-muted)',
-                                transition: 'color 0.15s',
-                              }}
-                            >
-                              {opt.label}
-                            </span>
-                          </label>
-                        )
-                      })}
-                    </div>
-                  </fieldset>
-
-                  {/* Message */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    <label
-                      htmlFor="message"
-                      style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        letterSpacing: '0.12em',
-                        textTransform: 'uppercase',
-                        color: 'var(--color-text-muted)',
-                      }}
-                    >
-                      Tell us more <span style={{ color: 'var(--color-accent)', marginLeft: '3px' }}>*</span>
+                  {/* How can we help */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    <label htmlFor="message" style={{
+                      fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
+                      color: 'rgba(0,0,0,0.45)', letterSpacing: '0.01em',
+                    }}>
+                      How can our team help you?
                     </label>
                     <textarea
                       id="message"
-                      required
-                      rows={5}
-                      placeholder="Describe your project — what you're building, the data involved, your timeline, and any constraints we should know about."
+                      rows={3}
                       value={form.message}
                       onChange={set('message')}
-                      onFocus={() => setMessageFocused(true)}
-                      onBlur={() => setMessageFocused(false)}
+                      onFocus={() => setMsgFocused(true)}
+                      onBlur={() => setMsgFocused(false)}
                       style={{
-                        ...inputStyle,
-                        resize: 'vertical',
-                        minHeight: '140px',
-                        borderColor: messageFocused ? 'var(--color-accent)' : 'rgba(0,0,0,0.15)',
+                        width: '100%',
+                        padding: '8px 0',
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '14px',
+                        color: '#1a1a1a',
+                        background: 'transparent',
+                        border: 'none',
+                        borderBottom: `1px solid ${msgFocused ? '#1a1a1a' : 'rgba(0,0,0,0.18)'}`,
+                        outline: 'none',
+                        resize: 'none',
+                        transition: 'border-color 0.2s',
+                        lineHeight: 1.6,
                       }}
                     />
                   </div>
 
-                  {/* Footer row */}
-                  <div
+                  {/* Consent checkbox */}
+                  <label style={{
+                    display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
+                  }}>
+                    <input
+                      type="checkbox"
+                      checked={form.consent}
+                      onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))}
+                      required
+                      style={{ marginTop: '3px', accentColor: '#1a1a1a', flexShrink: 0 }}
+                    />
+                    <span style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '11px',
+                      lineHeight: 1.6,
+                      color: 'rgba(0,0,0,0.5)',
+                    }}>
+                      I agree to receive communications from Single Core Labs about its products,
+                      services, and events, and acknowledge that my information will be used in
+                      accordance with the{' '}
+                      <a href="/privacy" style={{ color: '#1a1a1a', textDecoration: 'underline' }}>
+                        Privacy Policy
+                      </a>.
+                    </span>
+                  </label>
+
+                  {/* Error */}
+                  {error && (
+                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: '#c0392b', fontWeight: 500 }}>
+                      {error}
+                    </p>
+                  )}
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={loading || !form.consent}
                     style={{
+                      width: '100%',
+                      padding: '14px',
+                      background: loading || !form.consent ? 'rgba(0,0,0,0.35)' : '#1a1a1a',
+                      color: '#fff',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      letterSpacing: '0.02em',
+                      border: 'none',
+                      cursor: loading || !form.consent ? 'not-allowed' : 'pointer',
+                      transition: 'background 0.2s',
                       display: 'flex',
-                      flexWrap: 'wrap',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '16px',
-                      paddingTop: '8px',
+                      justifyContent: 'center',
+                      gap: '8px',
                     }}
                   >
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <p
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '12px',
-                          color: 'var(--color-text-dim)',
-                          maxWidth: '420px',
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        By submitting this form you agree to us contacting you about your enquiry.
-                        We don't share your data with third parties.
-                      </p>
-                      {error && (
-                        <p style={{ color: 'var(--color-accent)', fontSize: '12px', fontWeight: 500 }}>
-                          {error}
-                        </p>
-                      )}
-                    </div>
-                    <button 
-                      type="submit" 
-                      className="btn-primary" 
-                      disabled={loading}
-                      style={{ opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
-                    >
-                      {loading ? (
-                        <>
-                          Sending...
-                          <Loader2 size={15} className="animate-spin" />
-                        </>
-                      ) : (
-                        <>
-                          Send enquiry
-                          <ArrowRight size={15} />
-                        </>
-                      )}
-                    </button>
-                  </div>
+                    {loading ? (
+                      <><Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> Sending...</>
+                    ) : (
+                      'Submit'
+                    )}
+                  </button>
                 </div>
               </form>
-            </RevealText>
+            </motion.div>
           </div>
-        </section>
+        </div>
       </main>
+
       <Footer />
+
+      <style>{`
+        @media (max-width: 860px) {
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+      `}</style>
     </>
   )
 }
