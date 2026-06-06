@@ -4,7 +4,7 @@ import { Footer } from '@/components/Footer'
 import { PoweredBySection } from '@/components/PoweredBySection'
 import { RevealText, StaggerReveal } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { ParallaxLayer, ScrollScale, ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
+import { ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
 import {
   ENGINEER_PEDIGREE,
   DIFFERENTIATORS,
