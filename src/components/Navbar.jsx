@@ -572,7 +572,10 @@ export function Navbar() {
               background: 'rgba(250, 250, 250, 0.98)',
               backdropFilter: 'blur(24px)',
               display: 'flex', flexDirection: 'column',
-              justifyContent: 'center', alignItems: 'center', gap: '32px',
+              justifyContent: 'flex-start', alignItems: 'center', gap: '32px',
+              overflowY: 'auto',
+              paddingTop: '100px',
+              paddingBottom: '60px',
             }}
           >
             {/* Solutions industries in mobile */}
