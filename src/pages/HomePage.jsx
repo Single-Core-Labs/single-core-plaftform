@@ -263,18 +263,19 @@ function PhilosophySection() {
 // ─── ENTERPRISE GRADE SECTION ────────────────────────────────────────────────
 function EnterpriseGradeSection() {
   const checkItem = (text) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
       <div style={{
-        width: '18px', height: '18px', borderRadius: '50%',
-        background: 'var(--color-accent-dim)',
-        border: '1px solid var(--color-accent)',
+        width: '20px', height: '20px', borderRadius: '50%',
+        background: 'rgba(255, 255, 255, 0.8)',
+        border: '1px solid rgba(0, 105, 92, 0.2)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
       }}>
-        <Check size={10} style={{ color: 'var(--color-accent)' }} strokeWidth={2.5} />
+        <Check size={11} style={{ color: 'var(--color-accent)' }} strokeWidth={3} />
       </div>
       <span style={{
         fontFamily: 'var(--font-sans)', fontSize: '14px',
-        color: 'var(--color-text-muted)', lineHeight: 1.5,
+        color: 'rgba(26, 26, 26, 0.8)', lineHeight: 1.5,
+        fontWeight: 400
       }}>{text}</span>
     </div>
   )
@@ -288,27 +289,54 @@ function EnterpriseGradeSection() {
     { label: 'Data residency controls', color: '#dc2626' },
   ]
 
+  const glassCardStyle = {
+    background: 'linear-gradient(135deg, rgba(240, 247, 255, 0.6) 0%, rgba(255, 255, 255, 0.8) 100%)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255, 255, 255, 0.5)',
+    borderRadius: '24px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)',
+    padding: 'clamp(28px, 4vh, 40px)',
+    display: 'flex',
+    flexDirection: 'column',
+    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+  }
+
   return (
-    <section id="pipeline" style={{ padding: 'var(--spacing-section-lg) 0', background: 'var(--color-bg-elevated)' }}>
-      <div className="container-editorial">
+    <section id="pipeline" style={{ 
+      padding: 'var(--spacing-section-lg) 0', 
+      background: '#F5F5F7', // Soft neutral gray
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Subtle background ambient light */}
+      <div style={{
+        position: 'absolute', top: '20%', right: '10%',
+        width: '40vw', height: '40vw',
+        background: 'radial-gradient(circle, rgba(186, 230, 253, 0.3) 0%, transparent 70%)',
+        filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none'
+      }} />
+
+      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
         {/* Heading */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 5vh, 60px)' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(48px, 6vh, 72px)' }}>
           <RevealText>
             <h2 style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(1.8rem, 3.5vw, 3rem)',
+              fontSize: 'clamp(2rem, 4vw, 3.2rem)',
               fontWeight: 400,
-              letterSpacing: '-0.025em',
+              letterSpacing: '-0.02em',
               lineHeight: 1.1,
               color: 'var(--color-text)',
-              marginBottom: '14px',
+              marginBottom: '16px',
             }}>
-              Enterprise-grade. Out of the box.
+              Enterprise-grade. <span className="text-italic-serif">Out of the box.</span>
             </h2>
           </RevealText>
           <RevealText delay={1}>
-            <p className="text-body" style={{ maxWidth: '480px', margin: '0 auto' }}>
-              Compliance, control, and confidence. Not bolted on. Built in from day one.
+            <p className="text-body" style={{ maxWidth: '520px', margin: '0 auto', color: 'var(--color-text-muted)' }}>
+              Compliance, control, and confidence. Built for the most regulated 
+              environments from day one.
             </p>
           </RevealText>
         </div>
@@ -317,63 +345,75 @@ function EnterpriseGradeSection() {
         <ScrollFade3D>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '16px',
-            marginBottom: '16px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '24px',
+            marginBottom: '24px',
           }}>
             {/* Card 1 — Forward deployed */}
-            <div style={{
-              background: 'var(--color-bg)',
-              border: '1px solid var(--color-border)',
-              padding: 'clamp(24px, 3.5vh, 36px)',
-            }}>
+            <div 
+              style={glassCardStyle}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.06)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
+              }}
+            >
               <h3 style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(16px, 1.4vw, 20px)',
+                fontSize: 'clamp(18px, 1.5vw, 22px)',
                 fontWeight: 600,
-                color: 'var(--color-text)',
-                letterSpacing: '-0.01em',
-                marginBottom: '12px',
+                color: '#1A1A1A',
+                letterSpacing: '-0.02em',
+                marginBottom: '16px',
               }}>
                 Forward deployed
               </h3>
-              <p className="text-body" style={{ marginBottom: '24px', fontSize: '14px' }}>
+              <p className="text-body" style={{ marginBottom: '28px', fontSize: '15px', color: 'rgba(26, 26, 26, 0.7)' }}>
                 Our engineers work alongside yours — designing agents, integrating systems,
-                and staying until you're live. Not a handoff. A partnership.
+                and staying until you're live. A true engineering partnership.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: 'auto' }}>
                 {checkItem('Dedicated engineer from day one')}
                 {checkItem('Joint workflow design and build')}
-                {checkItem('Ongoing accuracy and cost optimisation')}
+                {checkItem('Ongoing accuracy optimization')}
                 {checkItem('SLA-backed production support')}
               </div>
             </div>
 
             {/* Card 2 — Deployment flexibility */}
-            <div style={{
-              background: 'var(--color-bg)',
-              border: '1px solid var(--color-border)',
-              padding: 'clamp(24px, 3.5vh, 36px)',
-            }}>
+            <div 
+              style={glassCardStyle}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.06)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
+              }}
+            >
               <h3 style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(16px, 1.4vw, 20px)',
+                fontSize: 'clamp(18px, 1.5vw, 22px)',
                 fontWeight: 600,
-                color: 'var(--color-text)',
-                letterSpacing: '-0.01em',
-                marginBottom: '12px',
+                color: '#1A1A1A',
+                letterSpacing: '-0.02em',
+                marginBottom: '16px',
               }}>
                 Deployment flexibility
               </h3>
-              <p className="text-body" style={{ marginBottom: '24px', fontSize: '14px' }}>
-                Your AI runs where your data already lives. Private cloud, on-premise,
-                hybrid, or fully air-gapped environments. Your agents run on your terms.
+              <p className="text-body" style={{ marginBottom: '28px', fontSize: '15px', color: 'rgba(26, 26, 26, 0.7)' }}>
+                Your AI runs where your data lives. Private cloud, on-premise,
+                hybrid, or fully air-gapped. Your agents, your terms.
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {checkItem('Private cloud, on-premise, or hybrid')}
-                {checkItem('Bring your own model or use ours')}
-                {checkItem('Swap vendors without rewriting workflows')}
-                {checkItem('Air-gapped deployment available')}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: 'auto' }}>
+                {checkItem('Private cloud or hybrid')}
+                {checkItem('Bring your own model')}
+                {checkItem('Vendor-agnostic workflows')}
+                {checkItem('Air-gapped deployment ready')}
               </div>
             </div>
           </div>
@@ -381,30 +421,37 @@ function EnterpriseGradeSection() {
 
         {/* Bottom card — Security */}
         <ScrollFade3D>
-          <div style={{
-            background: 'var(--color-bg)',
-            border: '1px solid var(--color-border)',
-            padding: 'clamp(24px, 3.5vh, 36px)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 'clamp(24px, 4vw, 48px)',
-            alignItems: 'center',
-          }}>
+          <div 
+            style={{...glassCardStyle, 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 'clamp(24px, 4vw, 48px)',
+              alignItems: 'center',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.06)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
+            }}
+          >
             <div>
               <h3 style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(16px, 1.4vw, 20px)',
+                fontSize: 'clamp(18px, 1.5vw, 22px)',
                 fontWeight: 600,
-                color: 'var(--color-text)',
-                letterSpacing: '-0.01em',
-                marginBottom: '12px',
+                color: '#1A1A1A',
+                letterSpacing: '-0.02em',
+                marginBottom: '16px',
               }}>
                 Security and governance
               </h3>
-              <p className="text-body" style={{ fontSize: '14px', maxWidth: '400px' }}>
-                Every agent action is logged and traceable. Role-based access, audit trails,
-                and data residency controls are built into the core — not retrofitted.
-                We meet you where your risk team is.
+              <p className="text-body" style={{ fontSize: '15px', maxWidth: '440px', color: 'rgba(26, 26, 26, 0.7)' }}>
+                Every action is logged and traceable. Role-based access and 
+                data residency are core features, built to meet the strictest 
+                risk assessments.
               </p>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
@@ -413,15 +460,17 @@ function EnterpriseGradeSection() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  padding: '6px 14px',
-                  border: `1px solid ${badge.color}22`,
-                  background: `${badge.color}0d`,
+                  padding: '8px 16px',
+                  border: '1px solid rgba(255, 255, 255, 0.8)',
+                  background: 'rgba(255, 255, 255, 0.4)',
+                  backdropFilter: 'blur(4px)',
                   fontFamily: 'var(--font-display)',
                   fontSize: '11px',
                   fontWeight: 600,
-                  color: badge.color,
+                  color: 'var(--color-text)',
                   letterSpacing: '0.04em',
-                  borderRadius: '2px',
+                  borderRadius: '12px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
                 }}>
                   <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: badge.color, flexShrink: 0 }} />
                   {badge.label}
