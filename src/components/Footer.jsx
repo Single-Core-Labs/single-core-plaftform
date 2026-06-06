@@ -76,7 +76,7 @@ export function Footer() {
               alignItems: 'start',
             }}>
               {/* Brand */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Link to="/" style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '15px',
@@ -87,10 +87,6 @@ export function Footer() {
                 }}>
                   Single Core Labs
                 </Link>
-                <p style={{ fontSize: '13px', color: 'var(--color-text-dim)', lineHeight: 1.8, maxWidth: '280px' }}>
-                  We translate deep expertise in building frontier models and agents
-                  into enterprise solutions that operate with precision at scale.
-                </p>
                 <p style={{ fontSize: '12px', color: 'var(--color-text-dim)' }}>Pune, Maharashtra</p>
               </div>
 
@@ -198,9 +194,9 @@ export function Footer() {
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '12px',
-            height: '56px',
-            paddingInline: 'clamp(16px, 2.5vw, 32px)',
+            gap: '16px 32px',
+            minHeight: '56px',
+            padding: '12px clamp(16px, 2.5vw, 32px)',
             maxWidth: '1200px',
             marginInline: 'auto',
             border: '1px solid rgba(255,255,255,0.4)',
@@ -208,20 +204,42 @@ export function Footer() {
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+            borderRadius: '12px',
           }}
         >
-          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', letterSpacing: '0.02em', fontWeight: 500 }}>
-            © {new Date().getFullYear()} Single Core Labs. All rights reserved.
-          </p>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <Link to="/privacy" style={{ fontSize: '12px', color: 'var(--color-text-muted)', textDecoration: 'none', transition: 'color 0.2s', fontWeight: 500 }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
-            >Privacy Policy</Link>
-            <Link to="/terms" style={{ fontSize: '12px', color: 'var(--color-text-muted)', textDecoration: 'none', transition: 'color 0.2s', fontWeight: 500 }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-muted)'}
-            >Terms of Service</Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', letterSpacing: '0.04em', fontWeight: 600, textTransform: 'uppercase' }}>
+              © {new Date().getFullYear()} Single Core Labs. <span style={{ opacity: 0.6 }}>All rights reserved.</span>
+            </p>
+          </div>
+          
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px 24px' }}>
+            {[
+              { label: 'Terms of Use', href: '/terms' },
+              { label: 'Privacy Policy', href: '/privacy' },
+              { label: 'Acceptable Use', href: '/acceptable-use' },
+              { label: 'Cookie Settings', href: '#cookie-settings' },
+              { label: 'Trust Center', href: '/trust' },
+              { label: 'Report a Vulnerability', href: '/vulnerability' },
+            ].map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                style={{
+                  fontSize: '11px',
+                  color: 'var(--color-text-dim)',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  fontWeight: 600,
+                  letterSpacing: '0.02em',
+                  textTransform: 'uppercase',
+                }}
+                onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
+                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-dim)'}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </motion.div>
       </div>

@@ -233,45 +233,6 @@ function HeroSection() {
   )
 }
 
-// ─── PHILOSOPHY ─────────────────────────────────────────────────────────────
-function PhilosophySection() {
-  return (
-    <section style={{ padding: 'var(--spacing-section) 0' }}>
-      <div className="container-editorial">
-        <HorizontalRule style={{ marginBottom: 'clamp(32px, 4vh, 48px)' }} />
-        <ScrollScale from={0.92}>
-          <RevealText>
-            <blockquote
-              className="text-editorial"
-              style={{
-                maxWidth: '900px',
-                fontStyle: 'italic',
-                lineHeight: 1.4,
-              }}
-            >
-              "We translate deep expertise in building frontier models and agents
-              into enterprise solutions, combining our platform, experienced teams,
-              and advanced processes to accelerate your AI transformation."
-            </blockquote>
-          </RevealText>
-          <RevealText delay={2}>
-            <p style={{
-              marginTop: '20px',
-              fontSize: '12px',
-              fontWeight: 500,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--color-accent)',
-            }}>
-              Single Core Labs
-            </p>
-          </RevealText>
-        </ScrollScale>
-      </div>
-    </section>
-  )
-}
-
 // ─── ENTERPRISE GRADE SECTION ────────────────────────────────────────────────
 function EnterpriseGradeSection() {
   const checkItem = (text) => (
@@ -819,7 +780,6 @@ export default function HomePage() {
       <main id="main-content">
         <HeroSection />
         <LogoMarquee />
-        <PhilosophySection />
         <EnterpriseGradeSection />
         <DifferentiatorsSection />
         <IndustriesSection />
