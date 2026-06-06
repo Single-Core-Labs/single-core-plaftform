@@ -69,10 +69,10 @@ function FeaturedPaper({ paper }) {
   return (
     <ScrollFade3D>
       <article
+        className="glass-card"
         style={{
-          borderTop: '1px solid var(--color-border)',
-          borderBottom: '1px solid var(--color-border)',
-          padding: 'clamp(32px, 5vh, 56px) 0',
+          padding: 'clamp(32px, 5vh, 56px) clamp(24px, 4vw, 48px)',
+          marginBlock: '20px',
         }}
       >
         {/* Meta row */}
@@ -94,7 +94,7 @@ function FeaturedPaper({ paper }) {
           <span style={{
             width: '1px',
             height: '12px',
-            background: 'var(--color-border-strong)',
+            background: 'var(--glass-border)',
           }} />
           {paper.tags.map(t => <Tag key={t} label={t} />)}
         </div>

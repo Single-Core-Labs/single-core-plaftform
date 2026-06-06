@@ -55,8 +55,10 @@ export function Footer() {
       role="contentinfo"
       style={{
         position: 'relative',
-        background: 'var(--color-bg-elevated)',
-        borderTop: '1px solid var(--color-border)',
+        background: 'rgba(255, 255, 255, 0.7)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.4)',
       }}
     >
       <div className="container-editorial" style={{ paddingTop: '64px', paddingBottom: '40px' }}>
@@ -201,9 +203,11 @@ export function Footer() {
             paddingInline: 'clamp(16px, 2.5vw, 32px)',
             maxWidth: '1200px',
             marginInline: 'auto',
-            border: '1px solid rgba(0,0,0,0.2)',
-            backgroundColor: '#FFFFFF',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            border: '1px solid rgba(255,255,255,0.4)',
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
           }}
         >
           <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', letterSpacing: '0.02em', fontWeight: 500 }}>

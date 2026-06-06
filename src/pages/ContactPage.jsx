@@ -177,7 +177,10 @@ export default function ContactPage() {
         >
           {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
           <div style={{
-            background: 'var(--color-bg-elevated)',
+            background: 'rgba(255, 255, 255, 0.4)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.4)',
             padding: 'clamp(100px, 14vh, 160px) clamp(32px, 6vw, 88px) clamp(60px, 8vh, 100px)',
             display: 'flex',
             flexDirection: 'column',
@@ -274,12 +277,12 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="glass-card"
               style={{
                 width: '100%',
                 maxWidth: '480px',
-                background: '#fff',
                 padding: 'clamp(28px, 4vh, 44px) clamp(24px, 3.5vw, 40px)',
-                boxShadow: '0 8px 48px rgba(0,0,0,0.10)',
+                background: 'rgba(255, 255, 255, 0.85)',
               }}
             >
               <h2 style={{

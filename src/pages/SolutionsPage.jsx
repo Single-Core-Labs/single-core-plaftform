@@ -159,7 +159,12 @@ export default function SolutionsPage() {
           {SOLUTIONS.map((solution) => {
             const isOpen = openId === solution.id
             return (
-              <div key={solution.id}>
+              <div key={solution.id} className="glass-card" style={{ 
+                marginBottom: '20px', 
+                padding: '0 clamp(20px, 4vw, 40px)',
+                background: isOpen ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.45)',
+                transform: 'none' // Disable global hover transform here
+              }}>
                 <button
                   onClick={() => toggle(solution.id)}
                   aria-expanded={isOpen}
@@ -169,7 +174,7 @@ export default function SolutionsPage() {
                     padding: 'clamp(28px, 4vh, 40px) 0',
                     cursor: 'pointer',
                     display: 'grid',
-                    gridTemplateColumns: 'clamp(40px, 5vw, 64px) 1fr auto',
+                    gridTemplateColumns: 'clamp(32px, 5vw, 64px) 1fr auto',
                     alignItems: 'start',
                     gap: '24px',
                     background: 'none',
@@ -222,7 +227,8 @@ export default function SolutionsPage() {
                     width: '28px',
                     height: '28px',
                     borderRadius: '50%',
-                    border: `1px solid ${isOpen ? 'var(--color-accent)' : 'var(--color-border-strong)'}`,
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    border: `1px solid ${isOpen ? 'var(--color-accent)' : 'var(--glass-border)'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -245,7 +251,6 @@ export default function SolutionsPage() {
                       style={{ overflow: 'hidden' }}
                     >
                       <div style={{
-                        paddingLeft: 'clamp(64px, 8vw, 88px)',
                         paddingBottom: '40px',
                         display: 'flex',
                         flexDirection: 'column',

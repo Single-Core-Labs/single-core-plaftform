@@ -126,29 +126,41 @@ function HeroSection() {
         justifyContent: 'center',
         padding: 'clamp(100px, 14vh, 160px) 0 clamp(48px, 6vh, 80px)',
         overflow: 'hidden',
+        background: 'linear-gradient(135deg, rgba(186, 230, 253, 0.1) 0%, rgba(255, 255, 255, 0) 50%, rgba(192, 132, 252, 0.05) 100%)',
       }}
     >
-      {/* Parallax background orb */}
-      <ParallaxLayer
-        speed={-0.4}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      >
+      {/* Animated glass orbs */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
+      }}>
         <div style={{
-          position: 'absolute',
-          top: '15%',
-          right: '-10%',
-          width: 'clamp(300px, 50vw, 700px)',
-          height: 'clamp(300px, 50vw, 700px)',
+          position: 'absolute', top: '-10%', left: '-5%',
+          width: '60vw', height: '60vw', maxWidth: '700px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,137,123,0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(186, 230, 253, 0.4) 0%, transparent 70%)',
           filter: 'blur(60px)',
+          animation: 'heroOrb1 12s ease-in-out infinite alternate',
         }} />
-      </ParallaxLayer>
+        <div style={{
+          position: 'absolute', top: '10%', right: '-5%',
+          width: '50vw', height: '50vw', maxWidth: '600px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(192, 132, 252, 0.3) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          animation: 'heroOrb2 14s ease-in-out infinite alternate',
+        }} />
+      </div>
+
+      <style>{`
+        @keyframes heroOrb1 {
+          from { transform: translate(0, 0) scale(1); }
+          to   { transform: translate(4%, 6%) scale(1.08); }
+        }
+        @keyframes heroOrb2 {
+          from { transform: translate(0, 0) scale(1); }
+          to   { transform: translate(-5%, 4%) scale(1.12); }
+        }
+      `}</style>
 
       <motion.div
         className="container-editorial"
