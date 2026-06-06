@@ -15,6 +15,8 @@ const HealthcareIntelligencePage = lazy(() => import('./pages/HealthcareIntellig
 const AiVsCloudPage = lazy(() => import('./pages/AiVsCloudPage'))
 const IndianAiCloudAlternativePage = lazy(() => import('./pages/IndianAiCloudAlternativePage'))
 const GuidesPage = lazy(() => import('./pages/GuidesPage'))
+const ResearchPage = lazy(() => import('./pages/ResearchPage'))
+const SemanticCachePaper = lazy(() => import('./pages/SemanticCachePaper'))
 
 function ScrollToHashAndTop() {
   const { pathname, hash } = useLocation()
@@ -72,6 +74,8 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/guides" element={<GuidesPage />} />
+          <Route path="/research" element={<ResearchPage />} />
+          <Route path="/research/semantic-cache" element={<SemanticCachePaper />} />
           <Route path="/ai-infrastructure-vs-cloud" element={<AiVsCloudPage />} />
           <Route path="/indian-ai-cloud-market-alternative" element={<IndianAiCloudAlternativePage />} />
           <Route path="/:slug" element={<ComingSoonPage />} />
