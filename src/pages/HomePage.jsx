@@ -7,7 +7,6 @@ import { HorizontalRule } from '@/components/HorizontalRule'
 import { ParallaxLayer, ScrollScale, ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
 import {
   ENGINEER_PEDIGREE,
-  CORE_PIPELINE,
   DIFFERENTIATORS,
   INDUSTRIES,
   CAPABILITIES_SUMMARY,
@@ -261,90 +260,178 @@ function PhilosophySection() {
   )
 }
 
-// ─── PIPELINE ───────────────────────────────────────────────────────────────
-function PipelineSection() {
+// ─── ENTERPRISE GRADE SECTION ────────────────────────────────────────────────
+function EnterpriseGradeSection() {
+  const checkItem = (text) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div style={{
+        width: '18px', height: '18px', borderRadius: '50%',
+        background: 'var(--color-accent-dim)',
+        border: '1px solid var(--color-accent)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+      }}>
+        <Check size={10} style={{ color: 'var(--color-accent)' }} strokeWidth={2.5} />
+      </div>
+      <span style={{
+        fontFamily: 'var(--font-sans)', fontSize: '14px',
+        color: 'var(--color-text-muted)', lineHeight: 1.5,
+      }}>{text}</span>
+    </div>
+  )
+
+  const COMPLIANCE_BADGES = [
+    { label: 'SOC 2 Type II',         color: '#2563eb' },
+    { label: 'ISO 27001',              color: '#16a34a' },
+    { label: 'DPDP Compliant',        color: '#dc2626' },
+    { label: 'Role-based access',     color: '#9333ea' },
+    { label: 'Full audit trail',      color: '#ea580c' },
+    { label: 'Data residency controls', color: '#dc2626' },
+  ]
+
   return (
-    <section id="pipeline" style={{ padding: 'var(--spacing-section-lg) 0' }}>
+    <section id="pipeline" style={{ padding: 'var(--spacing-section-lg) 0', background: 'var(--color-bg-elevated)' }}>
       <div className="container-editorial">
-        <div style={{ marginBottom: 'clamp(36px, 5vh, 56px)' }}>
+        {/* Heading */}
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 5vh, 60px)' }}>
           <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Deployment Architecture</p>
-          </RevealText>
-          <RevealText delay={1}>
-            <h2 className="text-display" style={{ maxWidth: '700px' }}>
-              Full-Stack AI
-              <br />
-              <span className="text-italic-serif">Integration.</span>
+            <h2 style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(1.8rem, 3.5vw, 3rem)',
+              fontWeight: 400,
+              letterSpacing: '-0.025em',
+              lineHeight: 1.1,
+              color: 'var(--color-text)',
+              marginBottom: '14px',
+            }}>
+              Enterprise-grade. Out of the box.
             </h2>
           </RevealText>
-          <RevealText delay={2}>
-            <p className="text-body" style={{ maxWidth: '560px', marginTop: '16px' }}>
-              From raw data ingestion to domain-specific model fine-tuning and
-              secure offline deployment. We handle the complete AI lifecycle.
+          <RevealText delay={1}>
+            <p className="text-body" style={{ maxWidth: '480px', margin: '0 auto' }}>
+              Compliance, control, and confidence. Not bolted on. Built in from day one.
             </p>
           </RevealText>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {CORE_PIPELINE.map((step, idx) => (
-            <PipelineStep key={step.id} step={step} isLast={idx === CORE_PIPELINE.length - 1} />
-          ))}
-        </div>
+        {/* Top two cards */}
+        <ScrollFade3D>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '16px',
+            marginBottom: '16px',
+          }}>
+            {/* Card 1 — Forward deployed */}
+            <div style={{
+              background: 'var(--color-bg)',
+              border: '1px solid var(--color-border)',
+              padding: 'clamp(24px, 3.5vh, 36px)',
+            }}>
+              <h3 style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(16px, 1.4vw, 20px)',
+                fontWeight: 600,
+                color: 'var(--color-text)',
+                letterSpacing: '-0.01em',
+                marginBottom: '12px',
+              }}>
+                Forward deployed
+              </h3>
+              <p className="text-body" style={{ marginBottom: '24px', fontSize: '14px' }}>
+                Our engineers work alongside yours — designing agents, integrating systems,
+                and staying until you're live. Not a handoff. A partnership.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {checkItem('Dedicated engineer from day one')}
+                {checkItem('Joint workflow design and build')}
+                {checkItem('Ongoing accuracy and cost optimisation')}
+                {checkItem('SLA-backed production support')}
+              </div>
+            </div>
+
+            {/* Card 2 — Deployment flexibility */}
+            <div style={{
+              background: 'var(--color-bg)',
+              border: '1px solid var(--color-border)',
+              padding: 'clamp(24px, 3.5vh, 36px)',
+            }}>
+              <h3 style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(16px, 1.4vw, 20px)',
+                fontWeight: 600,
+                color: 'var(--color-text)',
+                letterSpacing: '-0.01em',
+                marginBottom: '12px',
+              }}>
+                Deployment flexibility
+              </h3>
+              <p className="text-body" style={{ marginBottom: '24px', fontSize: '14px' }}>
+                Your AI runs where your data already lives. Private cloud, on-premise,
+                hybrid, or fully air-gapped environments. Your agents run on your terms.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {checkItem('Private cloud, on-premise, or hybrid')}
+                {checkItem('Bring your own model or use ours')}
+                {checkItem('Swap vendors without rewriting workflows')}
+                {checkItem('Air-gapped deployment available')}
+              </div>
+            </div>
+          </div>
+        </ScrollFade3D>
+
+        {/* Bottom card — Security */}
+        <ScrollFade3D>
+          <div style={{
+            background: 'var(--color-bg)',
+            border: '1px solid var(--color-border)',
+            padding: 'clamp(24px, 3.5vh, 36px)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 'clamp(24px, 4vw, 48px)',
+            alignItems: 'center',
+          }}>
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(16px, 1.4vw, 20px)',
+                fontWeight: 600,
+                color: 'var(--color-text)',
+                letterSpacing: '-0.01em',
+                marginBottom: '12px',
+              }}>
+                Security and governance
+              </h3>
+              <p className="text-body" style={{ fontSize: '14px', maxWidth: '400px' }}>
+                Every agent action is logged and traceable. Role-based access, audit trails,
+                and data residency controls are built into the core — not retrofitted.
+                We meet you where your risk team is.
+              </p>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              {COMPLIANCE_BADGES.map(badge => (
+                <span key={badge.label} style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  border: `1px solid ${badge.color}22`,
+                  background: `${badge.color}0d`,
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: badge.color,
+                  letterSpacing: '0.04em',
+                  borderRadius: '2px',
+                }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: badge.color, flexShrink: 0 }} />
+                  {badge.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </ScrollFade3D>
       </div>
     </section>
-  )
-}
-
-function PipelineStep({ step, isLast }) {
-  return (
-    <ScrollFade3D>
-      <article
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'clamp(36px, 5vw, 64px) 1fr',
-          gap: 'clamp(16px, 2.5vw, 36px)',
-          paddingBlock: 'clamp(24px, 3.5vh, 40px)',
-          borderTop: '1px solid var(--color-border)',
-          borderBottom: isLast ? '1px solid var(--color-border)' : 'none',
-          alignItems: 'start',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(24px, 3.5vw, 44px)',
-            fontWeight: 400,
-            lineHeight: 1,
-            color: 'var(--color-text-dim)',
-            letterSpacing: '-0.03em',
-          }}
-        >
-          {step.number}
-        </span>
-
-        <div>
-          <p className="text-eyebrow" style={{ marginBottom: '6px', color: 'var(--color-accent)' }}>
-            {step.label}
-          </p>
-          <h3
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(18px, 2.2vw, 28px)',
-              fontWeight: 400,
-              lineHeight: 1.15,
-              letterSpacing: '-0.015em',
-              color: 'var(--color-text)',
-              marginBottom: '8px',
-            }}
-          >
-            {step.headline}
-          </h3>
-          <p className="text-body" style={{ maxWidth: '560px' }}>
-            {step.description}
-          </p>
-        </div>
-      </article>
-    </ScrollFade3D>
   )
 }
 
@@ -736,7 +823,7 @@ export default function HomePage() {
         <HeroSection />
         <LogoMarquee />
         <PhilosophySection />
-        <PipelineSection />
+        <EnterpriseGradeSection />
         <DifferentiatorsSection />
         <IndustriesSection />
         <SocialProofSection />
