@@ -214,7 +214,7 @@ function HeroSection() {
             className="text-body"
             style={{ maxWidth: '560px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
           >
-            <strong>Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure.</strong> We build, deploy, and operate bespoke agentic architectures for enterprises, from data ingestion to air-gapped production deployments.
+            Bespoke agentic architectures for enterprises, from data ingestion to air-gapped deployments.
           </motion.p>
 
           {/* CTA */}
