@@ -187,11 +187,9 @@ export default function HealthcareIntelligencePage() {
                 <ScrollFade3D key={pillar.id}>
                   <Card3D intensity={6}>
                     <div
+                      className="glass-card"
                       style={{
                         padding: 'clamp(24px, 3.5vh, 40px)',
-                        background: 'var(--color-bg-elevated)',
-                        border: '1px solid var(--color-border-strong)',
-                        borderRadius: '12px',
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
@@ -203,7 +201,8 @@ export default function HealthcareIntelligencePage() {
                           width: '48px',
                           height: '48px',
                           borderRadius: '8px',
-                          background: 'var(--color-accent-dim)',
+                          background: 'rgba(255, 255, 255, 0.8)',
+                          border: '1px solid rgba(0, 137, 123, 0.2)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -223,11 +222,11 @@ export default function HealthcareIntelligencePage() {
                         >
                           {pillar.title}
                         </h2>
-                        <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.65, color: 'var(--color-text-muted)', marginBottom: '24px' }}>
+                        <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.65, color: 'rgba(26, 26, 26, 0.7)', marginBottom: '24px' }}>
                           {pillar.description}
                         </p>
 
-                        <div style={{ height: '1px', backgroundColor: 'var(--color-border)', marginBottom: '20px' }} />
+                        <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)', marginBottom: '20px' }} />
 
                         <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingLeft: 0, listStyle: 'none' }}>
                           {pillar.features.map((feat, idx) => (
@@ -250,12 +249,22 @@ export default function HealthcareIntelligencePage() {
         <section
           style={{
             padding: 'var(--spacing-section-lg) 0',
-            background: 'var(--color-bg-elevated)',
-            borderTop: '1px solid var(--color-border)',
-            borderBottom: '1px solid var(--color-border)',
+            background: '#F5F5F7',
+            borderTop: '1px solid rgba(255, 255, 255, 0.4)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+            position: 'relative',
+            overflow: 'hidden'
           }}
         >
-          <div className="container-editorial">
+          {/* Subtle background ambient light */}
+          <div style={{
+            position: 'absolute', top: '10%', left: '5%',
+            width: '30vw', height: '30vw',
+            background: 'radial-gradient(circle, rgba(186, 230, 253, 0.2) 0%, transparent 70%)',
+            filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none'
+          }} />
+
+          <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
             {/* Header */}
             <div style={{ marginBottom: 'clamp(40px, 6vh, 72px)' }}>
               <RevealText>
@@ -300,16 +309,13 @@ export default function HealthcareIntelligencePage() {
                   <ScrollFade3D key={spec.id}>
                     <Card3D intensity={5}>
                       <div
+                        className="glass-card"
                         style={{
-                          background: 'var(--color-bg)',
-                          border: '1px solid var(--color-border-strong)',
-                          borderRadius: '12px',
                           padding: 'clamp(24px, 3.5vw, 36px)',
                           height: '100%',
                           display: 'flex',
                           flexDirection: 'column',
                           gap: '20px',
-                          transition: 'box-shadow 0.3s ease',
                         }}
                       >
                         {/* Top row: icon + label */}
@@ -319,7 +325,8 @@ export default function HealthcareIntelligencePage() {
                               width: '40px',
                               height: '40px',
                               borderRadius: '8px',
-                              background: 'var(--color-accent-dim)',
+                              background: 'rgba(255, 255, 255, 0.8)',
+                              border: '1px solid rgba(0, 137, 123, 0.2)',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
@@ -363,7 +370,7 @@ export default function HealthcareIntelligencePage() {
                             fontFamily: 'var(--font-sans)',
                             fontSize: '13.5px',
                             lineHeight: 1.7,
-                            color: 'var(--color-text-muted)',
+                            color: 'rgba(26, 26, 26, 0.7)',
                             margin: 0,
                             flexGrow: 1,
                           }}
@@ -372,7 +379,7 @@ export default function HealthcareIntelligencePage() {
                         </p>
 
                         {/* Divider */}
-                        <div style={{ height: '1px', backgroundColor: 'var(--color-border)' }} />
+                        <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)' }} />
 
                         {/* Highlight tag + CTA */}
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
@@ -383,10 +390,12 @@ export default function HealthcareIntelligencePage() {
                               fontWeight: 600,
                               letterSpacing: '0.06em',
                               textTransform: 'uppercase',
-                              color: 'var(--color-text-muted)',
+                              color: 'var(--color-text-dim)',
                               padding: '4px 10px',
-                              border: '1px solid var(--color-border-strong)',
+                              border: '1px solid rgba(255, 255, 255, 0.6)',
                               borderRadius: '4px',
+                              background: 'rgba(255, 255, 255, 0.4)',
+                              backdropFilter: 'blur(4px)',
                             }}
                           >
                             {spec.highlight}
@@ -424,7 +433,7 @@ export default function HealthcareIntelligencePage() {
           <section
             style={{
               padding: 'var(--spacing-section-lg) 0',
-              background: 'var(--color-bg-elevated)',
+              background: '#F5F5F7',
               position: 'relative',
               zIndex: 1,
             }}
@@ -455,12 +464,9 @@ export default function HealthcareIntelligencePage() {
                   </RevealText>
                 </div>
 
-                <div style={{
-                  border: '1px solid var(--color-border-strong)',
-                  borderRadius: '12px',
-                  background: 'var(--color-bg)',
+                <div className="glass-card" style={{
                   padding: 'clamp(24px, 4vw, 48px)',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.04)',
+                  background: 'rgba(255, 255, 255, 0.8)',
                 }}>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-accent)', fontWeight: 600, textTransform: 'uppercase', display: 'block', marginBottom: '20px' }}>
                     SCL Healthcare Integration Protocol
@@ -476,10 +482,10 @@ export default function HealthcareIntelligencePage() {
                         <span style={{ fontFamily: 'var(--font-serif)', fontSize: '15px', color: 'var(--color-text)', fontWeight: 600 }}>
                           {stepObj.step}
                         </span>
-                        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', lineHeight: 1.6, color: 'var(--color-text-muted)', margin: 0 }}>
+                        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', lineHeight: 1.6, color: 'rgba(26, 26, 26, 0.7)', margin: 0 }}>
                           {stepObj.desc}
                         </p>
-                        {idx < 2 && <div style={{ height: '1px', backgroundColor: 'var(--color-border)', marginBlock: '8px' }} />}
+                        {idx < 2 && <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)', marginBlock: '8px' }} />}
                       </div>
                     ))}
                   </div>

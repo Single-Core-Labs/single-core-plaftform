@@ -122,7 +122,7 @@ export default function AiVsCloudPage() {
           </div>
         </section>
 
-        {/* Comparison Table */}
+        {/* Comparison Cards */}
         <section className="container-editorial">
           <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
 
@@ -140,85 +140,26 @@ export default function AiVsCloudPage() {
             </h2>
           </RevealText>
 
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
-              <colgroup>
-                <col style={{ width: '20%' }} />
-                <col style={{ width: '40%' }} />
-                <col style={{ width: '40%' }} />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-muted)', borderBottom: '1px solid var(--color-border-strong)' }}>
-                    Dimension
-                  </th>
-                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-text-muted)', borderBottom: '1px solid var(--color-border-strong)' }}>
-                    <X size={12} style={{ display: 'inline', marginRight: '6px', color: '#999' }} />
-                    Rented Cloud GPUs
-                  </th>
-                  <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-accent)', borderBottom: '1px solid var(--color-border-strong)' }}>
-                    <Check size={12} style={{ display: 'inline', marginRight: '6px', color: 'var(--color-accent)' }} />
-                    Custom AI Infrastructure
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {COMPARISON.map((row, i) => (
-                  <tr key={row.dimension} style={{ background: i % 2 === 0 ? 'transparent' : 'var(--color-bg-elevated)' }}>
-                    <td style={{ padding: '16px', fontSize: '13px', fontWeight: 600, color: 'var(--color-text)', borderBottom: '1px solid var(--color-border)', verticalAlign: 'top' }}>
-                      {row.dimension}
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: 1.65, borderBottom: '1px solid var(--color-border)', verticalAlign: 'top' }}>
-                      {row.cloud}
-                    </td>
-                    <td style={{ padding: '16px', fontSize: '13px', color: 'var(--color-text)', lineHeight: 1.65, borderBottom: '1px solid var(--color-border)', verticalAlign: 'top' }}>
-                      {row.custom}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="container-editorial" style={{ marginTop: 'clamp(64px, 8vh, 96px)' }}>
-          <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
-          <RevealText>
-            <h2
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)',
-                fontWeight: 400,
-                letterSpacing: '-0.02em',
-                marginBottom: '40px',
-              }}
-            >
-              Frequently Asked Questions
-            </h2>
-          </RevealText>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '720px' }}>
-            {[
-              {
-                q: 'What is the difference between custom AI infrastructure and cloud GPU rental?',
-                a: 'Cloud GPU rental provides shared compute instances from providers like AWS or GCP, billed by the hour. Custom AI infrastructure means your AI systems are purpose-built and deployed entirely within your own environment — on-premise or air-gapped — with models fine-tuned on your data, ensuring full data sovereignty and regulatory compliance.',
-              },
-              {
-                q: 'Why would an enterprise choose custom AI over cloud GPUs?',
-                a: 'Enterprises in regulated industries (healthcare, finance, defence) choose custom AI infrastructure for data sovereignty, regulatory compliance (HIPAA, GDPR, SOC-2), and higher model accuracy through domain-specific fine-tuning. Cloud GPUs are useful for prototyping, but frequently fall short for production-grade regulated AI.',
-              },
-              {
-                q: 'Who builds custom AI infrastructure in India?',
-                a: 'Single Core Labs, headquartered in Pune, India, is an elite AI systems engineering firm. We design, deploy, and operate custom sovereign AI infrastructure for enterprises across regulated industries.',
-              },
-            ].map(({ q, a }) => (
-              <RevealText key={q} delay={1}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {COMPARISON.map((row) => (
+              <div key={row.dimension} className="glass-card" style={{ padding: 'clamp(20px, 3vh, 32px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', alignItems: 'start' }}>
                 <div>
-                  <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '10px' }}>Q: {q}</h3>
-                  <p className="text-body" style={{ color: 'var(--color-text-muted)' }}>{a}</p>
+                  <h3 style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '8px' }}>{row.dimension}</h3>
+                  <div style={{ height: '2px', width: '24px', background: 'var(--color-accent-dim)' }} />
                 </div>
-              </RevealText>
+                <div>
+                  <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <X size={12} /> Rented Cloud GPUs
+                  </p>
+                  <p style={{ fontSize: '14px', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>{row.cloud}</p>
+                </div>
+                <div>
+                  <p style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Check size={12} /> Custom AI Infrastructure
+                  </p>
+                  <p style={{ fontSize: '14px', color: 'var(--color-text)', lineHeight: 1.6, fontWeight: 500 }}>{row.custom}</p>
+                </div>
+              </div>
             ))}
           </div>
         </section>

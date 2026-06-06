@@ -190,11 +190,9 @@ export default function AboutPage() {
             <ScrollFade3D>
               <Card3D intensity={5}>
                 <div
+                  className="glass-card"
                   style={{
                     padding: 'clamp(24px, 3vh, 36px)',
-                    background: 'var(--color-bg-elevated)',
-                    border: '1px solid var(--color-border-strong)',
-                    borderRadius: '8px',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -229,11 +227,9 @@ export default function AboutPage() {
             <ScrollFade3D>
               <Card3D intensity={5}>
                 <div
+                  className="glass-card"
                   style={{
                     padding: 'clamp(24px, 3vh, 36px)',
-                    background: 'var(--color-bg-elevated)',
-                    border: '1px solid var(--color-border-strong)',
-                    borderRadius: '8px',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -268,11 +264,9 @@ export default function AboutPage() {
             <ScrollFade3D>
               <Card3D intensity={5}>
                 <div
+                  className="glass-card"
                   style={{
                     padding: 'clamp(24px, 3vh, 36px)',
-                    background: 'var(--color-bg-elevated)',
-                    border: '1px solid var(--color-border-strong)',
-                    borderRadius: '8px',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -310,7 +304,7 @@ export default function AboutPage() {
           <section
             style={{
               padding: 'var(--spacing-section-lg) 0',
-              background: 'var(--color-bg-elevated)',
+              background: '#F5F5F7',
               position: 'relative',
               zIndex: 1,
             }}
@@ -329,16 +323,16 @@ export default function AboutPage() {
                 </RevealText>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {/* Value 1 */}
                 <ScrollFade3D>
                   <article
+                    className="glass-card"
                     style={{
                       display: 'grid',
                       gridTemplateColumns: '1fr 1.2fr',
                       gap: 'clamp(20px, 4vw, 64px)',
-                      paddingBlock: 'clamp(28px, 4vh, 48px)',
-                      borderTop: '1px solid var(--color-border)',
+                      padding: 'clamp(28px, 4vh, 48px)',
                       alignItems: 'start',
                     }}
                   >

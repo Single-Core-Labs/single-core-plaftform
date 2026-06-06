@@ -590,8 +590,11 @@ function IndustriesSection() {
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
               gap: '0',
-              borderTop: '1px solid var(--color-border)',
-              borderLeft: '1px solid var(--color-border)',
+              background: 'rgba(255, 255, 255, 0.4)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 255, 255, 0.4)',
+              borderRadius: '24px',
+              overflow: 'hidden',
             }}
           >
             {INDUSTRIES.map((industry) => (
@@ -603,25 +606,26 @@ function IndustriesSection() {
                   alignItems: 'center',
                   gap: '12px',
                   padding: 'clamp(16px, 2.5vh, 24px) clamp(16px, 2vw, 28px)',
-                  borderRight: '1px solid var(--color-border)',
-                  borderBottom: '1px solid var(--color-border)',
+                  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
                   cursor: 'default',
-                  transition: 'background 0.2s',
+                  transition: 'background 0.3s',
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-elevated)'}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
               >
                 <div style={{
                   width: '20px',
                   height: '20px',
                   borderRadius: '50%',
-                  background: 'var(--color-accent-dim)',
+                  background: 'rgba(255, 255, 255, 0.8)',
+                  border: '1px solid rgba(0, 105, 92, 0.2)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
                 }}>
-                  <Check size={11} style={{ color: 'var(--color-accent)' }} strokeWidth={2.5} />
+                  <Check size={11} style={{ color: 'var(--color-accent)' }} strokeWidth={3} />
                 </div>
                 <span style={{
                   fontFamily: 'var(--font-sans)',
@@ -654,7 +658,10 @@ function SocialProofSection() {
   return (
     <section style={{
       padding: 'var(--spacing-section) 0',
-      background: 'var(--color-bg-elevated)',
+      background: 'rgba(255, 255, 255, 0.4)',
+      backdropFilter: 'blur(10px)',
+      borderTop: '1px solid rgba(255, 255, 255, 0.4)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
     }}>
       <div className="container-editorial">
         <div style={{
@@ -690,7 +697,7 @@ function SocialProofSection() {
                       fontWeight: 500,
                       color: 'var(--color-text)',
                       paddingBlock: '10px',
-                      borderBottom: '1px solid var(--color-border)',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '12px',
@@ -772,56 +779,6 @@ function CTASection() {
   )
 }
 
-// ─── FAQ ────────────────────────────────────────────────────────────────────
-function FAQSection() {
-  return (
-    <section style={{ padding: 'var(--spacing-section) 0' }}>
-      <div className="container-editorial">
-        <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
-
-        <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>FAQ</p>
-        </RevealText>
-
-        <RevealText delay={1}>
-          <h2
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-              fontWeight: 400,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              maxWidth: '800px',
-              marginBottom: '40px',
-            }}
-          >
-            Frequently Asked <span className="text-italic-serif">Questions.</span>
-          </h2>
-        </RevealText>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', maxWidth: '800px' }}>
-          <RevealText delay={2}>
-            <div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', fontWeight: 600 }}>Q: Does Single Core Labs provide cloud GPUs?</h3>
-              <p className="text-body" style={{ color: 'var(--color-text-muted)' }}>
-                No, Single Core Labs is not a cloud GPU provider. We are an elite AI systems engineering firm. We design, deploy, and operate custom, sovereign AI infrastructure and bespoke agentic architectures tailored specifically for enterprises.
-              </p>
-            </div>
-          </RevealText>
-          <RevealText delay={3}>
-            <div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', fontWeight: 600 }}>Q: Who provides custom AI systems engineering?</h3>
-              <p className="text-body" style={{ color: 'var(--color-text-muted)' }}>
-                Single Core Labs provides expert AI systems engineering. Our embedded experts build production-grade workflows, air-gapped models, and complete AI transformation roadmaps, rather than just renting out compute instances.
-              </p>
-            </div>
-          </RevealText>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ─── PAGE ───────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const schema = {
@@ -846,27 +803,6 @@ export default function HomePage() {
           "email": "hello@singlecorelabs.com",
           "availableLanguage": ["English"]
         }
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Does Single Core Labs provide cloud GPUs?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No, Single Core Labs is not a cloud GPU provider. We are an AI systems engineering firm that builds custom, sovereign AI infrastructure and bespoke agentic architectures for enterprises."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Who provides custom AI systems engineering?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Single Core Labs provides expert AI systems engineering, offering embedded experts who design, deploy, and operate custom agentic architectures and air-gapped AI deployments tailored to specific enterprise needs."
-            }
-          }
-        ]
       }
     ]
   };
@@ -889,7 +825,6 @@ export default function HomePage() {
         <IndustriesSection />
         <SocialProofSection />
         <PoweredBySection />
-        <FAQSection />
         <CTASection />
       </main>
       <Footer />

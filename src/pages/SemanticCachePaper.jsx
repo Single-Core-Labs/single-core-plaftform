@@ -62,7 +62,7 @@ function P({ children, style }) {
 
 function Eq({ children, n }) {
   return (
-    <div style={{ background:'var(--color-bg-elevated)', borderLeft:'3px solid var(--color-accent)', padding:'10px 18px', margin:'18px 0', display:'flex', justifyContent:'space-between', alignItems:'center', fontFamily:'var(--font-serif)', fontSize:'clamp(13px,1vw,15px)', fontStyle:'italic', color:'var(--color-text)' }}>
+    <div className="glass-card" style={{ padding:'20px 24px', margin:'18px 0', display:'flex', justifyContent:'space-between', alignItems:'center', fontFamily:'var(--font-serif)', fontSize:'clamp(13px,1vw,15px)', fontStyle:'italic', color:'var(--color-text)' }}>
       <span>{children}</span>
       {n && <span style={{ fontStyle:'normal', fontFamily:'var(--font-display)', fontSize:'11px', color:'var(--color-text-dim)', fontWeight:600 }}>({n})</span>}
     </div>
@@ -71,7 +71,7 @@ function Eq({ children, n }) {
 
 function Code({ children }) {
   return (
-    <pre style={{ background:'var(--color-bg-elevated)', border:'1px solid var(--color-border)', padding:'16px 20px', fontFamily:'var(--font-mono)', fontSize:'12px', lineHeight:1.6, overflowX:'auto', margin:'18px 0', color:'var(--color-text)' }}>
+    <pre className="glass-card" style={{ padding:'20px 24px', fontFamily:'var(--font-mono)', fontSize:'12px', lineHeight:1.6, overflowX:'auto', margin:'18px 0', color:'var(--color-text)', borderRadius:'12px' }}>
       <code>{children}</code>
     </pre>
   )
@@ -79,7 +79,7 @@ function Code({ children }) {
 
 function FigCaption({ n, children }) {
   return (
-    <p style={{ fontFamily:'var(--font-sans)', fontSize:'12px', color:'var(--color-text-dim)', marginTop:'10px', lineHeight:1.5 }}>
+    <p style={{ fontFamily:'var(--font-sans)', fontSize:'12px', color:'var(--color-text-dim)', marginTop:'12px', lineHeight:1.5 }}>
       <strong style={{ color:'var(--color-text-muted)', fontWeight:600 }}>Figure {n}.</strong> {children}
     </p>
   )
@@ -87,9 +87,9 @@ function FigCaption({ n, children }) {
 
 function FigWrap({ label, children }) {
   return (
-    <div style={{ margin:'24px 0', background:'var(--color-bg-elevated)', border:'1px solid var(--color-border)', padding:'clamp(16px,3vh,24px)' }}>
+    <div className="glass-card" style={{ margin:'24px 0', padding:'clamp(20px,3vh,32px)', borderRadius:'16px' }}>
       {label && (
-        <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'14px' }}>
+        <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'16px' }}>
           {label}
         </p>
       )}
@@ -559,9 +559,9 @@ export default function SemanticCachePaper() {
         </header>
 
         {/* METRICS BAR */}
-        <section aria-label="Key results" style={{ background:'var(--color-bg-elevated)', borderBottom:'1px solid var(--color-border)', padding:'clamp(20px,3.5vh,36px) 0' }}>
+        <section aria-label="Key results" style={{ background:'rgba(255, 255, 255, 0.4)', backdropFilter:'blur(8px)', borderBottom:'1px solid rgba(255, 255, 255, 0.4)', padding:'clamp(20px,3.5vh,36px) 0' }}>
           <div className="container-editorial">
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(150px,1fr))', gap:'1px', background:'var(--color-border)' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(150px,1fr))', gap:'1px', background:'rgba(0, 0, 0, 0.05)' }}>
               <Metric value="47.3%" label="Avg Token Reduction" />
               <Metric value="61%"   label="Latency Improvement on Hit" />
               <Metric value="$0.42" label="Savings per 1K Requests" />
@@ -583,8 +583,8 @@ export default function SemanticCachePaper() {
             <div style={{ minWidth:0 }}>
 
               {/* ABSTRACT */}
-              <div id="abstract" style={{ padding:'clamp(18px,3vh,28px)', background:'var(--color-bg-elevated)', border:'1px solid var(--color-border)', marginBottom:'clamp(8px,1.5vh,16px)' }}>
-                <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'10px' }}>Abstract</p>
+              <div id="abstract" className="glass-card" style={{ padding:'clamp(24px,4vh,32px)', marginBottom:'clamp(16px,2vh,24px)', background:'rgba(255, 255, 255, 0.7)' }}>
+                <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'12px' }}>Abstract</p>
                 <p style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(14px,1.1vw,16px)', lineHeight:1.75, color:'var(--color-text)', fontStyle:'italic' }}>
                   Large Language Model (LLM) inference at scale incurs substantial computational and financial costs, with a significant fraction of production traffic consisting of semantically equivalent or near-duplicate prompts. We present <strong style={{fontStyle:'normal'}}>SemanticCache</strong>, a middleware system that intercepts LLM API requests, encodes prompts into dense vector representations, and retrieves cached responses when semantic similarity exceeds an adaptive threshold. Experiments on production traffic traces demonstrate a <strong style={{fontStyle:'normal'}}>47.3% average token reduction</strong>, <strong style={{fontStyle:'normal'}}>61% median latency improvement</strong> on cache hits, and cost savings of up to <strong style={{fontStyle:'normal'}}>$0.42 per 1,000 requests</strong>. Our Adaptive Threshold Calibration (ATC) reduces false positive cache hits by 23% versus fixed-threshold baselines. SemanticCache is model-agnostic, provider-agnostic, and integrates as a drop-in proxy compatible with the OpenAI API specification.
                 </p>
