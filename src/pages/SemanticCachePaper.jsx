@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Link2, Check, ChevronDown } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { ArrowLeft, Link2, Check } from 'lucide-react'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import SEO from '@/components/SEO'
@@ -54,7 +54,7 @@ function Hi({ children }) {
 
 function P({ children, style }) {
   return (
-    <p style={{ fontFamily:'var(--font-sans)', fontSize:'clamp(14px,1.05vw,16px)', lineHeight:1.8, color:'var(--color-text-muted)', marginBottom:'14px', ...style }}>
+    <p style={{ fontFamily:"'DM Sans', var(--font-sans), ui-sans-serif, system-ui, sans-serif", fontSize:'1.0625rem', lineHeight:1.78, letterSpacing:'0.01em', color:'#0A0A0B', marginBottom:'1.75rem', ...style }}>
       {children}
     </p>
   )
@@ -62,38 +62,54 @@ function P({ children, style }) {
 
 function Eq({ children, n }) {
   return (
-    <div className="glass-card" style={{ padding:'20px 24px', margin:'18px 0', display:'flex', justifyContent:'space-between', alignItems:'center', fontFamily:'var(--font-serif)', fontSize:'clamp(13px,1vw,15px)', fontStyle:'italic', color:'var(--color-text)' }}>
+    <div style={{ background:'#F7F7F8', borderLeft:'3px solid #5B47E0', padding:'14px 20px', margin:'1.75rem 0', display:'flex', justifyContent:'space-between', alignItems:'center', fontFamily:"'DM Sans', ui-sans-serif", fontSize:'0.9375rem', fontStyle:'italic', color:'#0A0A0B', borderRadius:'0 6px 6px 0' }}>
       <span>{children}</span>
-      {n && <span style={{ fontStyle:'normal', fontFamily:'var(--font-display)', fontSize:'11px', color:'var(--color-text-dim)', fontWeight:600 }}>({n})</span>}
+      {n && <span style={{ fontStyle:'normal', fontFamily:"'DM Sans', sans-serif", fontSize:'11px', color:'#9CA3AF', fontWeight:600 }}>({n})</span>}
     </div>
   )
 }
 
 function Code({ children }) {
+  const [cpd, setCpd] = useState(false)
+  const copyCode = async () => {
+    try { await navigator.clipboard.writeText(children); setCpd(true); setTimeout(() => setCpd(false), 2000) } catch {}
+  }
   return (
-    <pre className="glass-card" style={{ padding:'20px 24px', fontFamily:'var(--font-mono)', fontSize:'12px', lineHeight:1.6, overflowX:'auto', margin:'18px 0', color:'var(--color-text)', borderRadius:'12px' }}>
-      <code>{children}</code>
-    </pre>
+    <div style={{ margin:'2rem 0', position:'relative' }}>
+      <button
+        onClick={copyCode}
+        style={{ position:'absolute', top:'12px', right:'14px', background:'none', border:'none', cursor:'pointer', fontFamily:"'DM Sans', sans-serif", fontSize:'12px', color: cpd ? '#16a34a' : '#6B7280', display:'flex', alignItems:'center', gap:'4px', padding:'2px 6px', zIndex:2, transition:'color 0.2s' }}
+        aria-label={cpd ? 'Copied' : 'Copy code'}
+      >
+        {cpd ? <Check size={13}/> : <Link2 size={13}/>}
+        {cpd ? 'Copied' : 'Copy'}
+      </button>
+      <pre style={{ background:'#F3F4F8', border:'1px solid #E5E7EB', borderRadius:'8px', padding:'20px 24px', paddingRight:'72px', fontFamily:"'JetBrains Mono', 'Fira Code', ui-monospace, monospace", fontSize:'0.875rem', lineHeight:1.65, overflowX:'auto', color:'#1e293b', margin:0 }}>
+        <code>{children}</code>
+      </pre>
+    </div>
   )
 }
 
 function FigCaption({ n, children }) {
   return (
-    <p style={{ fontFamily:'var(--font-sans)', fontSize:'12px', color:'var(--color-text-dim)', marginTop:'12px', lineHeight:1.5 }}>
-      <strong style={{ color:'var(--color-text-muted)', fontWeight:600 }}>Figure {n}.</strong> {children}
+    <p style={{ fontFamily:"'DM Sans', var(--font-sans)", fontSize:'0.875rem', color:'#6B7280', marginTop:'0.75rem', lineHeight:1.6 }}>
+      <strong style={{ color:'#0A0A0B', fontWeight:600 }}>Figure {n}:</strong>{' '}{children}
     </p>
   )
 }
 
 function FigWrap({ label, children }) {
   return (
-    <div className="glass-card" style={{ margin:'24px 0', padding:'clamp(20px,3vh,32px)', borderRadius:'16px' }}>
+    <div style={{ width:'100%', maxWidth:'100%', margin:'2.5rem auto', padding:'0' }}>
       {label && (
-        <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'16px' }}>
+        <p style={{ fontFamily:"'DM Sans', var(--font-display)", fontSize:'10px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'#5B47E0', marginBottom:'12px' }}>
           {label}
         </p>
       )}
-      {children}
+      <div style={{ background:'var(--color-bg-elevated)', border:'1px solid #E5E7EB', borderRadius:'12px', padding:'clamp(16px,3vh,24px)', boxShadow:'0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)' }}>
+        {children}
+      </div>
     </div>
   )
 }
@@ -112,7 +128,7 @@ function Fig1() {
   return (
     <FigWrap label="Figure 1 — System Architecture">
       <div style={{ overflowX:'auto' }}>
-        <svg viewBox="0 0 640 310" width="100%" style={{ maxWidth:'640px', display:'block', margin:'0 auto' }} aria-label="SemanticCache system architecture">
+        <svg viewBox="0 0 640 310" width="100%" style={{ width:'100%', maxWidth:'100%', height:'auto', display:'block', margin:'0 auto' }} aria-label="SemanticCache system architecture">
           <defs>
             <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#555"/></marker>
             <marker id="ag" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00695C"/></marker>
@@ -175,7 +191,7 @@ function Fig2() {
   return (
     <FigWrap label="Figure 2 — Request Processing Pipeline">
       <div style={{ overflowX:'auto' }}>
-        <svg viewBox="0 0 700 155" width="100%" style={{ maxWidth:'700px', display:'block', margin:'0 auto' }} aria-label="Request pipeline with cache hit and miss branches">
+        <svg viewBox="0 0 700 155" width="100%" style={{ width:'100%', maxWidth:'100%', height:'auto', display:'block', margin:'0 auto' }} aria-label="Request pipeline with cache hit and miss branches">
           <defs>
             <marker id="b1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#555"/></marker>
             <marker id="bg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00695C"/></marker>
@@ -232,7 +248,7 @@ function Fig3() {
   return (
     <FigWrap label="Figure 3 — Token Savings by Dataset & Method">
       <div style={{ overflowX:'auto' }}>
-        <svg viewBox="0 0 420 205" width="100%" style={{ maxWidth:'420px', display:'block', margin:'0 auto' }} aria-label="Bar chart of token savings">
+        <svg viewBox="0 0 420 205" width="100%" style={{ width:'100%', maxWidth:'100%', height:'auto', display:'block', margin:'0 auto' }} aria-label="Bar chart of token savings">
           {[0,15,30,45,60].map(v => (
             <g key={v}>
               <line x1={sx} y1={toY(v)} x2={380} y2={toY(v)} stroke="#e0e0de" strokeWidth="1"/>
@@ -393,50 +409,20 @@ function EncoderTable() {
   )
 }
 
-// ─── ACCORDION SECTION ───────────────────────────────────────────────────────
-function AccordionSection({ id, number, title, defaultOpen = false, children }) {
-  const [open, setOpen] = useState(defaultOpen)
+// ─── PAPER SECTION ───────────────────────────────────────────────────────────
+function Section({ id, number, title, children }) {
   return (
-    <div id={id} style={{ borderTop:'1px solid var(--color-border)', marginTop:'8px' }}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        aria-expanded={open}
-        style={{
-          width:'100%', background:'none', border:'none', cursor:'pointer',
-          display:'flex', alignItems:'center', justifyContent:'space-between',
-          padding:'clamp(14px,2vh,20px) 0',
-          gap:'16px',
-        }}
-      >
-        <div style={{ display:'flex', alignItems:'baseline', gap:'16px', textAlign:'left' }}>
-          <span style={{ fontFamily:'var(--font-sans)', fontSize:'11px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--color-accent)', flexShrink:0 }}>
-            §{number}
-          </span>
-          <span style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(1.1rem,2vw,1.5rem)', fontWeight:400, letterSpacing:'-0.02em', lineHeight:1.2, color:'var(--color-text)' }}>
-            {title}
-          </span>
-        </div>
-        <ChevronDown
-          size={18}
-          style={{ color:'var(--color-text-dim)', flexShrink:0, transition:'transform 0.3s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
-        />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height:0, opacity:0 }}
-            animate={{ height:'auto', opacity:1 }}
-            exit={{ height:0, opacity:0 }}
-            transition={{ duration:0.35, ease:[0.16,1,0.3,1] }}
-            style={{ overflow:'hidden' }}
-          >
-            <div style={{ paddingBottom:'clamp(20px,3vh,32px)' }}>
-              {children}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <section id={id} style={{ borderTop:'1px solid #E5E7EB', marginTop:'3rem', paddingTop:'2.5rem', scrollMarginTop:'96px' }}>
+      <div style={{ display:'flex', alignItems:'baseline', gap:'14px', marginBottom:'1.5rem' }}>
+        <span style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'11px', fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'#5B47E0', flexShrink:0, lineHeight:1 }}>
+          §{number}
+        </span>
+        <h2 style={{ fontFamily:"'DM Sans', var(--font-sans), ui-sans-serif", fontSize:'1.875rem', fontWeight:700, letterSpacing:'-0.025em', lineHeight:1.2, color:'#000000', margin:0 }}>
+          {title}
+        </h2>
+      </div>
+      {children}
+    </section>
   )
 }
 
@@ -468,22 +454,23 @@ function TableOfContents() {
     return () => obs.disconnect()
   }, [])
   return (
-    <nav aria-label="Table of contents" style={{ position:'sticky', top:'clamp(80px,12vh,100px)', display:'flex', flexDirection:'column', gap:'2px' }}>
-      <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-text-dim)', marginBottom:'12px' }}>
-        Contents
+    <nav aria-label="Table of contents" style={{display:'flex', flexDirection:'column', gap:'1px' }}>
+      <p style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'11px', fontWeight:600, letterSpacing:'0.12em', textTransform:'uppercase', color:'#9CA3AF', marginBottom:'14px' }}>
+        On this page
       </p>
       {TOC.map(item => (
         <button
           key={item.id}
           onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior:'smooth', block:'start' })}
+          aria-current={active === item.id ? 'true' : undefined}
           style={{
             background:'none', border:'none', cursor:'pointer', textAlign:'left',
-            padding:'4px 0 4px 10px',
-            fontFamily:'var(--font-sans)', fontSize:'12px', lineHeight:1.4,
-            color: active===item.id ? 'var(--color-text)' : 'var(--color-text-dim)',
-            borderLeft:`2px solid ${active===item.id ? 'var(--color-accent)' : 'var(--color-border)'}`,
+            padding:'5px 0 5px 12px',
+            fontFamily:"'DM Sans', sans-serif", fontSize:'13px', lineHeight:1.4,
+            color: active===item.id ? '#000000' : '#6B7280',
+            borderLeft:`2px solid ${active===item.id ? '#000000' : '#E5E7EB'}`,
             transition:'color 0.2s, border-color 0.2s',
-            fontWeight: active===item.id ? 500 : 400,
+            fontWeight: active===item.id ? 600 : 400,
           }}
         >
           {item.label}
@@ -516,66 +503,87 @@ export default function SemanticCachePaper() {
       <Navbar />
       <ProgressBar />
 
-      <main id="main-content" style={{ paddingBottom:'clamp(80px,10vh,120px)' }}>
+      <main id="main-content" className="sc-paper" style={{ paddingBottom:'clamp(80px,10vh,120px)', background:'#FFFFFF' }}>
 
         {/* HEADER */}
-        <header style={{ borderBottom:'1px solid var(--color-border)', paddingBottom:'clamp(28px,4vh,48px)', paddingTop:'clamp(100px,14vh,150px)' }}>
-          <div className="container-editorial">
-            <nav aria-label="Breadcrumb" style={{ marginBottom:'clamp(16px,2.5vh,28px)', display:'flex', alignItems:'center', gap:'12px' }}>
-              <Link to="/research" className="blog-post-header__back">
-                <ArrowLeft size={15} aria-hidden="true" />
+        <header style={{ borderBottom:'1px solid #E5E7EB', paddingBottom:'0', paddingTop:'clamp(88px,12vh,130px)', background:'#FFFFFF' }}>
+          <div style={{ maxWidth:'740px', margin:'0 auto', paddingLeft:'clamp(24px,4vw,0px)', paddingRight:'clamp(24px,4vw,0px)' }}>
+            {/* Back link */}
+            <nav aria-label="Breadcrumb" style={{ marginBottom:'1.5rem', display:'flex', alignItems:'center', gap:'10px' }}>
+              <Link to="/research" style={{ display:'inline-flex', alignItems:'center', gap:'5px', fontFamily:"'DM Sans', sans-serif", fontSize:'14px', color:'#6B7280', textDecoration:'none', transition:'color 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.color='#5B47E0'}
+                onMouseLeave={e => e.currentTarget.style.color='#6B7280'}
+              >
+                <ArrowLeft size={14} aria-hidden="true" />
                 Research
               </Link>
-              <span style={{ width:'1px', height:'12px', background:'var(--color-border-strong)', display:'inline-block' }} />
-              <span style={{ fontFamily:'var(--font-display)', fontSize:'11px', fontWeight:600, letterSpacing:'0.12em', textTransform:'uppercase', color:'var(--color-accent)' }}>Preprint</span>
+              <span style={{ width:'1px', height:'12px', background:'#E5E7EB', display:'inline-block' }} />
+              <span style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'11px', fontWeight:600, letterSpacing:'0.12em', textTransform:'uppercase', color:'#5B47E0' }}>Preprint</span>
             </nav>
-            <div style={{ display:'flex', gap:'8px', flexWrap:'wrap', marginBottom:'18px' }}>
+            {/* Tags */}
+            <div style={{ display:'flex', gap:'8px', flexWrap:'wrap', marginBottom:'1rem' }}>
               {['LLMOps','Inference','Systems'].map(t => <Tag key={t} label={t} />)}
             </div>
+            {/* H1 */}
             <motion.h1
-              initial={{ opacity:0, y:16 }}
+              initial={{ opacity:0, y:12 }}
               animate={{ opacity:1, y:0 }}
-              transition={{ duration:0.6, ease:[0.16,1,0.3,1] }}
-              style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(1.6rem,3.2vw,2.8rem)', fontWeight:400, lineHeight:1.15, letterSpacing:'-0.025em', color:'var(--color-text)', maxWidth:'820px', marginBottom:'18px' }}
+              transition={{ duration:0.5, ease:[0.16,1,0.3,1] }}
+              style={{ fontFamily:"'DM Sans', var(--font-sans), ui-sans-serif", fontSize:'2.625rem', fontWeight:500, lineHeight:1.15, color:'#000000', marginBottom:'1.5rem', textRendering:'optimizeLegibility' }}
             >
               SemanticCache: Reducing Large Language Model Inference Cost via Embedding-Based Prompt Similarity Matching
             </motion.h1>
+            {/* Author row */}
             <motion.div
               initial={{ opacity:0 }}
               animate={{ opacity:1 }}
-              transition={{ duration:0.5, delay:0.15 }}
-              style={{ display:'flex', flexWrap:'wrap', alignItems:'center', gap:'8px 14px' }}
+              transition={{ duration:0.4, delay:0.1 }}
             >
-              <span style={{ fontFamily:'var(--font-sans)', fontSize:'14px', color:'var(--color-text-muted)' }}>
-                <strong style={{ color:'var(--color-text)', fontWeight:500 }}>Manav Sutar</strong>
-              </span>
-              <span aria-hidden="true" style={{ color:'var(--color-text-dim)' }}>·</span>
-              <span style={{ fontFamily:'var(--font-sans)', fontSize:'14px', color:'var(--color-text-muted)' }}>Single Core Labs, Pune, India</span>
-              <span aria-hidden="true" style={{ color:'var(--color-text-dim)' }}>·</span>
-              <time style={{ fontFamily:'var(--font-sans)', fontSize:'14px', color:'var(--color-text-muted)' }}>June 2026</time>
-              <CopyLink />
+              <div style={{ display:'flex', alignItems:'center', gap:'12px', paddingBottom:'1rem' }}>
+                <div style={{ width:'40px', height:'40px', borderRadius:'50%', background:'linear-gradient(135deg,#5B47E0,#3D2EC0)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <span style={{ color:'#fff', fontFamily:"'DM Sans', sans-serif", fontSize:'13px', fontWeight:700 }}>MS</span>
+                </div>
+                <div>
+                  <div style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'15px', color:'#000000', fontWeight:600, lineHeight:1.3 }}>Manav Sutar</div>
+                  <div style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'13px', color:'#6B7280', lineHeight:1.3 }}>Research Engineer · Single Core Labs</div>
+                </div>
+              </div>
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:'0.875rem', paddingBottom:'1.5rem', borderTop:'1px solid #E5E7EB' }}>
+                <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                  <time style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'13px', color:'#6B7280' }}>June 2026</time>
+                  <span style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'13px', color:'#6B7280' }}>·</span>
+                  <span style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'13px', color:'#6B7280' }}>12 min read</span>
+                </div>
+                <CopyLink />
+              </div>
             </motion.div>
           </div>
         </header>
 
         {/* METRICS BAR */}
-        <section aria-label="Key results" style={{ background:'rgba(255, 255, 255, 0.4)', backdropFilter:'blur(8px)', borderBottom:'1px solid rgba(255, 255, 255, 0.4)', padding:'clamp(20px,3.5vh,36px) 0' }}>
+        {/* <section aria-label="Key results" style={{ background:'var(--color-bg-elevated)', borderBottom:'1px solid var(--color-border)', padding:'clamp(20px,3.5vh,36px) 0' }}>
           <div className="container-editorial">
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(150px,1fr))', gap:'1px', background:'rgba(0, 0, 0, 0.05)' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(150px,1fr))', gap:'1px', background:'var(--color-border)' }}>
               <Metric value="47.3%" label="Avg Token Reduction" />
               <Metric value="61%"   label="Latency Improvement on Hit" />
               <Metric value="$0.42" label="Savings per 1K Requests" />
               <Metric value="23%"   label="Fewer False-Positive Hits" />
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* BODY: TOC + CONTENT */}
-        <div className="container-editorial" style={{ paddingTop:'clamp(36px,5vh,56px)' }}>
-          <div style={{ display:'grid', gridTemplateColumns:'200px 1fr', gap:'clamp(28px,5vw,64px)', alignItems:'start' }} className="paper-body-grid">
+        <div className="container-editorial" style={{ paddingTop:'clamp(32px,4vh,48px)' }}>
+          <div style={{ display:'grid', gridTemplateColumns:'220px 1fr', gap:'clamp(24px,4vw,56px)', alignItems:'start' }} className="paper-body-grid">
 
             {/* Sticky TOC */}
-            <aside className="paper-toc">
+            <aside className="paper-toc"
+  style={{
+    position: 'sticky',
+    top: '120px',
+    alignSelf: 'start',
+    height: 'fit-content'
+  }}>
               <TableOfContents />
             </aside>
 
@@ -583,15 +591,15 @@ export default function SemanticCachePaper() {
             <div style={{ minWidth:0 }}>
 
               {/* ABSTRACT */}
-              <div id="abstract" className="glass-card" style={{ padding:'clamp(24px,4vh,32px)', marginBottom:'clamp(16px,2vh,24px)', background:'rgba(255, 255, 255, 0.7)' }}>
-                <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'12px' }}>Abstract</p>
-                <p style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(14px,1.1vw,16px)', lineHeight:1.75, color:'var(--color-text)', fontStyle:'italic' }}>
-                  Large Language Model (LLM) inference at scale incurs substantial computational and financial costs, with a significant fraction of production traffic consisting of semantically equivalent or near-duplicate prompts. We present <strong style={{fontStyle:'normal'}}>SemanticCache</strong>, a middleware system that intercepts LLM API requests, encodes prompts into dense vector representations, and retrieves cached responses when semantic similarity exceeds an adaptive threshold. Experiments on production traffic traces demonstrate a <strong style={{fontStyle:'normal'}}>47.3% average token reduction</strong>, <strong style={{fontStyle:'normal'}}>61% median latency improvement</strong> on cache hits, and cost savings of up to <strong style={{fontStyle:'normal'}}>$0.42 per 1,000 requests</strong>. Our Adaptive Threshold Calibration (ATC) reduces false positive cache hits by 23% versus fixed-threshold baselines. SemanticCache is model-agnostic, provider-agnostic, and integrates as a drop-in proxy compatible with the OpenAI API specification.
+              <div id="abstract" style={{ padding:'clamp(20px,3vh,32px)', background:'#F7F7F8', border:'1px solid #E5E7EB', borderRadius:'8px', marginBottom:'clamp(8px,1.5vh,16px)', borderLeft:'4px solid #5B47E0' }}>
+                <p style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'11px', fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'#5B47E0', marginBottom:'12px' }}>Abstract</p>
+                <p style={{ fontFamily:"'DM Sans', ui-sans-serif", fontSize:'1.0625rem', lineHeight:1.78, color:'#0A0A0B', fontStyle:'italic', letterSpacing:'0.01em', margin:0 }}>
+                  Large Language Model (LLM) inference at scale incurs substantial computational and financial costs, with a significant fraction of production traffic consisting of semantically equivalent or near-duplicate prompts. We present <strong style={{fontStyle:'normal', fontWeight:600}}>SemanticCache</strong>, a middleware system that intercepts LLM API requests, encodes prompts into dense vector representations, and retrieves cached responses when semantic similarity exceeds an adaptive threshold. Experiments on production traffic traces demonstrate a <strong style={{fontStyle:'normal', fontWeight:600}}>47.3% average token reduction</strong>, <strong style={{fontStyle:'normal', fontWeight:600}}>61% median latency improvement</strong> on cache hits, and cost savings of up to <strong style={{fontStyle:'normal', fontWeight:600}}>$0.42 per 1,000 requests</strong>. Our Adaptive Threshold Calibration (ATC) reduces false positive cache hits by 23% versus fixed-threshold baselines. SemanticCache is model-agnostic, provider-agnostic, and integrates as a drop-in proxy compatible with the OpenAI API specification.
                 </p>
               </div>
 
-              {/* ACCORDION SECTIONS */}
-              <AccordionSection id="introduction" number="1" title="Introduction" defaultOpen={true}>
+              {/* SECTIONS */}
+              <Section id="introduction" number="1" title="Introduction">
                 <P>
                   The proliferation of LLM-powered applications has created a new infrastructure challenge: inference at scale. LLM inference is probabilistic, token-based, and expensive — with frontier model APIs pricing input at $1–15 per million tokens and output at $3–60 per million tokens as of 2026.
                 </P>
@@ -599,34 +607,34 @@ export default function SemanticCachePaper() {
                   A critical but underexplored observation is that production LLM traffic exhibits high <Hi>semantic redundancy</Hi>. In customer support systems, code assistants, and document QA pipelines, users frequently ask semantically equivalent questions with different wording. "How do I reset my password?" and "What are the steps to change my password?" are distinct strings but identical in intent. Exact-match caching — the dominant approach in API gateways — fails entirely in this regime.
                 </P>
                 <P>We make the following contributions:</P>
-                <ul style={{ paddingLeft:'22px', display:'flex', flexDirection:'column', gap:'8px', marginBottom:'12px' }}>
+                <ul style={{ paddingLeft:'24px', display:'flex', flexDirection:'column', gap:'10px', marginBottom:'1.5rem' }}>
                   {[
                     'SemanticCache — a production-grade LLM proxy implementing embedding-based similarity search for response reuse.',
                     'A two-tier cache hierarchy combining in-process HNSW indexing with Redis persistence, achieving sub-5ms retrieval at P99.',
                     'Adaptive Threshold Calibration (ATC) — a per-domain mechanism tuning similarity cutoffs to minimise false-positive hits.',
                     'Empirical results on production traffic showing 47.3% token savings and 61% latency reduction on cache hits.',
                   ].map((c,i) => (
-                    <li key={i} style={{ fontFamily:'var(--font-sans)', fontSize:'clamp(13px,1vw,15px)', lineHeight:1.7, color:'var(--color-text-muted)' }}>{c}</li>
+                    <li key={i} style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'1.0625rem', lineHeight:1.78, color:'#374151', letterSpacing:'0.01em' }}>{c}</li>
                   ))}
                 </ul>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="related-work" number="2" title="Related Work">
+              <Section id="related-work" number="2" title="Related Work">
                 <P><Hi>2.1 Exact-Match Caching.</Hi> Redis-based exact-match caching is widely deployed in API gateways (Kong, Nginx, AWS API Gateway). GPTCache [Zeng et al., 2023] was among the first systems to apply vector similarity to LLM response reuse. Our work extends this with adaptive thresholds, hierarchical storage, and production-grade latency under concurrent load.</P>
                 <P><Hi>2.2 Prompt Compression.</Hi> LLMLingua [Jiang et al., 2023] compresses prompts via token-level perplexity filtering, reducing input length by 2–5×. SemanticCache is orthogonal: compression reduces tokens on cache misses; semantic matching eliminates inference entirely on cache hits.</P>
                 <P><Hi>2.3 Prefix Caching.</Hi> vLLM and SGLang implement KV-cache prefix sharing within a serving cluster, requiring self-hosted infrastructure. SemanticCache operates at the API gateway layer and is compatible with any provider including closed APIs.</P>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="architecture" number="3" title="System Architecture">
+              <Section id="architecture" number="3" title="System Architecture">
                 <P>
                   SemanticCache is deployed as an HTTP proxy between client applications and upstream LLM providers. The system comprises four subsystems: the <Hi>Gateway</Hi> (Rust, Axum), the <Hi>Encoder</Hi> (Python subprocess, sentence-transformers), the <Hi>Cache Store</Hi> (HNSW + Redis), and the <Hi>Threshold Controller</Hi> (adaptive calibration daemon).
                 </P>
                 <Fig1 />
                 <P><Hi>3.1 Request Lifecycle.</Hi> On receiving a request, the gateway extracts the prompt, generates a 384-dimensional embedding via MiniLM-L6-v2, and queries the HNSW index. If the nearest neighbour distance satisfies <em>cos(q, k) ≥ τ</em>, the cached response is returned immediately. Otherwise the request is forwarded to the upstream provider, streamed back to the client, and both cache tiers are updated asynchronously.</P>
                 <Fig2 />
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="methodology" number="4" title="Methodology">
+              <Section id="methodology" number="4" title="Methodology">
                 <P><Hi>4.1 Embedding Strategy.</Hi> We use <Hi>sentence-transformers/all-MiniLM-L6-v2</Hi> as the default encoder, producing 384-dimensional normalised embeddings. The model runs as a persistent sidecar process to amortise load time. For domain-specific deployments (e.g. medical, legal), we support plug-in encoders via a unified interface.</P>
                 <P>Given a prompt <em>p</em>, we define its representation as:</P>
                 <Eq n="1">e(p) = Normalize(Encoder(p)) ∈ ℝ³⁸⁴</Eq>
@@ -638,9 +646,9 @@ export default function SemanticCachePaper() {
                 <P><Hi>4.3 Adaptive Threshold Calibration (ATC).</Hi> A fixed τ cannot generalise across domains. We maintain a per-domain confusion matrix of hit outcomes labelled via user feedback (regenerate clicks, thumbs down). The optimal threshold is updated daily:</P>
                 <Eq n="3">τ* = argmax_τ F_β(P(τ), R(τ)),  β = 0.5</Eq>
                 <P>Precision P is weighted more than recall (β = 0.5) since false positives (wrong cached response served) are more harmful than false negatives (missed cache hits).</P>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="algorithm" number="5" title="Algorithm">
+              <Section id="algorithm" number="5" title="Algorithm">
                 <div style={{ border:'1px solid var(--color-border)', padding:'clamp(14px,2vh,22px)' }}>
                   <p style={{ fontFamily:'var(--font-display)', fontSize:'11px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--color-text)', marginBottom:'10px', paddingBottom:'8px', borderBottom:'1px solid var(--color-border)' }}>
                     Algorithm 1: SemanticCache Lookup
@@ -661,11 +669,11 @@ Output: response r
 11:     return r
 12: end if`}</Code>
                 </div>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="experiments" number="6" title="Experiments">
+              <Section id="experiments" number="6" title="Experiments">
                 <P><Hi>6.1 Datasets.</Hi> We evaluate on three production traffic traces:</P>
-                <ul style={{ paddingLeft:'22px', display:'flex', flexDirection:'column', gap:'8px', marginBottom:'14px' }}>
+                <ul style={{ paddingLeft:'24px', display:'flex', flexDirection:'column', gap:'10px', marginBottom:'1.5rem' }}>
                   {[
                     ['CustomerSupport-50K','50,000 user queries from a SaaS helpdesk integration. High semantic redundancy expected.'],
                     ['CodeAssist-30K','30,000 prompts from a code completion agent. Moderate redundancy.'],
@@ -677,7 +685,7 @@ Output: response r
                   ))}
                 </ul>
                 <P><Hi>6.2 Baselines.</Hi></P>
-                <ul style={{ paddingLeft:'22px', display:'flex', flexDirection:'column', gap:'6px', marginBottom:'14px' }}>
+                <ul style={{ paddingLeft:'24px', display:'flex', flexDirection:'column', gap:'8px', marginBottom:'1.5rem' }}>
                   {[
                     ['NoCache','Every request forwarded to provider.'],
                     ['ExactMatch','Redis string equality cache.'],
@@ -690,9 +698,9 @@ Output: response r
                     </li>
                   ))}
                 </ul>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="results" number="7" title="Results">
+              <Section id="results" number="7" title="Results">
                 <ResultsTable />
                 <Fig3 />
                 <P><Hi>Token savings.</Hi> SC-ATC achieves 47.3% average token savings — a 28.3pp improvement over GPTCache and 44.2pp over exact-match.</P>
@@ -702,9 +710,9 @@ Output: response r
                 <Fig4 />
                 <P><Hi>7.2 Encoder Ablation.</Hi> MiniLM-L6-v2 provides the best latency/quality trade-off at 1.8ms encoding time. BGE-large improves hit rate by 3.1pp at 6× higher latency, not justified for most deployments.</P>
                 <EncoderTable />
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="implementation" number="8" title="Implementation">
+              <Section id="implementation" number="8" title="Implementation">
                 <P>SemanticCache is implemented in Rust (Axum gateway, ~4,200 LoC) with Python sidecars for embedding. Core cache lookup takes 0.3–0.8ms for indices up to 500K entries. Tokio async I/O allows 10,000+ concurrent connections on a single 4-core VM.</P>
                 <Code>{`// Rust: cache lookup (simplified)
 async fn handle(req: Request) -> Response {
@@ -723,15 +731,15 @@ async fn handle(req: Request) -> Response {
     cache.write_async(emb, prompt, &resp);
     resp
 }`}</Code>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="limitations" number="9" title="Limitations">
+              <Section id="limitations" number="9" title="Limitations">
                 <P><Hi>Temporal drift.</Hi> Cached responses become stale for time-sensitive queries. We mitigate this with TTL and temporal keyword detection that bypasses cache for queries containing date/time entities.</P>
                 <P><Hi>Cold start.</Hi> Cache hit rate is near zero for the first ~500 requests in a new deployment. We pre-warm the cache using historical logs where available.</P>
                 <P><Hi>Multi-turn context.</Hi> The current system caches single-turn prompts. Extending to multi-turn conversation caching is future work.</P>
-              </AccordionSection>
+              </Section>
 
-              <AccordionSection id="conclusion" number="10" title="Conclusion">
+              <Section id="conclusion" number="10" title="Conclusion">
                 <P>We presented SemanticCache, a production-grade LLM inference optimisation system that achieves 47.3% token savings and 61% latency reduction on cache hits through embedding-based prompt similarity matching. The Adaptive Threshold Calibration mechanism automatically tunes similarity cutoffs per domain, reducing false positive hits by 30% versus fixed-threshold baselines.</P>
                 <P>SemanticCache is model-agnostic, provider-agnostic, and deployable as a transparent proxy with zero changes to existing client applications. It is available as part of the NexusAI platform by Single Core Labs.</P>
                 <P>Future work includes multi-turn conversation caching, learned embeddings fine-tuned on domain-specific traffic, and integration with prompt compression pipelines for compounding savings on cache misses.</P>
@@ -739,11 +747,14 @@ async fn handle(req: Request) -> Response {
                   <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--color-text-dim)', marginBottom:'8px' }}>Acknowledgements</p>
                   <P style={{ marginBottom:0, fontSize:'13px' }}>We thank the team at Single Core Labs for infrastructure support and Eagle Vision Diagnostic Centre for production traffic access. This work was supported in part by the BITS Pilani research collaboration programme.</P>
                 </div>
-              </AccordionSection>
+              </Section>
 
               {/* REFERENCES */}
-              <div id="references" style={{ borderTop:'1px solid var(--color-border)', paddingTop:'clamp(20px,3vh,32px)', marginTop:'8px' }}>
-                <p style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-accent)', marginBottom:'16px' }}>References</p>
+              <div id="references" style={{ borderTop:'1px solid #E5E7EB', marginTop:'3rem', paddingTop:'2.5rem', scrollMarginTop:'96px' }}>
+                <div style={{ display:'flex', alignItems:'baseline', gap:'14px', marginBottom:'1.5rem' }}>
+                  <span style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'11px', fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'#5B47E0', flexShrink:0 }}>Ref</span>
+                  <h2 style={{ fontFamily:"'DM Sans', var(--font-sans), ui-sans-serif", fontSize:'1.875rem', fontWeight:700, letterSpacing:'-0.025em', lineHeight:1.2, color:'#000000', margin:0 }}>References</h2>
+                </div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
                   {[
                     ['[1]','Zeng, A. et al. (2023). GPTCache: An Open-Source Semantic Cache for LLM Applications. arXiv:2306.04882.'],
@@ -780,9 +791,51 @@ async fn handle(req: Request) -> Response {
       <Footer />
 
       <style>{`
-        @media (max-width: 900px) {
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        html { scroll-behavior: smooth; background: #FFFFFF; }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: #FFFFFF; }
+        ::selection { background: rgba(91,71,224,0.15); color: #0A0A0B; }
+
+        /* Ensure page is always white */
+        #root { background: #FFFFFF; }
+
+        /* Inline code */
+        .sc-paper code:not(pre code) {
+          font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+          font-size: 0.8125rem; font-weight: 500;
+          background: #F1F0EF; color: #be123c;
+          padding: 0.15em 0.4em; border-radius: 4px;
+          border: 1px solid #E5E4E2;
+        }
+
+        /* Links */
+        .sc-paper a { color: #5B47E0; text-decoration: none; }
+        .sc-paper a:hover { color: #3D2EC0; text-decoration: underline; }
+
+        /* List markers */
+        .sc-paper ul li::marker { color: #9CA3AF; }
+        .sc-paper ol li::marker { color: #9CA3AF; font-weight: 600; }
+
+        /* Abstract box */
+        #abstract { scroll-margin-top: 96px; }
+        #references { scroll-margin-top: 96px; }
+
+        /* Figure breakout on desktop */
+        @media (min-width: 900px) {
+          .ai21-fig-breakout {
+            margin-left: -80px !important;
+            margin-right: -80px !important;
+            max-width: none !important;
+            padding: 0 !important;
+          }
+        }
+
+        /* Responsive */
+        @media (max-width: 1023px) {
           .paper-body-grid { grid-template-columns: 1fr !important; }
           .paper-toc { display: none; }
+          .ai21-fig-breakout { margin-left: 0 !important; margin-right: 0 !important; }
         }
       `}</style>
     </>
