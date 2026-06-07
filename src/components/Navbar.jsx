@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { Factory, Landmark, Monitor, Shield, SquarePlus } from 'lucide-react'
 import { NAV_LINKS } from '@/lib/constants'
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
@@ -22,70 +23,23 @@ const RESOURCES_RIGHT = [
 ]
 
 const INDUSTRIES = [
-  {
-    label: 'Healthcare',
-    href: '/solutions/healthcare-intelligence',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/>
-        <path d="M12 8v8M8 12h8"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'Finance',
-    href: '/solutions',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'Insurance',
-    href: '/solutions',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'Logistics',
-    href: '/solutions',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="1" y="3" width="15" height="13" rx="1"/>
-        <path d="M16 8h4l3 3v5h-7V8z"/>
-        <circle cx="5.5" cy="18.5" r="2.5"/>
-        <circle cx="18.5" cy="18.5" r="2.5"/>
-      </svg>
-    ),
-  },
-  {
-    label: 'defect',
-    href: '/solutions',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
-        <path d="M9 12l2 2 4-4"/>
-      </svg>
-    ),
-  },
+  { label: 'Finance', href: '/solutions', icon: Landmark },
+  { label: 'Tech', href: '/solutions', icon: Monitor },
+  { label: 'Manufacturing', href: '/solutions', icon: Factory },
+  { label: 'Healthcare', href: '/solutions/healthcare-intelligence', icon: SquarePlus },
+  { label: 'Defense', href: '/solutions', icon: Shield },
 ]
 
 // ─── SOLUTIONS MEGA DROPDOWN ─────────────────────────────────────────────────
 function SolutionsDropdown({ onClose }) {
   const colLabel = {
-    fontFamily: 'var(--font-display)',
-    fontSize: '10px',
-    fontWeight: 600,
-    letterSpacing: '0.14em',
-    textTransform: 'uppercase',
-    color: 'var(--color-text-dim)',
+    fontFamily: 'var(--font-serif)',
+    fontSize: '13px',
+    fontWeight: 400,
+    lineHeight: 1,
+    color: 'rgba(26, 26, 26, 0.45)',
     display: 'block',
-    marginBottom: '18px',
+    marginBottom: '14px',
   }
 
   return (
@@ -96,120 +50,84 @@ function SolutionsDropdown({ onClose }) {
       transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       style={{
         position: 'fixed',
-        top: '80px',
+        top: '72px',
         left: 0,
         right: 0,
-        background: 'rgba(255, 255, 255, 0.75)',
-        borderTop: '1px solid rgba(255,255,255,0.4)',
-        borderBottom: '1px solid rgba(255,255,255,0.4)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        boxShadow: '0 12px 40px rgba(0,0,0,0.04)',
+        background: '#F8F8F7',
+        borderTop: '1px solid rgba(0,0,0,0.08)',
+        borderBottom: '1px solid rgba(0,0,0,0.08)',
+        boxShadow: '0 18px 40px rgba(0,0,0,0.045)',
         zIndex: 99,
       }}
     >
       <div style={{
-        maxWidth: '1200px',
+        maxWidth: '860px',
         marginInline: 'auto',
-        paddingInline: 'clamp(16px, 2.5vw, 32px)',
+        padding: '14px clamp(18px, 3vw, 32px) 18px',
         display: 'grid',
-        gridTemplateColumns: '260px 1fr',
+        gridTemplateColumns: '180px 190px',
+        alignItems: 'start',
+        columnGap: 'clamp(32px, 6vw, 74px)',
       }}>
         {/* ── Col 1: Product ── */}
         <div style={{
-          padding: '32px 32px 36px 0',
-          borderRight: '1px solid rgba(0,0,0,0.07)',
+          paddingTop: '2px',
         }}>
-          <span style={colLabel}>Solutions</span>
-          <p style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: '18px',
-            fontWeight: 400,
-            lineHeight: 1.3,
-            letterSpacing: '-0.015em',
-            color: 'var(--color-text)',
-            marginBottom: '10px',
-          }}>
-            Custom AI Systems
-          </p>
           <p style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '13px',
-            lineHeight: 1.65,
-            color: 'var(--color-text-muted)',
-            marginBottom: '20px',
-            maxWidth: '220px',
+            fontWeight: 500,
+            lineHeight: 1.1,
+            color: 'var(--color-text)',
+            marginBottom: '10px',
           }}>
-            Built by AI engineers and tuned to your data, infrastructure, and compliance requirements.
+            Custom AI Solutions
           </p>
-          <Link
-            to="/solutions"
-            onClick={onClose}
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '12px',
-              fontWeight: 600,
-              color: 'var(--color-accent)',
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '5px',
-            }}
-            onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
-            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-          >
-            Explore all solutions
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <path d="M2.5 9.5l7-7M3 2.5h6.5V9"/>
-            </svg>
-          </Link>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            fontWeight: 500,
+            lineHeight: 1.45,
+            color: 'rgba(26, 26, 26, 0.48)',
+            maxWidth: '172px',
+          }}>
+            Built by AI experts and tuned to your data and use case
+          </p>
         </div>
 
         {/* ── Col 2: Industries ── */}
-        <div style={{ padding: '32px 0 36px 40px' }}>
+        <div>
           <span style={colLabel}>Industries</span>
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
           }}>
             {INDUSTRIES.map((ind) => (
               <Link
                 key={ind.label}
                 to={ind.href}
                 onClick={onClose}
+                className="solutions-industry-link"
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  gap: '8px',
-                  padding: '14px 16px',
-                  borderRadius: '4px',
+                  alignItems: 'center',
+                  gap: '10px',
+                  width: 'max-content',
+                  minHeight: '18px',
                   textDecoration: 'none',
-                  background: 'transparent',
-                  transition: 'background 0.15s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'var(--color-accent-dim)'
-                  e.currentTarget.querySelector('.ind-icon').style.color = 'var(--color-accent)'
-                  e.currentTarget.querySelector('.ind-label').style.color = 'var(--color-text)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'transparent'
-                  e.currentTarget.querySelector('.ind-icon').style.color = 'var(--color-text-dim)'
-                  e.currentTarget.querySelector('.ind-label').style.color = 'var(--color-text-muted)'
+                  color: 'var(--color-text)',
+                  transition: 'color 0.18s',
                 }}
               >
-                <span className="ind-icon" style={{ color: 'var(--color-text-dim)', transition: 'color 0.15s' }}>
-                  {ind.icon}
+                <span style={{ color: 'currentColor', display: 'inline-flex' }}>
+                  <ind.icon size={15} strokeWidth={1.8} aria-hidden="true" />
                 </span>
-                <span className="ind-label" style={{
+                <span style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  color: 'var(--color-text-muted)',
-                  letterSpacing: '-0.01em',
-                  transition: 'color 0.15s',
+                  fontSize: '13px',
+                  fontWeight: 400,
+                  lineHeight: 1,
                 }}>
                   {ind.label}
                 </span>
@@ -217,7 +135,13 @@ function SolutionsDropdown({ onClose }) {
             ))}
           </div>
         </div>
+
       </div>
+      <style>{`
+        .solutions-industry-link:hover {
+          color: var(--color-accent) !important;
+        }
+      `}</style>
     </motion.div>
   )
 }
