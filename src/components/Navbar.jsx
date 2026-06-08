@@ -271,13 +271,6 @@ function EnterpriseDropdown({ onClose }) {
       >
         Overview
       </Link>
-      <Link
-        to="/solutions/healthcare-intelligence" onClick={onClose} style={linkStyle}
-        onMouseEnter={e => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.backgroundColor = 'var(--color-accent-dim)' }}
-        onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.backgroundColor = 'transparent' }}
-      >
-        Healthcare Intelligence
-      </Link>
     </motion.div>
   )
 }
