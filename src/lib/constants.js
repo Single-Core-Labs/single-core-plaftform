@@ -66,14 +66,11 @@ export const DIFFERENTIATORS = [
 ]
 
 export const INDUSTRIES = [
-  { id: 'healthcare',      label: 'Healthcare' },
   { id: 'finance',         label: 'Finance' },
-  { id: 'insurance',       label: 'Insurance' },
-  { id: 'logistics',       label: 'Logistics' },
-  { id: 'ecommerce',       label: 'E-commerce' },
-  { id: 'recruitment',     label: 'Recruitment' },
-  { id: 'small-business',  label: 'Small Business' },
-  { id: 'debt-collection', label: 'Debt Collection' },
+  { id: 'tech',            label: 'Tech' },
+  { id: 'manufacturing',   label: 'Manufacturing' },
+  { id: 'healthcare',      label: 'Healthcare' },
+  { id: 'defense',         label: 'Defense' },
 ]
 
 export const CAPABILITIES_SUMMARY = [

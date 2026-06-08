@@ -20,10 +20,11 @@ const FOOTER_LINKS = [
   {
     heading: 'Industries',
     links: [
-      { label: 'Healthcare', href: '/solutions' },
       { label: 'Finance', href: '/solutions' },
-      { label: 'Logistics', href: '/solutions' },
-      { label: 'E-commerce', href: '/solutions' },
+      { label: 'Tech', href: '/solutions' },
+      { label: 'Manufacturing', href: '/solutions' },
+      { label: 'Healthcare', href: '/solutions/healthcare-intelligence' },
+      { label: 'Defense', href: '/solutions' },
     ],
   },
   {
