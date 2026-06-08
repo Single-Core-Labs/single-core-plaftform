@@ -4,7 +4,6 @@ import Lenis from 'lenis'
 
 import HomePage from './pages/HomePage'
 const SolutionsPage = lazy(() => import('./pages/SolutionsPage'))
-const EnterprisePage = lazy(() => import('./pages/EnterprisePage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'))
 const ComingSoonPage = lazy(() => import('./pages/ComingSoonPage'))
@@ -67,7 +66,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/solutions" element={<SolutionsPage />} />
           <Route path="/solutions/healthcare-intelligence" element={<HealthcareIntelligencePage />} />
-          <Route path="/enterprise" element={<EnterprisePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/case-studies" element={<CaseStudiesPage />} />
           <Route path="/blog" element={<BlogPage />} />

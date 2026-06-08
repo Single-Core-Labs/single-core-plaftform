@@ -37,13 +37,24 @@ const SOLUTIONS = [
     tagline: 'Purpose-built AI for regulated, high-stakes sectors.',
     capabilities: [
       { title: 'EHR-Integrated Clinical Intelligence', detail: 'FHIR/HL7-compliant clinical reasoning systems compatible with Epic. Automates clinical note drafting, structures raw patient charts, and provides secure bedside decision support directly in EMR workflows.' },
-      { title: 'Financial AI', detail: 'Algorithmic credit scoring, AML detection, regulatory compliance, and portfolio optimization engines.' },
       { title: 'Insurance AI', detail: 'Computer-vision damage assessment, underwriting automation, and churn prediction at scale.' },
     ],
   },
   {
-    id: 'scientific-research',
+    id: 'finance-solutions',
     number: '04',
+    label: 'Finance Solutions',
+    tagline: 'Precision AI for high-stakes financial operations.',
+    capabilities: [
+      { title: 'Data Transformation', detail: 'Abstract visualization of unstructured documents flowing into clean structured data grids, isometric 3D illustration, glowing teal data streams.' },
+      { title: 'Financial Analysis Dashboard', detail: 'Sleek dark-mode analytics dashboard showing candlestick charts and KPI metrics, soft blue glow, shallow depth of field.' },
+      { title: 'M&A Deal Scorecard', detail: 'Two puzzle pieces connecting over a clean white desk with financial reports and a laptop, neutral tones with gold accent.' },
+      { title: 'Compliance Monitoring', detail: 'Abstract image of a glowing shield overlaid on legal document text, cyber-security aesthetic, hyper-clean render.' },
+    ],
+  },
+  {
+    id: 'scientific-research',
+    number: '05',
     label: 'AI for Scientific Research',
     tagline: 'Accelerating discovery with machine precision.',
     capabilities: [
@@ -54,7 +65,7 @@ const SOLUTIONS = [
   },
   {
     id: 'governance-ops',
-    number: '05',
+    number: '06',
     label: 'Governance & Production MLOps',
     tagline: 'Models that stay secure, auditable, and compliant.',
     capabilities: [

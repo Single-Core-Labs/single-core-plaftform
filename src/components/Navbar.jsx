@@ -225,52 +225,104 @@ function ResourcesDropdown({ onClose }) {
   )
 }
 
-// ─── ENTERPRISE DROPDOWN ─────────────────────────────────────────────────────
-function EnterpriseDropdown({ onClose }) {
-  const linkStyle = {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '14px',
+// ─── PRODUCT MEGA DROPDOWN ───────────────────────────────────────────────────
+function ProductDropdown({ onClose }) {
+  const colLabel = {
+    fontFamily: 'var(--font-serif)',
+    fontSize: '13px',
     fontWeight: 400,
-    color: 'var(--color-text)',
-    textDecoration: 'none',
-    letterSpacing: '-0.01em',
-    lineHeight: 1.2,
-    transition: 'color 0.15s, background-color 0.15s',
+    lineHeight: 1,
+    color: 'rgba(26, 26, 26, 0.45)',
     display: 'block',
-    padding: '10px 16px',
-    borderRadius: '6px',
+    marginBottom: '14px',
   }
+
+  const PRODUCTS = [
+    { label: 'AI Core', desc: 'Enterprise agentic infrastructure', href: '/coming-soon' },
+    { label: 'Data Lab', desc: 'Unified data engineering platform', href: '/coming-soon' },
+    { label: 'Security Shield', desc: 'Sovereign AI deployment controls', href: '/coming-soon' },
+  ]
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      exit={{ opacity: 0, y: -4 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       style={{
-        position: 'absolute',
-        top: 'calc(100% + 14px)',
+        position: 'fixed',
+        top: '72px',
         left: 0,
-        width: '240px',
-        background: 'rgba(245, 245, 243, 0.98)',
-        border: '1px solid rgba(0,0,0,0.09)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        boxShadow: '0 12px 32px rgba(0,0,0,0.08)',
-        zIndex: 200,
-        padding: '12px 8px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '4px',
+        right: 0,
+        background: '#F8F8F7',
+        borderTop: '1px solid rgba(0,0,0,0.08)',
+        borderBottom: '1px solid rgba(0,0,0,0.08)',
+        boxShadow: '0 18px 40px rgba(0,0,0,0.045)',
+        zIndex: 99,
       }}
     >
-      <Link
-        to="/enterprise" onClick={onClose} style={linkStyle}
-        onMouseEnter={e => { e.currentTarget.style.color = 'var(--color-accent)'; e.currentTarget.style.backgroundColor = 'var(--color-accent-dim)' }}
-        onMouseLeave={e => { e.currentTarget.style.color = 'var(--color-text)'; e.currentTarget.style.backgroundColor = 'transparent' }}
-      >
-        Overview
-      </Link>
+      <div style={{
+        maxWidth: '860px',
+        marginInline: 'auto',
+        padding: '14px clamp(18px, 3vw, 32px) 18px',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        alignItems: 'start',
+        columnGap: 'clamp(32px, 6vw, 74px)',
+      }}>
+        {/* ── Col 1: Platforms ── */}
+        <div>
+          <span style={colLabel}>Platforms</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {PRODUCTS.map((prod) => (
+              <Link
+                key={prod.label}
+                to={prod.href}
+                onClick={onClose}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 500, color: 'var(--color-text)' }}>
+                      {prod.label}
+                    </span>
+                    <span style={{ fontSize: '10px', color: 'var(--color-accent)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Coming Soon
+                    </span>
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'rgba(26, 26, 26, 0.48)' }}>
+                    {prod.desc}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Col 2: Context ── */}
+        <div style={{ paddingTop: '32px' }}>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '13px',
+            fontWeight: 500,
+            lineHeight: 1.45,
+            color: 'var(--color-text)',
+            marginBottom: '10px',
+          }}>
+            Proprietary AI Ecosystem
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            fontWeight: 500,
+            lineHeight: 1.45,
+            color: 'rgba(26, 26, 26, 0.48)',
+            maxWidth: '240px',
+          }}>
+            We are building a suite of specialized tools for high-precision AI research and deployment.
+          </p>
+        </div>
+      </div>
     </motion.div>
   )
 }
@@ -281,11 +333,11 @@ export function Navbar() {
   const [menuOpen, setMenuOpen]           = useState(false)
   const [solutionsOpen, setSolutionsOpen] = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
-  const [enterpriseOpen, setEnterpriseOpen] = useState(false)
+  const [productOpen, setProductOpen]     = useState(false)
 
   const solutionsRef  = useRef(null)
   const resourcesRef  = useRef(null)
-  const enterpriseRef = useRef(null)
+  const productRef    = useRef(null)
   const { scrollY }   = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (latest) => setScrolled(latest > 60))
@@ -299,9 +351,9 @@ export function Navbar() {
     function handleClick(e) {
       if (solutionsRef.current  && !solutionsRef.current.contains(e.target))  setSolutionsOpen(false)
       if (resourcesRef.current  && !resourcesRef.current.contains(e.target))  setResourcesOpen(false)
-      if (enterpriseRef.current && !enterpriseRef.current.contains(e.target)) setEnterpriseOpen(false)
+      if (productRef.current    && !productRef.current.contains(e.target))    setProductOpen(false)
     }
-    function handleScroll() { setSolutionsOpen(false) }
+    function handleScroll() { setSolutionsOpen(false); setProductOpen(false); }
     document.addEventListener('mousedown', handleClick)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
@@ -313,7 +365,7 @@ export function Navbar() {
   const closeAll = () => {
     setSolutionsOpen(false)
     setResourcesOpen(false)
-    setEnterpriseOpen(false)
+    setProductOpen(false)
     setMenuOpen(false)
   }
 
@@ -406,12 +458,12 @@ export function Navbar() {
 
             {/* Other NAV_LINKS */}
             {NAV_LINKS.filter(l => l.label !== 'Solutions').map((link) => {
-              if (link.label === 'Enterprise') {
+              if (link.label === 'Product') {
                 return (
-                  <div key={link.href} ref={enterpriseRef} style={{ position: 'relative' }}>
-                    {dropdownBtn('Enterprise', enterpriseOpen, () => setEnterpriseOpen(o => !o))}
+                  <div key={link.href} ref={productRef} style={{ position: 'relative' }}>
+                    {dropdownBtn('Product', productOpen, () => setProductOpen(o => !o))}
                     <AnimatePresence>
-                      {enterpriseOpen && <EnterpriseDropdown onClose={closeAll} />}
+                      {productOpen && <ProductDropdown onClose={closeAll} />}
                     </AnimatePresence>
                   </div>
                 )
@@ -514,12 +566,26 @@ export function Navbar() {
               ))}
             </motion.div>
 
-            {[...NAV_LINKS.filter(l => l.label !== 'Solutions'), { label: 'Case Studies', href: '/case-studies' }].map((link, i) => (
+            {/* Product in mobile */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.03, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}
+            >
+              <Link to="/product" onClick={closeAll}
+                style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(28px,6vw,42px)', fontWeight:400, color:'var(--color-text)', textDecoration:'none', letterSpacing:'-0.02em' }}
+              >
+                Product <span style={{ fontSize: '12px', verticalAlign: 'middle', color: 'var(--color-accent)' }}>(Coming Soon)</span>
+              </Link>
+            </motion.div>
+
+            {[...NAV_LINKS.filter(l => l.label !== 'Solutions' && l.label !== 'Product'), { label: 'Case Studies', href: '/case-studies' }].map((link, i) => (
               <motion.div
                 key={link.href}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: (i + 1) * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ delay: (i + 2) * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
                 <Link to={link.href} onClick={closeAll}
                   style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(28px,6vw,42px)', fontWeight:400, color:'var(--color-text)', textDecoration:'none', letterSpacing:'-0.02em' }}
