@@ -3,521 +3,305 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { ParallaxLayer, ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
-import { ArrowRight, HeartPulse, Layers, Lock, Check, Stethoscope, Bone, Droplets, Heart, Microscope, Activity } from 'lucide-react'
+import { ScrollFade3D, Card3D } from '@/components/ScrollScene'
+import { ArrowRight, HeartPulse, Layers, Lock, Check, Search, BarChart3, FileText, FlaskConical, Users, Shield, Eye, Server, RefreshCw, Settings, Activity, Microscope, Stethoscope } from 'lucide-react'
+import { motion } from 'framer-motion'
 
-// cspell:ignore flowsheet nephrology
-const HEALTHCARE_PILLARS = [
+const CORE_BENEFITS = [
   {
-    id: 'clinical-decision-support',
-    icon: HeartPulse,
-    title: 'Clinical Decision Support',
-    description: 'Empower clinicians with zero-hallucination diagnostic reasoning models fine-tuned on specialized clinical journals and radiological data.',
-    features: [
-      'Multimodal analysis of DICOM imaging and history records',
-      'Explainable diagnostic suggestions with confidence profiling',
-      'Differential diagnostics cross-checked against live clinical datasets'
-    ]
+    id: 'decision-support',
+    icon: Activity,
+    title: 'Precision Decision Support',
+    description: 'Empower clinicians with zero-hallucination diagnostic reasoning models fine-tuned on specialized clinical journals and real-time patient data.',
   },
   {
-    id: 'epic-native-integration',
+    id: 'ehr-native',
     icon: Layers,
-    title: 'Epic & EHR-Native Integration',
-    description: 'Bypass friction with enterprise-grade FHIR and HL7-compliant bidirectional pipelines built directly into your active EMR/EHR system.',
-    features: [
-      'Direct read/write access safely orchestrated via secure APIs',
-      'Context-aware chart summaries generated inside Epic InBasket',
-      'Automatic population of flowsheet data with full clinical audit logs'
-    ]
+    title: 'EHR-Native Intelligence',
+    description: 'Seamlessly integrate into existing workflows via FHIR/HL7 bidirectional pipelines. Our agents live where your clinicians work, reducing friction and fatigue.',
   },
   {
-    id: 'air-gapped-governance',
-    icon: Lock,
-    title: 'Air-Gapped Privacy & Security',
-    description: 'Deliver cutting-edge clinical reasoning safely with strict on-premise models, ensuring PII and PHI never leave your network boundary.',
-    features: [
-      '100% offline edge deployment inside hospital infrastructure',
-      'HIPAA and SOC-2 Type II aligned data containment guarantees',
-      'Zero model retention or external cloud leakage risks'
-    ]
+    id: 'sovereign-governance',
+    icon: Shield,
+    title: 'Sovereign Data Governance',
+    description: 'Maintain absolute control over sensitive PHI with air-gapped deployment options. Your data never leaves your infrastructure, ensuring 100% HIPAA compliance.',
   }
 ]
 
-const STANDALONE_SPECIALTIES = [
+const USE_CASES = [
   {
-    id: 'dental',
-    icon: Stethoscope,
-    label: 'Oral Health',
-    title: 'Dental',
-    description: 'Dentists play a critical role in preventing periodontal disease linked to inflammation and chronic conditions. Our intelligence layer integrates with clinical dental workflows to document oral health, plan treatments, manage preventive care, and coordinate seamlessly with the broader care team.',
-    highlight: 'Coordinated oral-systemic care documentation'
+    id: 'diagnostic-reasoning',
+    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    category: 'Diagnostic Support',
+    title: 'Real-time Clinical Reasoning',
+    description: 'Analyze complex patient histories and lab results to surface critical insights. Our AI provides explainable diagnostic suggestions cross-referenced with the latest medical research.'
   },
   {
-    id: 'orthopaedics',
-    icon: Bone,
-    label: 'Musculoskeletal',
-    title: 'Orthopaedics',
-    description: 'Orthopaedic centers require precise, location-specific documentation and registry reporting. Our agents support structured documentation for joint injections, patient-reported outcomes, and direct data submission to orthopaedics registries — all within the active EHR workflow.',
-    highlight: 'Registry reporting & patient-reported outcomes'
+    id: 'documentation-automation',
+    image: 'https://images.unsplash.com/photo-1504813184591-01592fd03cfd?auto=format&fit=crop&q=80&w=800',
+    category: 'Clinical Operations',
+    title: 'Automated Charting & Documentation',
+    description: 'Eliminate the "pajama time" burden. Automatically generate structured clinical notes and summaries from physician-patient interactions and unstructured data.'
   },
   {
-    id: 'urology',
-    icon: Activity,
-    label: 'Urological Procedures',
-    title: 'Urology',
-    description: 'Urology clinics demand efficient ordering, documentation, and charge capture for complex procedural workflows. Our intelligence layer surfaces specialty-specific content to make urological procedures, consults, and follow-up visits faster and more accurate.',
-    highlight: 'Procedure-specific charge capture automation'
+    id: 'predictive-outcomes',
+    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800',
+    category: 'Population Health',
+    title: 'Predictive Patient Risk Profiling',
+    description: 'Identify at-risk patients before complications arise. Monitor longitudinal records to flag potential readmissions, sepsis risks, or chronic disease progression.'
   },
   {
-    id: 'nephrology',
-    icon: Droplets,
-    label: 'Dialysis & Renal Care',
-    title: 'Nephrology',
-    description: 'Dialysis centers require intelligent management of clinical care quality and operational efficiency. Our AI integrates with nephrology workflows to assist treatment teams with dialysis plan management, interdisciplinary care coordination, and quality reporting for improvement initiatives.',
-    highlight: 'Interdisciplinary care plans & QI reporting'
-  },
-  {
-    id: 'cardiology',
-    icon: Heart,
-    label: 'Cardiovascular',
-    title: 'Cardiology',
-    description: 'Cardiology centers rely on structured reporting across invasive and non-invasive procedures. Our cognitive layer standardizes cardiology report generation, improving continuity of care and enabling robust downstream analytics directly within cardiovascular information systems.',
-    highlight: 'Structured cardiology report standardization'
-  },
-  {
-    id: 'oncology',
-    icon: Microscope,
-    label: 'Cancer Care',
-    title: 'Oncology',
-    // cspell:ignore AJCC
-    description: 'Cancer centers need airtight protocol management for chemotherapy, radiation tracking, and national registry submissions including AJCC. Our AI automates oncology-specific ordering workflows, protocol adherence tracking, and data submission pipelines to reduce clinician burden.',
-    highlight: 'Chemotherapy protocols & registry submissions'
+    id: 'research-acceleration',
+    image: 'https://images.unsplash.com/photo-1532187875605-1ef6c237bbba?auto=format&fit=crop&q=80&w=800',
+    category: 'Clinical Research',
+    title: 'Accelerated Evidence-Based Research',
+    description: 'Scan vast repositories of clinical trials and internal datasets to accelerate drug discovery and treatment optimization while maintaining a rigorous audit trail.'
   }
+]
+
+const SECURITY_FEATURES = [
+  { icon: Lock, title: 'Air-Gapped Privacy', description: 'Deploy fully offline within your hospital network.' },
+  { icon: Eye, title: 'Full Auditability', description: 'Trace every AI-generated insight back to its source.' },
+  { icon: Server, title: 'Hybrid Deployment', description: 'Flexible hosting: On-premise, VPC, or secure cloud.' },
+  { icon: RefreshCw, title: 'Active Learning', description: 'Models that adapt to your institution\'s specific protocols.' },
+  { icon: Settings, title: 'Workflow Integration', description: 'Custom APIs for Epic, Cerner, and specialized EHRs.' }
 ]
 
 export default function HealthcareIntelligencePage() {
   return (
-    <>
+    <div style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <SEO 
-        title="Healthcare Intelligence & EHR Co-Pilots | Single Core Labs"
-        description="FHIR/HL7-compliant clinical intelligence layers and Epic-native co-pilots fine-tuned for high-stakes clinical workflows."
-        keywords="healthcare AI, EHR co-pilots, clinical intelligence layer, Epic-native integration"
+        title="Healthcare Intelligence & EHR-Native AI | Single Core Labs"
+        description="Deploy secure, FHIR/HL7-compliant clinical intelligence layers that transform raw medical data into actionable insights directly within your EHR."
+        keywords="healthcare AI, EHR integration, clinical decision support, HIPAA compliant AI, medical agents"
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', overflow: 'hidden', paddingBottom: '120px' }}>
-        {/* Parallax Background Orb */}
-        <div style={{ position: 'relative', width: '100%' }}>
-          <ParallaxLayer
-            speed={-0.15}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: 0,
-              pointerEvents: 'none',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: '15%',
-                right: '10%',
-                width: 'clamp(300px, 45vw, 600px)',
-                height: 'clamp(300px, 45vw, 600px)',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(0,137,123,0.06) 0%, transparent 70%)',
-                filter: 'blur(60px)',
-              }}
-            />
-          </ParallaxLayer>
-        </div>
-
+      <main style={{ minHeight: '100vh', overflow: 'hidden' }}>
+        
         {/* Hero Section */}
         <section
-          className="container-editorial"
           style={{
-            paddingTop: 'clamp(120px, 16vh, 180px)',
-            paddingBottom: 'clamp(48px, 6vh, 80px)',
             position: 'relative',
-            zIndex: 1,
+            paddingTop: 'clamp(140px, 20vh, 220px)',
+            paddingBottom: 'clamp(80px, 12vh, 120px)',
+            backgroundImage: 'linear-gradient(rgba(250, 250, 250, 0.88), rgba(250, 250, 250, 0.96)), url("https://images.unsplash.com/photo-1576091160550-2173dad99901?auto=format&fit=crop&q=80&w=2000")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center'
           }}
         >
-          <div style={{ maxWidth: '820px' }}>
+          <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
             <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Specialized Verticals</p>
+              <p className="text-eyebrow" style={{ marginBottom: '24px' }}>Industry / Healthcare Intelligence</p>
             </RevealText>
-            <RevealText delay={1}>
-              <h1 className="text-display" style={{ marginBottom: '28px' }}>
-                Clinical intelligence.
-                <br />
-                Integrated <span className="text-italic-serif">directly inside the EMR.</span>
+            <RevealText delay={0.2}>
+              <h1 className="text-hero" style={{ marginBottom: '32px', maxWidth: '1000px', marginInline: 'auto' }}>
+                Clinical intelligence. <span className="text-italic-serif">Integrated by design.</span>
               </h1>
             </RevealText>
-            <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '600px' }}>
-                We build secure, FHIR/HL7-compliant cognitive layers that sit on top of record systems like Epic.
-                Our agents turn raw, unstructured clinical data into immediate, explainable reasoning to support
-                care teams and drastically cut down on charting overhead.
+            <RevealText delay={0.4}>
+              <p className="text-body" style={{ maxWidth: '750px', marginInline: 'auto', fontSize: 'clamp(18px, 1.4vw, 22px)', color: 'var(--color-text)' }}>
+                We build secure, FHIR-compliant cognitive layers that sit on top of your EHR, turning unstructured clinical data into immediate, explainable reasoning for care teams.
               </p>
             </RevealText>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              style={{ marginTop: '48px', display: 'flex', gap: '16px', justifyContent: 'center' }}
+            >
+              <a href="/contact" className="btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
+                Request a Demo
+                <ArrowRight size={18} />
+              </a>
+              <a href="#use-cases" className="btn-outline" style={{ padding: '16px 32px', fontSize: '16px' }}>
+                View Use Cases
+              </a>
+            </motion.div>
           </div>
         </section>
 
-        {/* Core Pillars */}
-        <section
-          className="container-editorial"
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            paddingBottom: 'clamp(48px, 6vh, 80px)',
-          }}
-        >
-          <div style={{ height: '1px', backgroundColor: 'var(--color-border)', marginBottom: 'clamp(32px, 4vh, 48px)' }} />
+        {/* Core Pillars Section */}
+        <section className="container-editorial" style={{ paddingBlock: 'var(--spacing-section-lg)' }}>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <h2 className="text-display">Intelligence that respects the clinical stakes</h2>
+          </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: 'clamp(24px, 3vw, 40px)',
-            }}
-          >
-            {HEALTHCARE_PILLARS.map((pillar) => {
-              const IconComp = pillar.icon
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+            gap: '60px' 
+          }}>
+            {CORE_BENEFITS.map((benefit) => {
+              const Icon = benefit.icon
               return (
-                <ScrollFade3D key={pillar.id}>
-                  <Card3D intensity={6}>
-                    <div
-                      className="glass-card"
-                      style={{
-                        padding: 'clamp(24px, 3.5vh, 40px)',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <div>
-                        <div style={{
-                          width: '48px',
-                          height: '48px',
-                          borderRadius: '8px',
-                          background: 'rgba(255, 255, 255, 0.8)',
-                          border: '1px solid rgba(0, 137, 123, 0.2)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginBottom: '24px'
-                        }}>
-                          <IconComp size={24} style={{ color: 'var(--color-accent)' }} />
-                        </div>
-                        <h2
-                          style={{
-                            fontFamily: 'var(--font-serif)',
-                            fontSize: 'clamp(20px, 2.5vw, 24px)',
-                            fontWeight: 400,
-                            letterSpacing: '-0.015em',
-                            marginBottom: '16px',
-                            color: 'var(--color-text)',
-                          }}
-                        >
-                          {pillar.title}
-                        </h2>
-                        <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.65, color: 'rgba(26, 26, 26, 0.7)', marginBottom: '24px' }}>
-                          {pillar.description}
-                        </p>
-
-                        <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)', marginBottom: '20px' }} />
-
-                        <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingLeft: 0, listStyle: 'none' }}>
-                          {pillar.features.map((feat, idx) => (
-                            <li key={idx} style={{ display: 'flex', gap: '10px', alignItems: 'start', fontSize: '13px', lineHeight: 1.5, color: 'var(--color-text)' }}>
-                              <Check size={14} style={{ color: 'var(--color-accent)', flexShrink: 0, marginTop: '3px' }} />
-                              <span>{feat}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </Card3D>
-                </ScrollFade3D>
+                <div key={benefit.id} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  <div style={{ 
+                    width: '56px', 
+                    height: '56px', 
+                    borderRadius: '12px', 
+                    backgroundColor: 'var(--color-accent-dim)', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    color: 'var(--color-accent)'
+                  }}>
+                    <Icon size={28} />
+                  </div>
+                  <h3 className="text-editorial" style={{ fontSize: '26px', fontWeight: 500 }}>{benefit.title}</h3>
+                  <p className="text-body">{benefit.description}</p>
+                </div>
               )
             })}
           </div>
         </section>
 
-        {/* ── Standalone Specialties ─────────────────────────────────────────── */}
-        <section
-          style={{
-            padding: 'var(--spacing-section-lg) 0',
-            background: '#F5F5F7',
-            borderTop: '1px solid rgba(255, 255, 255, 0.4)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}
-        >
-          {/* Subtle background ambient light */}
-          <div style={{
-            position: 'absolute', top: '10%', left: '5%',
-            width: '30vw', height: '30vw',
-            background: 'radial-gradient(circle, rgba(186, 230, 253, 0.2) 0%, transparent 70%)',
-            filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none'
-          }} />
+        <HorizontalRule />
 
-          <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-            {/* Header */}
-            <div style={{ marginBottom: 'clamp(40px, 6vh, 72px)' }}>
-              <RevealText>
-                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Standalone Specialties</p>
-              </RevealText>
-              <RevealText delay={1}>
-                <h2
-                  style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontSize: 'clamp(2rem, 4.5vw, 3.6rem)',
-                    fontWeight: 400,
-                    letterSpacing: '-0.025em',
-                    lineHeight: 1.1,
-                    maxWidth: '760px',
-                    marginBottom: '20px',
-                  }}
-                >
-                  Connecting specialty-focused care to the{' '}
-                  <span className="text-italic-serif">intelligence grid.</span>
-                </h2>
-              </RevealText>
-              <RevealText delay={2}>
-                <p className="text-body" style={{ maxWidth: '600px', color: 'var(--color-text-muted)' }}>
-                  Our clinical intelligence layer supports standalone hospitals and clinics across specialties,
-                  ensuring continuity of care and a comprehensive patient record — integrated directly with the
-                  EMR workflows your teams already use.
-                </p>
-              </RevealText>
-            </div>
+        {/* Use Cases Section */}
+        <section id="use-cases" className="container-editorial" style={{ paddingBlock: 'var(--spacing-section-lg)' }}>
+          <div style={{ marginBottom: '64px' }}>
+            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Impact Areas</p>
+            <h2 className="text-display">Modernizing high-stakes care</h2>
+          </div>
 
-            {/* Specialty Cards Grid */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: 'clamp(20px, 2.5vw, 32px)',
-              }}
-            >
-              {STANDALONE_SPECIALTIES.map((spec) => {
-                const IconComp = spec.icon
-                return (
-                  <ScrollFade3D key={spec.id}>
-                    <Card3D intensity={5}>
-                      <div
-                        className="glass-card"
-                        style={{
-                          padding: 'clamp(24px, 3.5vw, 36px)',
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '20px',
-                        }}
-                      >
-                        {/* Top row: icon + label */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <div
-                            style={{
-                              width: '40px',
-                              height: '40px',
-                              borderRadius: '8px',
-                              background: 'rgba(255, 255, 255, 0.8)',
-                              border: '1px solid rgba(0, 137, 123, 0.2)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              flexShrink: 0,
-                            }}
-                          >
-                            <IconComp size={20} style={{ color: 'var(--color-accent)' }} />
-                          </div>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-display)',
-                              fontSize: '10px',
-                              fontWeight: 600,
-                              letterSpacing: '0.12em',
-                              textTransform: 'uppercase',
-                              color: 'var(--color-accent)',
-                            }}
-                          >
-                            {spec.label}
-                          </span>
-                        </div>
-
-                        {/* Title */}
-                        <h3
-                          style={{
-                            fontFamily: 'var(--font-serif)',
-                            fontSize: 'clamp(20px, 2.5vw, 26px)',
-                            fontWeight: 400,
-                            letterSpacing: '-0.015em',
-                            lineHeight: 1.15,
-                            color: 'var(--color-text)',
-                            margin: 0,
-                          }}
-                        >
-                          {spec.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p
-                          style={{
-                            fontFamily: 'var(--font-sans)',
-                            fontSize: '13.5px',
-                            lineHeight: 1.7,
-                            color: 'rgba(26, 26, 26, 0.7)',
-                            margin: 0,
-                            flexGrow: 1,
-                          }}
-                        >
-                          {spec.description}
-                        </p>
-
-                        {/* Divider */}
-                        <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)' }} />
-
-                        {/* Highlight tag + CTA */}
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-display)',
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              letterSpacing: '0.06em',
-                              textTransform: 'uppercase',
-                              color: 'var(--color-text-dim)',
-                              padding: '4px 10px',
-                              border: '1px solid rgba(255, 255, 255, 0.6)',
-                              borderRadius: '4px',
-                              background: 'rgba(255, 255, 255, 0.4)',
-                              backdropFilter: 'blur(4px)',
-                            }}
-                          >
-                            {spec.highlight}
-                          </span>
-                          <a
-                            href="/contact"
-                            style={{
-                              fontFamily: 'var(--font-sans)',
-                              fontSize: '12px',
-                              fontWeight: 600,
-                              color: 'var(--color-accent)',
-                              textDecoration: 'none',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              letterSpacing: '0.01em',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
-                            Explore integration
-                            <ArrowRight size={12} />
-                          </a>
-                        </div>
-                      </div>
-                    </Card3D>
-                  </ScrollFade3D>
-                )
-              })}
-            </div>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', 
+            gap: '32px' 
+          }}>
+            {USE_CASES.map((useCase) => (
+              <ScrollFade3D key={useCase.id}>
+                <Card3D intensity={5}>
+                  <div className="glass-card" style={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ height: '240px', overflow: 'hidden' }}>
+                      <img 
+                        src={useCase.image} 
+                        alt={useCase.title} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                      />
+                    </div>
+                    <div style={{ padding: '32px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <p className="text-label" style={{ marginBottom: '12px', color: 'var(--color-accent)' }}>{useCase.category}</p>
+                      <h3 className="text-editorial" style={{ fontSize: '22px', marginBottom: '16px', lineHeight: 1.3 }}>{useCase.title}</h3>
+                      <p className="text-body" style={{ fontSize: '15px' }}>{useCase.description}</p>
+                    </div>
+                  </div>
+                </Card3D>
+              </ScrollFade3D>
+            ))}
           </div>
         </section>
 
-        {/* Epic System Architecture Block */}
-        <SectionDepth>
-          <section
-            style={{
-              padding: 'var(--spacing-section-lg) 0',
-              background: '#F5F5F7',
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            <div className="container-editorial">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 'clamp(40px, 6vw, 88px)', alignItems: 'center' }}>
-                <div>
-                  <RevealText>
-                    <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Technical Architecture</p>
-                  </RevealText>
-                  <RevealText delay={1}>
-                    <h2 className="text-display" style={{ marginBottom: '24px', fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)' }}>
-                      Connecting systems of record with <span className="text-italic-serif">systems of intelligence.</span>
-                    </h2>
-                  </RevealText>
-                  <RevealText delay={2}>
-                    <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.7, marginBottom: '32px' }}>
-                      EHR databases act as secure data vaults. Our integration orchestrates patient context
-                      and runs sub-second clinical inference via private models, generating structures that are
-                      injected safely back into EMR records without any external exposure.
-                    </p>
-                  </RevealText>
-                  <RevealText delay={3}>
-                    <a href="/contact" className="btn-primary">
-                      Consult with our team
-                      <ArrowRight size={15} />
-                    </a>
-                  </RevealText>
-                </div>
-
-                <div className="glass-card" style={{
-                  padding: 'clamp(24px, 4vw, 48px)',
-                  background: 'rgba(255, 255, 255, 0.8)',
-                }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--color-accent)', fontWeight: 600, textTransform: 'uppercase', display: 'block', marginBottom: '20px' }}>
-                    SCL Healthcare Integration Protocol
-                  </span>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {[
-                      { step: '01 / Ingestion', desc: 'Secure retrieval of patient history, medical imaging (DICOM) and EMR logs via FHIR/HL7 standard APIs.' },
-                      { step: '02 / Private Inference', desc: 'Models fine-tuned for healthcare analyze unstructured notes to extract clinical insights with clear confidence factors.' },
-                      { step: '03 / Bidirectional Pushes', desc: 'Bidirectional write-back synchronizes clinical notes and triage workflows directly to EMR logs.' }
-                    ].map((stepObj, idx) => (
-                      <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <span style={{ fontFamily: 'var(--font-serif)', fontSize: '15px', color: 'var(--color-text)', fontWeight: 600 }}>
-                          {stepObj.step}
-                        </span>
-                        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', lineHeight: 1.6, color: 'rgba(26, 26, 26, 0.7)', margin: 0 }}>
-                          {stepObj.desc}
-                        </p>
-                        {idx < 2 && <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.4)', marginBlock: '8px' }} />}
+        {/* Deployment Section (Replacing Maestro) */}
+        <section style={{ backgroundColor: 'var(--color-bg-elevated)', paddingBlock: 'var(--spacing-section-lg)' }}>
+          <div className="container-editorial">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '80px', alignItems: 'center' }}>
+              <div>
+                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Deployment Architecture</p>
+                <h2 className="text-display" style={{ marginBottom: '24px' }}>Sovereign AI for Health Systems</h2>
+                <p className="text-body" style={{ marginBottom: '32px', fontSize: '18px' }}>
+                  Unlike generic cloud AI, our infrastructure is built for the specific regulatory and technical requirements of modern health systems. We provide a bridge between legacy record systems and modern agentic intelligence.
+                </p>
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingLeft: 0, listStyle: 'none', marginBottom: '32px' }}>
+                  {[
+                    'On-premise deployment for maximum PHI security',
+                    'Bidirectional FHIR/HL7 data orchestration',
+                    'Custom fine-tuned models for clinical specialties',
+                    'End-to-end observability and clinical audit logs'
+                  ].map((item, idx) => (
+                    <li key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'center', color: 'var(--color-text)' }}>
+                      <div style={{ color: 'var(--color-accent)', display: 'flex' }}>
+                        <Check size={18} strokeWidth={3} />
                       </div>
-                    ))}
+                      <span className="text-body" style={{ color: 'var(--color-text)', fontWeight: 500 }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a href="/contact" className="btn-outline">
+                  Talk to an Infrastructure Expert
+                </a>
+              </div>
+              <div style={{ position: 'relative' }}>
+                <div style={{ 
+                  aspectRatio: '1/1', 
+                  background: 'radial-gradient(circle at center, var(--color-accent-dim) 0%, transparent 70%)',
+                  borderRadius: '50%', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  padding: '40px'
+                }}>
+                  <div className="glass-card" style={{ padding: '40px', textAlign: 'center', width: '100%' }}>
+                    <Server size={48} style={{ color: 'var(--color-accent)', marginInline: 'auto', marginBottom: '20px' }} />
+                    <h3 className="text-editorial" style={{ fontSize: '24px', marginBottom: '12px' }}>Secure Infrastructure</h3>
+                    <p className="text-body" style={{ fontSize: '14px' }}>
+                      Deploying LLMs safely within the hospital network boundary.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-        </SectionDepth>
-
-        {/* Dynamic CTA */}
-        <section className="container-editorial" style={{ paddingTop: 'clamp(48px, 6vh, 80px)', textAlign: 'center' }}>
-          <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
-          <RevealText>
-            <h2 className="text-display" style={{ maxWidth: '720px', marginInline: 'auto', marginBottom: '24px' }}>
-              Architecting secure, clinical workflows for <span className="text-italic-serif">modern healthcare.</span>
-            </h2>
-          </RevealText>
-          <RevealText delay={2}>
-            <p className="text-body" style={{ maxWidth: '520px', marginInline: 'auto', marginBottom: '36px' }}>
-              Learn how our private agentic systems reduce overhead and deliver reliable clinical decision support for major clinics and hospital networks.
-            </p>
-          </RevealText>
-          <RevealText delay={3}>
-            <a href="/contact" className="btn-primary" style={{ display: 'inline-flex', marginInline: 'auto' }}>
-              Schedule a technical demo
-              <ArrowRight size={15} />
-            </a>
-          </RevealText>
+          </div>
         </section>
-      </main>
 
+        {/* Security Section */}
+        <section className="container-editorial" style={{ paddingBlock: 'var(--spacing-section-lg)' }}>
+          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <h2 className="text-display" style={{ marginBottom: '24px' }}>Built for Governance & Compliance</h2>
+            <p className="text-body" style={{ maxWidth: '750px', marginInline: 'auto' }}>
+              We prioritize data integrity and patient privacy above all else. Our systems are engineered to meet the stringent demands of HIPAA, SOC-2, and international healthcare regulations.
+            </p>
+          </div>
+
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '40px' 
+          }}>
+            {SECURITY_FEATURES.map((feature, i) => {
+              const Icon = feature.icon
+              return (
+                <div key={i} style={{ textAlign: 'center' }}>
+                  <div style={{ 
+                    width: '48px', 
+                    height: '48px', 
+                    marginInline: 'auto', 
+                    marginBottom: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--color-accent)'
+                  }}>
+                    <Icon size={32} />
+                  </div>
+                  <h4 className="text-label" style={{ marginBottom: '8px', color: 'var(--color-text)' }}>{feature.title}</h4>
+                  <p className="text-body" style={{ fontSize: '13px', lineHeight: 1.4 }}>{feature.description}</p>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section style={{ paddingBlock: 'var(--spacing-section-lg)', textAlign: 'center' }}>
+          <div className="container-narrow">
+            <h2 className="text-display" style={{ marginBottom: '32px' }}>Modernize your health system with sovereign AI.</h2>
+            <a href="/contact" className="btn-primary" style={{ padding: '18px 40px', fontSize: '18px' }}>
+              Book a Clinical Demo
+              <ArrowRight size={20} />
+            </a>
+          </div>
+        </section>
+
+      </main>
       <Footer />
-    </>
+    </div>
   )
 }
