@@ -31,28 +31,28 @@ const CORE_BENEFITS = [
 const USE_CASES = [
   {
     id: 'diagnostic-reasoning',
-    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    icon: Stethoscope,
     category: 'Diagnostic Support',
     title: 'Real-time Clinical Reasoning',
     description: 'Analyze complex patient histories and lab results to surface critical insights. Our AI provides explainable diagnostic suggestions cross-referenced with the latest medical research.'
   },
   {
     id: 'documentation-automation',
-    image: 'https://images.unsplash.com/photo-1504813184591-01592fd03cfd?auto=format&fit=crop&q=80&w=800',
+    icon: FileText,
     category: 'Clinical Operations',
     title: 'Automated Charting & Documentation',
     description: 'Eliminate the "pajama time" burden. Automatically generate structured clinical notes and summaries from physician-patient interactions and unstructured data.'
   },
   {
     id: 'predictive-outcomes',
-    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800',
+    icon: Activity,
     category: 'Population Health',
     title: 'Predictive Patient Risk Profiling',
     description: 'Identify at-risk patients before complications arise. Monitor longitudinal records to flag potential readmissions, sepsis risks, or chronic disease progression.'
   },
   {
     id: 'research-acceleration',
-    image: 'https://images.unsplash.com/photo-1532187875605-1ef6c237bbba?auto=format&fit=crop&q=80&w=800',
+    icon: Microscope,
     category: 'Clinical Research',
     title: 'Accelerated Evidence-Based Research',
     description: 'Scan vast repositories of clinical trials and internal datasets to accelerate drug discovery and treatment optimization while maintaining a rigorous audit trail.'
@@ -174,28 +174,34 @@ export default function HealthcareIntelligencePage() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', 
             gap: '32px' 
           }}>
-            {USE_CASES.map((useCase) => (
-              <ScrollFade3D key={useCase.id}>
-                <Card3D intensity={5}>
-                  <div className="glass-card" style={{ height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ height: '240px', overflow: 'hidden' }}>
-                      <img 
-                        src={useCase.image} 
-                        alt={useCase.title} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-                        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                      />
+            {USE_CASES.map((useCase) => {
+              const Icon = useCase.icon
+              return (
+                <ScrollFade3D key={useCase.id}>
+                  <Card3D intensity={5}>
+                    <div className="glass-card" style={{ height: '100%', padding: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                      <div style={{ 
+                        width: '56px', 
+                        height: '56px', 
+                        borderRadius: '12px', 
+                        backgroundColor: 'var(--color-bg-surface)', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        color: 'var(--color-accent)'
+                      }}>
+                        <Icon size={28} />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <p className="text-label" style={{ color: 'var(--color-accent)' }}>{useCase.category}</p>
+                        <h3 className="text-editorial" style={{ fontSize: '22px', lineHeight: 1.3 }}>{useCase.title}</h3>
+                        <p className="text-body" style={{ fontSize: '15px' }}>{useCase.description}</p>
+                      </div>
                     </div>
-                    <div style={{ padding: '32px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <p className="text-label" style={{ marginBottom: '12px', color: 'var(--color-accent)' }}>{useCase.category}</p>
-                      <h3 className="text-editorial" style={{ fontSize: '22px', marginBottom: '16px', lineHeight: 1.3 }}>{useCase.title}</h3>
-                      <p className="text-body" style={{ fontSize: '15px' }}>{useCase.description}</p>
-                    </div>
-                  </div>
-                </Card3D>
-              </ScrollFade3D>
-            ))}
+                  </Card3D>
+                </ScrollFade3D>
+              )
+            })}
           </div>
         </section>
 
