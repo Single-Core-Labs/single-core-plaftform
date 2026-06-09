@@ -41,7 +41,7 @@ function Field({ label, id, type = 'text', required, placeholder, value, onChang
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
       <label htmlFor={id} style={{
         fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'rgba(0,0,0,0.45)', letterSpacing: '0.01em',
+        color: 'rgba(0,0,0,0.55)', letterSpacing: '0.01em',
       }}>
         {label}{required && <span style={{ color: '#c0392b' }}> *</span>}
       </label>
@@ -49,7 +49,7 @@ function Field({ label, id, type = 'text', required, placeholder, value, onChang
         id={id} type={type} required={required}
         placeholder={placeholder} value={value} onChange={onChange}
         onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-        style={{ ...baseInput, borderBottomColor: focused ? '#1a1a1a' : 'rgba(0,0,0,0.18)' }}
+        style={{ ...baseInput, borderBottomColor: focused ? 'var(--color-accent)' : 'rgba(0,0,0,0.18)' }}
       />
     </div>
   )
@@ -61,7 +61,7 @@ function SelectField({ label, id, required, value, onChange, children }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
       <label htmlFor={id} style={{
         fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'rgba(0,0,0,0.45)', letterSpacing: '0.01em',
+        color: 'rgba(0,0,0,0.55)', letterSpacing: '0.01em',
       }}>
         {label}{required && <span style={{ color: '#c0392b' }}> *</span>}
       </label>
@@ -71,7 +71,7 @@ function SelectField({ label, id, required, value, onChange, children }) {
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           style={{
             ...baseInput,
-            borderBottomColor: focused ? '#1a1a1a' : 'rgba(0,0,0,0.18)',
+            borderBottomColor: focused ? 'var(--color-accent)' : 'rgba(0,0,0,0.18)',
             paddingRight: '24px', cursor: 'pointer',
           }}
         >
@@ -172,15 +172,19 @@ export default function ContactPage() {
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           minHeight: '100vh',
+          backgroundImage: 'url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
         }}
           className="contact-grid"
         >
           {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
           <div style={{
-            background: 'rgba(255, 255, 255, 0.4)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            borderRight: '1px solid rgba(255, 255, 255, 0.4)',
+            background: 'rgba(250, 250, 250, 0.85)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            borderRight: '1px solid rgba(0, 0, 0, 0.05)',
             padding: 'clamp(100px, 14vh, 160px) clamp(32px, 6vw, 88px) clamp(60px, 8vh, 100px)',
             display: 'flex',
             flexDirection: 'column',
@@ -243,7 +247,7 @@ export default function ContactPage() {
                       fontFamily: 'var(--font-display)',
                       fontSize: '11px',
                       fontWeight: 600,
-                      color: 'var(--color-text-dim)',
+                      color: 'var(--color-accent)',
                       letterSpacing: '0.06em',
                       flexShrink: 0,
                       paddingTop: '2px',
@@ -267,7 +271,9 @@ export default function ContactPage() {
 
           {/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
           <div style={{
-            background: 'var(--color-bg-surface)',
+            background: 'rgba(250, 250, 250, 0.75)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -282,7 +288,8 @@ export default function ContactPage() {
                 width: '100%',
                 maxWidth: '480px',
                 padding: 'clamp(28px, 4vh, 44px) clamp(24px, 3.5vw, 40px)',
-                background: 'rgba(255, 255, 255, 0.85)',
+                background: 'rgba(255, 255, 255, 0.9)',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
               }}
             >
               <h2 style={{
@@ -335,7 +342,7 @@ export default function ContactPage() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                     <label htmlFor="message" style={{
                       fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-                      color: 'rgba(0,0,0,0.45)', letterSpacing: '0.01em',
+                      color: 'rgba(0,0,0,0.55)', letterSpacing: '0.01em',
                     }}>
                       How can our team help you?
                     </label>
@@ -354,7 +361,7 @@ export default function ContactPage() {
                         color: '#1a1a1a',
                         background: 'transparent',
                         border: 'none',
-                        borderBottom: `1px solid ${msgFocused ? '#1a1a1a' : 'rgba(0,0,0,0.18)'}`,
+                        borderBottom: `1px solid ${msgFocused ? 'var(--color-accent)' : 'rgba(0,0,0,0.18)'}`,
                         outline: 'none',
                         resize: 'none',
                         transition: 'border-color 0.2s',
@@ -372,13 +379,13 @@ export default function ContactPage() {
                       checked={form.consent}
                       onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))}
                       required
-                      style={{ marginTop: '3px', accentColor: '#1a1a1a', flexShrink: 0 }}
+                      style={{ marginTop: '3px', accentColor: 'var(--color-accent)', flexShrink: 0 }}
                     />
                     <span style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '11px',
                       lineHeight: 1.6,
-                      color: 'rgba(0,0,0,0.5)',
+                      color: 'rgba(0,0,0,0.6)',
                     }}>
                       I agree to receive communications from Single Core Labs about its products,
                       services, and events, and acknowledge that my information will be used in
@@ -403,7 +410,7 @@ export default function ContactPage() {
                     style={{
                       width: '100%',
                       padding: '14px',
-                      background: loading || !form.consent ? 'rgba(0,0,0,0.35)' : '#1a1a1a',
+                      background: loading || !form.consent ? 'rgba(0,0,0,0.35)' : 'var(--color-text)',
                       color: '#fff',
                       fontFamily: 'var(--font-sans)',
                       fontSize: '14px',
@@ -437,6 +444,7 @@ export default function ContactPage() {
         @media (max-width: 860px) {
           .contact-grid {
             grid-template-columns: 1fr !important;
+            background-attachment: scroll !important;
           }
         }
         @keyframes spin {

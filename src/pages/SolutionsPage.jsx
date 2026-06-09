@@ -5,7 +5,7 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { Plus, Minus, ArrowRight } from 'lucide-react'
+import { Plus, Minus, ArrowRight, Check } from 'lucide-react'
 
 const SOLUTIONS = [
   {
@@ -79,274 +79,206 @@ export default function SolutionsPage() {
   const [openId, setOpenId] = useState(null)
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id))
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        "serviceType": "Enterprise AI Systems Engineering",
-        "provider": {
-          "@type": "Organization",
-          "name": "Single Core Labs"
-        },
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "AI Engineering Services",
-          "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Agentic Workflows" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Private LLM Deployment" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Regulated MLOps Pipelines" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Air-Gapped AI Deployments" } }
-          ]
-        },
-        "description": "Single Core Labs provides enterprise AI systems engineering: custom agentic workflows, private LLM deployments, sovereign AI infrastructure, and regulated MLOps pipelines."
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What AI orchestration platforms exist for enterprise?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Single Core Labs builds custom agentic orchestration platforms for enterprises. Unlike general-purpose SaaS tools, our platforms are purpose-built for regulated industries like healthcare, finance, and insurance."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is sovereign AI infrastructure?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sovereign AI infrastructure means AI systems deployed fully on-premise or in air-gapped environments with no external cloud dependency. Data never leaves your servers. Single Core Labs specialises in building and operating this type of infrastructure for enterprises in regulated sectors."
-            }
-          }
-        ]
-      }
-    ]
-  };
-
   return (
-    <>
+    <div style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
       <SEO 
         title="AI Solutions | Single Core Labs"
         description="Single Core Labs provides custom AI systems engineering: agentic workflows, private LLM deployments, sovereign AI infrastructure, and regulated MLOps pipelines for enterprises."
         keywords="enterprise AI systems engineering, sovereign AI infrastructure, private LLM deployment, agentic workflows, MLOps pipelines, air-gapped AI"
-        schema={schema}
       />
       <Navbar />
 
       <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
-        {/* Hero */}
-        <section className="container-editorial" style={{ paddingTop: 'clamp(120px, 16vh, 180px)', paddingBottom: '48px' }}>
-          <div style={{ maxWidth: '760px' }}>
+        
+        {/* Hero Section - Inspired by AI21 Tech */}
+        <section
+          style={{
+            position: 'relative',
+            paddingTop: 'clamp(140px, 20vh, 220px)',
+            paddingBottom: 'clamp(80px, 12vh, 120px)',
+            background: 'linear-gradient(rgba(250, 250, 250, 0.9), rgba(250, 250, 250, 0.95)), url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center'
+          }}
+        >
+          <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
             <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Our Services</p>
+              <p className="text-eyebrow" style={{ marginBottom: '24px' }}>Our Services</p>
             </RevealText>
-            <RevealText delay={1}>
-              <h1 className="text-display" style={{ marginBottom: '28px' }}>
-                Enterprise AI Engineered
-                <br />
+            <RevealText delay={0.2}>
+              <h1 className="text-hero" style={{ marginBottom: '32px', maxWidth: '1000px', marginInline: 'auto' }}>
+                Enterprise AI Engineered <br />
                 for <span className="text-italic-serif">Precision & Scale.</span>
               </h1>
             </RevealText>
-            <RevealText delay={2}>
-              <div className="text-body" style={{ maxWidth: '600px' }}>
+            <RevealText delay={0.4}>
+              <p className="text-body" style={{ maxWidth: '750px', marginInline: 'auto', fontSize: 'clamp(18px, 1.4vw, 22px)', color: 'var(--color-text)', marginBottom: '48px' }}>
                 Single Core Labs provides the following AI services for enterprises:
-                <ul style={{ paddingLeft: '20px', marginTop: '12px', listStyleType: 'disc' }}>
-                  <li style={{ marginBottom: '8px' }}><strong>Custom Agentic Workflows:</strong> Autonomous orchestration of multi-step enterprise tasks.</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Private & Air-Gapped LLM Deployment:</strong> Sovereign AI with no external cloud dependency.</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Regulated MLOps Pipelines:</strong> SOC-2, HIPAA, and GDPR-compliant model operations.</li>
-                  <li><strong>Industry Verticals:</strong> Purpose-built AI for healthcare, finance, insurance, and scientific research.</li>
-                </ul>
-              </div>
+              </p>
             </RevealText>
+            
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+              gap: '24px',
+              maxWidth: '1200px',
+              marginInline: 'auto',
+              textAlign: 'left'
+            }}>
+              {[
+                { title: 'Custom Agentic Workflows', detail: 'Autonomous orchestration of multi-step enterprise tasks.' },
+                { title: 'Private & Air-Gapped LLM Deployment', detail: 'Sovereign AI with no external cloud dependency.' },
+                { title: 'Regulated MLOps Pipelines', detail: 'SOC-2, HIPAA, and GDPR-compliant model operations.' },
+                { title: 'Industry Verticals', detail: 'Purpose-built AI for healthcare, finance, insurance, and research.' }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + (i * 0.1) }}
+                  className="glass-card" 
+                  style={{ padding: '24px', background: 'rgba(255,255,255,0.6)' }}
+                >
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'start' }}>
+                    <div style={{ color: 'var(--color-accent)', marginTop: '4px' }}>
+                      <Check size={18} strokeWidth={3} />
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '4px' }}>{item.title}</h3>
+                      <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{item.detail}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Accordion */}
-        <section className="container-editorial">
-          <div style={{ height: '1px', backgroundColor: 'var(--color-border-strong)' }} />
+        {/* Services Accordion List */}
+        <section className="container-editorial" style={{ marginTop: '80px' }}>
+          <div style={{ marginBottom: '48px' }}>
+            <h2 className="text-display" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>Service Capabilities</h2>
+            <div style={{ width: '60px', height: '2px', backgroundColor: 'var(--color-accent)', marginTop: '16px' }} />
+          </div>
 
-          {SOLUTIONS.map((solution) => {
-            const isOpen = openId === solution.id
-            return (
-              <div key={solution.id} className="glass-card" style={{ 
-                marginBottom: '20px', 
-                padding: '0 clamp(20px, 4vw, 40px)',
-                background: isOpen ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.45)',
-                transform: 'none' // Disable global hover transform here
-              }}>
-                <button
-                  onClick={() => toggle(solution.id)}
-                  aria-expanded={isOpen}
-                  style={{
-                    width: '100%',
-                    textAlign: 'left',
-                    padding: 'clamp(28px, 4vh, 40px) 0',
-                    cursor: 'pointer',
-                    display: 'grid',
-                    gridTemplateColumns: 'clamp(32px, 5vw, 64px) 1fr auto',
-                    alignItems: 'start',
-                    gap: '24px',
-                    background: 'none',
-                    border: 'none',
-                    outline: 'none',
-                    color: 'inherit',
-                  }}
-                >
-                  <span style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontSize: '14px',
-                    fontStyle: 'italic',
-                    color: isOpen ? 'var(--color-accent)' : 'var(--color-text-dim)',
-                    paddingTop: '6px',
-                    transition: 'color 0.3s',
-                  }}>
-                    {solution.number}
-                  </span>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {SOLUTIONS.map((solution) => {
+              const isOpen = openId === solution.id
+              return (
+                <div key={solution.id} className="glass-card" style={{ 
+                  overflow: 'hidden',
+                  background: isOpen ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.5)',
+                  border: isOpen ? '1px solid var(--color-accent-dim)' : '1px solid var(--color-border)',
+                  transition: 'all 0.3s ease'
+                }}>
+                  <button
+                    onClick={() => toggle(solution.id)}
+                    style={{
+                      width: '100%',
+                      textAlign: 'left',
+                      padding: '32px',
+                      cursor: 'pointer',
+                      display: 'grid',
+                      gridTemplateColumns: '48px 1fr auto',
+                      alignItems: 'center',
+                      gap: '24px',
+                      background: 'none',
+                      border: 'none',
+                      outline: 'none',
+                    }}
+                  >
                     <span style={{
                       fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(1.15rem, 2.5vw, 1.65rem)',
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                      letterSpacing: '-0.015em',
-                      color: isOpen ? 'var(--color-text)' : 'var(--color-text-muted)',
-                      transition: 'color 0.3s',
+                      fontSize: '18px',
+                      fontWeight: 600,
+                      color: isOpen ? 'var(--color-accent)' : 'var(--color-text-dim)',
                     }}>
-                      {solution.label}
+                      {solution.number}
                     </span>
-                    <motion.span
-                      initial={false}
-                      animate={{ opacity: isOpen ? 0 : 0.6, height: isOpen ? 0 : 'auto' }}
-                      transition={{ duration: 0.25 }}
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '13px',
-                        fontStyle: 'italic',
-                        color: 'var(--color-text-dim)',
-                        overflow: 'hidden',
-                        display: 'block',
-                      }}
-                    >
-                      {solution.tagline}
-                    </motion.span>
-                  </div>
 
-                  <div style={{
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '50%',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    border: `1px solid ${isOpen ? 'var(--color-accent)' : 'var(--glass-border)'}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    marginTop: '4px',
-                    transition: 'border-color 0.3s',
-                  }}>
-                    {isOpen ? <Minus size={12} style={{ color: 'var(--color-accent)' }} /> : <Plus size={12} style={{ color: 'var(--color-text-dim)' }} />}
-                  </div>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="content"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      style={{ overflow: 'hidden' }}
-                    >
-                      <div style={{
-                        paddingBottom: '40px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '28px',
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{
+                        fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
+                        fontWeight: 500,
+                        color: 'var(--color-text)',
                       }}>
-                        {solution.capabilities.map((cap, cIdx) => (
-                          <motion.div
-                            key={cIdx}
-                            initial={{ opacity: 0, x: -12 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.35, delay: cIdx * 0.08, ease: 'easeOut' }}
-                            style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}
-                          >
-                            <span style={{
-                              display: 'inline-block',
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              background: 'var(--color-accent-dim)',
-                              border: '1px solid var(--color-accent)',
-                              flexShrink: 0,
-                              marginTop: '6px',
-                            }} />
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                              <span style={{
-                                fontFamily: 'var(--font-sans)',
-                                fontSize: '14px',
-                                fontWeight: 600,
-                                color: 'var(--color-text)',
-                                lineHeight: 1.3,
-                              }}>
-                                {cap.title}
-                              </span>
-                              <span style={{
-                                fontFamily: 'var(--font-sans)',
-                                fontSize: '13px',
-                                color: 'var(--color-text-muted)',
-                                lineHeight: 1.75,
-                              }}>
-                                {cap.detail}
-                              </span>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        {solution.label}
+                      </span>
+                      <span style={{
+                        fontSize: '14px',
+                        color: 'var(--color-text-muted)',
+                        marginTop: '4px'
+                      }}>
+                        {solution.tagline}
+                      </span>
+                    </div>
 
-                <div style={{ height: '1px', backgroundColor: 'var(--color-border)' }} />
-              </div>
-            )
-          })}
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      border: '1px solid var(--color-border)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.3s'
+                    }}>
+                      {isOpen ? <Minus size={14} /> : <Plus size={14} />}
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <div style={{ padding: '0 32px 32px 104px' }}>
+                          <div style={{ 
+                            display: 'grid', 
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
+                            gap: '32px',
+                            borderTop: '1px solid var(--color-border)',
+                            paddingTop: '32px'
+                          }}>
+                            {solution.capabilities.map((cap, i) => (
+                              <div key={i}>
+                                <h4 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: 'var(--color-text)' }}>{cap.title}</h4>
+                                <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>{cap.detail}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
+          </div>
         </section>
 
-        {/* Bottom CTA */}
-        <section className="container-editorial" style={{ paddingTop: 'clamp(48px, 6vh, 80px)' }}>
-          <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
-          <RevealText>
-            <p style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(1.8rem, 4vw, 3rem)',
-              fontWeight: 400,
-              lineHeight: 1.2,
-              letterSpacing: '-0.02em',
-              maxWidth: '700px',
-            }}>
-              Let's architect your next intelligent system,{' '}
-              <span className="text-italic-serif">precisely and securely.</span>
-            </p>
-          </RevealText>
-          <RevealText delay={2}>
-            <a
-              href="/contact"
-              className="link-underline"
-              style={{ marginTop: '40px', display: 'inline-flex', fontSize: '14px', fontWeight: 600 }}
-            >
-              Consult with our engineering team
-              <ArrowRight size={14} />
+        {/* Closing CTA */}
+        <section className="container-editorial" style={{ marginTop: '100px', textAlign: 'center' }}>
+          <div className="glass-card" style={{ padding: '64px', background: 'var(--color-bg-dark)', color: 'white' }}>
+            <h2 className="text-display" style={{ color: 'white', marginBottom: '24px' }}>
+              Let's architect your next intelligent system, <br />
+              precisely and securely.
+            </h2>
+            <a href="/contact" className="btn-primary" style={{ background: 'white', color: 'black' }}>
+              Get Started
+              <ArrowRight size={18} />
             </a>
-          </RevealText>
+          </div>
         </section>
       </main>
-
       <Footer />
-    </>
+    </div>
   )
 }
