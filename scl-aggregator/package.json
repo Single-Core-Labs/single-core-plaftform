@@ -1,0 +1,16 @@
+{
+  "name": "scl-aggregator",
+  "private": true,
+  "workspaces": [
+    "apps/dashboard",
+    "apps/billing"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  }
+}
