@@ -1,0 +1,57 @@
+name: Python CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scl-aggregator/apps/router/**'
+      - 'scl-aggregator/apps/cache/**'
+      - 'scl-aggregator/packages/semantic-cache/**'
+      - '.github/workflows/python-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scl-aggregator/apps/router/**'
+      - 'scl-aggregator/apps/cache/**'
+      - 'scl-aggregator/packages/semantic-cache/**'
+      - '.github/workflows/python-ci.yml'
+
+concurrency:
+  group: python-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-test:
+    name: Python Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Setup Python
+        run: uv python install
+
+      - name: Test Semantic Cache Library
+        working-directory: scl-aggregator/packages/semantic-cache
+        run: |
+          uv sync --dev
+          uv run pytest
+
+      - name: Test Router Service
+        working-directory: scl-aggregator/apps/router
+        run: |
+          uv sync --dev
+          # PYTHONPATH=. is needed because of the router_app rename and local structure
+          PYTHONPATH=. uv run pytest
+
+      - name: Test Cache Service
+        working-directory: scl-aggregator/apps/cache
+        run: |
+          uv sync --dev
+          PYTHONPATH=. uv run pytest
