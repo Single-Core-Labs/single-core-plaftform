@@ -1,4 +1,6 @@
 mod ui;
+mod commands;
+
 use clap::{Parser, Subcommand};
 use std::fs;
 use std::path::PathBuf;
@@ -7,9 +9,9 @@ use directories::ProjectDirs;
 use anyhow::{Context, Result};
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Config {
-    gateway_url: String,
-    api_key: Option<String>,
+pub struct Config {
+    pub gateway_url: String,
+    pub api_key: Option<String>,
 }
 
 impl Default for Config {
@@ -37,6 +39,10 @@ enum Commands {
         model: Option<String>,
         #[arg(short, long)]
         policy: Option<String>,
+        #[arg(long)]
+        no_stream: bool,
+        #[arg(long)]
+        json: bool,
     },
     Bench {
         prompt: String,
@@ -126,17 +132,8 @@ async fn main() -> Result<()> {
                 println!("Config updated.");
             }
         },
-        Commands::Run { prompt, .. } => {
-            ui::print_header("scl run");
-            let spinner = ui::create_spinner("Routing request...");
-            
-            // Simulate work
-            tokio::time::sleep(std::time::Duration::from_secs(2)).await;
-            spinner.finish_and_clear();
-            
-            ui::print_route_card("claude-sonnet-4", "Anthropic", "code", "quality_first", false, "₹0.042");
-            println!("This is a streaming response...");
-            ui::print_footer(1842, 241, "₹0.038", "₹0.019");
+        Commands::Run { prompt, model, policy, no_stream, json } => {
+            commands::run::run_command(&config, prompt, model, policy, no_stream, json).await?;
         }
         Commands::Models => {
             ui::render_table(
