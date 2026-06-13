@@ -72,10 +72,17 @@ The platform follows a distributed, microservices-based architecture optimized f
 - Uses a unified `ChatProvider` trait in Rust.
 - Standardizes input/output formats across OpenAI, Anthropic, and Google.
 
+### SCL Management CLI (`packages/scl-cli`)
+- **Language**: Rust
+- **Role**: Developer interface for platform interaction.
+- **Key Commands**: `run` (streaming), `bench` (comparison), `route` (inspection), `keys` (management), `models` (listing), `cache` (stats), `config` (setup).
+- **Configuration**: Stored at `~/.scl/config.toml`.
+- **Dependencies**: Uses `clap` for parsing, `tokio` for async networking, `reqwest` for API calls, and custom `ui` module for terminal styling.
+
 ---
 
 ## 5. Developer Workflow
-
+...
 ### Prerequisites
 - Rust (Stable)
 - Python 3.11+ (with `uv` installed)
