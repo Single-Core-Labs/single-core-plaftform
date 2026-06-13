@@ -1,3 +1,4 @@
+mod ui;
 use clap::{Parser, Subcommand};
 use std::fs;
 use std::path::PathBuf;
@@ -110,11 +111,12 @@ fn save_config(config: &Config) -> Result<()> {
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
-    let mut config = load_config()?;
+    let config = load_config()?;
 
     match cli.command {
         Commands::Config { action } => match action {
             ConfigAction::Set { key, value } => {
+                let mut config = config;
                 match key.as_str() {
                     "gateway_url" => config.gateway_url = value,
                     "api_key" => config.api_key = Some(value),
@@ -125,7 +127,25 @@ async fn main() -> Result<()> {
             }
         },
         Commands::Run { prompt, .. } => {
-            println!("Sending prompt to {}: {}", config.gateway_url, prompt);
+            ui::print_header("scl run");
+            let spinner = ui::create_spinner("Routing request...");
+            
+            // Simulate work
+            tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+            spinner.finish_and_clear();
+            
+            ui::print_route_card("claude-sonnet-4", "Anthropic", "code", "quality_first", false, "₹0.042");
+            println!("This is a streaming response...");
+            ui::print_footer(1842, 241, "₹0.038", "₹0.019");
+        }
+        Commands::Models => {
+            ui::render_table(
+                vec!["Model".to_string(), "Provider".to_string(), "Price".to_string()],
+                vec![
+                    vec!["gpt-4o".to_string(), "OpenAI".to_string(), "₹0.01".to_string()],
+                    vec!["claude-3-opus".to_string(), "Anthropic".to_string(), "₹0.02".to_string()],
+                ]
+            );
         }
         _ => println!("Command not yet implemented"),
     }

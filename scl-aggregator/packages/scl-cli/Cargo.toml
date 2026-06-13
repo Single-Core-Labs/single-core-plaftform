@@ -9,8 +9,10 @@ tokio = { version = "1.38", features = ["full"] }
 reqwest = { version = "0.12", features = ["json", "stream"] }
 indicatif = "0.17"
 colored = "2.1"
+crossterm = "0.28"
 serde = { version = "1.0", features = ["derive"] }
 toml = "0.8"
 directories = "5.0"
 anyhow = "1.0"
 futures-util = "0.3"
+console = "0.15"
