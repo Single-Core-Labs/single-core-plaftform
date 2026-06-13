@@ -22,7 +22,7 @@ The project consists of two primary domains:
     │   ├── gateway/        # Rust Axum API Gateway
     │   ├── router/         # Python FastAPI Routing Engine
     │   ├── cache/          # Python FastAPI Semantic Cache Service
-    │   ├── dashboard/      # Next.js 15 Web Dashboard
+    │   ├── dashboard/      # Next.js 14 Web Dashboard (App Router, shadcn/ui)
     │   └── billing/        # Node.js Billing Service
     ├── packages/           # Shared Libraries
     │   ├── provider-adapters/ # Rust Provider Traits & Impls

@@ -27,10 +27,10 @@ The platform follows a distributed, microservices-based architecture optimized f
 
 | Service | Language | Port | Primary Responsibility |
 | :--- | :--- | :--- | :--- |
-| **Gateway** | Rust (Axum) | 8000 | Auth, High-speed proxying, Logging |
+| **Gateway** | Rust (Axum) | 8080 | Auth, High-speed proxying, Logging |
 | **Router** | Python (FastAPI) | 8001 | Intent classification, Model selection |
 | **Cache Service** | Python (FastAPI) | 8002 | Semantic vector search (ChromaDB) |
-| **Dashboard** | Next.js 15 | 3000 | Usage analytics and API key management |
+| **Dashboard** | Next.js 14 | 3000 | Usage analytics and API key management |
 | **Billing** | Node.js | 8003 | Stripe/Razorpay integration and credit tracking |
 
 ---
