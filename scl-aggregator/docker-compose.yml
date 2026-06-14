@@ -1,0 +1,137 @@
+version: '3.8'
+
+services:
+  # ── Core Services ──────────────────────────────────────────
+
+  gateway:
+    build:
+      context: ./apps/gateway
+    container_name: scl-gateway
+    ports:
+      - "${GATEWAY_PORT:-8000}:8000"
+    environment:
+      - ROUTER_URL=${ROUTER_URL:-http://router:8001}
+      - CACHE_URL=${CACHE_URL:-http://cache:8002}
+      - BILLING_URL=${BILLING_URL:-http://billing:8003}
+      - INTERNAL_API_SECRET=${INTERNAL_API_SECRET}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - router
+      - cache
+      - billing
+      - redis
+    networks:
+      - scl-network
+
+  router:
+    build:
+      context: ./apps/router
+    container_name: scl-router
+    ports:
+      - "${ROUTER_PORT:-8001}:8001"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - TOGETHER_API_KEY=${TOGETHER_API_KEY}
+    networks:
+      - scl-network
+
+  cache:
+    build:
+      context: ./apps/cache
+    container_name: scl-cache
+    ports:
+      - "${CACHE_PORT:-8002}:8002"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CHROMADB_HOST=chromadb
+      - CHROMADB_PORT=8004
+    depends_on:
+      - redis
+      - chromadb
+    networks:
+      - scl-network
+
+  billing:
+    build:
+      context: ./apps/billing
+    container_name: scl-billing
+    ports:
+      - "${BILLING_PORT:-8003}:8003"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://scl_user:scl_password@postgres:5432/scl_billing?schema=public}
+      - INTERNAL_API_SECRET=${INTERNAL_API_SECRET}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - scl-network
+
+  dashboard:
+    build:
+      context: ./apps/dashboard
+    container_name: scl-dashboard
+    ports:
+      - "${DASHBOARD_PORT:-3000}:3000"
+    environment:
+      - NEXT_PUBLIC_GATEWAY_URL=${NEXT_PUBLIC_GATEWAY_URL:-http://localhost:8000}
+      - NEXT_PUBLIC_BILLING_URL=${NEXT_PUBLIC_BILLING_URL:-http://localhost:8003}
+    networks:
+      - scl-network
+
+  # ── Infrastructure ─────────────────────────────────────────
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: scl-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=scl_user
+      - POSTGRES_PASSWORD=scl_password
+      - POSTGRES_DB=scl_billing
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scl_user -d scl_billing"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scl-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: scl-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes
+    networks:
+      - scl-network
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: scl-chromadb
+    ports:
+      - "8004:8000"
+    volumes:
+      - chromadata:/chroma/chroma
+    networks:
+      - scl-network
+
+networks:
+  scl-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
+  chromadata:

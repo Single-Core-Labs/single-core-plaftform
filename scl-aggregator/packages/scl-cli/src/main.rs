@@ -1,17 +1,24 @@
-mod ui;
 mod commands;
+mod ui;
 
+use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
+use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
-use serde::{Deserialize, Serialize};
 use directories::ProjectDirs;
-use anyhow::{Context, Result};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Config {
     pub gateway_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub api_key: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub default_policy: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub default_model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub output_format: Option<String>,
 }
 
 impl Default for Config {
@@ -19,13 +26,16 @@ impl Default for Config {
         Self {
             gateway_url: "http://localhost:8080".to_string(),
             api_key: None,
+            default_policy: None,
+            default_model: None,
+            output_format: None,
         }
     }
 }
 
 #[derive(Parser)]
 #[command(name = "scl")]
-#[command(about = "SCL CLI for interacting with the SCL Aggregator", long_about = None)]
+#[command(version, about = "SCL CLI — The Single Core Labs Aggregator CLI", long_about = None)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -33,35 +43,43 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Send a prompt to the SCL Aggregator and stream the response
     Run {
+        /// The prompt to send
         prompt: String,
+        /// Override model selection (e.g. claude-sonnet-4, gpt-4o)
         #[arg(short, long)]
         model: Option<String>,
+        /// Routing policy: quality_first, cost_first, latency_first
         #[arg(short, long)]
         policy: Option<String>,
+        /// Wait for full response instead of streaming
         #[arg(long)]
         no_stream: bool,
+        /// Output raw JSON instead of formatted UI
         #[arg(long)]
         json: bool,
     },
-    Bench {
-        prompt: String,
-        #[arg(short, long, value_delimiter = ',')]
-        models: Vec<String>,
-    },
+    /// Benchmark multiple models against the same prompt
+    Bench(commands::bench::BenchArgs),
+    /// Route inspection and debugging
     Route {
         #[command(subcommand)]
         action: RouteAction,
     },
+    /// Manage API keys
     Keys {
         #[command(subcommand)]
         action: KeysAction,
     },
-    Models,
+    /// List available models with pricing and status
+    Models(commands::models::ModelsArgs),
+    /// View semantic cache statistics
     Cache {
         #[command(subcommand)]
         action: CacheAction,
     },
+    /// Manage CLI configuration
     Config {
         #[command(subcommand)]
         action: ConfigAction,
@@ -70,24 +88,51 @@ enum Commands {
 
 #[derive(Subcommand)]
 enum RouteAction {
-    Inspect { prompt: String },
+    /// Inspect how the router would handle a prompt (dry-run)
+    Inspect(commands::inspect::InspectArgs),
 }
 
 #[derive(Subcommand)]
 enum KeysAction {
+    /// List all API keys
     List,
-    Create { #[arg(short, long)] name: String },
-    Revoke { id: String },
+    /// Create a new API key
+    Create {
+        /// A human-readable name for the key
+        #[arg(short, long)]
+        name: String,
+    },
+    /// Revoke an API key by ID
+    Revoke {
+        /// The key ID to revoke
+        id: String,
+    },
 }
 
 #[derive(Subcommand)]
 enum CacheAction {
+    /// Show semantic cache hit rates and savings
     Stats,
 }
 
 #[derive(Subcommand)]
 enum ConfigAction {
-    Set { key: String, value: String },
+    /// Set a configuration value
+    Set {
+        /// Config key (gateway_url, api_key, default_policy, default_model, output_format)
+        key: String,
+        /// Value to set
+        value: String,
+    },
+    /// Get a configuration value
+    Get {
+        /// Config key to read
+        key: String,
+    },
+    /// List all configuration values
+    List,
+    /// Reset configuration to defaults
+    Reset,
 }
 
 fn get_config_path() -> Result<PathBuf> {
@@ -107,44 +152,76 @@ fn load_config() -> Result<Config> {
     Ok(toml::from_str(&content)?)
 }
 
-fn save_config(config: &Config) -> Result<()> {
-    let path = get_config_path()?;
-    let content = toml::to_string(config)?;
-    fs::write(path, content)?;
-    Ok(())
-}
-
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
-    let config = load_config()?;
+    let mut config = load_config()?;
 
     match cli.command {
+        // ── Config ──────────────────────────────────────────
         Commands::Config { action } => match action {
             ConfigAction::Set { key, value } => {
-                let mut config = config;
-                match key.as_str() {
-                    "gateway_url" => config.gateway_url = value,
-                    "api_key" => config.api_key = Some(value),
-                    _ => println!("Unknown config key: {}", key),
-                }
-                save_config(&config)?;
-                println!("Config updated.");
+                commands::config::config_set_command(&mut config, &key, &value)?;
+            }
+            ConfigAction::Get { key } => {
+                commands::config::config_get_command(&config, &key)?;
+            }
+            ConfigAction::List => {
+                commands::config::config_list_command(&config)?;
+            }
+            ConfigAction::Reset => {
+                commands::config::config_reset_command()?;
             }
         },
-        Commands::Run { prompt, model, policy, no_stream, json } => {
+
+        // ── Run ─────────────────────────────────────────────
+        Commands::Run {
+            prompt,
+            model,
+            policy,
+            no_stream,
+            json,
+        } => {
             commands::run::run_command(&config, prompt, model, policy, no_stream, json).await?;
         }
-        Commands::Models => {
-            ui::render_table(
-                vec!["Model".to_string(), "Provider".to_string(), "Price".to_string()],
-                vec![
-                    vec!["gpt-4o".to_string(), "OpenAI".to_string(), "₹0.01".to_string()],
-                    vec!["claude-3-opus".to_string(), "Anthropic".to_string(), "₹0.02".to_string()],
-                ]
-            );
+
+        // ── Bench ───────────────────────────────────────────
+        Commands::Bench(args) => {
+            commands::bench::bench_command(&config, args).await?;
         }
-        _ => println!("Command not yet implemented"),
+
+        // ── Route ───────────────────────────────────────────
+        Commands::Route { action } => match action {
+            RouteAction::Inspect(args) => {
+                commands::inspect::inspect_command(&config, args).await?;
+            }
+        },
+
+        // ── Models ──────────────────────────────────────────
+        Commands::Models(args) => {
+            commands::models::models_command(&config, args).await?;
+        }
+
+        // ── Keys ────────────────────────────────────────────
+        Commands::Keys { action } => match action {
+            KeysAction::List => {
+                commands::keys::keys_list_command(&config).await?;
+            }
+            KeysAction::Create { name } => {
+                commands::keys::keys_create_command(&config, name).await?;
+            }
+            KeysAction::Revoke { id } => {
+                commands::keys::keys_revoke_command(&config, id).await?;
+            }
+        },
+
+        // ── Cache ───────────────────────────────────────────
+        Commands::Cache { action } => match action {
+            CacheAction::Stats => {
+                commands::cache::cache_stats_command(&config).await?;
+            }
+        },
     }
+
     Ok(())
 }
