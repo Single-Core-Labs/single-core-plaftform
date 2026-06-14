@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SCL Aggregator Dashboard",
-  description: "Unified AI Model Aggregator Dashboard",
+  title: "SCL Dashboard",
+  description: "Single Core Labs Aggregator Dashboard",
 };
-
-import { AuthProvider } from "@/components/providers";
 
 export default function RootLayout({
   children,
@@ -19,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cn(inter.className, "antialiased min-h-screen bg-background")}>
-        <AuthProvider>{children}</AuthProvider>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
