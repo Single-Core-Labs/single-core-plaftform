@@ -26,6 +26,7 @@ const ROUTES = [
   '/',
   '/solutions',
   '/solutions/healthcare-intelligence',
+  '/solutions/ai-modernization',
   '/enterprise',
   '/contact',
   '/case-studies',

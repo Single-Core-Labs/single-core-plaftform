@@ -3,10 +3,26 @@ import { motion } from 'framer-motion'
 import { fadeUp, staggerContainer } from '@/lib/animations'
 import { Link } from 'react-router-dom'
 import AIAgentWidget from '@/components/AIAgentWidget'
+import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
+import SEO from '@/components/SEO'
 
 export default function AIModernizationPage() {
   return (
-    <section className="container-editorial py-12">
+    <>
+      <SEO 
+        title="AI-Led Modernization | Single Core Labs"
+        description="Rebuild your legacy systems using AI-guided specification and controlled modernization."
+      />
+      <Navbar />
+      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
+        <section 
+          className="container-editorial"
+          style={{
+            paddingTop: 'clamp(120px, 16vh, 180px)',
+            paddingBottom: 'clamp(48px, 6vh, 80px)',
+          }}
+        >
       <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="space-y-8">
         {/* Hero */}
         <motion.h1 variants={fadeUp} className="text-hero">
@@ -56,9 +72,12 @@ export default function AIModernizationPage() {
           </Link>
         </motion.div>
       </motion.div>
+      </section>
 
-      {/* Chat widget – simple mock implementation */}
+      {/* Chat widget */}
       <AIAgentWidget />
-    </section>
+    </main>
+    <Footer />
+    </>
   )
 }
