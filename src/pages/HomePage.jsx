@@ -18,7 +18,6 @@ import { useRef, useState } from 'react'
 import SEO from '@/components/SEO'
 
 import imgHealthcare from '@/assets/gpu-server/healthcare-tech.png'
-import imgNvidiaDsx from '@/assets/gpu-server/nvidia-dsx.png'
 import imgServerRoom from '@/assets/gpu-server/server-room.png'
 import imgServer3 from '@/assets/gpu-server/server-3.png'
 import imgDefense from '@/assets/gpu-server/defense-server.png'
