@@ -3,6 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import creditsRouter from "./routes/credits";
 import webhooksRouter from "./routes/webhooks";
+import usageRouter from "./routes/usage";
+import keysRouter from "./routes/keys";
 
 // ── App Setup ───────────────────────────────────────────────
 
@@ -32,6 +34,8 @@ app.use(
 
 app.use("/credits", creditsRouter);
 app.use("/webhooks", webhooksRouter);
+app.use("/usage", usageRouter);
+app.use("/keys", keysRouter);
 
 // Health check
 app.get("/health", (_req: Request, res: Response) => {

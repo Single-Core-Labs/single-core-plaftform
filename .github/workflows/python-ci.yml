@@ -37,6 +37,11 @@ jobs:
       - name: Setup Python
         run: uv python install
 
+      - name: Lint and Format Check
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
       - name: Test Semantic Cache Library
         working-directory: scl-aggregator/packages/semantic-cache
         run: |

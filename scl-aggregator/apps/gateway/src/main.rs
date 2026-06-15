@@ -39,6 +39,9 @@ async fn main() {
     let api_routes = Router::new()
         .route("/v1/chat/completions", post(handlers::chat::chat_completions))
         .route("/v1/messages", post(handlers::messages::messages))
+        .route("/v1/models", get(handlers::models::list_models))
+        .route("/v1/keys", get(handlers::keys::list_keys).post(handlers::keys::create_key))
+        .route("/v1/keys/:id", delete(handlers::keys::revoke_key))
         .route_layer(from_fn_with_state(auth_state, auth_middleware));
 
     // Combine routes and add global logging middleware

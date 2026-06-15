@@ -18,8 +18,28 @@ model User {
   updatedAt      DateTime      @updatedAt @map("updated_at")
 
   transactions   Transaction[]
+  apiKeys        ApiKey[]
 
   @@map("users")
+}
+
+// ── User API Keys ───────────────────────────────────────────
+
+model ApiKey {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  key         String   @unique // The actual sk-... value
+  lastUsed    DateTime? @map("last_used")
+  requests    Int      @default(0)
+  spend       Float    @default(0) // Accumulated spend in INR
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([key])
+  @@map("api_keys")
 }
 
 // ── Every credit movement (purchase, deduction, refund) ─────

@@ -1,0 +1,57 @@
+name: Aggregator Node CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scl-aggregator/apps/billing/**'
+      - 'scl-aggregator/apps/dashboard/**'
+      - 'scl-aggregator/package.json'
+      - 'scl-aggregator/turbo.json'
+      - '.github/workflows/aggregator-node-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scl-aggregator/apps/billing/**'
+      - 'scl-aggregator/apps/dashboard/**'
+      - 'scl-aggregator/package.json'
+      - 'scl-aggregator/turbo.json'
+      - '.github/workflows/aggregator-node-ci.yml'
+
+concurrency:
+  group: aggregator-node-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint, Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scl-aggregator
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: scl-aggregator/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx turbo run prisma:generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm run test
