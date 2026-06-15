@@ -12,7 +12,7 @@ import {
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
 import { staggerHero, heroWordReveal } from '@/lib/animations'
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Plus, Cpu, Zap, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import SEO from '@/components/SEO'
