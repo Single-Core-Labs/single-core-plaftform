@@ -10,6 +10,7 @@ const ComingSoonPage = lazy(() => import('./pages/ComingSoonPage'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
+const AIModernizationPage = lazy(() => import('./pages/AIModernizationPage'))
 const HealthcareIntelligencePage = lazy(() => import('./pages/HealthcareIntelligencePage'))
 const AiVsCloudPage = lazy(() => import('./pages/AiVsCloudPage'))
 const IndianAiCloudAlternativePage = lazy(() => import('./pages/IndianAiCloudAlternativePage'))
@@ -66,6 +67,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/solutions" element={<SolutionsPage />} />
           <Route path="/solutions/healthcare-intelligence" element={<HealthcareIntelligencePage />} />
+          <Route path="/solutions/ai-modernization" element={<AIModernizationPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/case-studies" element={<CaseStudiesPage />} />
           <Route path="/blog" element={<BlogPage />} />

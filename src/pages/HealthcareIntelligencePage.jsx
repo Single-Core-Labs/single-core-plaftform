@@ -4,7 +4,7 @@ import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import { ScrollFade3D, Card3D } from '@/components/ScrollScene'
-import { ArrowRight, HeartPulse, Layers, Lock, Check, Search, BarChart3, FileText, FlaskConical, Users, Shield, Eye, Server, RefreshCw, Settings, Activity, Microscope, Stethoscope } from 'lucide-react'
+import { ArrowRight, Layers, Lock, Check, FileText, Shield, Eye, Server, RefreshCw, Settings, Activity, Microscope, Stethoscope } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const CORE_BENEFITS = [

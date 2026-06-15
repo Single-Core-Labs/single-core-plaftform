@@ -10,6 +10,7 @@ export const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/solutions', priority: 0.9, changefreq: 'monthly', comment: 'Services' },
   { path: '/solutions/healthcare-intelligence', priority: 0.9, changefreq: 'monthly' },
+  { path: '/solutions/ai-modernization', priority: 0.85, changefreq: 'monthly' },
   { path: '/enterprise', priority: 0.85, changefreq: 'monthly' },
   { path: '/case-studies', priority: 0.8, changefreq: 'monthly' },
   { path: '/about', priority: 0.8, changefreq: 'monthly' },
