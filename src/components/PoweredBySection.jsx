@@ -1,6 +1,5 @@
 import { RevealText, StaggerReveal } from '@/components/RevealText'
-import { HorizontalRule } from '@/components/HorizontalRule'
-import { ScrollFade3D, Card3D } from '@/components/ScrollScene'
+import { Card3D } from '@/components/ScrollScene'
 import {
   Cpu,
   Check

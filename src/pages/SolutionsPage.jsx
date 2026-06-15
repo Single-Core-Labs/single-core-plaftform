@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
-import { HorizontalRule } from '@/components/HorizontalRule'
 import { Plus, Minus, ArrowRight, Check } from 'lucide-react'
 
 const SOLUTIONS = [

@@ -29,7 +29,7 @@ function ProgressBar() {
 function CopyLink() {
   const [copied, setCopied] = useState(false)
   const handle = async () => {
-    try { await navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch {}
+    try { await navigator.clipboard.writeText(window.location.href); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch (e) { void e; }
   }
   return (
     <button type="button" onClick={handle} className={`blog-copy-link${copied ? ' is-copied' : ''}`} aria-label={copied ? 'Copied' : 'Copy link'}>
@@ -72,7 +72,7 @@ function Eq({ children, n }) {
 function Code({ children }) {
   const [cpd, setCpd] = useState(false)
   const copyCode = async () => {
-    try { await navigator.clipboard.writeText(children); setCpd(true); setTimeout(() => setCpd(false), 2000) } catch {}
+    try { await navigator.clipboard.writeText(children); setCpd(true); setTimeout(() => setCpd(false), 2000) } catch (e) { void e; }
   }
   return (
     <div style={{ margin:'2rem 0', position:'relative' }}>
@@ -110,15 +110,6 @@ function FigWrap({ label, children }) {
       <div style={{ background:'var(--color-bg-elevated)', border:'1px solid #E5E7EB', borderRadius:'12px', padding:'clamp(16px,3vh,24px)', boxShadow:'0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)' }}>
         {children}
       </div>
-    </div>
-  )
-}
-
-function Metric({ value, label }) {
-  return (
-    <div style={{ padding:'clamp(14px,2.5vh,22px)', border:'1px solid var(--color-border)', background:'var(--color-bg)', textAlign:'center' }}>
-      <div style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(1.6rem,3.2vw,2.6rem)', fontWeight:400, letterSpacing:'-0.03em', color:'var(--color-accent)', lineHeight:1, marginBottom:'6px' }}>{value}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:500, letterSpacing:'0.06em', textTransform:'uppercase', color:'var(--color-text-muted)' }}>{label}</div>
     </div>
   )
 }

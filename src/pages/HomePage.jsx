@@ -8,7 +8,6 @@ import { ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
 import {
   ENGINEER_PEDIGREE,
   DIFFERENTIATORS,
-  INDUSTRIES,
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
 import { staggerHero, heroWordReveal } from '@/lib/animations'

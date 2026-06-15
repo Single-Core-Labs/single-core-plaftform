@@ -82,7 +82,7 @@ export default function AIAgentWidget() {
                   return newMsgs;
                 });
               }
-            } catch (e) {
+            } catch (e) { void e;
               // Ignore parse errors for partial chunks
             }
           }
