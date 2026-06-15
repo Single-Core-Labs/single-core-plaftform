@@ -10,6 +10,7 @@
     "test:watch": "jest --watch",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed-packs.ts",
     "prisma:studio": "prisma studio",
     "lint": "eslint src/"
   },
