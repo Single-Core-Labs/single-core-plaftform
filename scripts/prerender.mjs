@@ -72,8 +72,8 @@ async function prerender() {
     const page = await browser.newPage()
     try {
       await page.goto(`${base}${route}`, {
-        waitUntil: 'networkidle0',
-        timeout: 30_000,
+        waitUntil: 'domcontentloaded',
+        timeout: 10_000,
       })
 
       // Extra wait for lazy-loaded / animated content to settle

@@ -4,14 +4,14 @@ import { Footer } from '@/components/Footer'
 import { PoweredBySection } from '@/components/PoweredBySection'
 import { RevealText, StaggerReveal } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
+import { ScrollFade3D, SectionDepth } from '@/components/ScrollScene'
 import {
   ENGINEER_PEDIGREE,
   DIFFERENTIATORS,
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
 import { staggerHero, heroWordReveal } from '@/lib/animations'
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { ArrowRight, Check, Plus } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import SEO from '@/components/SEO'
@@ -128,6 +128,8 @@ function HeroSection() {
     <section
       ref={ref}
       aria-labelledby="hero-heading"
+
+      className="hero-section-bg"
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -136,7 +138,7 @@ function HeroSection() {
         justifyContent: 'center',
         padding: 'clamp(100px, 14vh, 160px) 0 clamp(48px, 6vh, 80px)',
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, rgba(186, 230, 253, 0.1) 0%, rgba(255, 255, 255, 0) 50%, rgba(192, 132, 252, 0.05) 100%)',
+        background: `linear-gradient(to right, rgba(250, 250, 250, 0.98) 0%, rgba(250, 250, 250, 0.94) 40%, rgba(250, 250, 250, 0.85) 70%, rgba(250, 250, 250, 0.15) 100%), url(${imgServerRoom}) center right / cover no-repeat`,
       }}
     >
       {/* Animated glass orbs */}
@@ -170,6 +172,11 @@ function HeroSection() {
           from { transform: translate(0, 0) scale(1); }
           to   { transform: translate(-5%, 4%) scale(1.12); }
         }
+        @media (max-width: 768px) {
+          .hero-section-bg {
+            background: linear-gradient(180deg, rgba(250, 250, 250, 0.98) 0%, rgba(250, 250, 250, 0.92) 100%), url(${imgServerRoom}) center right / cover no-repeat !important;
+          }
+        }
       `}</style>
 
       <motion.div
@@ -184,7 +191,7 @@ function HeroSection() {
         >
           {/* Eyebrow */}
           <motion.p variants={heroWordReveal} className="text-eyebrow">
-            Enterprise AI & Research
+            Sovereign AI Infrastructure
           </motion.p>
 
           {/* Headline */}
@@ -224,7 +231,7 @@ function HeroSection() {
             className="text-body"
             style={{ maxWidth: '560px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
           >
-            Bespoke agentic architectures for enterprises, from data ingestion to air-gapped deployments.
+            Bespoke agentic routing and sovereign GPU clusters, engineered from bare-metal kernels to secure, air-gapped deployments.
           </motion.p>
 
           {/* CTA */}
@@ -759,8 +766,6 @@ function PlatformInfrastructureSection() {
 
 // ─── INDUSTRIES — CAROUSEL ──────────────────────────────────────────────────
 function IndustriesSection() {
-  const [activeIndex, setActiveIndex] = useState(0)
-
   const INDUSTRY_CARDS = [
     { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
     { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
@@ -769,10 +774,18 @@ function IndustriesSection() {
     { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' }
   ]
 
-  const handleNext = () => setActiveIndex((prev) => (prev + 1) % INDUSTRY_CARDS.length)
-  const handlePrev = () => setActiveIndex((prev) => (prev - 1 + INDUSTRY_CARDS.length) % INDUSTRY_CARDS.length)
-
-  const activeData = INDUSTRY_CARDS[activeIndex]
+  const cardStyle = {
+    background: '#FFFFFF',
+    borderRadius: '24px',
+    border: '1px solid var(--color-border)',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.04)',
+    color: 'var(--color-text)',
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+  }
 
   return (
     <section style={{ padding: 'var(--spacing-section) 0', background: '#FFFFFF' }}>
@@ -797,123 +810,111 @@ function IndustriesSection() {
           </RevealText>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 lg:gap-16 items-start">
-
-          {/* Left Navigation Tabs (Vertical) */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px'
-          }}>
-            {INDUSTRY_CARDS.map((industry, idx) => {
-              const isActive = activeIndex === idx
-              return (
-                <button
-                  key={industry.id}
-                  onClick={() => setActiveIndex(idx)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    padding: '16px',
-                    background: isActive ? 'var(--color-bg-elevated)' : 'transparent',
-                    border: '1px solid',
-                    borderColor: isActive ? 'var(--color-border)' : 'transparent',
-                    borderLeft: isActive ? '4px solid var(--color-accent)' : '4px solid transparent',
-                    borderRadius: '16px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    opacity: isActive ? 1 : 0.6,
-                    textAlign: 'left',
-                    boxShadow: isActive ? '0 4px 20px rgba(0,0,0,0.03)' : 'none'
-                  }}
-                  className="hover:opacity-100 hover:bg-black/5"
-                >
-                  <img
-                    src={industry.image}
-                    alt={industry.label}
-                    style={{ width: '56px', height: '56px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
-                  />
-                  <div>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '16px', fontWeight: 600, color: 'var(--color-text)', margin: 0 }}>
-                      {industry.label}
-                    </p>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--color-text-muted)', margin: 0, marginTop: '2px' }}>
-                      {industry.subtitle}
-                    </p>
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Right Main Content Area */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            {/* Large Image */}
-            <Card3D intensity={2} style={{ borderRadius: '24px', overflow: 'hidden' }}>
-              <motion.img
-                key={activeData.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
-                src={activeData.image}
-                alt={activeData.label}
-                style={{ width: '100%', height: 'clamp(300px, 40vh, 450px)', objectFit: 'cover', display: 'block' }}
-              />
-            </Card3D>
-
-            {/* Text and Arrows */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <motion.div
-                key={activeData.id + "-text"}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          {INDUSTRY_CARDS.map((industry) => (
+            <ScrollFade3D key={industry.id} style={{ display: 'flex' }}>
+              <div 
+                style={cardStyle}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-6px)'
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.08)'
+                  e.currentTarget.style.borderColor = 'rgba(0, 105, 92, 0.2)'
+                  const img = e.currentTarget.querySelector('img')
+                  if (img) img.style.transform = 'scale(1.05)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)'
+                  e.currentTarget.style.borderColor = 'var(--color-border)'
+                  const img = e.currentTarget.querySelector('img')
+                  if (img) img.style.transform = 'scale(1)'
+                }}
               >
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: '64px', color: 'var(--color-accent)', lineHeight: 0.8, opacity: 0.2 }}>"</span>
-                  <div>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(18px, 2vw, 24px)', lineHeight: 1.6, color: 'var(--color-text)', margin: 0 }}>
-                      {activeData.desc}
-                    </p>
-                  </div>
+                {/* Image */}
+                <div style={{ position: 'relative', height: '200px', overflow: 'hidden', width: '100%' }}>
+                  <img 
+                    src={industry.image} 
+                    alt={industry.label} 
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover', 
+                      display: 'block', 
+                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)' 
+                    }} 
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 60%)' }} />
                 </div>
-              </motion.div>
 
-              {/* Navigation Arrows & CTA */}
-              <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginTop: '8px' }}>
-                <Link to="/solutions" className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 24px', borderRadius: '30px', fontSize: '14px' }}>
-                  Learn More
-                  <ArrowRight size={14} />
-                </Link>
+                {/* Content */}
+                <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flex: 1, gap: '12px' }}>
+                  <span style={{ 
+                    fontFamily: 'var(--font-display)', 
+                    fontSize: '11px', 
+                    fontWeight: 600, 
+                    letterSpacing: '0.08em', 
+                    textTransform: 'uppercase', 
+                    color: 'var(--color-accent)' 
+                  }}>
+                    {industry.subtitle}
+                  </span>
+                  
+                  <h3 style={{ 
+                    fontFamily: 'var(--font-sans)', 
+                    fontSize: '20px', 
+                    fontWeight: 600, 
+                    color: 'var(--color-text)', 
+                    margin: 0,
+                    letterSpacing: '-0.01em' 
+                  }}>
+                    {industry.label}
+                  </h3>
+                  
+                  <p style={{ 
+                    fontFamily: 'var(--font-sans)', 
+                    fontSize: '14px', 
+                    lineHeight: 1.6, 
+                    color: 'var(--color-text-muted)', 
+                    margin: 0,
+                    marginBottom: '16px' 
+                  }}>
+                    {industry.desc}
+                  </p>
 
-                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginLeft: 'auto' }}>
-                  <button
-                    onClick={handlePrev}
-                    style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'background 0.2s' }}
-                    className="hover:bg-black/5"
+                  <Link 
+                    to="/solutions" 
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '8px', 
+                      fontSize: '14px', 
+                      fontWeight: 500, 
+                      color: 'var(--color-text)', 
+                      textDecoration: 'none', 
+                      marginTop: 'auto',
+                      transition: 'color 0.2s' 
+                    }}
+                    className="hover:text-accent font-sans"
+                    onMouseEnter={e => {
+                      const svg = e.currentTarget.querySelector('svg')
+                      if (svg) svg.style.transform = 'translateX(4px)'
+                    }}
+                    onMouseLeave={e => {
+                      const svg = e.currentTarget.querySelector('svg')
+                      if (svg) svg.style.transform = 'translateX(0)'
+                    }}
                   >
-                    <ChevronLeft size={20} color="var(--color-text)" />
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'background 0.2s' }}
-                    className="hover:bg-black/5"
-                  >
-                    <ChevronRight size={20} color="var(--color-text)" />
-                  </button>
+                    Learn More
+                    <ArrowRight size={14} style={{ transition: 'transform 0.2s' }} />
+                  </Link>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </ScrollFade3D>
+          ))}
 
+
+        </div>
       </div>
-      <style>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   )
 }
@@ -921,32 +922,32 @@ function IndustriesSection() {
 // ─── SOCIAL PROOF ───────────────────────────────────────────────────────────
 function SocialProofSection() {
   return (
-    <section style={{ backgroundColor: '#0B0F19', padding: 'var(--spacing-section-lg) 0' }}>
+    <section style={{ backgroundColor: '#FAFAFA', padding: 'var(--spacing-section-lg) 0' }}>
       <div className="container-editorial">
         <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
           
           <div style={{ order: 0 }}>
             <RevealText>
-              <p style={{ color: '#5B7CFF', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
+              <p style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
                 AI FOR THE ENTERPRISE
               </p>
             </RevealText>
             <RevealText delay={1}>
-              <h2 style={{ color: '#FFFFFF', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
+              <h2 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
                 Full-Stack
                 <br />
-                <span className="text-italic-serif" style={{ color: '#A0AABF' }}>AI Solutions.</span>
+                <span className="text-italic-serif" style={{ color: 'var(--color-text-muted)' }}>AI Solutions.</span>
               </h2>
             </RevealText>
             <RevealText delay={2}>
-              <p style={{ color: '#A0AABF', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
+              <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
                 Outcomes delivered with data, models, agents, and deployment.
                 We don't just wrap APIs. We build systems that actually perform
                 in production.
               </p>
             </RevealText>
             <RevealText delay={3}>
-              <Link to="/solutions" style={{ display: 'inline-flex', padding: '14px 28px', border: '1px solid rgba(255,255,255,0.2)', color: '#FFFFFF', borderRadius: '4px', textDecoration: 'none', fontSize: '15px', transition: 'all 0.2s', fontFamily: 'var(--font-sans)' }} className="hover:border-white hover:bg-white/5">
+              <Link to="/solutions" className="btn-outline">
                 Learn More
               </Link>
             </RevealText>
@@ -964,7 +965,7 @@ function SocialProofSection() {
                     bottom: '0', 
                     left: '0', 
                     width: '1px', 
-                    background: 'rgba(255,255,255,0.15)' 
+                    background: 'var(--color-border)' 
                   }} 
                 />
                 
@@ -977,9 +978,9 @@ function SocialProofSection() {
                           fontFamily: 'var(--font-sans)',
                           fontSize: 'clamp(16px, 1.5vw, 18px)',
                           fontWeight: 400,
-                          color: '#FFFFFF',
+                          color: 'var(--color-text)',
                           paddingBlock: '16px',
-                          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                          borderBottom: '1px solid var(--color-border)',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '16px',
@@ -990,7 +991,7 @@ function SocialProofSection() {
                           width: '6px',
                           height: '6px',
                           borderRadius: '50%',
-                          background: '#5B7CFF',
+                          background: 'var(--color-accent)',
                           flexShrink: 0,
                         }} />
                         {cap}
