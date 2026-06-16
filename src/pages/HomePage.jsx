@@ -250,340 +250,6 @@ function HeroSection() {
   )
 }
 
-// ─── ENTERPRISE GRADE SECTION ────────────────────────────────────────────────
-function EnterpriseGradeSection() {
-  const checkItem = (text) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-      <div style={{
-        width: '20px', height: '20px', borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.8)',
-        border: '1px solid rgba(0, 105, 92, 0.2)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-      }}>
-        <Check size={11} style={{ color: 'var(--color-accent)' }} strokeWidth={3} />
-      </div>
-      <span style={{
-        fontFamily: 'var(--font-sans)', fontSize: '14px',
-        color: 'rgba(26, 26, 26, 0.8)', lineHeight: 1.5,
-        fontWeight: 400
-      }}>{text}</span>
-    </div>
-  )
-
-  const COMPLIANCE_BADGES = [
-    { label: 'SOC 2 Type II', color: '#2563eb' },
-    { label: 'ISO 27001', color: '#16a34a' },
-    { label: 'DPDP Compliant', color: '#dc2626' },
-    { label: 'Role-based access', color: '#9333ea' },
-    { label: 'Full audit trail', color: '#ea580c' },
-    { label: 'Data residency controls', color: '#dc2626' },
-  ]
-
-  const glassCardStyle = {
-    background: 'linear-gradient(135deg, rgba(240, 247, 255, 0.6) 0%, rgba(255, 255, 255, 0.8) 100%)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    border: '1px solid rgba(255, 255, 255, 0.5)',
-    borderRadius: '24px',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)',
-    padding: 'clamp(28px, 4vh, 40px)',
-    display: 'flex',
-    flexDirection: 'column',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-  }
-
-  return (
-    <section id="pipeline" style={{
-      padding: 'var(--spacing-section-lg) 0',
-      background: '#F5F5F7', // Soft neutral gray
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Subtle background ambient light */}
-      <div style={{
-        position: 'absolute', top: '20%', right: '10%',
-        width: '40vw', height: '40vw',
-        background: 'radial-gradient(circle, rgba(186, 230, 253, 0.3) 0%, transparent 70%)',
-        filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none'
-      }} />
-
-      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-        {/* Heading */}
-        <div style={{ textAlign: 'center', marginBottom: 'clamp(48px, 6vh, 72px)' }}>
-          <RevealText>
-            <h2 style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-              fontWeight: 400,
-              letterSpacing: '-0.02em',
-              lineHeight: 1.1,
-              color: 'var(--color-text)',
-              marginBottom: '16px',
-            }}>
-              Enterprise-grade. <span className="text-italic-serif">Out of the box.</span>
-            </h2>
-          </RevealText>
-          <RevealText delay={1}>
-            <p className="text-body" style={{ maxWidth: '520px', margin: '0 auto', color: 'var(--color-text-muted)' }}>
-              Compliance, control, and confidence. Built for the most regulated
-              environments from day one.
-            </p>
-          </RevealText>
-        </div>
-
-        {/* Top two cards */}
-        <ScrollFade3D>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '24px',
-            marginBottom: '24px',
-          }}>
-            {/* Card 1 — Forward deployed */}
-            <div
-              style={glassCardStyle}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.06)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
-              }}
-            >
-              <h3 style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(18px, 1.5vw, 22px)',
-                fontWeight: 600,
-                color: '#1A1A1A',
-                letterSpacing: '-0.02em',
-                marginBottom: '16px',
-              }}>
-                Forward deployed
-              </h3>
-              <p className="text-body" style={{ marginBottom: '28px', fontSize: '15px', color: 'rgba(26, 26, 26, 0.7)' }}>
-                Our engineers work alongside yours — designing agents, integrating systems,
-                and staying until you're live. A true engineering partnership.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: 'auto' }}>
-                {checkItem('Dedicated engineer from day one')}
-                {checkItem('Joint workflow design and build')}
-                {checkItem('Ongoing accuracy optimization')}
-                {checkItem('SLA-backed production support')}
-              </div>
-            </div>
-
-            {/* Card 2 — Deployment flexibility */}
-            <div
-              style={glassCardStyle}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.06)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
-              }}
-            >
-              <h3 style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(18px, 1.5vw, 22px)',
-                fontWeight: 600,
-                color: '#1A1A1A',
-                letterSpacing: '-0.02em',
-                marginBottom: '16px',
-              }}>
-                Deployment flexibility
-              </h3>
-              <p className="text-body" style={{ marginBottom: '28px', fontSize: '15px', color: 'rgba(26, 26, 26, 0.7)' }}>
-                Your AI runs where your data lives. Private cloud, on-premise,
-                hybrid, or fully air-gapped. Your agents, your terms.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: 'auto' }}>
-                {checkItem('Private cloud or hybrid')}
-                {checkItem('Bring your own model')}
-                {checkItem('Vendor-agnostic workflows')}
-                {checkItem('Air-gapped deployment ready')}
-              </div>
-            </div>
-          </div>
-        </ScrollFade3D>
-
-        {/* Bottom card — Security */}
-        <ScrollFade3D>
-          <div
-            style={{
-              ...glassCardStyle,
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 'clamp(24px, 4vw, 48px)',
-              alignItems: 'center',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.06)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)';
-            }}
-          >
-            <div>
-              <h3 style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(18px, 1.5vw, 22px)',
-                fontWeight: 600,
-                color: '#1A1A1A',
-                letterSpacing: '-0.02em',
-                marginBottom: '16px',
-              }}>
-                Security and governance
-              </h3>
-              <p className="text-body" style={{ fontSize: '15px', maxWidth: '440px', color: 'rgba(26, 26, 26, 0.7)' }}>
-                Every action is logged and traceable. Role-based access and
-                data residency are core features, built to meet the strictest
-                risk assessments.
-              </p>
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-              {COMPLIANCE_BADGES.map(badge => (
-                <span key={badge.label} style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 16px',
-                  border: '1px solid rgba(255, 255, 255, 0.8)',
-                  background: 'rgba(255, 255, 255, 0.4)',
-                  backdropFilter: 'blur(4px)',
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: 'var(--color-text)',
-                  letterSpacing: '0.04em',
-                  borderRadius: '12px',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
-                }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: badge.color, flexShrink: 0 }} />
-                  {badge.label}
-                </span>
-              ))}
-            </div>
-          </div>
-        </ScrollFade3D>
-      </div>
-    </section>
-  )
-}
-
-// ─── DIFFERENTIATORS ────────────────────────────────────────────────────────
-function DifferentiatorsSection() {
-  const item1 = DIFFERENTIATORS[0];
-  const item2 = DIFFERENTIATORS[1];
-  const item3 = DIFFERENTIATORS[2];
-
-  const cardStyle = {
-    background: '#FFFFFF',
-    borderRadius: '24px',
-    border: '1px solid var(--color-border)',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.04)',
-    color: 'var(--color-text)',
-    position: 'relative',
-    overflow: 'hidden',
-    display: 'flex'
-  }
-
-  return (
-    <SectionDepth>
-      <section style={{ padding: 'clamp(60px, 10vh, 120px) 0' }}>
-        <div className="container-editorial">
-          
-          <div style={{ textAlign: 'center', marginBottom: 'clamp(60px, 8vh, 100px)' }}>
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Why Single Core Labs</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 className="text-display" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                Convert your proprietary data
-                <br />
-                <span className="text-italic-serif">into intelligent agents.</span>
-              </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '600px', margin: '16px auto 0' }}>
-                Build AI systems that don't just respond. They learn, adapt, and improve with every interaction. Experience enterprise-grade engineering designed to bring your most ambitious ideas from prototype to production securely and reliably.
-              </p>
-            </RevealText>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-            
-            {/* Card 1: Adaptive Agents (Col 1 & 2, Wide) */}
-            <ScrollFade3D style={{ display: 'flex' }} className="lg:col-span-2">
-              <div 
-                className="flex flex-col md:flex-row w-full"
-                style={cardStyle}
-              >
-                <div style={{ flex: '1 1 50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(24px, 4vw, 48px)' }}>
-                  <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '16px' }}>
-                    {item1.headline}
-                  </h3>
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '16px', lineHeight: 1.6 }}>
-                    {item1.description}
-                  </p>
-                </div>
-                <div style={{ flex: '1 1 50%', position: 'relative', minHeight: '250px' }}>
-                  <img src={imgAgenticAi} alt="Adaptive Agents" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              </div>
-            </ScrollFade3D>
-
-            {/* Card 2: Full-Stack (Col 3, Row span 2, Tall) */}
-            <ScrollFade3D style={{ display: 'flex' }} className="lg:col-span-1 lg:row-span-2">
-              <div 
-                className="flex flex-col w-full h-full"
-                style={cardStyle}
-              >
-                 <div style={{ flex: '1 1 auto', position: 'relative', minHeight: '200px' }}>
-                   <img src={imgFullStack} alt="Full Stack AI" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                 </div>
-                 <div style={{ padding: 'clamp(24px, 4vw, 40px)', background: '#FFFFFF' }}>
-                   <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '16px' }}>
-                    {item2.headline}
-                  </h3>
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '16px', lineHeight: 1.6 }}>
-                    {item2.description}
-                  </p>
-                 </div>
-              </div>
-            </ScrollFade3D>
-
-            {/* Card 3: Demanding Workloads (Col 1 & 2, Wide) */}
-            <ScrollFade3D style={{ display: 'flex' }} className="lg:col-span-2">
-              <div 
-                className="flex flex-col md:flex-row-reverse w-full"
-                style={cardStyle}
-              >
-                <div style={{ flex: '1 1 50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(24px, 4vw, 48px)' }}>
-                  <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(20px, 2.5vw, 28px)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '16px' }}>
-                    {item3.headline}
-                  </h3>
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '16px', lineHeight: 1.6 }}>
-                    {item3.description}
-                  </p>
-                </div>
-                <div style={{ flex: '1 1 50%', position: 'relative', minHeight: '250px' }}>
-                  <img src={imgAiWorkload} alt="Demanding Workloads" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-              </div>
-            </ScrollFade3D>
-
-          </div>
-        </div>
-      </section>
-    </SectionDepth>
-  )
-}
-
 // ─── PLATFORM INFRASTRUCTURE ────────────────────────────────────────────────
 function PlatformInfrastructureSection() {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -638,6 +304,7 @@ function PlatformInfrastructureSection() {
                   <img 
                     src={imgServer3} 
                     alt="Bare-Metal Acceleration" 
+                    loading="lazy"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
                   />
                   <div style={{ position: 'absolute', inset: 0, background: isExpanded ? 'linear-gradient(to top, #FFFFFF 0%, transparent 20%)' : 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)', transition: 'background 0.4s ease' }} />
@@ -737,6 +404,7 @@ function PlatformInfrastructureSection() {
                   <img 
                     src={imgServerRoom} 
                     alt="Air-Gapped Server Room" 
+                    loading="lazy"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
                   />
                   
@@ -835,6 +503,7 @@ function IndustriesSection() {
                   <img 
                     src={industry.image} 
                     alt={industry.label} 
+                    loading="lazy"
                     style={{ 
                       width: '100%', 
                       height: '100%', 
@@ -1109,8 +778,6 @@ export default function HomePage() {
         <PlatformInfrastructureSection />
         <IndustriesSection />
         <SocialProofSection />
-        <DifferentiatorsSection />
-        <EnterpriseGradeSection />
         <PoweredBySection />
         <CTASection />
       </main>
@@ -1118,6 +785,3 @@ export default function HomePage() {
     </>
   )
 }
-
-
-

@@ -56,12 +56,6 @@ export const DIFFERENTIATORS = [
     description:
       'Outcomes delivered with data, models, agents, and deployment — from prototype to production.',
   },
-  {
-    id: 'demanding-workloads',
-    headline: 'Built for the most demanding AI workloads.',
-    description:
-      'Engineered for critical systems where operational reliability, security, and precision are non-negotiable.',
-  },
 ]
 
 export const INDUSTRIES = [

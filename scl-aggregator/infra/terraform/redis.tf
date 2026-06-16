@@ -1,3 +1,4 @@
+
 resource "aws_elasticache_subnet_group" "main" {
   name       = "scl-${var.environment}-redis-subnet"
   subnet_ids = module.vpc.private_subnets
