@@ -287,7 +287,7 @@ function PlatformInfrastructureSection() {
             </RevealText>
             <RevealText delay={2}>
               <p className="text-body" style={{ maxWidth: '600px', margin: '16px auto 0', color: 'var(--color-text-muted)' }}>
-                A distributed backend system for intelligent LLM routing, semantic caching, and provider abstraction—running securely on custom GPU kernels.
+                Custom-built GPU clusters engineered for ultra-low latency inference, air-gapped security, and sovereign data compliance—tailored to your enterprise requirements.
               </p>
             </RevealText>
           </div>
@@ -437,7 +437,7 @@ function IndustriesSection() {
   const INDUSTRY_CARDS = [
     { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
     { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
-    { id: 'manufacturing', label: 'Manufacturing', image: imgManufacturing, subtitle: 'Robotics optimization', desc: 'Predictive maintenance and robotics optimization powered by edge inference.' },
+    { id: 'logistics', label: 'Logistics', image: imgManufacturing, subtitle: 'Supply chain intelligence', desc: 'AI-powered route optimization, demand forecasting, and real-time supply chain visibility.' },
     { id: 'healthcare', label: 'Healthcare', image: imgHealthcare, subtitle: 'HIPAA-compliant processing', desc: 'HIPAA-compliant processing for EHR records and multimodal imaging.' },
     { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' }
   ]
