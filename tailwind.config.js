@@ -3,9 +3,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         serif: ['Newsreader', 'Georgia', 'serif'],
-        display: ['Outfit', 'Inter', 'ui-sans-serif', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Sora', 'ui-sans-serif', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       colors: {

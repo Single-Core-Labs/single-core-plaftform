@@ -7,8 +7,8 @@
 @theme {
   /* Font Families */
   --font-serif: 'Newsreader', Georgia, serif;
-  --font-sans:  'Sora', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Outfit', 'Sora', ui-sans-serif, sans-serif;
+  --font-sans:  'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Sora', ui-sans-serif, sans-serif;
   --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
 
   /* Core Palette — Light-first */
