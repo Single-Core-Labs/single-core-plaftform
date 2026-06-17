@@ -22,17 +22,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.agents\skills
 
+# Agent and Skill related
+.agents/
+.gemini/
+skills-lock.json
+
+# Dependencies
 node_modules/
 dist/
+
+# Project specific
 public/sitemap.xml
 .env
 .env.local
 settings.json
-.gitignore
 
-# Ignore skill lock and all markdown files
-skills-lock.json
+# Markdown files
 *.md
 **/*.md
