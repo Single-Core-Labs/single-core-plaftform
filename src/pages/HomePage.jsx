@@ -432,6 +432,137 @@ function PlatformInfrastructureSection() {
   )
 }
 
+// ─── DEPLOYMENT FLEXIBILITY ────────────────────────────────────────────────
+function DeploymentFlexibilitySection() {
+  const deploymentOptions = [
+    {
+      title: 'Managed Infrastructure',
+      subtitle: 'scl',
+      description: 'Fully orchestrated, auto-scaling compute environments designed for immediate operational impact and maximum uptime with zero maintenance overhead.'
+    },
+    {
+      title: 'Sovereign VPC',
+      subtitle: 'Private Cloud',
+      description: 'Enterprise-grade security within your existing perimeter. We manage the complex infrastructure while you maintain absolute data sovereignty.'
+    },
+    {
+      title: 'Air-Gapped Clusters',
+      subtitle: 'On-Premises',
+      description: 'The gold standard for regulated sectors. Full physical isolation and hardware-level control for your most sensitive, mission-critical AI workloads.'
+    }
+  ]
+
+  return (
+    <section style={{ 
+      padding: 'var(--spacing-section-lg) 0', 
+      background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
+      borderTop: '1px solid var(--color-border)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Background accent orbs to enhance glass effect */}
+      <div style={{
+        position: 'absolute',
+        top: '10%',
+        right: '-5%',
+        width: '40vw',
+        height: '40vw',
+        background: 'radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%)',
+        borderRadius: '50%',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '0',
+        left: '10%',
+        width: '30vw',
+        height: '30vw',
+        background: 'radial-gradient(circle, rgba(192, 132, 252, 0.06) 0%, transparent 70%)',
+        borderRadius: '50%',
+        zIndex: 0
+      }} />
+
+      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ marginBottom: 'clamp(48px, 8vh, 80px)' }}>
+          <RevealText>
+            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Universal Deployment</p>
+          </RevealText>
+          <RevealText delay={1}>
+            <h2 className="text-display" style={{ maxWidth: '800px' }}>
+              Built to run anywhere 
+              <br />
+              <span className="text-italic-serif">your business operates.</span>
+            </h2>
+          </RevealText>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          {deploymentOptions.map((option, idx) => (
+            <ScrollFade3D key={idx}>
+              <div style={{ 
+                padding: '40px 32px', 
+                height: '100%', 
+                background: 'rgba(255, 255, 255, 0.55)',
+                backdropFilter: 'blur(16px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+                borderRadius: '32px',
+                border: '1px solid rgba(255, 255, 255, 0.6)',
+                boxShadow: '0 8px 32px 0 rgba(15, 23, 42, 0.04)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}
+              className="hover:translate-y-[-8px] hover:shadow-xl hover:bg-white/70"
+              >
+                <div style={{
+                  width: '40px',
+                  height: '2px',
+                  background: 'var(--color-accent)',
+                  opacity: 0.6,
+                  marginBottom: '8px'
+                }} />
+                
+                <span style={{ 
+                  fontFamily: 'var(--font-display)', 
+                  fontSize: '11px', 
+                  fontWeight: 600, 
+                  letterSpacing: '0.12em', 
+                  textTransform: 'uppercase', 
+                  color: 'var(--color-accent)' 
+                }}>
+                  {option.subtitle}
+                </span>
+                
+                <h3 style={{ 
+                  fontFamily: 'var(--font-sans)', 
+                  fontSize: '24px', 
+                  fontWeight: 600, 
+                  color: 'var(--color-text)', 
+                  margin: 0,
+                  letterSpacing: '-0.02em' 
+                }}>
+                  {option.title}
+                </h3>
+                
+                <p style={{ 
+                  fontFamily: 'var(--font-sans)', 
+                  fontSize: '15px', 
+                  lineHeight: 1.6, 
+                  color: 'var(--color-text-muted)', 
+                  margin: 0 
+                }}>
+                  {option.description}
+                </p>
+              </div>
+            </ScrollFade3D>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── INDUSTRIES — CAROUSEL ──────────────────────────────────────────────────
 function IndustriesSection() {
   const INDUSTRY_CARDS = [
@@ -776,6 +907,7 @@ export default function HomePage() {
         <HeroSection />
         <LogoMarquee />
         <PlatformInfrastructureSection />
+        <DeploymentFlexibilitySection />
         <IndustriesSection />
         <SocialProofSection />
         <PoweredBySection />
