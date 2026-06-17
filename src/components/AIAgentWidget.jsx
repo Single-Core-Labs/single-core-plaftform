@@ -5,7 +5,7 @@ import { MessageSquare, X, Send, Bot, User } from 'lucide-react';
 export default function AIAgentWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hi there! I am the SCL AI Assistant. Ask me anything about our platform or legacy system modernization.' },
+    { role: 'assistant', content: 'Hi there! I am the SCL AI Assistant. Ask me anything about our services or legacy system modernization.' },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);

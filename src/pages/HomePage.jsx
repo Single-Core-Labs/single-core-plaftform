@@ -287,7 +287,7 @@ function PlatformInfrastructureSection() {
             </RevealText>
             <RevealText delay={2}>
               <p className="text-body" style={{ maxWidth: '600px', margin: '16px auto 0', color: 'var(--color-text-muted)' }}>
-                The SCL Aggregator is a distributed backend system for intelligent LLM routing, semantic caching, and provider abstraction—running securely on custom GPU kernels.
+                A distributed backend system for intelligent LLM routing, semantic caching, and provider abstraction—running securely on custom GPU kernels.
               </p>
             </RevealText>
           </div>
