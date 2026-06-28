@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+﻿import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { PoweredBySection } from '@/components/PoweredBySection'
@@ -10,23 +10,63 @@ import {
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
 import { staggerHero, heroWordReveal } from '@/lib/animations'
-import { ArrowRight, Plus, Server, Shield } from 'lucide-react'
+import { ArrowRight, ChevronDown, Server, Shield, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import SEO from '@/components/SEO'
+import { HeroCubeScene } from '@/components/HeroCubeScene'
 
 import imgHealthcare from '@/assets/gpu-server/healthcare-tech.png'
-import imgServerRoom from '@/assets/gpu-server/server-room.png'
-import imgServer3 from '@/assets/gpu-server/server-3.png'
 import imgDefense from '@/assets/gpu-server/defense-server.png'
 import imgFinance from '@/assets/gpu-server/server-1.png'
 import imgTech from '@/assets/gpu-server/server-2.png'
 import imgManufacturing from '@/assets/gpu-server/manufacturing-server.png'
-import imgAgenticAi from '@/assets/gpu-server/agentic-ai.png'
-import imgFullStack from '@/assets/gpu-server/full-stack.png'
-import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
 
-// ─── LOGO MARQUEE (backed by Engineers from…) ───────────────────────────────
+const SOVEREIGN_PILLARS = [
+  {
+    icon: Shield,
+    title: 'Sovereign by design',
+    body: 'Build, deploy, and run AI with full control—on-premise, private cloud, or fully air-gapped environments.',
+  },
+  {
+    icon: Server,
+    title: 'Bare-metal performance',
+    body: 'Frontier-class inference on custom GPU clusters, engineered for ultra-low latency and production reliability.',
+  },
+  {
+    icon: Users,
+    title: 'Human at the core',
+    body: 'Forward-deployed engineers work alongside your teams until agents and pipelines are live in production.',
+  },
+]
+
+const DEPLOYMENT_OPTIONS = [
+  {
+    title: 'Managed Infrastructure',
+    subtitle: 'SCL Cloud',
+    description: 'Fully orchestrated, auto-scaling compute with the fastest path to production and zero maintenance overhead.',
+  },
+  {
+    title: 'Sovereign VPC',
+    subtitle: 'Private Cloud',
+    description: 'Enterprise security within your perimeter. We manage infrastructure while you keep data sovereignty.',
+  },
+  {
+    title: 'Air-Gapped Clusters',
+    subtitle: 'On-Premises',
+    description: 'Physical isolation and hardware-level control for regulated, mission-critical AI workloads.',
+  },
+]
+
+const INDUSTRY_CARDS = [
+  { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
+  { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
+  { id: 'logistics', label: 'Logistics', image: imgManufacturing, subtitle: 'Supply chain intelligence', desc: 'AI-powered route optimization, demand forecasting, and real-time supply chain visibility.' },
+  { id: 'healthcare', label: 'Healthcare', image: imgHealthcare, subtitle: 'HIPAA-compliant processing', desc: 'HIPAA-compliant processing for EHR records and multimodal imaging.' },
+  { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' },
+]
+
+// â”€â”€â”€ LOGO MARQUEE (backed by Engineers fromâ€¦) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function LogoMarquee() {
     const logos = [
       ...ENGINEER_PEDIGREE,
@@ -37,12 +77,13 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
 
     return (
       <section
+        className="logo-marquee"
         style={{
           borderTop: '1px solid var(--color-border)',
           borderBottom: '1px solid var(--color-border)',
           overflow: 'hidden',
           padding: 'var(--spacing-section) 0',
-          background: 'var(--color-bg-elevated)',
+          background: 'var(--color-bg)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -68,7 +109,7 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
                 whiteSpace: 'nowrap',
               }}
             >
-              backed by Engineers from
+              Enterprises build with SCL
             </span>
           </div>
 
@@ -115,543 +156,205 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
     )
   }
 
-// ─── HERO ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function HeroSection() {
-    const line1 = ['AI', 'at', 'scale.']
-    const line2 = ['Without', 'the', 'chaos.']
     const ref = useRef(null)
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-    const heroY = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '18%']), { stiffness: 60, damping: 20 })
-    const heroOpacity = useSpring(useTransform(scrollYProgress, [0, 0.6], [1, 0]), { stiffness: 60, damping: 20 })
+    const contentY = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '12%']), { stiffness: 60, damping: 20 })
+    const contentOpacity = useSpring(useTransform(scrollYProgress, [0, 0.5], [1, 0]), { stiffness: 60, damping: 20 })
 
     return (
       <section
         ref={ref}
         aria-labelledby="hero-heading"
-        className="hero-section-bg"
-        style={{
-          position: 'relative',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: 'clamp(100px, 14vh, 160px) 0 clamp(48px, 6vh, 80px)',
-          overflow: 'hidden',
-          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(${imgServerRoom}) center / cover no-repeat`,
-        }}
+        className="hero-v2"
       >
-        {/* Removed animated glass orbs for cleaner look */}
+        <div className="hero-v2__bg" aria-hidden="true" />
 
         <motion.div
-          className="container-editorial"
-          style={{ position: 'relative', zIndex: 1, y: heroY, opacity: heroOpacity }}
+          className="container-editorial hero-v2__grid"
+          style={{ y: contentY, opacity: contentOpacity }}
         >
           <motion.div
+            className="hero-v2__content"
             variants={staggerHero}
             initial="hidden"
             animate="visible"
-            style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
           >
-            {/* Eyebrow */}
-            <motion.p variants={heroWordReveal} className="text-eyebrow">
-              Sovereign AI Infrastructure
+            <motion.p variants={heroWordReveal} className="hero-v2__eyebrow">
+              India's Sovereign AI Platform
             </motion.p>
 
-            {/* Headline */}
-            <h1
+            <motion.h1
               id="hero-heading"
-              className="text-hero"
-              aria-label="AI at scale. Without the chaos."
-              style={{ maxWidth: '1000px' }}
-            >
-              <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
-                {line1.map((word, i) => (
-                  <motion.span key={`a-${i}`} variants={heroWordReveal} style={{ display: 'inline-block' }}>
-                    {word}
-                  </motion.span>
-                ))}
-              </span>
-              <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
-                {line2.map((word, i) => (
-                  <motion.span
-                    key={`b-${i}`}
-                    variants={heroWordReveal}
-                    style={{
-                      display: 'inline-block',
-                      fontStyle: 'italic',
-                      color: 'var(--color-text-muted)',
-                    }}
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </span>
-            </h1>
-
-            {/* Subtext */}
-            <motion.p
               variants={heroWordReveal}
-              className="text-body"
-              style={{ maxWidth: '560px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
+              className="hero-v2__headline"
             >
-              Bespoke agentic routing and sovereign GPU clusters, engineered from bare-metal kernels to secure, air-gapped deployments.
+              AI at scale.{' '}
+              <em>Without the chaos.</em>
+            </motion.h1>
+
+            <motion.p variants={heroWordReveal} className="hero-v2__subtext">
+              Built on sovereign compute. Powered by frontier-class models.
+              Engineered from bare-metal kernels to secure, air-gapped deployments.
             </motion.p>
 
-            {/* CTA */}
-            <motion.div variants={heroWordReveal} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <motion.div variants={heroWordReveal} className="hero-v2__actions">
               <Link to="/contact" className="btn-primary">
                 Book a Demo
                 <ArrowRight size={15} />
               </Link>
-              <a href="#pipeline" className="btn-outline">
-                Explore Platform
-              </a>
+              <Link to="/contact" className="btn-glass">
+                Contact Us
+              </Link>
             </motion.div>
           </motion.div>
-        </motion.div>
-      </section>
-    )
-  }
-        @keyframes heroOrb2 {
-          from { transform: translate(0, 0) scale(1); }
-          to   { transform: translate(-5%, 4%) scale(1.12); }
-        }
-        @media (max-width: 768px) {
-          .hero-section-bg {
-            background: linear-gradient(180deg, rgba(250, 250, 250, 0.98) 0%, rgba(250, 250, 250, 0.92) 100%), url(${imgServerRoom}) center right / cover no-repeat !important;
-          }
-        }
-      `}</style>
 
-      <motion.div
-        className="container-editorial"
-        style={{ position: 'relative', zIndex: 1, y: heroY, opacity: heroOpacity }}
-      >
-        <motion.div
-          variants={staggerHero}
-          initial="hidden"
-          animate="visible"
-          style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
-        >
-          {/* Eyebrow */}
-          <motion.p variants={heroWordReveal} className="text-eyebrow">
-            Sovereign AI Infrastructure
-          </motion.p>
-
-          {/* Headline */}
-          <h1
-            id="hero-heading"
-            className="text-hero"
-            aria-label="AI at scale. Without the chaos."
-            style={{ maxWidth: '1000px' }}
+          <motion.div
+            className="hero-v2__visual"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
-              {line1.map((word, i) => (
-                <motion.span key={`a-${i}`} variants={heroWordReveal} style={{ display: 'inline-block' }}>
-                  {word}
-                </motion.span>
-              ))}
-            </span>
-            <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
-              {line2.map((word, i) => (
-                <motion.span
-                  key={`b-${i}`}
-                  variants={heroWordReveal}
-                  style={{
-                    display: 'inline-block',
-                    fontStyle: 'italic',
-                    color: 'var(--color-text-muted)',
-                  }}
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </span>
-          </h1>
-
-          {/* Subtext */}
-          <motion.p
-            variants={heroWordReveal}
-            className="text-body"
-            style={{ maxWidth: '560px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
-          >
-            Bespoke agentic routing and sovereign GPU clusters, engineered from bare-metal kernels to secure, air-gapped deployments.
-          </motion.p>
-
-          {/* CTA */}
-          <motion.div variants={heroWordReveal} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <Link to="/contact" className="btn-primary">
-              Book a Demo
-              <ArrowRight size={15} />
-            </Link>
-            <a href="#pipeline" className="btn-outline">
-              Explore Platform
-            </a>
+            <HeroCubeScene />
           </motion.div>
         </motion.div>
-      </motion.div>
-    </section>
-  )
-}
 
-// ─── PLATFORM INFRASTRUCTURE ────────────────────────────────────────────────
-  function PlatformInfrastructureSection() {
+        <a href="#pipeline" className="hero-v2__scroll" aria-label="Scroll to explore">
+          <ChevronDown size={18} strokeWidth={1.5} />
+        </a>
+      </section>
+    )
+  }
+
+// â”€â”€â”€ PLATFORM INFRASTRUCTURE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  function SovereignPillarsSection() {
     return (
-      <section 
-        style={{ 
-          padding: 'var(--spacing-section-lg) 0', 
-          background: 'var(--color-bg)' 
-        }}
-      >
-        <div className="container-editorial">
-          <div style={{ marginBottom: 'clamp(48px, 6vh, 64px)', textAlign: 'center' }}>
+      <section className="home-section home-section--mesh">
+        <div className="container-editorial home-section__inner">
+          <div className="home-section-header">
             <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Sovereign GPU Infrastructure</p>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>The Platform Enterprises Build On</p>
             </RevealText>
             <RevealText delay={1}>
-              <h2 className="text-display" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                High-performance compute.
+              <h2 className="text-display">
+                Powering sovereign
                 <br />
-                <span className="text-italic-serif">Purpose-built for your industry.</span>
+                <span className="text-muted-line">AI-first infrastructure.</span>
               </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '600px', margin: '16px auto 0', color: 'var(--color-text-muted)' }}>
-                Custom-built GPU clusters engineered for ultra-low latency inference, air-gapped security, and sovereign data compliance—tailored to your enterprise requirements.
-              </p>
             </RevealText>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
-            {/* Left Card: Bare-Metal Acceleration */}
-            <div className="glass-card" style={{ padding: '24px' }}>
-              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                <Server size={48} stroke={2} color="var(--color-accent)" />
-              </div>
-              <h3 style={{ 
-                fontFamily: 'var(--font-sans)', 
-                fontSize: 'clamp(24px, 2.5vw, 32px)', 
-                fontWeight: 600, 
-                letterSpacing: '-0.02em', 
-                margin: 0, 
-                marginBottom: '16px' 
-              }}>
-                Bare-Metal Acceleration
-              </h3>
-              <p style={{ 
-                color: 'var(--color-text-muted)', 
-                fontSize: '16px', 
-                lineHeight: 1.6, 
-                marginBottom: '24px' 
-              }}>
-                Direct access to ultra-low latency inference, bypassing slow high-level wrappers for mission-critical AI routing and semantic vector search.
-              </p>
-              <Link to="/solutions" className="btn-outline">
-                Learn more
-                <ArrowRight size={14} style={{ marginLeft: '8px', transition: 'transform 0.2s' }} />
-              </Link>
-            </div>
-
-            {/* Right Card: Air-Gapped Deployments */}
-            <div className="glass-card" style={{ padding: '24px' }}>
-              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                <Shield size={48} stroke={2} color="var(--color-accent)" />
-              </div>
-              <h3 style={{ 
-                fontFamily: 'var(--font-sans)', 
-                fontSize: 'clamp(24px, 2.5vw, 32px)', 
-                fontWeight: 600, 
-                letterSpacing: '-0.02em', 
-                margin: 0, 
-                marginBottom: '16px' 
-              }}>
-                Air-Gapped Deployments
-              </h3>
-              <p style={{ 
-                color: 'var(--color-text-muted)', 
-                fontSize: '16px', 
-                lineHeight: 1.6, 
-                marginBottom: '24px' 
-              }}>
-                Fully sovereign data centers and on-premise GPU clusters ensuring absolute privacy for your most sensitive enterprise workloads.
-              </p>
-              <Link to="/solutions" className="btn-outline">
-                Learn more
-                <ArrowRight size={14} style={{ marginLeft: '8px', transition: 'transform 0.2s' }} />
-              </Link>
-            </div>
+          <div className="home-card-grid home-card-grid--3">
+            {SOVEREIGN_PILLARS.map((pillar) => {
+              const Icon = pillar.icon
+              return (
+                <ScrollFade3D key={pillar.title}>
+                  <div className="glass-card glass-card--pad glass-card--feature">
+                    <div className="glass-card__icon">
+                      <Icon size={22} color="var(--color-accent)" strokeWidth={1.75} />
+                    </div>
+                    <h3 className="glass-card__title">{pillar.title}</h3>
+                    <p className="glass-card__body">{pillar.body}</p>
+                  </div>
+                </ScrollFade3D>
+              )
+            })}
           </div>
         </div>
       </section>
     )
   }
 
-  const collapsedHeight = 'clamp(180px, 22vh, 240px)'
-  const expandedImageHeight = 'clamp(250px, 30vh, 320px)'
-
-  return (
-    <SectionDepth>
-      <section style={{ padding: 'var(--spacing-section-lg) 0', background: '#FAFAFA' }}>
-        <div className="container-editorial">
-          <div style={{ marginBottom: 'clamp(48px, 6vh, 64px)', textAlign: 'center' }}>
+  function PlatformInfrastructureSection() {
+    return (
+      <section id="pipeline" className="home-section" style={{ background: 'var(--color-bg)' }}>
+        <div className="container-editorial home-section__inner">
+          <div className="home-section-header">
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Sovereign GPU Infrastructure</p>
             </RevealText>
             <RevealText delay={1}>
-              <h2 className="text-display" style={{ maxWidth: '800px', margin: '0 auto' }}>
+              <h2 className="text-display">
                 High-performance compute.
                 <br />
-                <span className="text-italic-serif">Purpose-built for your industry.</span>
+                <span className="text-muted-line">Purpose-built for your industry.</span>
               </h2>
             </RevealText>
             <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '600px', margin: '16px auto 0', color: 'var(--color-text-muted)' }}>
-                Custom-built GPU clusters engineered for ultra-low latency inference, air-gapped security, and sovereign data compliance—tailored to your enterprise requirements.
+              <p className="text-body" style={{ marginTop: '16px' }}>
+                Custom-built GPU clusters for ultra-low latency inference, air-gapped security,
+                and sovereign data compliance—tailored to your enterprise requirements.
               </p>
             </RevealText>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
-            
-            {/* Left Card: Bare-Metal Acceleration */}
+          <div className="home-card-grid home-card-grid--2">
             <ScrollFade3D>
-              <div 
-                style={{ ...cardStyle, height: '100%' }}
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                <div style={{ position: 'relative', width: '100%', height: isExpanded ? expandedImageHeight : collapsedHeight, transition: 'height 0.4s ease' }}>
-                  <img 
-                    src={imgServer3} 
-                    alt="Bare-Metal Acceleration" 
-                    loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: isExpanded ? 'linear-gradient(to top, #FFFFFF 0%, transparent 20%)' : 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)', transition: 'background 0.4s ease' }} />
-                  
-                  {/* Title overlay when closed */}
-                  <motion.div 
-                    initial={false}
-                    animate={{ opacity: isExpanded ? 0 : 1 }}
-                    style={{ position: 'absolute', bottom: '24px', left: '24px', right: '24px', pointerEvents: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                  >
-                    <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 600, color: '#FFFFFF', margin: 0, letterSpacing: '-0.02em' }}>
-                      Bare-Metal Acceleration
-                    </h3>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      <Plus size={20} />
-                    </div>
-                  </motion.div>
+              <div className="glass-card glass-card--pad glass-card--feature">
+                <div className="glass-card__icon">
+                  <Server size={22} color="var(--color-accent)" strokeWidth={1.75} />
                 </div>
-                
-                <motion.div
-                  initial={false}
-                  animate={{ height: isExpanded ? 'auto' : 0, opacity: isExpanded ? 1 : 0 }}
-                  transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <div style={{ padding: 'clamp(24px, 4vw, 40px)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                    <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 600, letterSpacing: '-0.02em', margin: 0, marginBottom: '16px' }}>
-                      Bare-Metal Acceleration
-                    </h3>
-                    <p style={{ color: 'var(--color-text-muted)', fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
-                      Direct access to ultra-low latency inference, bypassing slow high-level wrappers for mission-critical AI routing and semantic vector search.
-                    </p>
-                    <button 
-                      style={{ 
-                        background: 'var(--color-text)', 
-                        color: '#FFFFFF', 
-                        border: 'none', 
-                        padding: '12px 24px', 
-                        borderRadius: '8px', 
-                        fontWeight: 500, 
-                        fontSize: '14px', 
-                        cursor: 'pointer',
-                        transition: 'opacity 0.2s',
-                        marginTop: 'auto'
-                      }}
-                      className="hover:opacity-90"
-                    >
-                      View details
-                    </button>
-                  </div>
-                </motion.div>
+                <h3 className="glass-card__title">Bare-Metal Acceleration</h3>
+                <p className="glass-card__body">
+                  Direct access to ultra-low latency inference, bypassing slow high-level wrappers
+                  for mission-critical AI routing and semantic vector search.
+                </p>
+                <Link to="/solutions" className="btn-outline" style={{ width: 'fit-content', marginTop: '8px' }}>
+                  Learn more
+                  <ArrowRight size={14} />
+                </Link>
               </div>
             </ScrollFade3D>
 
-            {/* Right Card: Air-Gapped Deployments */}
             <ScrollFade3D>
-              <div 
-                style={{ ...cardStyle, height: '100%' }}
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
-                {/* Expanding text container AT THE TOP */}
-                <motion.div
-                  initial={false}
-                  animate={{ height: isExpanded ? 'auto' : 0, opacity: isExpanded ? 1 : 0 }}
-                  transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <div style={{ padding: 'clamp(24px, 4vw, 40px)', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                    <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 600, letterSpacing: '-0.02em', margin: 0, marginBottom: '16px' }}>
-                      Air-Gapped Deployments
-                    </h3>
-                    <p style={{ color: 'var(--color-text-muted)', fontSize: '16px', lineHeight: 1.6, marginBottom: '32px' }}>
-                      Fully sovereign data centers and on-premise GPU clusters ensuring absolute privacy for your most sensitive enterprise workloads.
-                    </p>
-                    <button 
-                      style={{ 
-                        background: 'var(--color-text)', 
-                        color: '#FFFFFF', 
-                        border: 'none', 
-                        padding: '12px 24px', 
-                        borderRadius: '8px', 
-                        fontWeight: 500, 
-                        fontSize: '14px', 
-                        cursor: 'pointer',
-                        transition: 'opacity 0.2s'
-                      }}
-                      className="hover:opacity-90"
-                    >
-                      View infrastructure
-                    </button>
-                  </div>
-                </motion.div>
-                
-                {/* Image AT THE BOTTOM */}
-                <div style={{ position: 'relative', width: '100%', height: isExpanded ? expandedImageHeight : collapsedHeight, transition: 'height 0.4s ease' }}>
-                  <div style={{ position: 'absolute', inset: 0, background: isExpanded ? 'linear-gradient(to bottom, #FFFFFF 0%, transparent 20%)' : 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)', zIndex: 1, transition: 'background 0.4s ease' }} />
-                  <img 
-                    src={imgServerRoom} 
-                    alt="Air-Gapped Server Room" 
-                    loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
-                  />
-                  
-                  {/* Title overlay when closed */}
-                  <motion.div 
-                    initial={false}
-                    animate={{ opacity: isExpanded ? 0 : 1 }}
-                    style={{ position: 'absolute', bottom: '24px', left: '24px', right: '24px', zIndex: 2, pointerEvents: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                  >
-                    <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(24px, 2.5vw, 32px)', fontWeight: 600, color: '#FFFFFF', margin: 0, letterSpacing: '-0.02em' }}>
-                      Air-Gapped Deployments
-                    </h3>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      <Plus size={20} />
-                    </div>
-                  </motion.div>
+              <div className="glass-card glass-card--pad glass-card--feature">
+                <div className="glass-card__icon">
+                  <Shield size={22} color="var(--color-accent)" strokeWidth={1.75} />
                 </div>
+                <h3 className="glass-card__title">Air-Gapped Deployments</h3>
+                <p className="glass-card__body">
+                  Fully sovereign data centers and on-premise GPU clusters ensuring absolute
+                  privacy for your most sensitive enterprise workloads.
+                </p>
+                <Link to="/solutions" className="btn-outline" style={{ width: 'fit-content', marginTop: '8px' }}>
+                  Learn more
+                  <ArrowRight size={14} />
+                </Link>
               </div>
             </ScrollFade3D>
-
           </div>
         </div>
       </section>
-    </SectionDepth>
-  )
-}
+    )
+  }
 
-// ─── DEPLOYMENT FLEXIBILITY ────────────────────────────────────────────────
   function DeploymentFlexibilitySection() {
-    const deploymentOptions = [
-      {
-        title: 'Managed Infrastructure',
-        subtitle: 'scl',
-        description: 'Fully orchestrated, auto-scaling compute environments designed for immediate operational impact and maximum uptime with zero maintenance overhead.'
-      },
-      {
-        title: 'Sovereign VPC',
-        subtitle: 'Private Cloud',
-        description: 'Enterprise-grade security within your existing perimeter. We manage the complex infrastructure while you maintain absolute data sovereignty.'
-      },
-      {
-        title: 'Air-Gapped Clusters',
-        subtitle: 'On-Premises',
-        description: 'The gold standard for regulated sectors. Full physical isolation and hardware-level control for your most sensitive, mission-critical AI workloads.'
-      }
-    ]
-
     return (
-      <section 
-        style={{ 
-          padding: 'var(--spacing-section-lg) 0', 
-          background: 'var(--color-bg-elevated)' 
-        }}
-      >
-        <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ marginBottom: 'clamp(48px, 8vh, 80px)' }}>
+      <section className="home-section home-section--mesh">
+        <div className="container-editorial home-section__inner">
+          <div className="home-section-header home-section-header--left">
             <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Universal Deployment</p>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Built to run anywhere</p>
             </RevealText>
             <RevealText delay={1}>
-              <h2 className="text-display" style={{ maxWidth: '800px' }}>
-                Built to run anywhere 
+              <h2 className="text-display">
+                Deployment flexibility
                 <br />
-                <span className="text-italic-serif">your business operates.</span>
+                <span className="text-muted-line">your business demands.</span>
               </h2>
             </RevealText>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            {deploymentOptions.map((option, idx) => (
-              <div 
-                key={idx}
-                style={{ 
-                  padding: '32px 24px', 
-                  height: '100%', 
-                  background: 'rgba(255, 255, 255, 0.55)',
-                  backdropFilter: 'blur(16px) saturate(180%)',
-                  WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-                  borderRadius: '24px',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  boxShadow: '0 4px 16px 0 rgba(15, 23, 42, 0.02)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px',
-                  transition: 'all 0.3s ease'
-                }}
-                className="hover:bg-white/70 hover:shadow-md"
-              >
-                <div style={{
-                  width: '32px',
-                  height: '2px',
-                  background: 'var(--color-accent)',
-                  opacity: 0.6,
-                  marginBottom: '8px'
-                }} />
-                
-                <span style={{ 
-                  fontFamily: 'var(--font-display)', 
-                  fontSize: '11px', 
-                  fontWeight: 600, 
-                  letterSpacing: '0.12em', 
-                  textTransform: 'uppercase', 
-                  color: 'var(--color-accent)' 
-                }}>
-                  {option.subtitle}
-                </span>
-                
-                <h3 style={{ 
-                  fontFamily: 'var(--font-sans)', 
-                  fontSize: '20px', 
-                  fontWeight: 600, 
-                  color: 'var(--color-text)', 
-                  margin: 0,
-                  letterSpacing: '-0.02em' 
-                }}>
-                  {option.title}
-                </h3>
-                
-                <p style={{ 
-                  fontFamily: 'var(--font-sans)', 
-                  fontSize: '15px', 
-                  lineHeight: 1.6, 
-                  color: 'var(--color-text-muted)', 
-                  margin: 0 
-                }}>
-                  {option.description}
-                </p>
-              </div>
+          <div className="home-card-grid home-card-grid--3">
+            {DEPLOYMENT_OPTIONS.map((option) => (
+              <ScrollFade3D key={option.title}>
+                <div className="glass-card glass-card--pad glass-card--feature">
+                  <span className="glass-card__label">{option.subtitle}</span>
+                  <h3 className="glass-card__title">{option.title}</h3>
+                  <p className="glass-card__body">{option.description}</p>
+                </div>
+              </ScrollFade3D>
             ))}
           </div>
         </div>
@@ -659,149 +362,51 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
     )
   }
 
-// ─── INDUSTRIES — CAROUSEL ──────────────────────────────────────────────────
   function IndustriesSection() {
-    const INDUSTRY_CARDS = [
-      { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
-      { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
-      { id: 'logistics', label: 'Logistics', image: imgManufacturing, subtitle: 'Supply chain intelligence', desc: 'AI-powered route optimization, demand forecasting, and real-time supply chain visibility.' },
-      { id: 'healthcare', label: 'Healthcare', image: imgHealthcare, subtitle: 'HIPAA-compliant processing', desc: 'HIPAA-compliant processing for EHR records and multimodal imaging.' },
-      { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' }
-    ]
-
-    const cardStyle = {
-      background: '#FFFFFF',
-      borderRadius: '24px',
-      border: '1px solid var(--color-border)',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.04)',
-      color: 'var(--color-text)',
-      overflow: 'hidden',
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-    }
-
     return (
-      <section 
-        style={{ 
-          padding: 'var(--spacing-section) 0', 
-          background: 'var(--color-bg)' 
-        }}
-      >
-        <div className="container-editorial">
-          <div style={{ marginBottom: 'clamp(40px, 6vh, 60px)', textAlign: 'center' }}>
+      <section className="home-section" style={{ background: 'var(--color-bg)' }}>
+        <div className="container-editorial home-section__inner">
+          <div className="home-section-header">
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Industries</p>
             </RevealText>
             <RevealText delay={1}>
-              <h2 className="text-display" style={{ maxWidth: '600px', margin: '0 auto' }}>
+              <h2 className="text-display">
                 AI solutions built for
                 <br />
-                <span className="text-italic-serif">every sector.</span>
+                <span className="text-muted-line">every sector.</span>
               </h2>
             </RevealText>
             <RevealText delay={2}>
-              <p className="text-body" style={{ maxWidth: '560px', margin: '20px auto 0', color: 'var(--color-text-muted)' }}>
-                From healthcare diagnostics to financial compliance, logistics
-                optimization to e-commerce intelligence. Purpose-built AI for
-                regulated, high-stakes sectors.
+              <p className="text-body" style={{ marginTop: '16px' }}>
+                Purpose-built AI for regulated, high-stakes sectors—from healthcare
+                diagnostics to financial compliance and defense operations.
               </p>
             </RevealText>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          <div className="home-card-grid home-card-grid--industries">
             {INDUSTRY_CARDS.map((industry) => (
-              <div 
-                key={industry.id} 
-                style={cardStyle}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-4px)'
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)'
-                  e.currentTarget.style.borderColor = 'rgba(0, 105, 92, 0.15)'
-                  const img = e.currentTarget.querySelector('img')
-                  if (img) img.style.transform = 'scale(1.03)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.04)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  const img = e.currentTarget.querySelector('img')
-                  if (img) img.style.transform = 'scale(1)'
-                }}
-              >
-                {/* Image */}
-                <div style={{ position: 'relative', height: '180px', overflow: 'hidden', width: '100%' }}>
-                  <img 
-                    src={industry.image} 
-                    alt={industry.label} 
-                    loading="lazy"
-                    style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      objectFit: 'cover', 
-                      display: 'block', 
-                      transition: 'transform 0.4s ease' 
-                    }} 
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.1) 0%, transparent 60%)' }} />
+              <ScrollFade3D key={industry.id}>
+                <div className="glass-card industry-glass-card">
+                  <div className="industry-glass-card__image">
+                    <img src={industry.image} alt={industry.label} loading="lazy" />
+                  </div>
+                  <div className="industry-glass-card__content">
+                    <span className="glass-card__label">{industry.subtitle}</span>
+                    <h3 className="glass-card__title">{industry.label}</h3>
+                    <p className="glass-card__body">{industry.desc}</p>
+                    <Link
+                      to="/solutions"
+                      className="link-minimal"
+                      style={{ marginTop: 'auto', fontSize: '13px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                    >
+                      Learn More
+                      <ArrowRight size={12} />
+                    </Link>
+                  </div>
                 </div>
-
-                {/* Content */}
-                <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1, gap: '10px' }}>
-                  <span style={{ 
-                    fontFamily: 'var(--font-display)', 
-                    fontSize: '11px', 
-                    fontWeight: 600, 
-                    letterSpacing: '0.08em', 
-                    textTransform: 'uppercase', 
-                    color: 'var(--color-accent)' 
-                  }}>
-                    {industry.subtitle}
-                  </span>
-                  
-                  <h3 style={{ 
-                    fontFamily: 'var(--font-sans)', 
-                    fontSize: '18px', 
-                    fontWeight: 600, 
-                    color: 'var(--color-text)', 
-                    margin: 0,
-                    letterSpacing: '-0.01em' 
-                  }}>
-                    {industry.label}
-                  </h3>
-                  
-                  <p style={{ 
-                    fontFamily: 'var(--font-sans)', 
-                    fontSize: '14px', 
-                    lineHeight: 1.6, 
-                    color: 'var(--color-text-muted)', 
-                    margin: 0,
-                    marginBottom: '12px' 
-                  }}>
-                    {industry.desc}
-                  </p>
-                  
-                  <Link 
-                    to="/solutions" 
-                    style={{ 
-                      display: 'inline-flex', 
-                      alignItems: 'center', 
-                      gap: '6px', 
-                      fontSize: '13px', 
-                      fontWeight: 500, 
-                      color: 'var(--color-text)', 
-                      textDecoration: 'none', 
-                      marginTop: 'auto',
-                      transition: 'color 0.2s' 
-                    }}
-                    className="hover:text-accent font-sans"
-                  >
-                    Learn More
-                    <ArrowRight size={12} style={{ transition: 'transform 0.2s' }} />
-                  </Link>
-                </div>
-              </div>
+              </ScrollFade3D>
             ))}
           </div>
         </div>
@@ -809,244 +414,59 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
     )
   }
 
-  return (
-    <section style={{ padding: 'var(--spacing-section) 0', background: '#FFFFFF' }}>
-      <div className="container-editorial">
-        <div style={{ marginBottom: 'clamp(40px, 6vh, 60px)', textAlign: 'center' }}>
-          <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Industries</p>
-          </RevealText>
-          <RevealText delay={1}>
-            <h2 className="text-display" style={{ maxWidth: '600px', margin: '0 auto' }}>
-              AI solutions built for
-              <br />
-              <span className="text-italic-serif">every sector.</span>
-            </h2>
-          </RevealText>
-          <RevealText delay={2}>
-            <p className="text-body" style={{ maxWidth: '560px', margin: '20px auto 0', color: 'var(--color-text-muted)' }}>
-              From healthcare diagnostics to financial compliance, logistics
-              optimization to e-commerce intelligence. Purpose-built AI for
-              regulated, high-stakes sectors.
-            </p>
-          </RevealText>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-          {INDUSTRY_CARDS.map((industry) => (
-            <ScrollFade3D key={industry.id} style={{ display: 'flex' }}>
-              <div 
-                style={cardStyle}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-6px)'
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.08)'
-                  e.currentTarget.style.borderColor = 'rgba(0, 105, 92, 0.2)'
-                  const img = e.currentTarget.querySelector('img')
-                  if (img) img.style.transform = 'scale(1.05)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.04)'
-                  e.currentTarget.style.borderColor = 'var(--color-border)'
-                  const img = e.currentTarget.querySelector('img')
-                  if (img) img.style.transform = 'scale(1)'
-                }}
-              >
-                {/* Image */}
-                <div style={{ position: 'relative', height: '200px', overflow: 'hidden', width: '100%' }}>
-                  <img 
-                    src={industry.image} 
-                    alt={industry.label} 
-                    loading="lazy"
-                    style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      objectFit: 'cover', 
-                      display: 'block', 
-                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)' 
-                    }} 
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.2) 0%, transparent 60%)' }} />
-                </div>
-
-                {/* Content */}
-                <div style={{ padding: '28px', display: 'flex', flexDirection: 'column', flex: 1, gap: '12px' }}>
-                  <span style={{ 
-                    fontFamily: 'var(--font-display)', 
-                    fontSize: '11px', 
-                    fontWeight: 600, 
-                    letterSpacing: '0.08em', 
-                    textTransform: 'uppercase', 
-                    color: 'var(--color-accent)' 
-                  }}>
-                    {industry.subtitle}
-                  </span>
-                  
-                  <h3 style={{ 
-                    fontFamily: 'var(--font-sans)', 
-                    fontSize: '20px', 
-                    fontWeight: 600, 
-                    color: 'var(--color-text)', 
-                    margin: 0,
-                    letterSpacing: '-0.01em' 
-                  }}>
-                    {industry.label}
-                  </h3>
-                  
-                  <p style={{ 
-                    fontFamily: 'var(--font-sans)', 
-                    fontSize: '14px', 
-                    lineHeight: 1.6, 
-                    color: 'var(--color-text-muted)', 
-                    margin: 0,
-                    marginBottom: '16px' 
-                  }}>
-                    {industry.desc}
-                  </p>
-
-                  <Link 
-                    to="/solutions" 
-                    style={{ 
-                      display: 'inline-flex', 
-                      alignItems: 'center', 
-                      gap: '8px', 
-                      fontSize: '14px', 
-                      fontWeight: 500, 
-                      color: 'var(--color-text)', 
-                      textDecoration: 'none', 
-                      marginTop: 'auto',
-                      transition: 'color 0.2s' 
-                    }}
-                    className="hover:text-accent font-sans"
-                    onMouseEnter={e => {
-                      const svg = e.currentTarget.querySelector('svg')
-                      if (svg) svg.style.transform = 'translateX(4px)'
-                    }}
-                    onMouseLeave={e => {
-                      const svg = e.currentTarget.querySelector('svg')
-                      if (svg) svg.style.transform = 'translateX(0)'
-                    }}
-                  >
-                    Learn More
-                    <ArrowRight size={14} style={{ transition: 'transform 0.2s' }} />
-                  </Link>
-                </div>
-              </div>
-            </ScrollFade3D>
-          ))}
-
-
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── SOCIAL PROOF ───────────────────────────────────────────────────────────
   function SocialProofSection() {
     return (
-      <section 
-        style={{ 
-          backgroundColor: 'var(--color-bg-elevated)', 
-          padding: 'var(--spacing-section-lg) 0' 
-        }}
-      >
-        <div className="container-editorial">
-          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
-            <div style={{ order: 0 }}>
+      <section className="home-section home-section--mesh">
+        <div className="container-editorial home-section__inner">
+          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 80px)', alignItems: 'center' }}>
+            <div>
               <RevealText>
-                <p style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
-                  AI FOR THE ENTERPRISE
-                </p>
+                <p className="text-eyebrow" style={{ marginBottom: '20px' }}>AI for the Enterprise</p>
               </RevealText>
               <RevealText delay={1}>
-                <h2 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
+                <h2 className="text-display home-section-title">
                   Full-Stack
                   <br />
-                  <span className="text-italic-serif" style={{ color: 'var(--color-text-muted)' }}>AI Solutions.</span>
+                  <span className="text-muted-line">AI Solutions.</span>
                 </h2>
               </RevealText>
               <RevealText delay={2}>
-                <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
+                <p className="text-body" style={{ maxWidth: '480px', marginBottom: '32px' }}>
                   Outcomes delivered with data, models, agents, and deployment.
-                  We don't just wrap APIs. We build systems that actually perform
-                  in production.
+                  We don't just wrap APIs. We build systems that actually perform in production.
                 </p>
               </RevealText>
               <RevealText delay={3}>
-                <Link to="/solutions" className="btn-outline">
+                <Link to="/solutions" className="btn-glass">
                   Learn More
+                  <ArrowRight size={14} />
                 </Link>
               </RevealText>
             </div>
 
-            <div style={{ order: 1 }}>
-              <RevealText delay={2}>
-                <div style={{ position: 'relative', paddingLeft: 'clamp(20px, 4vw, 60px)' }}>
-                  {/* Vertical line matching the EliseAI screenshot */}
-                  <div 
-                    className="hidden lg:block" 
-                    style={{ 
-                      position: 'absolute', 
-                      top: '0', 
-                      bottom: '0', 
-                      left: '0', 
-                      width: '1px', 
-                      background: 'var(--color-border)' 
-                    }} 
-                  />
-                  
-                  <StaggerReveal>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {CAPABILITIES_SUMMARY.slice(0, 4).map((cap) => (
-                        <p
-                          key={cap}
-                          style={{
-                            fontFamily: 'var(--font-sans)',
-                            fontSize: 'clamp(16px, 1.5vw, 18px)',
-                            fontWeight: 400,
-                            color: 'var(--color-text)',
-                            paddingBlock: '16px',
-                            borderBottom: '1px solid var(--color-border)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '16px',
-                          }}
-                        >
-                          <span style={{
-                            display: 'inline-block',
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            background: 'var(--color-accent)',
-                            flexShrink: 0,
-                          }} />
-                          {cap}
-                        </p>
-                      ))}
+            <RevealText delay={2}>
+              <div className="glass-panel capability-glass-panel">
+                <StaggerReveal>
+                  {CAPABILITIES_SUMMARY.slice(0, 4).map((cap) => (
+                    <div key={cap} className="capability-glass-panel__item">
+                      <span className="capability-glass-panel__dot" />
+                      {cap}
                     </div>
-                  </StaggerReveal>
-                </div>
-              </RevealText>
-            </div>
+                  ))}
+                </StaggerReveal>
+              </div>
+            </RevealText>
           </div>
         </div>
       </section>
     )
   }
 
-// ─── CTA ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function CTASection() {
     return (
-      <section
-        id="contact"
-        aria-labelledby="cta-heading"
-        style={{
-          padding: 'var(--spacing-section-lg) 0',
-          background: 'var(--color-bg-elevated)'
-        }}
-      >
-        <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
+      <section id="contact" aria-labelledby="cta-heading" className="home-section" style={{ background: 'var(--color-bg)' }}>
+        <div className="container-editorial home-section__inner">
           <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
 
           <RevealText>
@@ -1054,36 +474,28 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
           </RevealText>
 
           <RevealText delay={1}>
-            <h2
-              id="cta-heading"
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2rem, 5vw, 4.5rem)',
-                fontWeight: 400,
-                lineHeight: 1.05,
-                letterSpacing: '-0.03em',
-                maxWidth: '800px',
-                marginBottom: '20px',
-              }}
-            >
-              Let’s build something{' '}
-              <span className="text-italic-serif">exceptional.</span>
+            <h2 id="cta-heading" className="text-display" style={{ maxWidth: '800px', marginBottom: '20px' }}>
+              Let's build something{' '}
+              <span className="text-muted-line">exceptional.</span>
             </h2>
           </RevealText>
 
           <RevealText delay={2}>
             <p className="text-body" style={{ maxWidth: '480px', marginBottom: '28px' }}>
-              As an applied AI research company, we deploy cutting‑edge solutions for
-              enterprises and build innovative in‑house products. Book a free 30‑minute
+              As an applied AI research company, we deploy cutting-edge solutions for
+              enterprises and build innovative in-house products. Book a free 30-minute
               consultation to learn how we can help.
             </p>
           </RevealText>
 
           <RevealText delay={3}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+            <div className="hero-v2__actions">
               <Link to="/contact" className="btn-primary">
                 Start the Conversation
                 <ArrowRight size={15} />
+              </Link>
+              <Link to="/contact" className="btn-glass">
+                Contact Us
               </Link>
             </div>
           </RevealText>
@@ -1092,54 +504,55 @@ import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
     )
   }
 
-// ─── PAGE ───────────────────────────────────────────────────────────────────
-export default function HomePage() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "name": "Single Core Labs",
-        "url": "https://singlecorelabs.com",
-        "logo": "https://singlecorelabs.com/og-image.jpg",
-        "description": "Single Core Labs is an elite applied AI research lab and systems engineering firm providing custom AI infrastructure and agentic architectures.",
-        "knowsAbout": ["AI Systems Engineering", "Agentic Architectures", "Sovereign AI Infrastructure", "Air-Gapped AI Deployments", "Applied AI Research"],
-        "founder": [
-          {
-            "@type": "Person",
-            "name": "Manav Sutar"
+// â”€â”€â”€ PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  export default function HomePage() {
+    const schema = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "name": "Single Core Labs",
+          "url": "https://singlecorelabs.com",
+          "logo": "https://singlecorelabs.com/og-image.jpg",
+          "description": "Single Core Labs is an elite applied AI research lab and systems engineering firm providing custom AI infrastructure and agentic architectures.",
+          "knowsAbout": ["AI Systems Engineering", "Agentic Architectures", "Sovereign AI Infrastructure", "Air-Gapped AI Deployments", "Applied AI Research"],
+          "founder": [
+            {
+              "@type": "Person",
+              "name": "Manav Sutar"
+            }
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "email": "hello@singlecorelabs.com",
+            "availableLanguage": ["English"]
           }
-        ],
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "customer service",
-          "email": "hello@singlecorelabs.com",
-          "availableLanguage": ["English"]
         }
-      }
-    ]
-  };
+      ]
+    };
 
-  return (
-    <>
-      <SEO
-        title="Single Core Labs"
-        description="Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure. We build, deploy, and operate bespoke agentic architectures for enterprises."
-        keywords="AI systems engineering, sovereign AI infrastructure, custom agentic architectures, applied AI research, enterprise AI solutions"
-        schema={schema}
-      />
-      <Navbar />
-      <main id="main-content">
-        <HeroSection />
-        <LogoMarquee />
-        <PlatformInfrastructureSection />
-        <DeploymentFlexibilitySection />
-        <IndustriesSection />
-        <SocialProofSection />
-        <PoweredBySection />
-        <CTASection />
-      </main>
-      <Footer />
-    </>
-  )
-}
+    return (
+      <>
+        <SEO
+          title="Single Core Labs"
+          description="Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure. We build, deploy, and operate bespoke agentic architectures for enterprises."
+          keywords="AI systems engineering, sovereign AI infrastructure, custom agentic architectures, applied AI research, enterprise AI solutions"
+          schema={schema}
+        />
+        <Navbar />
+        <main id="main-content" className="home-page">
+          <HeroSection />
+          <LogoMarquee />
+          <SovereignPillarsSection />
+          <PlatformInfrastructureSection />
+          <DeploymentFlexibilitySection />
+          <IndustriesSection />
+          <SocialProofSection />
+          <PoweredBySection />
+          <CTASection />
+        </main>
+        <Footer />
+      </>
+    )
+  }
