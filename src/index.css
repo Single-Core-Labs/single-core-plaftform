@@ -27,8 +27,8 @@
   --color-border-strong: rgba(0, 0, 0, 0.15);
 
   /* Spacing */
-  --spacing-section: clamp(48px, 7vh, 88px);
-  --spacing-section-lg: clamp(56px, 8vh, 100px);
+  --spacing-section: clamp(56px, 8vh, 100px);
+  --spacing-section-lg: clamp(64px, 9vh, 112px);
 
   /* Glassmorphism Tokens */
   --glass-bg: linear-gradient(135deg, rgba(240, 247, 255, 0.4) 0%, rgba(255, 255, 255, 0.6) 100%);
@@ -127,12 +127,12 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
 
 /* ─────────────────────────────────────────
-   TYPOGRAPHY SCALE
-   ───────────────────────────────────────── */
+    TYPOGRAPHY SCALE
+    ───────────────────────────────────────── */
 .text-hero {
   font-family: var(--font-serif);
-  font-size: clamp(3.2rem, 10vw, 9rem);
-  line-height: 0.94;
+  font-size: clamp(3.6rem, 11vw, 10rem); /* increased */
+  line-height: 0.9;
   font-weight: 400;
   letter-spacing: -0.035em;
   color: var(--color-text);
@@ -140,8 +140,8 @@ body {
 
 .text-display {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 5vw, 4.5rem);
-  line-height: 1.05;
+  font-size: clamp(2.4rem, 6vw, 5rem); /* increased */
+  line-height: 1.1;
   font-weight: 400;
   letter-spacing: -0.025em;
   color: var(--color-text);
@@ -149,8 +149,8 @@ body {
 
 .text-editorial {
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3.5vw, 2.8rem);
-  line-height: 1.25;
+  font-size: clamp(1.8rem, 4vw, 3.2rem); /* increased */
+  line-height: 1.3;
   font-weight: 400;
   letter-spacing: -0.015em;
   color: var(--color-text);

@@ -10,7 +10,7 @@ import {
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
 import { staggerHero, heroWordReveal } from '@/lib/animations'
-import { ArrowRight, Plus } from 'lucide-react'
+import { ArrowRight, Plus, Server, Shield } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import SEO from '@/components/SEO'
@@ -27,146 +27,191 @@ import imgFullStack from '@/assets/gpu-server/full-stack.png'
 import imgAiWorkload from '@/assets/gpu-server/ai-workload.png'
 
 // ─── LOGO MARQUEE (backed by Engineers from…) ───────────────────────────────
-function LogoMarquee() {
-  const logos = [
-    ...ENGINEER_PEDIGREE,
-    ...ENGINEER_PEDIGREE,
-    ...ENGINEER_PEDIGREE,
-    ...ENGINEER_PEDIGREE,
-  ]
+  function LogoMarquee() {
+    const logos = [
+      ...ENGINEER_PEDIGREE,
+      ...ENGINEER_PEDIGREE,
+      ...ENGINEER_PEDIGREE,
+      ...ENGINEER_PEDIGREE,
+    ]
 
-  return (
-    <section
-      style={{
-        borderTop: '1px solid var(--color-border)',
-        borderBottom: '1px solid var(--color-border)',
-        overflow: 'hidden',
-        padding: 'clamp(16px, 2.5vh, 28px) 0',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {/* Static label */}
-        <div
-          style={{
-            flexShrink: 0,
-            paddingLeft: 'clamp(20px, 5vw, 80px)',
-            paddingRight: 'clamp(24px, 3vw, 48px)',
-            borderRight: '1px solid var(--color-border)',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: 'var(--color-text-muted)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            backed by Engineers from
-          </span>
-        </div>
-
-        {/* Scrolling names */}
-        <div style={{ overflow: 'hidden', flex: 1 }}>
+    return (
+      <section
+        style={{
+          borderTop: '1px solid var(--color-border)',
+          borderBottom: '1px solid var(--color-border)',
+          overflow: 'hidden',
+          padding: 'var(--spacing-section) 0',
+          background: 'var(--color-bg-elevated)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {/* Static label */}
           <div
             style={{
+              flexShrink: 0,
+              paddingLeft: 'clamp(20px, 5vw, 80px)',
+              paddingRight: 'clamp(24px, 3vw, 48px)',
+              borderRight: '1px solid var(--color-border)',
               display: 'flex',
-              animation: 'marquee 20s linear infinite',
-              whiteSpace: 'nowrap',
+              alignItems: 'center',
             }}
           >
-            {logos.map((name, i) => (
-              <span
-                key={i}
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(14px, 1.5vw, 18px)',
-                  fontWeight: 500,
-                  letterSpacing: '0.04em',
-                  color: 'var(--color-text-muted)',
-                  paddingInline: 'clamp(28px, 4vw, 56px)',
-                  flexShrink: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'clamp(28px, 4vw, 56px)',
-                }}
-              >
-                {name}
-                <span style={{
-                  display: 'inline-block',
-                  width: '3px',
-                  height: '3px',
-                  borderRadius: '50%',
-                  backgroundColor: 'var(--color-text-muted)',
-                  flexShrink: 0,
-                }} />
-              </span>
-            ))}
+            <span
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '10px',
+                fontWeight: 600,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'var(--color-text-muted)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              backed by Engineers from
+            </span>
+          </div>
+
+          {/* Scrolling names */}
+          <div style={{ overflow: 'hidden', flex: 1 }}>
+            <div
+              style={{
+                display: 'flex',
+                animation: 'marquee 20s linear infinite',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {logos.map((name, i) => (
+                <span
+                  key={i}
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(14px, 1.5vw, 18px)',
+                    fontWeight: 500,
+                    letterSpacing: '0.04em',
+                    color: 'var(--color-text-muted)',
+                    paddingInline: 'clamp(28px, 4vw, 56px)',
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'clamp(28px, 4vw, 56px)',
+                  }}
+                >
+                  {name}
+                  <span style={{
+                    display: 'inline-block',
+                    width: '3px',
+                    height: '3px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--color-text-muted)',
+                    flexShrink: 0,
+                  }} />
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
+    )
+  }
 
 // ─── HERO ───────────────────────────────────────────────────────────────────
-function HeroSection() {
-  const line1 = ['AI', 'at', 'scale.']
-  const line2 = ['Without', 'the', 'chaos.']
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const heroY = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '18%']), { stiffness: 60, damping: 20 })
-  const heroOpacity = useSpring(useTransform(scrollYProgress, [0, 0.6], [1, 0]), { stiffness: 60, damping: 20 })
+  function HeroSection() {
+    const line1 = ['AI', 'at', 'scale.']
+    const line2 = ['Without', 'the', 'chaos.']
+    const ref = useRef(null)
+    const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+    const heroY = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '18%']), { stiffness: 60, damping: 20 })
+    const heroOpacity = useSpring(useTransform(scrollYProgress, [0, 0.6], [1, 0]), { stiffness: 60, damping: 20 })
 
-  return (
-    <section
-      ref={ref}
-      aria-labelledby="hero-heading"
+    return (
+      <section
+        ref={ref}
+        aria-labelledby="hero-heading"
+        className="hero-section-bg"
+        style={{
+          position: 'relative',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: 'clamp(100px, 14vh, 160px) 0 clamp(48px, 6vh, 80px)',
+          overflow: 'hidden',
+          background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url(${imgServerRoom}) center / cover no-repeat`,
+        }}
+      >
+        {/* Removed animated glass orbs for cleaner look */}
 
-      className="hero-section-bg"
-      style={{
-        position: 'relative',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: 'clamp(100px, 14vh, 160px) 0 clamp(48px, 6vh, 80px)',
-        overflow: 'hidden',
-        background: `linear-gradient(to right, rgba(250, 250, 250, 0.98) 0%, rgba(250, 250, 250, 0.94) 40%, rgba(250, 250, 250, 0.85) 70%, rgba(250, 250, 250, 0.15) 100%), url(${imgServerRoom}) center right / cover no-repeat`,
-      }}
-    >
-      {/* Animated glass orbs */}
-      <div aria-hidden="true" style={{
-        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', top: '-10%', left: '-5%',
-          width: '60vw', height: '60vw', maxWidth: '700px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(186, 230, 253, 0.4) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          animation: 'heroOrb1 12s ease-in-out infinite alternate',
-        }} />
-        <div style={{
-          position: 'absolute', top: '10%', right: '-5%',
-          width: '50vw', height: '50vw', maxWidth: '600px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(192, 132, 252, 0.3) 0%, transparent 70%)',
-          filter: 'blur(60px)',
-          animation: 'heroOrb2 14s ease-in-out infinite alternate',
-        }} />
-      </div>
+        <motion.div
+          className="container-editorial"
+          style={{ position: 'relative', zIndex: 1, y: heroY, opacity: heroOpacity }}
+        >
+          <motion.div
+            variants={staggerHero}
+            initial="hidden"
+            animate="visible"
+            style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
+          >
+            {/* Eyebrow */}
+            <motion.p variants={heroWordReveal} className="text-eyebrow">
+              Sovereign AI Infrastructure
+            </motion.p>
 
-      <style>{`
-        @keyframes heroOrb1 {
-          from { transform: translate(0, 0) scale(1); }
-          to   { transform: translate(4%, 6%) scale(1.08); }
-        }
+            {/* Headline */}
+            <h1
+              id="hero-heading"
+              className="text-hero"
+              aria-label="AI at scale. Without the chaos."
+              style={{ maxWidth: '1000px' }}
+            >
+              <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
+                {line1.map((word, i) => (
+                  <motion.span key={`a-${i}`} variants={heroWordReveal} style={{ display: 'inline-block' }}>
+                    {word}
+                  </motion.span>
+                ))}
+              </span>
+              <span style={{ display: 'flex', flexWrap: 'wrap', gap: '0 0.22em' }}>
+                {line2.map((word, i) => (
+                  <motion.span
+                    key={`b-${i}`}
+                    variants={heroWordReveal}
+                    style={{
+                      display: 'inline-block',
+                      fontStyle: 'italic',
+                      color: 'var(--color-text-muted)',
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+
+            {/* Subtext */}
+            <motion.p
+              variants={heroWordReveal}
+              className="text-body"
+              style={{ maxWidth: '560px', fontSize: 'clamp(15px, 1.2vw, 18px)' }}
+            >
+              Bespoke agentic routing and sovereign GPU clusters, engineered from bare-metal kernels to secure, air-gapped deployments.
+            </motion.p>
+
+            {/* CTA */}
+            <motion.div variants={heroWordReveal} style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Link to="/contact" className="btn-primary">
+                Book a Demo
+                <ArrowRight size={15} />
+              </Link>
+              <a href="#pipeline" className="btn-outline">
+                Explore Platform
+              </a>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </section>
+    )
+  }
         @keyframes heroOrb2 {
           from { transform: translate(0, 0) scale(1); }
           to   { transform: translate(-5%, 4%) scale(1.12); }
@@ -250,20 +295,95 @@ function HeroSection() {
 }
 
 // ─── PLATFORM INFRASTRUCTURE ────────────────────────────────────────────────
-function PlatformInfrastructureSection() {
-  const [isExpanded, setIsExpanded] = useState(false)
+  function PlatformInfrastructureSection() {
+    return (
+      <section 
+        style={{ 
+          padding: 'var(--spacing-section-lg) 0', 
+          background: 'var(--color-bg)' 
+        }}
+      >
+        <div className="container-editorial">
+          <div style={{ marginBottom: 'clamp(48px, 6vh, 64px)', textAlign: 'center' }}>
+            <RevealText>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Sovereign GPU Infrastructure</p>
+            </RevealText>
+            <RevealText delay={1}>
+              <h2 className="text-display" style={{ maxWidth: '800px', margin: '0 auto' }}>
+                High-performance compute.
+                <br />
+                <span className="text-italic-serif">Purpose-built for your industry.</span>
+              </h2>
+            </RevealText>
+            <RevealText delay={2}>
+              <p className="text-body" style={{ maxWidth: '600px', margin: '16px auto 0', color: 'var(--color-text-muted)' }}>
+                Custom-built GPU clusters engineered for ultra-low latency inference, air-gapped security, and sovereign data compliance—tailored to your enterprise requirements.
+              </p>
+            </RevealText>
+          </div>
 
-  const cardStyle = {
-    background: '#FFFFFF',
-    borderRadius: '24px',
-    display: 'flex',
-    flexDirection: 'column',
-    color: 'var(--color-text)',
-    border: '1px solid var(--color-border)',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.04)',
-    overflow: 'hidden',
-    cursor: 'pointer',
-    position: 'relative'
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+            {/* Left Card: Bare-Metal Acceleration */}
+            <div className="glass-card" style={{ padding: '24px' }}>
+              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                <Server size={48} stroke={2} color="var(--color-accent)" />
+              </div>
+              <h3 style={{ 
+                fontFamily: 'var(--font-sans)', 
+                fontSize: 'clamp(24px, 2.5vw, 32px)', 
+                fontWeight: 600, 
+                letterSpacing: '-0.02em', 
+                margin: 0, 
+                marginBottom: '16px' 
+              }}>
+                Bare-Metal Acceleration
+              </h3>
+              <p style={{ 
+                color: 'var(--color-text-muted)', 
+                fontSize: '16px', 
+                lineHeight: 1.6, 
+                marginBottom: '24px' 
+              }}>
+                Direct access to ultra-low latency inference, bypassing slow high-level wrappers for mission-critical AI routing and semantic vector search.
+              </p>
+              <Link to="/solutions" className="btn-outline">
+                Learn more
+                <ArrowRight size={14} style={{ marginLeft: '8px', transition: 'transform 0.2s' }} />
+              </Link>
+            </div>
+
+            {/* Right Card: Air-Gapped Deployments */}
+            <div className="glass-card" style={{ padding: '24px' }}>
+              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                <Shield size={48} stroke={2} color="var(--color-accent)" />
+              </div>
+              <h3 style={{ 
+                fontFamily: 'var(--font-sans)', 
+                fontSize: 'clamp(24px, 2.5vw, 32px)', 
+                fontWeight: 600, 
+                letterSpacing: '-0.02em', 
+                margin: 0, 
+                marginBottom: '16px' 
+              }}>
+                Air-Gapped Deployments
+              </h3>
+              <p style={{ 
+                color: 'var(--color-text-muted)', 
+                fontSize: '16px', 
+                lineHeight: 1.6, 
+                marginBottom: '24px' 
+              }}>
+                Fully sovereign data centers and on-premise GPU clusters ensuring absolute privacy for your most sensitive enterprise workloads.
+              </p>
+              <Link to="/solutions" className="btn-outline">
+                Learn more
+                <ArrowRight size={14} style={{ marginLeft: '8px', transition: 'transform 0.2s' }} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
   }
 
   const collapsedHeight = 'clamp(180px, 22vh, 240px)'
@@ -432,90 +552,68 @@ function PlatformInfrastructureSection() {
 }
 
 // ─── DEPLOYMENT FLEXIBILITY ────────────────────────────────────────────────
-function DeploymentFlexibilitySection() {
-  const deploymentOptions = [
-    {
-      title: 'Managed Infrastructure',
-      subtitle: 'scl',
-      description: 'Fully orchestrated, auto-scaling compute environments designed for immediate operational impact and maximum uptime with zero maintenance overhead.'
-    },
-    {
-      title: 'Sovereign VPC',
-      subtitle: 'Private Cloud',
-      description: 'Enterprise-grade security within your existing perimeter. We manage the complex infrastructure while you maintain absolute data sovereignty.'
-    },
-    {
-      title: 'Air-Gapped Clusters',
-      subtitle: 'On-Premises',
-      description: 'The gold standard for regulated sectors. Full physical isolation and hardware-level control for your most sensitive, mission-critical AI workloads.'
-    }
-  ]
+  function DeploymentFlexibilitySection() {
+    const deploymentOptions = [
+      {
+        title: 'Managed Infrastructure',
+        subtitle: 'scl',
+        description: 'Fully orchestrated, auto-scaling compute environments designed for immediate operational impact and maximum uptime with zero maintenance overhead.'
+      },
+      {
+        title: 'Sovereign VPC',
+        subtitle: 'Private Cloud',
+        description: 'Enterprise-grade security within your existing perimeter. We manage the complex infrastructure while you maintain absolute data sovereignty.'
+      },
+      {
+        title: 'Air-Gapped Clusters',
+        subtitle: 'On-Premises',
+        description: 'The gold standard for regulated sectors. Full physical isolation and hardware-level control for your most sensitive, mission-critical AI workloads.'
+      }
+    ]
 
-  return (
-    <section style={{ 
-      padding: 'var(--spacing-section-lg) 0', 
-      background: 'linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%)', 
-      borderTop: '1px solid var(--color-border)',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Background accent orbs to enhance glass effect */}
-      <div style={{
-        position: 'absolute',
-        top: '10%',
-        right: '-5%',
-        width: '40vw',
-        height: '40vw',
-        background: 'radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%)',
-        borderRadius: '50%',
-        zIndex: 0
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '0',
-        left: '10%',
-        width: '30vw',
-        height: '30vw',
-        background: 'radial-gradient(circle, rgba(192, 132, 252, 0.06) 0%, transparent 70%)',
-        borderRadius: '50%',
-        zIndex: 0
-      }} />
+    return (
+      <section 
+        style={{ 
+          padding: 'var(--spacing-section-lg) 0', 
+          background: 'var(--color-bg-elevated)' 
+        }}
+      >
+        <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ marginBottom: 'clamp(48px, 8vh, 80px)' }}>
+            <RevealText>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Universal Deployment</p>
+            </RevealText>
+            <RevealText delay={1}>
+              <h2 className="text-display" style={{ maxWidth: '800px' }}>
+                Built to run anywhere 
+                <br />
+                <span className="text-italic-serif">your business operates.</span>
+              </h2>
+            </RevealText>
+          </div>
 
-      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-        <div style={{ marginBottom: 'clamp(48px, 8vh, 80px)' }}>
-          <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Universal Deployment</p>
-          </RevealText>
-          <RevealText delay={1}>
-            <h2 className="text-display" style={{ maxWidth: '800px' }}>
-              Built to run anywhere 
-              <br />
-              <span className="text-italic-serif">your business operates.</span>
-            </h2>
-          </RevealText>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-          {deploymentOptions.map((option, idx) => (
-            <ScrollFade3D key={idx}>
-              <div style={{ 
-                padding: '40px 32px', 
-                height: '100%', 
-                background: 'rgba(255, 255, 255, 0.55)',
-                backdropFilter: 'blur(16px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-                borderRadius: '32px',
-                border: '1px solid rgba(255, 255, 255, 0.6)',
-                boxShadow: '0 8px 32px 0 rgba(15, 23, 42, 0.04)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px',
-                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-              className="hover:translate-y-[-8px] hover:shadow-xl hover:bg-white/70"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+            {deploymentOptions.map((option, idx) => (
+              <div 
+                key={idx}
+                style={{ 
+                  padding: '32px 24px', 
+                  height: '100%', 
+                  background: 'rgba(255, 255, 255, 0.55)',
+                  backdropFilter: 'blur(16px) saturate(180%)',
+                  WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+                  borderRadius: '24px',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  boxShadow: '0 4px 16px 0 rgba(15, 23, 42, 0.02)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  transition: 'all 0.3s ease'
+                }}
+                className="hover:bg-white/70 hover:shadow-md"
               >
                 <div style={{
-                  width: '40px',
+                  width: '32px',
                   height: '2px',
                   background: 'var(--color-accent)',
                   opacity: 0.6,
@@ -535,7 +633,7 @@ function DeploymentFlexibilitySection() {
                 
                 <h3 style={{ 
                   fontFamily: 'var(--font-sans)', 
-                  fontSize: '24px', 
+                  fontSize: '20px', 
                   fontWeight: 600, 
                   color: 'var(--color-text)', 
                   margin: 0,
@@ -554,35 +652,161 @@ function DeploymentFlexibilitySection() {
                   {option.description}
                 </p>
               </div>
-            </ScrollFade3D>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
+    )
+  }
 
 // ─── INDUSTRIES — CAROUSEL ──────────────────────────────────────────────────
-function IndustriesSection() {
-  const INDUSTRY_CARDS = [
-    { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
-    { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
-    { id: 'logistics', label: 'Logistics', image: imgManufacturing, subtitle: 'Supply chain intelligence', desc: 'AI-powered route optimization, demand forecasting, and real-time supply chain visibility.' },
-    { id: 'healthcare', label: 'Healthcare', image: imgHealthcare, subtitle: 'HIPAA-compliant processing', desc: 'HIPAA-compliant processing for EHR records and multimodal imaging.' },
-    { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' }
-  ]
+  function IndustriesSection() {
+    const INDUSTRY_CARDS = [
+      { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
+      { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
+      { id: 'logistics', label: 'Logistics', image: imgManufacturing, subtitle: 'Supply chain intelligence', desc: 'AI-powered route optimization, demand forecasting, and real-time supply chain visibility.' },
+      { id: 'healthcare', label: 'Healthcare', image: imgHealthcare, subtitle: 'HIPAA-compliant processing', desc: 'HIPAA-compliant processing for EHR records and multimodal imaging.' },
+      { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' }
+    ]
 
-  const cardStyle = {
-    background: '#FFFFFF',
-    borderRadius: '24px',
-    border: '1px solid var(--color-border)',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.04)',
-    color: 'var(--color-text)',
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+    const cardStyle = {
+      background: '#FFFFFF',
+      borderRadius: '24px',
+      border: '1px solid var(--color-border)',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.04)',
+      color: 'var(--color-text)',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+    }
+
+    return (
+      <section 
+        style={{ 
+          padding: 'var(--spacing-section) 0', 
+          background: 'var(--color-bg)' 
+        }}
+      >
+        <div className="container-editorial">
+          <div style={{ marginBottom: 'clamp(40px, 6vh, 60px)', textAlign: 'center' }}>
+            <RevealText>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Industries</p>
+            </RevealText>
+            <RevealText delay={1}>
+              <h2 className="text-display" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                AI solutions built for
+                <br />
+                <span className="text-italic-serif">every sector.</span>
+              </h2>
+            </RevealText>
+            <RevealText delay={2}>
+              <p className="text-body" style={{ maxWidth: '560px', margin: '20px auto 0', color: 'var(--color-text-muted)' }}>
+                From healthcare diagnostics to financial compliance, logistics
+                optimization to e-commerce intelligence. Purpose-built AI for
+                regulated, high-stakes sectors.
+              </p>
+            </RevealText>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            {INDUSTRY_CARDS.map((industry) => (
+              <div 
+                key={industry.id} 
+                style={cardStyle}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.06)'
+                  e.currentTarget.style.borderColor = 'rgba(0, 105, 92, 0.15)'
+                  const img = e.currentTarget.querySelector('img')
+                  if (img) img.style.transform = 'scale(1.03)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.04)'
+                  e.currentTarget.style.borderColor = 'var(--color-border)'
+                  const img = e.currentTarget.querySelector('img')
+                  if (img) img.style.transform = 'scale(1)'
+                }}
+              >
+                {/* Image */}
+                <div style={{ position: 'relative', height: '180px', overflow: 'hidden', width: '100%' }}>
+                  <img 
+                    src={industry.image} 
+                    alt={industry.label} 
+                    loading="lazy"
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover', 
+                      display: 'block', 
+                      transition: 'transform 0.4s ease' 
+                    }} 
+                  />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.1) 0%, transparent 60%)' }} />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1, gap: '10px' }}>
+                  <span style={{ 
+                    fontFamily: 'var(--font-display)', 
+                    fontSize: '11px', 
+                    fontWeight: 600, 
+                    letterSpacing: '0.08em', 
+                    textTransform: 'uppercase', 
+                    color: 'var(--color-accent)' 
+                  }}>
+                    {industry.subtitle}
+                  </span>
+                  
+                  <h3 style={{ 
+                    fontFamily: 'var(--font-sans)', 
+                    fontSize: '18px', 
+                    fontWeight: 600, 
+                    color: 'var(--color-text)', 
+                    margin: 0,
+                    letterSpacing: '-0.01em' 
+                  }}>
+                    {industry.label}
+                  </h3>
+                  
+                  <p style={{ 
+                    fontFamily: 'var(--font-sans)', 
+                    fontSize: '14px', 
+                    lineHeight: 1.6, 
+                    color: 'var(--color-text-muted)', 
+                    margin: 0,
+                    marginBottom: '12px' 
+                  }}>
+                    {industry.desc}
+                  </p>
+                  
+                  <Link 
+                    to="/solutions" 
+                    style={{ 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '6px', 
+                      fontSize: '13px', 
+                      fontWeight: 500, 
+                      color: 'var(--color-text)', 
+                      textDecoration: 'none', 
+                      marginTop: 'auto',
+                      transition: 'color 0.2s' 
+                    }}
+                    className="hover:text-accent font-sans"
+                  >
+                    Learn More
+                    <ArrowRight size={12} style={{ transition: 'transform 0.2s' }} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
   }
 
   return (
@@ -719,151 +943,154 @@ function IndustriesSection() {
 }
 
 // ─── SOCIAL PROOF ───────────────────────────────────────────────────────────
-function SocialProofSection() {
-  return (
-    <section style={{ backgroundColor: '#FAFAFA', padding: 'var(--spacing-section-lg) 0' }}>
-      <div className="container-editorial">
-        <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
-          
-          <div style={{ order: 0 }}>
-            <RevealText>
-              <p style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
-                AI FOR THE ENTERPRISE
-              </p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
-                Full-Stack
-                <br />
-                <span className="text-italic-serif" style={{ color: 'var(--color-text-muted)' }}>AI Solutions.</span>
-              </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
-                Outcomes delivered with data, models, agents, and deployment.
-                We don't just wrap APIs. We build systems that actually perform
-                in production.
-              </p>
-            </RevealText>
-            <RevealText delay={3}>
-              <Link to="/solutions" className="btn-outline">
-                Learn More
-              </Link>
-            </RevealText>
-          </div>
+  function SocialProofSection() {
+    return (
+      <section 
+        style={{ 
+          backgroundColor: 'var(--color-bg-elevated)', 
+          padding: 'var(--spacing-section-lg) 0' 
+        }}
+      >
+        <div className="container-editorial">
+          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
+            <div style={{ order: 0 }}>
+              <RevealText>
+                <p style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
+                  AI FOR THE ENTERPRISE
+                </p>
+              </RevealText>
+              <RevealText delay={1}>
+                <h2 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
+                  Full-Stack
+                  <br />
+                  <span className="text-italic-serif" style={{ color: 'var(--color-text-muted)' }}>AI Solutions.</span>
+                </h2>
+              </RevealText>
+              <RevealText delay={2}>
+                <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
+                  Outcomes delivered with data, models, agents, and deployment.
+                  We don't just wrap APIs. We build systems that actually perform
+                  in production.
+                </p>
+              </RevealText>
+              <RevealText delay={3}>
+                <Link to="/solutions" className="btn-outline">
+                  Learn More
+                </Link>
+              </RevealText>
+            </div>
 
-          <div style={{ order: 1 }}>
-            <RevealText delay={2}>
-              <div style={{ position: 'relative', paddingLeft: 'clamp(20px, 4vw, 60px)' }}>
-                {/* Vertical line matching the EliseAI screenshot */}
-                <div 
-                  className="hidden lg:block" 
-                  style={{ 
-                    position: 'absolute', 
-                    top: '0', 
-                    bottom: '0', 
-                    left: '0', 
-                    width: '1px', 
-                    background: 'var(--color-border)' 
-                  }} 
-                />
-                
-                <StaggerReveal>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {CAPABILITIES_SUMMARY.slice(0, 4).map((cap) => (
-                      <p
-                        key={cap}
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: 'clamp(16px, 1.5vw, 18px)',
-                          fontWeight: 400,
-                          color: 'var(--color-text)',
-                          paddingBlock: '16px',
-                          borderBottom: '1px solid var(--color-border)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '16px',
-                        }}
-                      >
-                        <span style={{
-                          display: 'inline-block',
-                          width: '6px',
-                          height: '6px',
-                          borderRadius: '50%',
-                          background: 'var(--color-accent)',
-                          flexShrink: 0,
-                        }} />
-                        {cap}
-                      </p>
-                    ))}
-                  </div>
-                </StaggerReveal>
-              </div>
-            </RevealText>
+            <div style={{ order: 1 }}>
+              <RevealText delay={2}>
+                <div style={{ position: 'relative', paddingLeft: 'clamp(20px, 4vw, 60px)' }}>
+                  {/* Vertical line matching the EliseAI screenshot */}
+                  <div 
+                    className="hidden lg:block" 
+                    style={{ 
+                      position: 'absolute', 
+                      top: '0', 
+                      bottom: '0', 
+                      left: '0', 
+                      width: '1px', 
+                      background: 'var(--color-border)' 
+                    }} 
+                  />
+                  
+                  <StaggerReveal>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {CAPABILITIES_SUMMARY.slice(0, 4).map((cap) => (
+                        <p
+                          key={cap}
+                          style={{
+                            fontFamily: 'var(--font-sans)',
+                            fontSize: 'clamp(16px, 1.5vw, 18px)',
+                            fontWeight: 400,
+                            color: 'var(--color-text)',
+                            paddingBlock: '16px',
+                            borderBottom: '1px solid var(--color-border)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px',
+                          }}
+                        >
+                          <span style={{
+                            display: 'inline-block',
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            background: 'var(--color-accent)',
+                            flexShrink: 0,
+                          }} />
+                          {cap}
+                        </p>
+                      ))}
+                    </div>
+                  </StaggerReveal>
+                </div>
+              </RevealText>
+            </div>
           </div>
-
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
+    )
+  }
 
 // ─── CTA ────────────────────────────────────────────────────────────────────
-function CTASection() {
-  return (
-    <section
-      id="contact"
-      aria-labelledby="cta-heading"
-      style={{
-        padding: 'var(--spacing-section-lg) 0',
-        position: 'relative',
-      }}
-    >
-      <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-        <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
+  function CTASection() {
+    return (
+      <section
+        id="contact"
+        aria-labelledby="cta-heading"
+        style={{
+          padding: 'var(--spacing-section-lg) 0',
+          background: 'var(--color-bg-elevated)'
+        }}
+      >
+        <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
+          <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
 
-        <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Connect</p>
-        </RevealText>
+          <RevealText>
+            <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Connect</p>
+          </RevealText>
 
-        <RevealText delay={1}>
-          <h2
-            id="cta-heading"
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2rem, 5vw, 4.5rem)',
-              fontWeight: 400,
-              lineHeight: 1.05,
-              letterSpacing: '-0.03em',
-              maxWidth: '800px',
-              marginBottom: '20px',
-            }}
-          >
-            Let’s build something{' '}
-            <span className="text-italic-serif">exceptional.</span>
-          </h2>
-        </RevealText>
+          <RevealText delay={1}>
+            <h2
+              id="cta-heading"
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(2rem, 5vw, 4.5rem)',
+                fontWeight: 400,
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                maxWidth: '800px',
+                marginBottom: '20px',
+              }}
+            >
+              Let’s build something{' '}
+              <span className="text-italic-serif">exceptional.</span>
+            </h2>
+          </RevealText>
 
-        <RevealText delay={2}>
-          <p className="text-body" style={{ maxWidth: '480px', marginBottom: '28px' }}>
-            As an applied AI research company, we deploy cutting‑edge solutions for
-            enterprises and build innovative in‑house products. Book a free 30‑minute
-            consultation to learn how we can help.
-          </p>
-        </RevealText>
+          <RevealText delay={2}>
+            <p className="text-body" style={{ maxWidth: '480px', marginBottom: '28px' }}>
+              As an applied AI research company, we deploy cutting‑edge solutions for
+              enterprises and build innovative in‑house products. Book a free 30‑minute
+              consultation to learn how we can help.
+            </p>
+          </RevealText>
 
-        <RevealText delay={3}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
-            <Link to="/contact" className="btn-primary">
-              Start the Conversation
-              <ArrowRight size={15} />
-            </Link>
-          </div>
-        </RevealText>
-      </div>
-    </section>
-  )
-}
+          <RevealText delay={3}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+              <Link to="/contact" className="btn-primary">
+                Start the Conversation
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+          </RevealText>
+        </div>
+      </section>
+    )
+  }
 
 // ─── PAGE ───────────────────────────────────────────────────────────────────
 export default function HomePage() {

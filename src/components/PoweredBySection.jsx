@@ -109,62 +109,64 @@ function TechCard({ item }) {
 }
 
 export function PoweredBySection() {
-  return (
-    <section style={{ backgroundColor: '#FAFAFA', padding: 'var(--spacing-section-lg) 0', overflow: 'hidden' }}>
-      <div className="container-editorial">
-        <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
-          
-          {/* Left Column: Text */}
-          <div>
-            <RevealText>
-              <p style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
-                MODEL INTEGRATIONS
-              </p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
-                Top AI models, or your custom ones
-              </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
-                Our forward-deployed engineers optimize every deployment for SOTA performance —
-                whether you're running a top open model or a custom model.
-              </p>
-            </RevealText>
-            <RevealText delay={3}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px 20px',
-                backgroundColor: 'var(--color-accent-dim)',
-                borderRadius: '12px',
-                border: '1px solid rgba(0, 105, 92, 0.15)'
-              }}>
-                <Check size={18} style={{ color: 'var(--color-accent)' }} />
-                <p style={{ fontSize: '14px', color: 'var(--color-text)', margin: 0 }}>
-                  Model-agnostic by design
+    return (
+      <section style={{ 
+        backgroundColor: 'var(--color-bg)', 
+        padding: 'var(--spacing-section-lg) 0' 
+      }}>
+        <div className="container-editorial">
+          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 100px)', alignItems: 'center' }}>
+            
+            {/* Left Column: Text */}
+            <div>
+              <RevealText>
+                <p style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '20px' }}>
+                  MODEL INTEGRATIONS
                 </p>
-              </div>
-            </RevealText>
-          </div>
+              </RevealText>
+              <RevealText delay={1}>
+                <h2 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(32px, 4vw, 56px)', fontWeight: 500, lineHeight: 1.1, marginBottom: '24px', letterSpacing: '-0.02em' }}>
+                  Top AI models, or your custom ones
+                </h2>
+              </RevealText>
+              <RevealText delay={2}>
+                <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'clamp(16px, 1.5vw, 20px)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '480px' }}>
+                  Our forward-deployed engineers optimize every deployment for SOTA performance —
+                  whether you're running a top open model or a custom model.
+                </p>
+              </RevealText>
+              <RevealText delay={3}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px 20px',
+                  backgroundColor: 'var(--color-accent-dim)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(0, 105, 92, 0.15)'
+                }}>
+                  <Check size={18} style={{ color: 'var(--color-accent)' }} />
+                  <p style={{ fontSize: '14px', color: 'var(--color-text)', margin: 0 }}>
+                    Model-agnostic by design
+                  </p>
+                </div>
+              </RevealText>
+            </div>
 
-          {/* Right Column: Model Cards */}
-          <div style={{ position: 'relative' }}>
-            <div className="flex flex-col gap-4">
-              <StaggerReveal style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {POPULAR_MODELS.map((model) => (
-                  <div key={model.id}>
-                    <TechCard item={model} />
-                  </div>
-                ))}
-              </StaggerReveal>
+            {/* Right Column: Model Cards */}
+            <div style={{ position: 'relative' }}>
+              <div className="flex flex-col gap-4">
+                <StaggerReveal style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {POPULAR_MODELS.map((model) => (
+                    <div key={model.id}>
+                      <TechCard item={model} />
+                    </div>
+                  ))}
+                </StaggerReveal>
+              </div>
             </div>
           </div>
-
         </div>
-      </div>
-    </section>
-  )
-}
+      </section>
+    )
+  }
