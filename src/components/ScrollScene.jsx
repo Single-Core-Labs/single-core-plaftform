@@ -37,7 +37,7 @@ export function ParallaxLayer({ children, speed = 0.3, style = {}, ...props }) {
   const y = useTransform(scrollYProgress, [0, 1], [`${speed * 80}px`, `${-speed * 80}px`])
 
   return (
-    <motion.div ref={ref} style={{ y, ...style }} {...props}>
+    <motion.div ref={ref} style={{ y, willChange: 'transform', ...style }} {...props}>
       {children}
     </motion.div>
   )
@@ -57,7 +57,7 @@ export function ScrollRotate({ children, degrees = 4, style = {}, ...props }) {
   const rotate = useTransform(scrollYProgress, [0, 1], [-degrees, degrees])
 
   return (
-    <motion.div ref={ref} style={{ rotate, ...style }} {...props}>
+    <motion.div ref={ref} style={{ rotate, willChange: 'transform', ...style }} {...props}>
       {children}
     </motion.div>
   )
@@ -77,7 +77,7 @@ export function ScrollScale({ children, from = 0.88, style = {}, ...props }) {
   const scale = useTransform(scrollYProgress, [0, 1], [from, 1])
 
   return (
-    <motion.div ref={ref} style={{ scale, ...style }} {...props}>
+    <motion.div ref={ref} style={{ scale, willChange: 'transform', ...style }} {...props}>
       {children}
     </motion.div>
   )
@@ -106,6 +106,7 @@ export function ScrollFade3D({ children, style = {}, ...props }) {
         opacity,
         y,
         z,
+        willChange: 'transform, opacity',
         transformStyle: 'preserve-3d',
         ...style,
       }}
@@ -150,6 +151,7 @@ export function Card3D({ children, intensity = 8, style = {}, ...props }) {
       style={{
         rotateX: springX,
         rotateY: springY,
+        willChange: 'transform',
         transformStyle: 'preserve-3d',
         transformPerspective: 800,
         ...style,
@@ -180,6 +182,7 @@ export function SectionDepth({ children, style = {}, ...props }) {
       ref={ref}
       style={{
         rotateX,
+        willChange: 'transform',
         transformStyle: 'preserve-3d',
         transformPerspective: 1200,
         ...style,

@@ -33,7 +33,7 @@ export default defineConfig({
               return 'react-vendor'
             }
             // Heavy animation libraries
-            if (id.includes('framer-motion') || id.includes('lenis') || id.includes('gsap')) {
+            if (id.includes('framer-motion') || id.includes('lenis')) {
               return 'animation'
             }
           }

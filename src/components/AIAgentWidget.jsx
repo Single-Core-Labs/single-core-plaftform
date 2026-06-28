@@ -157,7 +157,7 @@ export default function AIAgentWidget() {
             >
               {messages.map((msg, i) => (
                 <div 
-                  key={i} 
+                  key={`msg-${i}`} 
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>

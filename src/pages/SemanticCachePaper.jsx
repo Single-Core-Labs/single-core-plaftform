@@ -6,6 +6,20 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import SEO from '@/components/SEO'
 
+// ─── FONT LOADER (non-blocking Google Fonts) ──────────────────────────────────
+function FontLoader() {
+  useEffect(() => {
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap'
+    link.media = 'print'
+    link.onload = () => { link.media = 'all' }
+    document.head.appendChild(link)
+    return () => { link.remove() }
+  }, [])
+  return null
+}
+
 // ─── SCROLL PROGRESS ────────────────────────────────────────────────────────
 function ProgressBar() {
   const ref = useRef(null)
@@ -781,9 +795,9 @@ async fn handle(req: Request) -> Response {
 
       <Footer />
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+      <FontLoader />
 
+      <style>{`
         html { scroll-behavior: smooth; background: #FFFFFF; }
         body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: #FFFFFF; }
         ::selection { background: rgba(91,71,224,0.15); color: #0A0A0B; }

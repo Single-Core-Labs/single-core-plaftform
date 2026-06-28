@@ -7,11 +7,10 @@ import { HorizontalRule } from '@/components/HorizontalRule'
 import { ScrollFade3D, SectionDepth } from '@/components/ScrollScene'
 import {
   ENGINEER_PEDIGREE,
-  DIFFERENTIATORS,
   CAPABILITIES_SUMMARY,
 } from '@/lib/constants'
 import { staggerHero, heroWordReveal } from '@/lib/animations'
-import { ArrowRight, Check, Plus } from 'lucide-react'
+import { ArrowRight, Plus } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import SEO from '@/components/SEO'

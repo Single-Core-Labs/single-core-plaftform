@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { SOCIAL_LINKS } from '@/lib/constants'
@@ -37,18 +38,19 @@ const FOOTER_LINKS = [
   },
 ]
 
-function FooterLink({ link }) {
-  const style = {
-    fontFamily: 'var(--font-sans)',
-    fontSize: '13px',
-    color: 'var(--color-text-dim)',
-    textDecoration: 'none',
-    transition: 'color 0.2s',
-  };
-  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={style}>{link.label}</a>;
-  if (link.isHash) return <a href={link.href} style={style}>{link.label}</a>;
-  return <Link to={link.href} style={style}>{link.label}</Link>;
-}
+const linkStyle = {
+  fontFamily: 'var(--font-sans)',
+  fontSize: '13px',
+  color: 'var(--color-text-dim)',
+  textDecoration: 'none',
+  transition: 'color 0.2s',
+};
+
+const FooterLink = memo(function FooterLink({ link }) {
+  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={linkStyle}>{link.label}</a>;
+  if (link.isHash) return <a href={link.href} style={linkStyle}>{link.label}</a>;
+  return <Link to={link.href} style={linkStyle}>{link.label}</Link>;
+});
 
 export function Footer() {
   return (

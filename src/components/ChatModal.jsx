@@ -44,7 +44,7 @@ export default function ChatModal({ open, onClose }) {
             </div>
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'assistant' ? 'justify-start' : 'justify-end'}`}>
+                <div key={`msg-${i}`} className={`flex ${msg.role === 'assistant' ? 'justify-start' : 'justify-end'}`}>
                   <div
                     className={`rounded-lg p-3 max-w-xs ${msg.role === 'assistant' ? 'bg-gray-100 text-gray-900' : 'bg-blue-600 text-white'}`}
                   >

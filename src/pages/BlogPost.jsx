@@ -122,7 +122,7 @@ export default function BlogPost() {
 
       <article>
         <header className="blog-hero">
-          <img src={post.heroImage} alt={post.title} className="blog-hero__image" />
+          <img src={post.heroImage} alt={post.title} width="1400" height="480" className="blog-hero__image" loading="eager" />
           <div className="blog-hero__overlay" aria-hidden="true" />
         </header>
 
