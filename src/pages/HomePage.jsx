@@ -12,9 +12,10 @@ import {
 import { staggerHero, heroWordReveal } from '@/lib/animations'
 import { ArrowRight, ChevronDown, Server, Shield, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import SEO from '@/components/SEO'
-import { HeroCubeScene } from '@/components/HeroCubeScene'
+
+const HERO_VIDEO_SRC = '/hero-curve.webm'
 
 import imgHealthcare from '@/assets/gpu-server/healthcare-tech.png'
 import imgDefense from '@/assets/gpu-server/defense-server.png'
@@ -159,9 +160,31 @@ const INDUSTRY_CARDS = [
 // â”€â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function HeroSection() {
     const ref = useRef(null)
+    const videoRef = useRef(null)
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
     const contentY = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '12%']), { stiffness: 60, damping: 20 })
     const contentOpacity = useSpring(useTransform(scrollYProgress, [0, 0.5], [1, 0]), { stiffness: 60, damping: 20 })
+
+    useEffect(() => {
+      const video = videoRef.current
+      if (!video) return
+
+      video.loop = true
+      const ensurePlaying = () => {
+        if (video.paused) {
+          video.play().catch(() => {})
+        }
+      }
+
+      ensurePlaying()
+      video.addEventListener('ended', ensurePlaying)
+      document.addEventListener('visibilitychange', ensurePlaying)
+
+      return () => {
+        video.removeEventListener('ended', ensurePlaying)
+        document.removeEventListener('visibilitychange', ensurePlaying)
+      }
+    }, [])
 
     return (
       <section
@@ -216,7 +239,19 @@ const INDUSTRY_CARDS = [
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            <HeroCubeScene />
+            <div className="hero-v2__video-frame">
+              <video
+                ref={videoRef}
+                className="hero-v2__video hero-v2__video--alpha"
+                src={HERO_VIDEO_SRC}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                aria-label="Sovereign AI infrastructure visualization"
+              />
+            </div>
           </motion.div>
         </motion.div>
 

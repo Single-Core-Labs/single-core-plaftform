@@ -1392,10 +1392,55 @@ button:focus-visible, a:focus-visible {
 
 .hero-v2__visual {
   position: relative;
-  min-height: clamp(280px, 42vh, 480px);
+  min-height: clamp(280px, 42vh, 520px);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero-v2__video-frame {
+  position: relative;
+  width: min(100%, 560px);
+  aspect-ratio: 4 / 3;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.hero-v2__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: transparent;
+}
+
+/* WebM with real alpha channel — no blend-mode hack needed */
+.hero-v2__video--alpha {
+  mix-blend-mode: normal;
+  filter: none;
+}
+
+/* MP4 fallback: black bg → screen; white bg → multiply */
+.hero-v2__video--screen {
+  mix-blend-mode: screen;
+  filter: contrast(1.08);
+}
+
+.hero-v2__video--light-bg {
+  mix-blend-mode: multiply;
+  filter: contrast(1.12);
+}
+
+@media (min-width: 1024px) {
+  .hero-v2__video-frame {
+    width: 100%;
+    max-width: 620px;
+    aspect-ratio: 16 / 11;
+  }
 }
 
 .hero-v2__scroll {
