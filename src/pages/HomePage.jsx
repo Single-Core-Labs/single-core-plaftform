@@ -1,4 +1,4 @@
-﻿import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { PoweredBySection } from '@/components/PoweredBySection'
@@ -301,6 +301,71 @@ const INDUSTRY_CARDS = [
     )
   }
 
+  function POCToProductionSection() {
+    return (
+      <section className="home-section" style={{ background: 'var(--color-bg)' }}>
+        <div className="container-editorial home-section__inner">
+          <div className="home-section-header home-section-header--left">
+            <RevealText>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>From Idea to Impact</p>
+            </RevealText>
+            <RevealText delay={1}>
+              <h2 className="text-display">
+                From Proof of Concept to Production
+                <br />
+                <span className="text-muted-line">Sovereign AI Systems &amp; Agents Built for Enterprise Scale.</span>
+              </h2>
+            </RevealText>
+            <RevealText delay={2}>
+              <p className="text-body" style={{ marginTop: '16px' }}>
+                We don't stop at demos. Our teams embed with yours to ship production-grade agentic systems—
+                built on sovereign infrastructure, engineered for reliability, and designed to scale without compromise.
+              </p>
+            </RevealText>
+          </div>
+
+          <div className="home-card-grid home-card-grid--3">
+            <ScrollFade3D>
+              <div className="glass-card glass-card--pad glass-card--feature">
+                <div className="glass-card__icon">
+                  <ArrowRight size={22} color="var(--color-accent)" strokeWidth={1.75} />
+                </div>
+                <h3 className="glass-card__title">Rapid POC Validation</h3>
+                <p className="glass-card__body">
+                  Prove business value fast with lightweight, focused proof of concepts tailored to your use case.
+                </p>
+              </div>
+            </ScrollFade3D>
+
+            <ScrollFade3D>
+              <div className="glass-card glass-card--pad glass-card--feature">
+                <div className="glass-card__icon">
+                  <Shield size={22} color="var(--color-accent)" strokeWidth={1.75} />
+                </div>
+                <h3 className="glass-card__title">Production-Grade Build</h3>
+                <p className="glass-card__body">
+                  Engineer robust, secure, and scalable agentic systems with full compliance and governance controls.
+                </p>
+              </div>
+            </ScrollFade3D>
+
+            <ScrollFade3D>
+              <div className="glass-card glass-card--pad glass-card--feature">
+                <div className="glass-card__icon">
+                  <Server size={22} color="var(--color-accent)" strokeWidth={1.75} />
+                </div>
+                <h3 className="glass-card__title">Sovereign Deployment</h3>
+                <p className="glass-card__body">
+                  Deploy on your infrastructure or ours—air-gapped, private cloud, or fully managed sovereign compute.
+                </p>
+              </div>
+            </ScrollFade3D>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   function PlatformInfrastructureSection() {
     return (
       <section id="pipeline" className="home-section" style={{ background: 'var(--color-bg)' }}>
@@ -580,6 +645,7 @@ const INDUSTRY_CARDS = [
           <HeroSection />
           <div className="consulting-block"><LogoMarquee /></div>
           <SovereignPillarsSection />
+          <POCToProductionSection />
           <PlatformInfrastructureSection />
           <DeploymentFlexibilitySection />
           <IndustriesSection />
