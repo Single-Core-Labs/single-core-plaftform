@@ -10,6 +10,7 @@ import { ArrowRight, Eye, ShieldAlert, Cpu, Check, Loader2 } from 'lucide-react'
 import { supabase } /* cspell:ignore supabase */ from '@/lib/supabase'
 
 export default function AboutPage() {
+  // Fixed JSX tag mismatches
 
   // Form State
   const [form, setForm] = useState({
