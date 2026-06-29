@@ -131,7 +131,7 @@ export default function AboutPage() {
               </div>
             </RevealText>
           </div>
-        </section>
+        </div>
 
         {/* Core Pillars (Who We Are, Mission, Vision) */}
         <section
@@ -748,9 +748,7 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-      </div>
       </main>
-
       <Footer />
     </div>
   )
