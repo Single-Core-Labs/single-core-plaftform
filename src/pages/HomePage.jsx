@@ -305,15 +305,15 @@ const INDUSTRY_CARDS = [
     return (
       <section className="home-section" style={{ background: 'var(--color-bg)' }}>
         <div className="container-editorial home-section__inner">
-          <div className="home-section-header home-section-header--left">
+          <div className="home-section-header">
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '16px' }}>From Idea to Impact</p>
             </RevealText>
             <RevealText delay={1}>
               <h2 className="text-display">
-                From Proof of Concept to Production
+                POC to Production
                 <br />
-                <span className="text-muted-line">Sovereign AI Systems &amp; Agents Built for Enterprise Scale.</span>
+                <span className="text-muted-line">Sovereign AI Systems for Enterprise Scale.</span>
               </h2>
             </RevealText>
             <RevealText delay={2}>
