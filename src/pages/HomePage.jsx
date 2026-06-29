@@ -311,9 +311,9 @@ const INDUSTRY_CARDS = [
             </RevealText>
             <RevealText delay={1}>
               <h2 className="text-display">
-                POC to Production
+                From Proof of Concept to Production
                 <br />
-                <span className="text-muted-line">Sovereign AI Systems for Enterprise Scale.</span>
+                <span className="text-muted-line">Sovereign AI Systems &amp; Agents Built for Enterprise Scale.</span>
               </h2>
             </RevealText>
             <RevealText delay={2}>
