@@ -57,7 +57,7 @@ const schema = {
 
 export default function IndianAiCloudAlternativePage() {
   return (
-    <>
+    <div className="page-consulting">
       <SEO
         title="Indian AI Infrastructure: Cloud Alternatives | Single Core Labs"
         description="Compare Indian GPU cloud providers and discover why enterprises in regulated sectors choose sovereign, on-premise AI infrastructure over cloud GPU rental."
@@ -66,12 +66,12 @@ export default function IndianAiCloudAlternativePage() {
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
-        {/* Hero */}
-        <section
-          className="container-editorial"
-          style={{ paddingTop: 'clamp(120px, 16vh, 180px)', paddingBottom: 'clamp(48px, 6vh, 72px)' }}
-        >
+      <main style={{ minHeight: '100vh' }}>
+        <div className="consulting-block">
+          <div className="consulting-grid">
+            <div className="consulting-col--full">
+              {/* Hero */}
+              <div style={{ paddingTop: '80px', paddingBottom: '32px' }}>
           <div style={{ maxWidth: '800px' }}>
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '28px' }}>India Market Guide</p>
@@ -94,7 +94,7 @@ export default function IndianAiCloudAlternativePage() {
               </div>
             </RevealText>
           </div>
-        </section>
+        </div>
 
         {/* Landscape Cards */}
         <section className="container-editorial">
@@ -182,9 +182,12 @@ export default function IndianAiCloudAlternativePage() {
             <ArrowRight size={15} />
           </Link>
         </section>
+          </div>
+          </div>
+        </div>
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

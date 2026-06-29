@@ -36,7 +36,7 @@ const schema = {
 
 export default function GuidesPage() {
   return (
-    <>
+    <div className="page-consulting">
       <SEO
         title="Guides | Single Core Labs"
         description="In-depth guides on AI infrastructure, sovereign AI, and enterprise AI engineering from Single Core Labs."
@@ -45,11 +45,11 @@ export default function GuidesPage() {
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
-        {/* Hero */}
-        <section
-          className="container-editorial"
-          style={{ paddingTop: 'clamp(120px, 16vh, 180px)', paddingBottom: 'clamp(48px, 6vh, 72px)' }}
+      <main style={{ minHeight: '100vh' }}>
+        <div className="consulting-block">
+          <div className="consulting-col--full">
+            <section
+              style={{ paddingTop: '80px', paddingBottom: '32px' }}
         >
           <div style={{ maxWidth: '720px' }}>
             <RevealText>
@@ -132,9 +132,11 @@ export default function GuidesPage() {
             ))}
           </div>
         </section>
+          </div>
+        </div>
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

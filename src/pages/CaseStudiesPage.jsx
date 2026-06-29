@@ -151,7 +151,7 @@ function CaseStudyCard({ study, index }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function CaseStudiesPage() {
   return (
-    <>
+    <div className="page-consulting">
       <SEO 
         title="Case Studies | Single Core Labs"
         description="Real problems. Real results. We've deployed production AI systems for enterprises across healthcare, finance, and logistics."
@@ -258,6 +258,6 @@ export default function CaseStudiesPage() {
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

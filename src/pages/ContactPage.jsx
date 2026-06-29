@@ -127,11 +127,11 @@ export default function ContactPage() {
   // ── Success state ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
-      <>
+      <div className="page-consulting">
         <SEO title="Message Sent | Single Core Labs" description="Thank you for reaching out." />
         <Navbar />
         <main id="main-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-          <div className="container-editorial" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
+          <div className="consulting-block" style={{ width: '100%', maxWidth: '700px' }}>
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -153,13 +153,13 @@ export default function ContactPage() {
           </div>
         </main>
         <Footer />
-      </>
+      </div>
     )
   }
 
   // ── Main layout ────────────────────────────────────────────────────────────
   return (
-    <>
+    <div className="page-consulting">
       <SEO
         title="Get a Demo | Single Core Labs"
         description="Book a personalised demo and see how Single Core Labs can build, deploy, and operate bespoke AI systems for your enterprise."
@@ -168,10 +168,10 @@ export default function ContactPage() {
       <Navbar />
 
       <main id="main-content" style={{ minHeight: '100vh' }}>
+        <div className="consulting-block" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          minHeight: '100vh',
           backgroundImage: 'url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -436,6 +436,7 @@ export default function ContactPage() {
             </motion.div>
           </div>
         </div>
+        </div>
       </main>
 
       <Footer />
@@ -452,6 +453,6 @@ export default function ContactPage() {
           to   { transform: rotate(360deg); }
         }
       `}</style>
-    </>
+    </div>
   )
 }

@@ -1,10 +1,11 @@
 import SEO from '@/components/SEO'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { RevealText } from '@/components/RevealText'
-import { HorizontalRule } from '@/components/HorizontalRule'
-import { ScrollFade3D, Card3D } from '@/components/ScrollScene'
-import { ArrowRight, Layers, Lock, Check, FileText, Shield, Eye, Server, RefreshCw, Settings, Activity, Microscope, Stethoscope } from 'lucide-react'
+import {
+  ArrowRight, Check, Server, Activity, Microscope,
+  Stethoscope, FileText, Lock, Eye, RefreshCw, Settings,
+  Shield, Layers, Heart
+} from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const CORE_BENEFITS = [
@@ -12,19 +13,19 @@ const CORE_BENEFITS = [
     id: 'decision-support',
     icon: Activity,
     title: 'Precision Decision Support',
-    description: 'Empower clinicians with zero-hallucination diagnostic reasoning models fine-tuned on specialized clinical journals and real-time patient data.',
+    description: 'Zero-hallucination diagnostic reasoning models fine-tuned on specialized clinical journals and real-time patient data.',
   },
   {
     id: 'ehr-native',
     icon: Layers,
     title: 'EHR-Native Intelligence',
-    description: 'Seamlessly integrate into existing workflows via FHIR/HL7 bidirectional pipelines. Our agents live where your clinicians work, reducing friction and fatigue.',
+    description: 'Seamless integration via FHIR/HL7 bidirectional pipelines. Our agents work where your clinicians work, reducing friction and fatigue.',
   },
   {
     id: 'sovereign-governance',
     icon: Shield,
     title: 'Sovereign Data Governance',
-    description: 'Maintain absolute control over sensitive PHI with air-gapped deployment options. Your data never leaves your infrastructure, ensuring 100% HIPAA compliance.',
+    description: 'Absolute control over sensitive PHI with air-gapped deployment. Your data never leaves your infrastructure, ensuring 100% HIPAA compliance.',
   }
 ]
 
@@ -34,28 +35,28 @@ const USE_CASES = [
     icon: Stethoscope,
     category: 'Diagnostic Support',
     title: 'Real-time Clinical Reasoning',
-    description: 'Analyze complex patient histories and lab results to surface critical insights. Our AI provides explainable diagnostic suggestions cross-referenced with the latest medical research.'
+    description: 'Analyze complex patient histories and lab results to surface critical insights. Our AI provides explainable diagnostic suggestions cross-referenced with the latest medical research.',
   },
   {
     id: 'documentation-automation',
     icon: FileText,
     category: 'Clinical Operations',
     title: 'Automated Charting & Documentation',
-    description: 'Eliminate the "pajama time" burden. Automatically generate structured clinical notes and summaries from physician-patient interactions and unstructured data.'
+    description: 'Eliminate the "pajama time" burden. Automatically generate structured clinical notes and summaries from physician-patient interactions and unstructured data.',
   },
   {
     id: 'predictive-outcomes',
-    icon: Activity,
+    icon: Heart,
     category: 'Population Health',
     title: 'Predictive Patient Risk Profiling',
-    description: 'Identify at-risk patients before complications arise. Monitor longitudinal records to flag potential readmissions, sepsis risks, or chronic disease progression.'
+    description: 'Identify at-risk patients before complications arise. Monitor longitudinal records to flag potential readmissions, sepsis risks, or chronic disease progression.',
   },
   {
     id: 'research-acceleration',
     icon: Microscope,
     category: 'Clinical Research',
     title: 'Accelerated Evidence-Based Research',
-    description: 'Scan vast repositories of clinical trials and internal datasets to accelerate drug discovery and treatment optimization while maintaining a rigorous audit trail.'
+    description: 'Scan vast repositories of clinical trials and internal datasets to accelerate drug discovery and treatment optimization while maintaining a rigorous audit trail.',
   }
 ]
 
@@ -67,244 +68,325 @@ const SECURITY_FEATURES = [
   { icon: Settings, title: 'Workflow Integration', description: 'Custom APIs for Epic, Cerner, and specialized EHRs.' }
 ]
 
+const highlight = { color: '#00695C' }
+
+function FadeIn({ children, delay = 0 }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.5, delay, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function VisualPlaceholder({ icon: Icon, label }) {
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '260px',
+      border: '1px solid #e8e8e8',
+      borderRadius: '8px',
+      padding: '32px',
+      textAlign: 'center',
+    }}>
+      <div style={{
+        width: '64px',
+        height: '64px',
+        borderRadius: '50%',
+        background: '#f5f5f5',
+        border: '1px solid #e0e0e0',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#00695C',
+        marginBottom: '16px',
+      }}>
+        <Icon size={28} />
+      </div>
+      <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: '#909090', fontWeight: 400 }}>
+        {label}
+      </p>
+    </div>
+  )
+}
+
 export default function HealthcareIntelligencePage() {
   return (
-    <div style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
-      <SEO 
+    <div className="page-consulting" style={{ color: '#1a1a1a' }}>
+      <SEO
         title="Healthcare Intelligence & EHR-Native AI | Single Core Labs"
         description="Deploy secure, FHIR/HL7-compliant clinical intelligence layers that transform raw medical data into actionable insights directly within your EHR."
         keywords="healthcare AI, EHR integration, clinical decision support, HIPAA compliant AI, medical agents"
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', overflow: 'hidden' }}>
-        
-        {/* Hero Section */}
-        <section
-          style={{
-            position: 'relative',
-            paddingTop: 'clamp(140px, 20vh, 220px)',
-            paddingBottom: 'clamp(80px, 12vh, 120px)',
-            backgroundImage: 'linear-gradient(rgba(250, 250, 250, 0.88), rgba(250, 250, 250, 0.96)), url("https://images.unsplash.com/photo-1576091160550-2173dad99901?auto=format&fit=crop&q=80&w=2000")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center'
-          }}
-        >
-          <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '24px' }}>Industry / Healthcare Intelligence</p>
-            </RevealText>
-            <RevealText delay={0.2}>
-              <h1 className="text-hero" style={{ marginBottom: '32px', maxWidth: '1000px', marginInline: 'auto' }}>
-                Clinical intelligence. <span className="text-italic-serif">Integrated by design.</span>
-              </h1>
-            </RevealText>
-            <RevealText delay={0.4}>
-              <p className="text-body" style={{ maxWidth: '750px', marginInline: 'auto', fontSize: 'clamp(18px, 1.4vw, 22px)', color: 'var(--color-text)' }}>
-                We build secure, FHIR-compliant cognitive layers that sit on top of your EHR, turning unstructured clinical data into immediate, explainable reasoning for care teams.
-              </p>
-            </RevealText>
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              style={{ marginTop: '48px', display: 'flex', gap: '16px', justifyContent: 'center' }}
-            >
-              <a href="/contact" className="btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
-                Request a Demo
-                <ArrowRight size={18} />
-              </a>
-              <a href="#use-cases" className="btn-outline" style={{ padding: '16px 32px', fontSize: '16px' }}>
-                View Use Cases
-              </a>
-            </motion.div>
-          </div>
-        </section>
+      <main style={{ minHeight: '100vh' }}>
 
-        {/* Core Pillars Section */}
-        <section className="container-editorial" style={{ paddingBlock: 'var(--spacing-section-lg)' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <h2 className="text-display">Intelligence that respects the clinical stakes</h2>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-            gap: '60px' 
-          }}>
-            {CORE_BENEFITS.map((benefit) => {
-              const Icon = benefit.icon
-              return (
-                <div key={benefit.id} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  <div style={{ 
-                    width: '56px', 
-                    height: '56px', 
-                    borderRadius: '12px', 
-                    backgroundColor: 'var(--color-accent-dim)', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    color: 'var(--color-accent)'
-                  }}>
-                    <Icon size={28} />
-                  </div>
-                  <h3 className="text-editorial" style={{ fontSize: '26px', fontWeight: 500 }}>{benefit.title}</h3>
-                  <p className="text-body">{benefit.description}</p>
+        {/* Hero Block */}
+        <div className="consulting-block" style={{ marginTop: '120px' }}>
+          <div className="consulting-grid">
+            <div className="consulting-col--divider">
+              <FadeIn>
+                <p className="consulting-eyebrow">Industry / Healthcare Intelligence</p>
+                <h1 className="consulting-heading" style={{ fontSize: 'clamp(32px, 4vw, 48px)' }}>
+                  Clinical intelligence. <span style={{ fontStyle: 'italic', color: '#00695C' }}>Integrated by design.</span>
+                </h1>
+                <p className="consulting-body" style={{ marginBottom: '28px', fontSize: '16px' }}>
+                  We build secure, FHIR-compliant cognitive layers that sit on top of your EHR, turning unstructured clinical data into immediate, explainable reasoning for care teams.
+                </p>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <a href="/contact" className="consulting-btn consulting-btn--primary">
+                    Request a Demo <ArrowRight size={14} />
+                  </a>
+                  <a href="#use-cases" className="consulting-btn">
+                    View Use Cases
+                  </a>
                 </div>
-              )
-            })}
+              </FadeIn>
+            </div>
+            <div className="consulting-col">
+              <FadeIn delay={0.15}>
+                <VisualPlaceholder icon={Heart} label="Clinical Intelligence Platform" />
+              </FadeIn>
+            </div>
           </div>
-        </section>
+        </div>
 
-        <HorizontalRule />
-
-        {/* Use Cases Section */}
-        <section id="use-cases" className="container-editorial" style={{ paddingBlock: 'var(--spacing-section-lg)' }}>
-          <div style={{ marginBottom: '64px' }}>
-            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Impact Areas</p>
-            <h2 className="text-display">Modernizing high-stakes care</h2>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', 
-            gap: '32px' 
-          }}>
-            {USE_CASES.map((useCase) => {
-              const Icon = useCase.icon
-              return (
-                <ScrollFade3D key={useCase.id}>
-                  <Card3D intensity={5}>
-                    <div className="glass-card" style={{ height: '100%', padding: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                      <div style={{ 
-                        width: '56px', 
-                        height: '56px', 
-                        borderRadius: '12px', 
-                        backgroundColor: 'var(--color-bg-surface)', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        color: 'var(--color-accent)'
-                      }}>
-                        <Icon size={28} />
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <p className="text-label" style={{ color: 'var(--color-accent)' }}>{useCase.category}</p>
-                        <h3 className="text-editorial" style={{ fontSize: '22px', lineHeight: 1.3 }}>{useCase.title}</h3>
-                        <p className="text-body" style={{ fontSize: '15px' }}>{useCase.description}</p>
+        {/* Core Benefits Block */}
+        <div className="consulting-block">
+          <div className="consulting-grid">
+            <div className="consulting-col--divider">
+              <FadeIn>
+                <p className="consulting-eyebrow">Core Pillars</p>
+                <h2 className="consulting-heading">
+                  Intelligence that respects <span style={{ fontStyle: 'italic', color: '#00695C' }}>the clinical stakes</span>
+                </h2>
+              </FadeIn>
+            </div>
+            <div className="consulting-col">
+              <FadeIn delay={0.1}>
+                {CORE_BENEFITS.map((b, i) => (
+                  <div key={b.id} style={{
+                    padding: '20px 0',
+                    borderBottom: i < CORE_BENEFITS.length - 1 ? '1px solid #e8e8e8' : 'none',
+                  }}>
+                    <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                      <b.icon size={18} style={{ color: '#00695C', marginTop: '2px', flexShrink: 0 }} />
+                      <div>
+                        <h3 style={{
+                          fontFamily: 'var(--font-serif)',
+                          fontSize: '18px',
+                          fontWeight: 400,
+                          marginBottom: '4px',
+                          color: '#1a1a1a',
+                        }}>
+                          {b.title}
+                        </h3>
+                        <p className="consulting-body" style={{ fontSize: '14px', margin: 0 }}>
+                          {b.description}
+                        </p>
                       </div>
                     </div>
-                  </Card3D>
-                </ScrollFade3D>
-              )
-            })}
+                  </div>
+                ))}
+              </FadeIn>
+            </div>
           </div>
-        </section>
+        </div>
 
-        {/* Deployment Section (Replacing Maestro) */}
-        <section style={{ backgroundColor: 'var(--color-bg-elevated)', paddingBlock: 'var(--spacing-section-lg)' }}>
-          <div className="container-editorial">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '80px', alignItems: 'center' }}>
-              <div>
-                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Deployment Architecture</p>
-                <h2 className="text-display" style={{ marginBottom: '24px' }}>Sovereign AI for Health Systems</h2>
-                <p className="text-body" style={{ marginBottom: '32px', fontSize: '18px' }}>
-                  Unlike generic cloud AI, our infrastructure is built for the specific regulatory and technical requirements of modern health systems. We provide a bridge between legacy record systems and modern agentic intelligence.
+        {/* Use Cases — alternating blocks */}
+        {USE_CASES.map((uc, i) => {
+          const Icon = uc.icon
+          return (
+            <div key={uc.id} className="consulting-block">
+              <div className="consulting-grid">
+                <div className={i % 2 === 0 ? 'consulting-col--divider' : 'consulting-col'}>
+                  <FadeIn>
+                    {i % 2 === 0 ? (
+                      <>
+                        <p className="consulting-eyebrow">{uc.category}</p>
+                        <h2 className="consulting-heading">{uc.title}</h2>
+                        <p className="consulting-body" style={{ marginBottom: '24px' }}>{uc.description}</p>
+                        <a href="/contact" className="consulting-btn" style={{ borderColor: '#00695C', color: '#00695C' }}>
+                          Learn more <ArrowRight size={14} />
+                        </a>
+                      </>
+                    ) : (
+                      <VisualPlaceholder icon={Icon} label={uc.category} />
+                    )}
+                  </FadeIn>
+                </div>
+                <div className={i % 2 === 0 ? 'consulting-col' : 'consulting-col--divider'}>
+                  <FadeIn delay={0.1}>
+                    {i % 2 === 0 ? (
+                      <VisualPlaceholder icon={Icon} label={uc.category} />
+                    ) : (
+                      <>
+                        <p className="consulting-eyebrow">{uc.category}</p>
+                        <h2 className="consulting-heading">{uc.title}</h2>
+                        <p className="consulting-body" style={{ marginBottom: '24px' }}>{uc.description}</p>
+                        <a href="/contact" className="consulting-btn" style={{ borderColor: '#00695C', color: '#00695C' }}>
+                          Learn more <ArrowRight size={14} />
+                        </a>
+                      </>
+                    )}
+                  </FadeIn>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+
+        {/* Deployment Block */}
+        <div className="consulting-block">
+          <div className="consulting-grid">
+            <div className="consulting-col--divider">
+              <FadeIn>
+                <p className="consulting-eyebrow">Deployment Architecture</p>
+                <h2 className="consulting-heading">Sovereign AI for Health Systems</h2>
+                <p className="consulting-body" style={{ marginBottom: '24px' }}>
+                  Unlike generic cloud AI, our infrastructure is built for the specific regulatory and technical requirements of modern health systems.
                 </p>
-                <ul style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingLeft: 0, listStyle: 'none', marginBottom: '32px' }}>
+                <ul className="consulting-list">
                   {[
                     'On-premise deployment for maximum PHI security',
                     'Bidirectional FHIR/HL7 data orchestration',
                     'Custom fine-tuned models for clinical specialties',
                     'End-to-end observability and clinical audit logs'
                   ].map((item, idx) => (
-                    <li key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'center', color: 'var(--color-text)' }}>
-                      <div style={{ color: 'var(--color-accent)', display: 'flex' }}>
-                        <Check size={18} strokeWidth={3} />
-                      </div>
-                      <span className="text-body" style={{ color: 'var(--color-text)', fontWeight: 500 }}>{item}</span>
+                    <li key={idx}>
+                      <span className="consulting-check">
+                        <Check size={11} strokeWidth={3} />
+                      </span>
+                      {item}
                     </li>
                   ))}
                 </ul>
-                <a href="/contact" className="btn-outline">
-                  Talk to an Infrastructure Expert
+                <a href="/contact" className="consulting-btn">
+                  Talk to an Infrastructure Expert <ArrowRight size={14} />
                 </a>
-              </div>
-              <div style={{ position: 'relative' }}>
-                <div style={{ 
-                  aspectRatio: '1/1', 
-                  background: 'radial-gradient(circle at center, var(--color-accent-dim) 0%, transparent 70%)',
-                  borderRadius: '50%', 
-                  display: 'flex', 
-                  alignItems: 'center', 
+              </FadeIn>
+            </div>
+            <div className="consulting-col">
+              <FadeIn delay={0.1}>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '40px'
+                  minHeight: '260px',
+                  border: '1px solid #e8e8e8',
+                  borderRadius: '8px',
+                  padding: '32px',
+                  textAlign: 'center',
                 }}>
-                  <div className="glass-card" style={{ padding: '40px', textAlign: 'center', width: '100%' }}>
-                    <Server size={48} style={{ color: 'var(--color-accent)', marginInline: 'auto', marginBottom: '20px' }} />
-                    <h3 className="text-editorial" style={{ fontSize: '24px', marginBottom: '12px' }}>Secure Infrastructure</h3>
-                    <p className="text-body" style={{ fontSize: '14px' }}>
-                      Deploying LLMs safely within the hospital network boundary.
-                    </p>
-                  </div>
+                  <Server size={40} style={{ color: '#00695C', marginBottom: '12px' }} />
+                  <h3 style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: '20px',
+                    fontWeight: 400,
+                    marginBottom: '8px',
+                    color: '#1a1a1a',
+                  }}>
+                    Secure Infrastructure
+                  </h3>
+                  <p className="consulting-body" style={{ fontSize: '14px', margin: 0 }}>
+                    Deploying LLMs safely within the hospital network boundary.
+                  </p>
                 </div>
-              </div>
+              </FadeIn>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Security Section */}
-        <section className="container-editorial" style={{ paddingBlock: 'var(--spacing-section-lg)' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <h2 className="text-display" style={{ marginBottom: '24px' }}>Built for Governance & Compliance</h2>
-            <p className="text-body" style={{ maxWidth: '750px', marginInline: 'auto' }}>
-              We prioritize data integrity and patient privacy above all else. Our systems are engineered to meet the stringent demands of HIPAA, SOC-2, and international healthcare regulations.
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: '40px' 
-          }}>
-            {SECURITY_FEATURES.map((feature, i) => {
-              const Icon = feature.icon
-              return (
-                <div key={i} style={{ textAlign: 'center' }}>
-                  <div style={{ 
-                    width: '48px', 
-                    height: '48px', 
-                    marginInline: 'auto', 
-                    marginBottom: '20px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--color-accent)'
-                  }}>
-                    <Icon size={32} />
-                  </div>
-                  <h4 className="text-label" style={{ marginBottom: '8px', color: 'var(--color-text)' }}>{feature.title}</h4>
-                  <p className="text-body" style={{ fontSize: '13px', lineHeight: 1.4 }}>{feature.description}</p>
+        {/* Security Block */}
+        <div className="consulting-block">
+          <div className="consulting-grid">
+            <div className="consulting-col--full">
+              <FadeIn>
+                <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                  <p className="consulting-eyebrow">Governance & Compliance</p>
+                  <h2 className="consulting-heading">
+                    Built for <span style={{ fontStyle: 'italic', color: '#00695C' }}>Governance & Compliance</span>
+                  </h2>
+                  <p className="consulting-body" style={{ maxWidth: '650px', margin: '0 auto' }}>
+                    We prioritize data integrity and patient privacy above all else. Our systems meet HIPAA, SOC-2, and international healthcare regulations.
+                  </p>
                 </div>
-              )
-            })}
+              </FadeIn>
+              <FadeIn delay={0.1}>
+                <div className="consulting-card-grid">
+                  {SECURITY_FEATURES.map((f, i) => {
+                    const Icon = f.icon
+                    return (
+                      <div key={i} style={{
+                        textAlign: 'center',
+                        padding: '24px 16px',
+                        border: '1px solid #e8e8e8',
+                        borderRadius: '8px',
+                      }}>
+                        <div style={{
+                          width: '40px',
+                          height: '40px',
+                          margin: '0 auto 12px',
+                          borderRadius: '50%',
+                          background: '#f5f5f5',
+                          border: '1px solid #e0e0e0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#00695C',
+                        }}>
+                          <Icon size={18} />
+                        </div>
+                        <h4 style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '13px',
+                          fontWeight: 400,
+                          marginBottom: '4px',
+                          color: '#1a1a1a',
+                        }}>
+                          {f.title}
+                        </h4>
+                        <p style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '12px',
+                          fontWeight: 400,
+                          color: '#909090',
+                          lineHeight: 1.5,
+                          margin: 0,
+                        }}>
+                          {f.description}
+                        </p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </FadeIn>
+            </div>
           </div>
-        </section>
+        </div>
 
-        {/* CTA Section */}
-        <section style={{ paddingBlock: 'var(--spacing-section-lg)', textAlign: 'center' }}>
-          <div className="container-narrow">
-            <h2 className="text-display" style={{ marginBottom: '32px' }}>Modernize your health system with sovereign AI.</h2>
-            <a href="/contact" className="btn-primary" style={{ padding: '18px 40px', fontSize: '18px' }}>
-              Book a Clinical Demo
-              <ArrowRight size={20} />
-            </a>
+        {/* CTA Block */}
+        <div className="consulting-block" style={{ marginBottom: '40px' }}>
+          <div className="consulting-col--full" style={{ textAlign: 'center' }}>
+            <FadeIn>
+              <h2 className="consulting-heading" style={{ marginBottom: '24px' }}>
+                Modernize your health system with <span style={{ fontStyle: 'italic', color: '#00695C' }}>sovereign AI.</span>
+              </h2>
+              <a href="/contact" className="consulting-btn consulting-btn--primary" style={{ padding: '14px 36px' }}>
+                Book a Clinical Demo <ArrowRight size={16} />
+              </a>
+            </FadeIn>
           </div>
-        </section>
+        </div>
 
       </main>
       <Footer />

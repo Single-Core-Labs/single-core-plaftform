@@ -110,7 +110,7 @@ const INDUSTRY_CARDS = [
                 whiteSpace: 'nowrap',
               }}
             >
-              Enterprises build with SCL
+              backed by engineers from
             </span>
           </div>
 
@@ -568,7 +568,7 @@ const INDUSTRY_CARDS = [
     };
 
     return (
-      <>
+      <div className="page-consulting">
         <SEO
           title="Single Core Labs"
           description="Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure. We build, deploy, and operate bespoke agentic architectures for enterprises."
@@ -578,7 +578,7 @@ const INDUSTRY_CARDS = [
         <Navbar />
         <main id="main-content" className="home-page">
           <HeroSection />
-          <LogoMarquee />
+          <div className="consulting-block"><LogoMarquee /></div>
           <SovereignPillarsSection />
           <PlatformInfrastructureSection />
           <DeploymentFlexibilitySection />
@@ -588,6 +588,6 @@ const INDUSTRY_CARDS = [
           <CTASection />
         </main>
         <Footer />
-      </>
+      </div>
     )
   }

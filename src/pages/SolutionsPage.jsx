@@ -79,7 +79,7 @@ export default function SolutionsPage() {
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id))
 
   return (
-    <div style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
+    <div className="page-consulting">
       <SEO 
         title="AI Solutions | Single Core Labs"
         description="Single Core Labs provides custom AI systems engineering: agentic workflows, private LLM deployments, sovereign AI infrastructure, and regulated MLOps pipelines for enterprises."
@@ -87,7 +87,7 @@ export default function SolutionsPage() {
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
+      <main style={{ minHeight: '100vh' }}>
         
         {/* Hero Section - Inspired by AI21 Tech */}
         <section
@@ -109,9 +109,9 @@ export default function SolutionsPage() {
               <p className="text-eyebrow" style={{ marginBottom: '24px' }}>Our Services</p>
             </RevealText>
             <RevealText delay={0.2}>
-              <h1 className="text-hero" style={{ marginBottom: '32px', maxWidth: '1000px', marginInline: 'auto' }}>
+              <h1 className="solutions-hero__title" style={{ marginBottom: '32px', maxWidth: '1000px', marginInline: 'auto' }}>
                 Enterprise AI Engineered <br />
-                for <span className="text-italic-serif">Precision & Scale.</span>
+                for <em>Precision &amp; Scale.</em>
               </h1>
             </RevealText>
             <RevealText delay={0.4}>

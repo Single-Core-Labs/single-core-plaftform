@@ -83,7 +83,7 @@ const schema = {
 
 export default function AiVsCloudPage() {
   return (
-    <>
+    <div className="page-consulting">
       <SEO
         title="Custom AI Infrastructure vs Cloud GPUs | Single Core Labs"
         description="Compare custom, sovereign AI infrastructure against traditional cloud GPU rental. Learn the trade-offs in data sovereignty, compliance, cost, and model accuracy."
@@ -92,12 +92,12 @@ export default function AiVsCloudPage() {
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
-        {/* Hero */}
-        <section
-          className="container-editorial"
-          style={{ paddingTop: 'clamp(120px, 16vh, 180px)', paddingBottom: 'clamp(48px, 6vh, 72px)' }}
-        >
+      <main style={{ minHeight: '100vh' }}>
+        <div className="consulting-block">
+          <div className="consulting-grid">
+            <div className="consulting-col--full">
+              {/* Hero */}
+              <div style={{ paddingTop: '80px', paddingBottom: '32px' }}>
           <div style={{ maxWidth: '800px' }}>
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Deep Dive</p>
@@ -120,7 +120,7 @@ export default function AiVsCloudPage() {
               </div>
             </RevealText>
           </div>
-        </section>
+        </div>
 
         {/* Comparison Cards */}
         <section className="container-editorial">
@@ -187,9 +187,12 @@ export default function AiVsCloudPage() {
             <ArrowRight size={15} />
           </Link>
         </section>
+          </div>
+          </div>
+        </div>
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

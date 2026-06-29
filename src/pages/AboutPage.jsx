@@ -99,7 +99,7 @@ export default function AboutPage() {
   }
 
   return (
-    <>
+    <div className="page-consulting">
       <SEO 
         title="About Us | Single Core Labs"
         description="Single Core Labs is an elite applied AI research lab and systems engineering firm. We design, deploy, and operate custom agentic architectures."
@@ -107,43 +107,8 @@ export default function AboutPage() {
       />
       <Navbar />
 
-      <main style={{ minHeight: '100vh', overflow: 'hidden', paddingBottom: '120px' }}>
-        {/* Parallax Background Orb */}
-        <div style={{ position: 'relative', width: '100%' }}>
-          <ParallaxLayer
-            speed={-0.2}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: 0,
-              pointerEvents: 'none',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: '10%',
-                left: '5%',
-                width: 'clamp(300px, 45vw, 600px)',
-                height: 'clamp(300px, 45vw, 600px)',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(0,137,123,0.05) 0%, transparent 70%)',
-                filter: 'blur(50px)',
-              }}
-            />
-          </ParallaxLayer>
-        </div>
-
-        {/* Hero Section */}
-        <section
-          className="container-editorial"
-          style={{
-            paddingTop: 'clamp(120px, 16vh, 180px)',
-            paddingBottom: 'clamp(48px, 6vh, 80px)',
-            position: 'relative',
-            zIndex: 1,
-          }}
-        >
+      <main style={{ minHeight: '100vh', paddingTop: '120px' }}>
+        <div className="consulting-block">
           <div style={{ maxWidth: '800px' }}>
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Who We Are</p>
@@ -783,9 +748,10 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+      </div>
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

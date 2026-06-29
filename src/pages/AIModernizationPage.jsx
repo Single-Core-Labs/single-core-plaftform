@@ -9,13 +9,13 @@ import SEO from '@/components/SEO'
 
 export default function AIModernizationPage() {
   return (
-    <>
+    <div className="page-consulting">
       <SEO 
         title="AI-Led Modernization | Single Core Labs"
         description="Rebuild your legacy systems using AI-guided specification and controlled modernization."
       />
       <Navbar />
-      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
+      <main style={{ minHeight: '100vh' }}>
         <section 
           className="container-editorial"
           style={{
@@ -78,6 +78,6 @@ export default function AIModernizationPage() {
       <AIAgentWidget />
     </main>
     <Footer />
-    </>
+    </div>
   )
 }

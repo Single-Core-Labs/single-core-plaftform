@@ -498,7 +498,7 @@ export default function SemanticCachePaper() {
   }
 
   return (
-    <>
+    <div className="page-consulting">
       <SEO
         title="SemanticCache: Reducing LLM Inference Cost | Single Core Labs Research"
         description="SemanticCache achieves 47.3% average token reduction and 61% latency improvement via embedding-based prompt similarity matching with adaptive threshold calibration."
@@ -843,6 +843,6 @@ async fn handle(req: Request) -> Response {
           .ai21-fig-breakout { margin-left: 0 !important; margin-right: 0 !important; }
         }
       `}</style>
-    </>
+    </div>
   )
 }

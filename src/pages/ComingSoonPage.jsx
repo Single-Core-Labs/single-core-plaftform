@@ -13,7 +13,7 @@ export default function ComingSoonPage() {
     : 'Coming Soon'
 
   return (
-    <>
+    <div className="page-consulting">
       <SEO title={`${title} | Single Core Labs`} description="This page is currently under construction. Check back soon." />
       <Navbar />
       <main
@@ -25,9 +25,9 @@ export default function ComingSoonPage() {
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          padding: '120px 24px',
         }}
       >
+        <div className="consulting-block" style={{ width: '100%', maxWidth: '600px', margin: '40px auto' }}>
         <p className="text-eyebrow" style={{ marginBottom: '32px' }}>
           Coming Soon
         </p>
@@ -54,8 +54,9 @@ export default function ComingSoonPage() {
           Back to home
           <ArrowRight size={14} />
         </Link>
+      </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

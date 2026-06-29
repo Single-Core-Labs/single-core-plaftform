@@ -161,7 +161,7 @@ export default function ResearchPage() {
   }
 
   return (
-    <>
+    <div className="page-consulting">
       <SEO
         title="Research | Single Core Labs"
         description="Frontier research in LLM inference optimisation, agentic systems, and sovereign AI infrastructure by Single Core Labs."
@@ -169,11 +169,11 @@ export default function ResearchPage() {
         schema={schema}
       />
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" style={{ minHeight: '100vh' }}>
         <HeroSection />
         <CTASection />
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

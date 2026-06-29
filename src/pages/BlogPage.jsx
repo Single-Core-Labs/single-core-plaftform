@@ -32,17 +32,18 @@ function BlogPage() {
   const posts = getAllPosts()
 
   return (
-    <>
+    <div className="page-consulting">
       <SEO 
         title="Blog | Single Core Labs"
         description="Insights, updates, and practical takes on enterprise AI engineering, infrastructure, and applied research."
         keywords="AI engineering blog, enterprise AI updates, applied AI research insights"
       />
       <Navbar />
-      <main style={{ minHeight: '100vh', paddingBottom: '120px' }}>
-        <section
-          className="container-editorial"
-          style={{ paddingTop: 'clamp(120px, 14vh, 180px)', paddingBottom: 'clamp(48px, 6vh, 72px)' }}
+      <main style={{ minHeight: '100vh' }}>
+        <div className="consulting-block">
+          <div className="consulting-col--full">
+            <section
+              style={{ paddingTop: '80px', paddingBottom: '32px' }}
         >
           <RevealText>
             <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Blog</p>
@@ -74,9 +75,11 @@ function BlogPage() {
             <BlogCard key={post.slug} post={post} />
           ))}
         </section>
+          </div>
+        </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
 
