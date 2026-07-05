@@ -1,0 +1,504 @@
+openapi: 3.1.0
+info:
+  title: SCL Model Aggregator API
+  description: |
+    Unified API for intelligent LLM routing, semantic caching, and provider abstraction.
+    Supports OpenAI and Anthropic compatible interfaces with added observability and routing control.
+  version: 1.0.0
+  contact:
+    name: Single Core Labs Support
+    url: https://singlecorelabs.in
+    email: support@singlecorelabs.in
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.sclhq.com
+    description: Production Gateway
+  - url: http://localhost:8001
+    description: Local Development Gateway
+  - url: https://billing.sclhq.com
+    description: Billing Service (Internal/Dashboard)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: SCL API Key (sk-scl-...)
+
+  headers:
+    X-SCL-Model:
+      description: The actual model ID selected by the router.
+      schema:
+        type: string
+    X-SCL-Provider:
+      description: The provider that served the request (e.g., openai, anthropic, groq).
+      schema:
+        type: string
+    X-SCL-Intent:
+      description: The intent detected by the router (e.g., code, reasoning, vision).
+      schema:
+        type: string
+    X-SCL-Cached:
+      description: Whether the response was served from the semantic cache.
+      schema:
+        type: boolean
+    X-SCL-Latency-Ms:
+      description: The internal processing latency in milliseconds.
+      schema:
+        type: integer
+    X-SCL-Cost-Credits:
+      description: The total credits deducted for this request.
+      schema:
+        type: number
+        format: float
+
+  schemas:
+    # ── Shared ──
+    Message:
+      type: object
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum: [system, user, assistant, tool]
+        content:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [text, image_url]
+                  text:
+                    type: string
+                  image_url:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+    
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+        completion_tokens:
+          type: integer
+        total_tokens:
+          type: integer
+
+    # ── Chat Completion (OpenAI Compatible) ──
+    ChatCompletionRequest:
+      type: object
+      required:
+        - model
+        - messages
+      properties:
+        model:
+          type: string
+          description: "Model ID or 'auto' for intelligent routing."
+          example: "auto"
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+        max_tokens:
+          type: integer
+        stream:
+          type: boolean
+          default: false
+        routing_policy:
+          type: string
+          enum: [quality_first, cost_first, latency_first]
+          description: "SCL specific: override default routing logic."
+
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          default: "chat.completion"
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              message:
+                $ref: '#/components/schemas/Message'
+              finish_reason:
+                type: string
+        usage:
+          $ref: '#/components/schemas/Usage'
+
+    # ── Messages (Anthropic Compatible) ──
+    MessageRequest:
+      type: object
+      required:
+        - model
+        - messages
+        - max_tokens
+      properties:
+        model:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        system:
+          type: string
+        max_tokens:
+          type: integer
+        stream:
+          type: boolean
+        metadata:
+          type: object
+
+    # ── Models ──
+    Model:
+      type: object
+      properties:
+        id:
+          type: string
+        provider:
+          type: string
+        context_window:
+          type: integer
+        input_cost_per_1k:
+          type: number
+        output_cost_per_1k:
+          type: number
+        latency_profile:
+          type: string
+          enum: [fastest, fast, medium, slow]
+
+    # ── API Keys ──
+    KeyCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maxLength: 50
+    
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        key:
+          type: string
+          description: "Masked (sk-...xxxx) or full value (on creation only)"
+        createdAt:
+          type: string
+          format: date-time
+        lastUsed:
+          type: string
+          format: date-time
+          nullable: true
+        requests:
+          type: integer
+        spend:
+          type: number
+
+    # ── Billing ──
+    PurchaseRequest:
+      type: object
+      required:
+        - userId
+        - packName
+        - gateway
+      properties:
+        userId:
+          type: string
+        packName:
+          type: string
+          enum: [starter, growth, scale, enterprise]
+        gateway:
+          type: string
+          enum: [stripe, razorpay]
+        email:
+          type: string
+          format: email
+
+    # ── Errors ──
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+        details:
+          type: object
+
+security:
+  - BearerAuth: []
+
+paths:
+  /v1/chat/completions:
+    post:
+      tags: [Gateway]
+      summary: OpenAI-compatible Chat Completions
+      description: Unified endpoint for all LLMs. Automatically routes based on intent unless a specific model is requested.
+      parameters:
+        - in: header
+          name: X-SCL-Policy
+          schema:
+            type: string
+            enum: [quality_first, cost_first, latency_first]
+          description: Routing policy override
+        - in: header
+          name: X-SCL-No-Cache
+          schema:
+            type: boolean
+          description: Bypass the semantic cache
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            X-SCL-Model: { $ref: '#/components/headers/X-SCL-Model' }
+            X-SCL-Provider: { $ref: '#/components/headers/X-SCL-Provider' }
+            X-SCL-Intent: { $ref: '#/components/headers/X-SCL-Intent' }
+            X-SCL-Cached: { $ref: '#/components/headers/X-SCL-Cached' }
+            X-SCL-Latency-Ms: { $ref: '#/components/headers/X-SCL-Latency-Ms' }
+            X-SCL-Cost-Credits: { $ref: '#/components/headers/X-SCL-Cost-Credits' }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+            text/event-stream:
+              description: SSE streaming response
+              example: |
+                data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-4o","choices":[{"index":0,"delta":{"content":"Hello"},"finish_reason":null}]}
+                
+                data: {"id":"chatcmpl-123","object":"chat.completion.chunk","created":1694268190,"model":"gpt-4o","choices":[{"index":0,"delta":{"content":" world"},"finish_reason":null}]}
+                
+                data: [DONE]
+        '401':
+          description: Unauthorized - Invalid API Key
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '402':
+          description: Payment Required - Insufficient credits
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /v1/messages:
+    post:
+      tags: [Gateway]
+      summary: Anthropic-compatible Messages API
+      description: Supports Claude-specific features while using the SCL routing engine.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /v1/models:
+    get:
+      tags: [Gateway]
+      summary: List Models
+      description: Get all models currently supported by the aggregator with pricing.
+      responses:
+        '200':
+          description: List of models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Model'
+
+  /v1/keys:
+    get:
+      tags: [Keys]
+      summary: List API Keys
+      description: Retrieve all active API keys for the authenticated user.
+      parameters:
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKey'
+    post:
+      tags: [Keys]
+      summary: Create API Key
+      description: Generate a new sk-scl-... key. Full key is only shown once.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyCreateRequest'
+      responses:
+        '200':
+          description: Key created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+
+  /v1/keys/{id}:
+    delete:
+      tags: [Keys]
+      summary: Revoke API Key
+      description: Immediately disable an API key. This cannot be undone.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Key revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+
+  /health:
+    get:
+      tags: [System]
+      summary: Health Check
+      description: Check the status of the gateway and underlying model providers.
+      responses:
+        '200':
+          description: System healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, enum: [ok, degraded] }
+                  service: { type: string }
+                  degraded_providers:
+                    type: array
+                    items: { type: string }
+
+  /credits/purchase:
+    post:
+      tags: [Billing]
+      summary: Initiate Purchase
+      description: Create a checkout session for adding credits.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseRequest'
+      responses:
+        '200':
+          description: Checkout URL generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url: { type: string, format: uri }
+                  sessionId: { type: string }
+
+  /credits/balance/{userId}:
+    get:
+      tags: [Billing]
+      summary: Get Balance
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Current balance
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance: { type: integer }
+                  balanceInr: { type: string }
+                  balanceUsd: { type: string }
+
+  /credits/usage/{userId}:
+    get:
+      tags: [Billing]
+      summary: Get Usage History
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema: { type: string }
+        - in: query
+          name: from
+          schema: { type: string, format: date-time }
+        - in: query
+          name: to
+          schema: { type: string, format: date-time }
+      responses:
+        '200':
+          description: Detailed usage history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items: { type: object }
+                  summary:
+                    type: object

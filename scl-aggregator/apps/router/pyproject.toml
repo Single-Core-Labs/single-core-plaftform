@@ -1,0 +1,21 @@
+[project]
+name = "router"
+version = "0.1.0"
+description = "Python (FastAPI) intelligent routing service"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "semantic-cache",
+    "pydantic",
+    "httpx"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "respx"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]

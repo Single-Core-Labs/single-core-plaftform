@@ -1,0 +1,20 @@
+[project]
+name = "cache-service"
+version = "0.1.0"
+description = "FastAPI wrapper for semantic caching service"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "semantic-cache",
+    "pydantic"
+]
+
+[tool.uv.sources]
+semantic-cache = { path = "../../packages/semantic-cache" }
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "httpx",
+    "pytest-asyncio"
+]

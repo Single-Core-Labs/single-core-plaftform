@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Credit balance per user ─────────────────────────────────
+
+model User {
+  id             String        @id @default(uuid())
+  externalId     String        @unique @map("external_id") // From auth/dashboard
+  email          String?
+  creditBalance  Int           @default(0) @map("credit_balance") // 1 credit = $0.01
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  transactions   Transaction[]
+  apiKeys        ApiKey[]
+
+  @@map("users")
+}
+
+// ── User API Keys ───────────────────────────────────────────
+
+model ApiKey {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  key         String   @unique // The actual sk-... value
+  lastUsed    DateTime? @map("last_used")
+  requests    Int      @default(0)
+  spend       Float    @default(0) // Accumulated spend in INR
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([key])
+  @@map("api_keys")
+}
+
+// ── Every credit movement (purchase, deduction, refund) ─────
+
+model Transaction {
+  id               String            @id @default(uuid())
+  userId           String            @map("user_id")
+  type             TransactionType
+  amountCredits    Int               @map("amount_credits") // positive = add, negative = deduct
+  amountUsd        Float?            @map("amount_usd")
+  amountInr        Float?            @map("amount_inr")
+
+  // Payment references
+  stripeSessionId  String?           @map("stripe_session_id")
+  razorpayOrderId  String?           @map("razorpay_order_id")
+  razorpayPaymentId String?          @map("razorpay_payment_id")
+
+  // Usage metadata (for deductions)
+  model            String?
+  provider         String?
+  tokensUsed       Int?              @map("tokens_used")
+  inputTokens      Int?              @map("input_tokens")
+  outputTokens     Int?              @map("output_tokens")
+
+  status           TransactionStatus @default(PENDING)
+  description      String?
+  createdAt        DateTime          @default(now()) @map("created_at")
+
+  user             User              @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@index([stripeSessionId])
+  @@index([razorpayOrderId])
+  @@map("transactions")
+}
+
+// ── Predefined credit packs ─────────────────────────────────
+
+model CreditPack {
+  id       String @id @default(uuid())
+  name     String @unique
+  credits  Int    // How many credits the user gets
+  priceUsd Float  @map("price_usd")
+  priceInr Float  @map("price_inr")
+  active   Boolean @default(true)
+
+  @@map("credit_packs")
+}
+
+// ── Enums ───────────────────────────────────────────────────
+
+enum TransactionType {
+  PURCHASE
+  DEDUCTION
+  REFUND
+  ADJUSTMENT
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}

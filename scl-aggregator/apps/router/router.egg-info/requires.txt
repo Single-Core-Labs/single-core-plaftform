@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+semantic-cache
+pydantic
+httpx
+
+[dev]
+pytest
+pytest-asyncio
+respx
