@@ -1,7 +1,0 @@
-[workspace]
-members = [
-    "apps/gateway",
-    "packages/provider-adapters",
-    "packages/scl-cli"
-]
-resolver = "2"
