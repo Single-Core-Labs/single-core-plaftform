@@ -31,8 +31,6 @@ const FOOTER_LINKS = [
   {
     heading: 'Resources',
     links: [
-      { label: 'AI Infrastructure vs Cloud', href: '/ai-infrastructure-vs-cloud' },
-      { label: 'Indian AI Market Guide', href: '/indian-ai-cloud-market-alternative' },
       { label: 'Blog', href: '/blog' },
     ],
   },
@@ -162,16 +160,28 @@ export function Footer() {
         marginTop: '20px',
         paddingBottom: '40px',
       }}>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(60px, 14vw, 200px)',
-          fontWeight: 600,
-          lineHeight: 0.8,
-          letterSpacing: '-0.05em',
-          color: 'transparent',
-          WebkitTextStroke: '1px rgba(255,255,255,0.05)',
-          whiteSpace: 'nowrap',
-        }}>
+        <span
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(60px, 14vw, 200px)',
+            fontWeight: 600,
+            lineHeight: 0.8,
+            letterSpacing: '-0.05em',
+            color: 'transparent',
+            WebkitTextStroke: '1px rgba(255,255,255,0.05)',
+            whiteSpace: 'nowrap',
+            transition: 'filter 0.4s ease, text-shadow 0.4s ease',
+            cursor: 'default',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.filter = 'drop-shadow(0 0 30px rgba(228, 222, 201, 0.15)) drop-shadow(0 0 60px rgba(228, 222, 201, 0.08))'
+            e.currentTarget.style.WebkitTextStroke = '1px rgba(228, 222, 201, 0.25)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.filter = 'none'
+            e.currentTarget.style.WebkitTextStroke = '1px rgba(255,255,255,0.05)'
+          }}
+        >
           Single Core Labs
         </span>
       </div>

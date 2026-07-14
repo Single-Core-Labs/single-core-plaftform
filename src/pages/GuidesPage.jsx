@@ -7,22 +7,6 @@ import { ArrowRight } from 'lucide-react'
 import SEO from '@/components/SEO'
 
 const GUIDES = [
-  {
-    href: '/ai-infrastructure-vs-cloud',
-    category: 'Infrastructure',
-    title: 'Custom AI Infrastructure vs Traditional Cloud GPUs',
-    description:
-      'A side-by-side breakdown of bespoke, sovereign AI infrastructure against rented cloud GPU services. Understand the trade-offs in data sovereignty, compliance, cost, and model accuracy.',
-    readTime: '6 min read',
-  },
-  {
-    href: '/indian-ai-cloud-market-alternative',
-    category: 'Market Guide',
-    title: 'Indian AI Infrastructure: Beyond Cloud GPU Rental',
-    description:
-      'A guide to the Indian AI infrastructure landscape and why enterprises in regulated sectors should consider sovereign, on-premise alternatives to cloud GPU providers.',
-    readTime: '5 min read',
-  },
 ]
 
 const schema = {

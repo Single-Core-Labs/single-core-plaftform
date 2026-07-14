@@ -12,8 +12,6 @@ const BlogPost = lazy(() => import('./pages/BlogPost'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 const AIModernizationPage = lazy(() => import('./pages/AIModernizationPage'))
 const HealthcareIntelligencePage = lazy(() => import('./pages/HealthcareIntelligencePage'))
-const AiVsCloudPage = lazy(() => import('./pages/AiVsCloudPage'))
-const IndianAiCloudAlternativePage = lazy(() => import('./pages/IndianAiCloudAlternativePage'))
 const GuidesPage = lazy(() => import('./pages/GuidesPage'))
 const ResearchPage = lazy(() => import('./pages/ResearchPage'))
 const SemanticCachePaper = lazy(() => import('./pages/SemanticCachePaper'))
@@ -76,8 +74,6 @@ function App() {
           <Route path="/guides" element={<GuidesPage />} />
           <Route path="/research" element={<ResearchPage />} />
           <Route path="/research/semantic-cache" element={<SemanticCachePaper />} />
-          <Route path="/ai-infrastructure-vs-cloud" element={<AiVsCloudPage />} />
-          <Route path="/indian-ai-cloud-market-alternative" element={<IndianAiCloudAlternativePage />} />
           <Route path="/:slug" element={<ComingSoonPage />} />
         </Routes>
       </Suspense>

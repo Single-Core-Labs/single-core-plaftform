@@ -669,6 +669,147 @@ function FeaturesSection() {
   )
 }
 
+// ─── SECTION 4: NEWSLETTER ────────────────────────────────────────────────────
+
+function NewsletterSection() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: '#000',
+        padding: 'clamp(64px, 8vw, 120px) clamp(20px, 4vw, 60px)',
+        fontFamily: "'Almarai', sans-serif",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          background: '#101010',
+          borderRadius: 'clamp(16px, 2vw, 28px)',
+          padding: 'clamp(48px, 6vw, 96px) clamp(28px, 5vw, 80px)',
+          maxWidth: '760px',
+          margin: '0 auto',
+          textAlign: 'center',
+        }}
+      >
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            color: CREAM,
+            fontSize: 'clamp(10px, 0.9vw, 12px)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            fontWeight: 400,
+            marginBottom: 'clamp(20px, 2.5vw, 36px)',
+          }}
+        >
+          Stay in the loop
+        </motion.p>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            color: CREAM,
+            fontSize: 'clamp(26px, 4.5vw, 64px)',
+            fontWeight: 400,
+            lineHeight: 0.95,
+            maxWidth: '620px',
+            margin: '0 auto',
+            marginBottom: 'clamp(16px, 2vw, 24px)',
+            fontFamily: "'Almarai', sans-serif",
+          }}
+        >
+          Research, writing, and
+          {' '}<span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}>field notes</span>
+          {' '}— in your inbox.
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            color: CREAM_70,
+            fontSize: 'clamp(12px, 1.1vw, 15px)',
+            fontWeight: 300,
+            lineHeight: 1.5,
+            maxWidth: '480px',
+            margin: '0 auto',
+            marginBottom: 'clamp(28px, 3.5vw, 48px)',
+          }}
+        >
+          No spam. Unsubscribe anytime.
+        </motion.p>
+
+        <motion.form
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          onSubmit={(e) => e.preventDefault()}
+          style={{
+            display: 'flex',
+            gap: '12px',
+            maxWidth: '460px',
+            margin: '0 auto',
+            justifyContent: 'center',
+          }}
+        >
+          <input
+            type="email"
+            placeholder="your@email.com"
+            required
+            style={{
+              flex: 1,
+              minWidth: 0,
+              background: '#000',
+              border: '1px solid rgba(225,224,204,0.15)',
+              borderRadius: '9999px',
+              padding: 'clamp(10px, 1vw, 14px) clamp(16px, 2vw, 24px)',
+              color: CREAM,
+              fontSize: 'clamp(12px, 1vw, 14px)',
+              fontFamily: "'Almarai', sans-serif",
+              fontWeight: 300,
+              outline: 'none',
+              transition: 'border-color 0.2s',
+            }}
+            onFocus={(e) => e.target.style.borderColor = 'rgba(225,224,204,0.4)'}
+            onBlur={(e) => e.target.style.borderColor = 'rgba(225,224,204,0.15)'}
+          />
+          <button
+            type="submit"
+            style={{
+              background: CREAM,
+              border: 'none',
+              borderRadius: '9999px',
+              padding: 'clamp(10px, 1vw, 14px) clamp(20px, 2.5vw, 32px)',
+              color: '#000',
+              fontSize: 'clamp(12px, 1vw, 14px)',
+              fontFamily: "'Almarai', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={(e) => e.target.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.target.style.opacity = '1'}
+          >
+            Subscribe
+          </button>
+        </motion.form>
+      </motion.div>
+    </section>
+  )
+}
+
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -682,6 +823,7 @@ export default function HomePage() {
       <HeroSection />
       <AboutSection />
       <FeaturesSection />
+      <NewsletterSection />
       <Footer />
     </div>
   )
