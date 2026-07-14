@@ -1,6 +1,6 @@
 # Single Core Labs - Codebase Context
 
-Last updated: 2026-06-14
+Last updated: 2026-07-14
 
 This file is a comprehensive orientation guide for the Single Core Labs codebase, covering both the marketing website and the model aggregator backend services.
 
@@ -56,6 +56,20 @@ The project consists of two primary domains:
 
 - **Blog**: Metadata in `src/data/blog-posts.json`, content components in `src/content/blog/`.
 - **Prerendering**: `scripts/prerender.mjs` generates static HTML for SEO.
+
+### Key Pages Detail
+
+#### HomePage (`src/pages/HomePage.jsx`)
+Sections in order: Hero (full-screen video with SCL wordmark) → Backed by Section ("Backed by engineers from Cognizant, Bank of America, Global Logic" — slow staggered fade-in, no card, text on black) → About Section (single centered sentence: "We design original architectures and ship them into production — across healthcare, infrastructure, and developer tooling.") → Features (3 cards: Security, Deployment, Customization) → Newsletter → Footer.
+
+#### SolutionsPage (`src/pages/SolutionsPage.jsx`)
+Industry hub with scroll-driven animated tree spine: root node "Single Core Labs" with 5 industry nodes (Finance, Tech, Manufacturing, Healthcare, Defense) alternating left/right with SVG branch paths and connector dots.
+
+#### TechPage (`src/pages/TechPage.jsx`) — `/solutions/tech`
+Cohere-style page with hero (3D rotating DNA model placeholder → lazy-loaded CloudFront video), Core Capabilities (Build/Secure/Scale), Teams tabs (Engineering with code comparison SVG, Operations with CI/CD pipeline SVG, Customer Success with dashboard SVG), Platform Services (6 cards), Security & Deployment (4 cards), closing CTA.
+
+#### HealthcareIntelligencePage (`src/pages/HealthcareIntelligencePage.jsx`) — `/solutions/healthcare-intelligence`
+Cohere-style page with hero (lazy-loaded Pexels image of doctor with tablet, dark gradient overlay), Core Capabilities (Diagnose/Automate/Accelerate), Teams tabs (Clinical with EHR SVG, Operations with claims pipeline SVG, R&D with research dashboard SVG), Platform Services (6 healthcare cards), Security & Deployment, closing CTA.
 
 ---
 
