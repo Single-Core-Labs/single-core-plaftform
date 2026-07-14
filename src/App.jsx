@@ -15,6 +15,7 @@ const HealthcareIntelligencePage = lazy(() => import('./pages/HealthcareIntellig
 const GuidesPage = lazy(() => import('./pages/GuidesPage'))
 const DeploymentPage = lazy(() => import('./pages/DeploymentPage'))
 const SecurityPage = lazy(() => import('./pages/SecurityPage'))
+const TechPage = lazy(() => import('./pages/TechPage'))
 const ResearchPage = lazy(() => import('./pages/ResearchPage'))
 const SemanticCachePaper = lazy(() => import('./pages/SemanticCachePaper'))
 
@@ -68,6 +69,7 @@ function App() {
           <Route path="/solutions" element={<SolutionsPage />} />
           <Route path="/solutions/healthcare-intelligence" element={<HealthcareIntelligencePage />} />
           <Route path="/solutions/ai-modernization" element={<AIModernizationPage />} />
+          <Route path="/solutions/tech" element={<TechPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/case-studies" element={<CaseStudiesPage />} />
           <Route path="/blog" element={<BlogPage />} />

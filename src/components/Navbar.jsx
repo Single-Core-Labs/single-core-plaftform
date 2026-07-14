@@ -21,11 +21,11 @@ const RESOURCES_RIGHT = [
 ]
 
 const INDUSTRIES = [
-  { label: 'Finance', href: '/solutions', icon: Landmark },
-  { label: 'Tech', href: '/solutions', icon: Monitor },
-  { label: 'Manufacturing', href: '/solutions', icon: Factory },
+  { label: 'Finance', href: '/solutions/finance', icon: Landmark },
+  { label: 'Tech', href: '/solutions/tech', icon: Monitor },
+  { label: 'Manufacturing', href: '/solutions/manufacturing', icon: Factory },
   { label: 'Healthcare', href: '/solutions/healthcare-intelligence', icon: SquarePlus },
-  { label: 'Defense', href: '/solutions', icon: Shield },
+  { label: 'Defense', href: '/solutions/defense', icon: Shield },
 ]
 
 const darkBg = 'rgba(11, 11, 11, 0.88)'
