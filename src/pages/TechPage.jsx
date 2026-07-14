@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
+import DnaModel from '@/components/DnaModel'
 import { ArrowRight, Shield, Cpu, Cloud, Code2, Workflow, LineChart, BookOpen, Building2, Users, CheckCircle, Lock, Server, GitBranch, BarChart3, MessagesSquare, ChevronRight } from 'lucide-react'
 
 const HERO_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4'
@@ -163,23 +164,9 @@ function LazyHeroVideo() {
 
   return (
     <div ref={containerRef} className="hero-video-wrap">
-      {/* 3D cube — always visible as placeholder */}
+      {/* DNA model — always visible as placeholder */}
       <div className="hero-3d-scene" style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.6s ease' }}>
-        <div className="hero-3d-container">
-          <div className="hero-3d-cube">
-            <div className="hero-3d-face hero-3d-face--front"><span className="hero-3d-code">&lt;AI /&gt;</span></div>
-            <div className="hero-3d-face hero-3d-face--back"><span className="hero-3d-code">import</span></div>
-            <div className="hero-3d-face hero-3d-face--right"><span className="hero-3d-code">deploy()</span></div>
-            <div className="hero-3d-face hero-3d-face--left"><span className="hero-3d-code">scale()</span></div>
-            <div className="hero-3d-face hero-3d-face--top"><span className="hero-3d-code">build</span></div>
-            <div className="hero-3d-face hero-3d-face--bottom"><span className="hero-3d-code">{'{ }'}</span></div>
-          </div>
-        </div>
-        <svg className="hero-3d-ring" viewBox="0 0 300 300" style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0 }}>
-          <ellipse cx="150" cy="150" rx="130" ry="45" fill="none" stroke="rgba(184,164,120,0.08)" strokeWidth="1" transform="rotate(-30 150 150)" />
-          <ellipse cx="150" cy="150" rx="130" ry="45" fill="none" stroke="rgba(184,164,120,0.06)" strokeWidth="1" transform="rotate(30 150 150)" />
-          <ellipse cx="150" cy="150" rx="130" ry="45" fill="none" stroke="rgba(184,164,120,0.04)" strokeWidth="1" transform="rotate(90 150 150)" />
-        </svg>
+        <DnaModel />
       </div>
       {/* Video — fades in once loaded */}
       <video
@@ -290,73 +277,11 @@ export default function TechPage() {
               position: relative;
               z-index: 1;
             }
-            .hero-3d-container {
-              width: 140px;
-              height: 140px;
-              position: relative;
-              transform-style: preserve-3d;
-              animation: hero3dRotate 12s ease-in-out infinite;
-            }
-            @keyframes hero3dRotate {
-              0%, 100% { transform: rotateX(-20deg) rotateY(0deg); }
-              25% { transform: rotateX(-20deg) rotateY(90deg); }
-              50% { transform: rotateX(20deg) rotateY(180deg); }
-              75% { transform: rotateX(20deg) rotateY(270deg); }
-            }
-            .hero-3d-cube {
-              width: 140px;
-              height: 140px;
-              position: relative;
-              transform-style: preserve-3d;
-              animation: hero3dFloat 3s ease-in-out infinite;
-            }
-            @keyframes hero3dFloat {
-              0%, 100% { transform: translateY(0); }
-              50% { transform: translateY(-10px); }
-            }
-            .hero-3d-face {
-              position: absolute;
-              width: 140px;
-              height: 140px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background: rgba(17,17,17,0.85);
-              border: 1px solid rgba(184,164,120,0.15);
-              backdrop-filter: blur(8px);
-              border-radius: 12px;
-            }
-            .hero-3d-code {
-              font-family: monospace;
-              font-size: 15px;
-              color: rgba(184,164,120,0.6);
-              letter-spacing: 1px;
-            }
-            .hero-3d-face--front  { transform: translateZ(70px); }
-            .hero-3d-face--back   { transform: rotateY(180deg) translateZ(70px); }
-            .hero-3d-face--right  { transform: rotateY(90deg) translateZ(70px); }
-            .hero-3d-face--left   { transform: rotateY(-90deg) translateZ(70px); }
-            .hero-3d-face--top    { transform: rotateX(90deg) translateZ(70px); }
-            .hero-3d-face--bottom { transform: rotateX(-90deg) translateZ(70px); }
-
-            .hero-3d-ring { animation: heroRingSpin 20s linear infinite; }
-            @keyframes heroRingSpin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
 
             @media (max-width: 900px) {
               .hero-split { grid-template-columns: 1fr; gap: 32px; }
               .hero-split__text { text-align: center; }
               .hero-video-wrap { max-width: 320px; }
-              .hero-3d-container, .hero-3d-cube, .hero-3d-face { width: 110px; height: 110px; }
-              .hero-3d-face--front  { transform: translateZ(55px); }
-              .hero-3d-face--back   { transform: rotateY(180deg) translateZ(55px); }
-              .hero-3d-face--right  { transform: rotateY(90deg) translateZ(55px); }
-              .hero-3d-face--left   { transform: rotateY(-90deg) translateZ(55px); }
-              .hero-3d-face--top    { transform: rotateX(90deg) translateZ(55px); }
-              .hero-3d-face--bottom { transform: rotateX(-90deg) translateZ(55px); }
-              .hero-3d-code { font-size: 12px; }
             }
           `}</style>
         </section>
