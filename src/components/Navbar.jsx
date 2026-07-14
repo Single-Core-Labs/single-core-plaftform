@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 import { Factory, Landmark, Monitor, Shield, SquarePlus } from 'lucide-react'
 import { NAV_LINKS } from '@/lib/constants'
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
-
 const RESOURCES_LEFT = {
   label: 'Single Core Labs',
   items: [
@@ -30,18 +28,9 @@ const INDUSTRIES = [
   { label: 'Defense', href: '/solutions', icon: Shield },
 ]
 
-// ─── SOLUTIONS MEGA DROPDOWN ─────────────────────────────────────────────────
-function SolutionsDropdown({ onClose }) {
-  const colLabel = {
-    fontFamily: 'var(--font-serif)',
-    fontSize: '13px',
-    fontWeight: 400,
-    lineHeight: 1,
-    color: 'rgba(26, 26, 26, 0.45)',
-    display: 'block',
-    marginBottom: '14px',
-  }
+const darkBg = 'rgba(11, 11, 11, 0.88)'
 
+function SolutionsDropdown({ onClose }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -4 }}
@@ -53,10 +42,10 @@ function SolutionsDropdown({ onClose }) {
         top: '72px',
         left: 0,
         right: 0,
-        background: '#F8F8F7',
-        borderTop: '1px solid rgba(0,0,0,0.08)',
-        borderBottom: '1px solid rgba(0,0,0,0.08)',
-        boxShadow: '0 18px 40px rgba(0,0,0,0.045)',
+        background: '#111111',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        boxShadow: '0 18px 40px rgba(0,0,0,0.5)',
         zIndex: 99,
       }}
     >
@@ -69,10 +58,7 @@ function SolutionsDropdown({ onClose }) {
         alignItems: 'start',
         columnGap: 'clamp(32px, 6vw, 74px)',
       }}>
-        {/* ── Col 1: Product ── */}
-        <div style={{
-          paddingTop: '2px',
-        }}>
+        <div style={{ paddingTop: '2px' }}>
           <p style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '13px',
@@ -88,16 +74,25 @@ function SolutionsDropdown({ onClose }) {
             fontSize: '11px',
             fontWeight: 500,
             lineHeight: 1.45,
-            color: 'rgba(26, 26, 26, 0.48)',
+            color: 'rgba(228, 222, 201, 0.48)',
             maxWidth: '172px',
           }}>
             Built by AI experts and tuned to your data and use case
           </p>
         </div>
 
-        {/* ── Col 2: Industries ── */}
         <div>
-          <span style={colLabel}>Industries</span>
+          <span style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '13px',
+            fontWeight: 400,
+            lineHeight: 1,
+            color: 'rgba(228, 222, 201, 0.45)',
+            display: 'block',
+            marginBottom: '14px',
+          }}>
+            Industries
+          </span>
           <div style={{
             display: 'flex',
             flexDirection: 'column',
@@ -108,7 +103,6 @@ function SolutionsDropdown({ onClose }) {
                 key={ind.label}
                 to={ind.href}
                 onClick={onClose}
-                className="solutions-industry-link"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -116,11 +110,13 @@ function SolutionsDropdown({ onClose }) {
                   width: 'max-content',
                   minHeight: '18px',
                   textDecoration: 'none',
-                  color: 'var(--color-text)',
+                  color: 'rgba(228, 222, 201, 0.7)',
                   transition: 'color 0.18s',
                 }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'rgba(228, 222, 201, 0.7)'}
               >
-                <span style={{ color: 'currentColor', display: 'inline-flex' }}>
+                <span style={{ display: 'inline-flex', color: 'currentColor' }}>
                   <ind.icon size={15} strokeWidth={1.8} aria-hidden="true" />
                 </span>
                 <span style={{
@@ -135,24 +131,17 @@ function SolutionsDropdown({ onClose }) {
             ))}
           </div>
         </div>
-
       </div>
-      <style>{`
-        .solutions-industry-link:hover {
-          color: var(--color-accent) !important;
-        }
-      `}</style>
     </motion.div>
   )
 }
 
-// ─── RESOURCES MEGA DROPDOWN ─────────────────────────────────────────────────
 function ResourcesDropdown({ onClose }) {
   const colLinkStyle = {
     fontFamily: 'var(--font-sans)',
     fontSize: '15px',
     fontWeight: 400,
-    color: 'var(--color-text)',
+    color: 'rgba(228, 222, 201, 0.8)',
     textDecoration: 'none',
     letterSpacing: '-0.01em',
     lineHeight: 1,
@@ -171,24 +160,24 @@ function ResourcesDropdown({ onClose }) {
         top: 'calc(100% + 14px)',
         right: 0,
         width: '520px',
-        background: 'rgba(245, 245, 243, 0.98)',
-        border: '1px solid rgba(0,0,0,0.09)',
+        background: 'rgba(17, 17, 17, 0.98)',
+        border: '1px solid rgba(255,255,255,0.08)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
-        boxShadow: '0 12px 40px rgba(0,0,0,0.10)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
         zIndex: 200,
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
       }}
     >
-      <div style={{ padding: '28px 24px 32px', borderRight: '1px solid rgba(0,0,0,0.07)' }}>
+      <div style={{ padding: '28px 24px 32px', borderRight: '1px solid rgba(255,255,255,0.07)' }}>
         <span style={{
           fontFamily: 'var(--font-display)',
           fontSize: '10px',
-          fontWeight: 600,
+          fontWeight: 500,
           letterSpacing: '0.16em',
           textTransform: 'uppercase',
-          color: 'var(--color-text-dim)',
+          color: 'rgba(228, 222, 201, 0.4)',
           display: 'block',
           marginBottom: '20px',
         }}>
@@ -200,7 +189,7 @@ function ResourcesDropdown({ onClose }) {
               key={item.href} to={item.href} onClick={onClose}
               style={colLinkStyle}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
-              onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(228, 222, 201, 0.8)'}
             >
               {item.label}
             </Link>
@@ -214,7 +203,7 @@ function ResourcesDropdown({ onClose }) {
               key={item.href} to={item.href} onClick={onClose}
               style={colLinkStyle}
               onMouseEnter={e => e.currentTarget.style.color = 'var(--color-accent)'}
-              onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(228, 222, 201, 0.8)'}
             >
               {item.label}
             </Link>
@@ -225,8 +214,7 @@ function ResourcesDropdown({ onClose }) {
   )
 }
 
-// ─── NAVBAR ──────────────────────────────────────────────────────────────────
-export function Navbar() {
+export function Navbar({ category }) {
   const [scrolled, setScrolled]           = useState(false)
   const [menuOpen, setMenuOpen]           = useState(false)
   const [solutionsOpen, setSolutionsOpen] = useState(false)
@@ -268,7 +256,7 @@ export function Navbar() {
     fontSize: '13px',
     fontWeight: 400,
     letterSpacing: '0.02em',
-    color: 'var(--color-text-muted)',
+    color: 'rgba(228, 222, 201, 0.6)',
     textDecoration: 'none',
     transition: 'color 0.25s',
   }
@@ -294,7 +282,7 @@ export function Navbar() {
         alignItems: 'center',
         gap: '4px',
         padding: 0,
-        color: open ? 'var(--color-text)' : 'var(--color-text-muted)',
+        color: open ? 'var(--color-text)' : 'rgba(228, 222, 201, 0.6)',
       }}
     >
       {label}
@@ -315,34 +303,29 @@ export function Navbar() {
           paddingInline: 'clamp(16px, 2.5vw, 32px)',
           maxWidth: '1200px',
           marginInline: 'auto',
-          border: '1px solid rgba(255,255,255,0.4)',
-          backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.75)' : 'rgba(255, 255, 255, 0.65)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.04)' : '0 1px 8px rgba(0,0,0,0.02)',
+          border: '1px solid rgba(255,255,255,0.06)',
+          backgroundColor: scrolled ? 'rgba(11, 11, 11, 0.92)' : 'rgba(11, 11, 11, 0.75)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          boxShadow: scrolled ? '0 4px 20px rgba(0,0,0,0.3)' : 'none',
           transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
           pointerEvents: 'auto',
         }}>
-
-          {/* Logo */}
           <Link to="/" aria-label="Single Core Labs home" style={{
             display: 'flex', alignItems: 'center', gap: '10px',
             textDecoration: 'none', color: 'var(--color-text)',
           }}>
             <img src="/logo-icon.png" alt="Single Core Labs Logo"
-              style={{ height: '28px', width: 'auto', display: 'block' }} loading="eager" />
+              style={{ height: '28px', width: 'auto', display: 'block', filter: 'brightness(1.2)' }} loading="eager" />
             <span style={{
-              fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 600,
+              fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 500,
               letterSpacing: '0.02em', color: 'var(--color-text)',
             }}>
               Single Core Labs
             </span>
           </Link>
 
-          {/* Desktop nav */}
           <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-
-            {/* Solutions dropdown */}
             <div ref={solutionsRef} style={{ position: 'relative' }}>
               {dropdownBtn('Solutions', solutionsOpen, () => setSolutionsOpen(o => !o))}
               <AnimatePresence>
@@ -350,27 +333,22 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Other NAV_LINKS */}
-            {NAV_LINKS.filter(l => l.label !== 'Solutions').map((link) => {
-              return (
-                <Link key={link.href} to={link.href} style={linkStyle}
-                  onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
-                  onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
-                >
-                  {link.label}
-                </Link>
-              )
-            })}
+            {NAV_LINKS.filter(l => l.label !== 'Solutions').map((link) => (
+              <Link key={link.href} to={link.href} style={linkStyle}
+                onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
+                onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.6)'}
+              >
+                {link.label}
+              </Link>
+            ))}
 
-            {/* Case Studies */}
             <Link to="/case-studies" style={linkStyle}
               onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
-              onMouseLeave={e => e.target.style.color = 'var(--color-text-muted)'}
+              onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.6)'}
             >
               Case Studies
             </Link>
 
-            {/* Resources dropdown */}
             <div ref={resourcesRef} style={{ position: 'relative' }}>
               {dropdownBtn('Resources', resourcesOpen, () => setResourcesOpen(o => !o))}
               <AnimatePresence>
@@ -378,23 +356,24 @@ export function Navbar() {
               </AnimatePresence>
             </div>
 
-            <Link to="/contact" className="btn-primary">Book a Demo</Link>
+            <Link to="/contact" className="btn-primary" style={{ background: 'var(--color-text)', color: 'var(--color-bg)', padding: '10px 24px', fontSize: '13px' }}>
+              Book a Demo
+            </Link>
           </div>
 
-          {/* Mobile menu button */}
           <button
             id="mobile-menu-toggle"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(!menuOpen)}
-            className="mobile-menu-btn"
             style={{
-              background: 'none', border: '1px solid rgba(0,0,0,0.10)',
+              background: 'none', border: '1px solid rgba(255,255,255,0.10)',
               color: 'var(--color-text)', cursor: 'pointer',
               padding: '7px 9px', borderRadius: '6px',
               display: 'none', alignItems: 'center', justifyContent: 'center',
               transition: 'background 0.2s, border-color 0.2s',
             }}
+            className="mobile-menu-btn"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               {menuOpen
@@ -408,7 +387,6 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -422,7 +400,7 @@ export function Navbar() {
             transition={{ duration: 0.3 }}
             style={{
               position: 'fixed', inset: 0, zIndex: 90,
-              background: 'rgba(250, 250, 250, 0.98)',
+              background: 'rgba(11, 11, 11, 0.98)',
               backdropFilter: 'blur(24px)',
               display: 'flex', flexDirection: 'column',
               justifyContent: 'flex-start', alignItems: 'center', gap: '32px',
@@ -431,19 +409,18 @@ export function Navbar() {
               paddingBottom: '60px',
             }}
           >
-            {/* Solutions industries in mobile */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}
             >
-              <span style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-text-dim)' }}>
+              <span style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:500, letterSpacing:'0.16em', textTransform:'uppercase', color:'rgba(228,222,201,0.4)' }}>
                 Solutions
               </span>
               {INDUSTRIES.map(ind => (
                 <Link key={ind.label} to={ind.href} onClick={closeAll}
-                  style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(22px,4.5vw,32px)', fontWeight:400, color:'var(--color-text-muted)', textDecoration:'none', letterSpacing:'-0.02em' }}
+                  style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(22px,4.5vw,32px)', fontWeight:400, color:'rgba(228,222,201,0.6)', textDecoration:'none', letterSpacing:'-0.02em' }}
                 >
                   {ind.label}
                 </Link>
@@ -465,19 +442,18 @@ export function Navbar() {
               </motion.div>
             ))}
 
-            {/* Resources in mobile */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: (NAV_LINKS.length + 1) * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}
             >
-              <span style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:600, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--color-text-dim)' }}>
+              <span style={{ fontFamily:'var(--font-display)', fontSize:'10px', fontWeight:500, letterSpacing:'0.16em', textTransform:'uppercase', color:'rgba(228,222,201,0.4)' }}>
                 Resources
               </span>
               {[...RESOURCES_LEFT.items, ...RESOURCES_RIGHT].map(item => (
                 <Link key={item.href} to={item.href} onClick={closeAll}
-                  style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(20px,4vw,28px)', fontWeight:400, color:'var(--color-text-muted)', textDecoration:'none', letterSpacing:'-0.02em' }}
+                  style={{ fontFamily:'var(--font-serif)', fontSize:'clamp(20px,4vw,28px)', fontWeight:400, color:'rgba(228,222,201,0.6)', textDecoration:'none', letterSpacing:'-0.02em' }}
                 >
                   {item.label}
                 </Link>

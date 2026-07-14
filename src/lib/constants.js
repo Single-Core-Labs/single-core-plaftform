@@ -1,9 +1,7 @@
-// ─── Site-wide constants ───────────────────────────────────────────────────
-
 export const NAV_LINKS = [
-  { label: 'Solutions',  href: '/solutions'  },
-  { label: 'Research',   href: '/research'   },
-  { label: 'Contact',    href: '/contact'    },
+  { label: 'Solutions',  href: '/solutions',  category: 'solutions' },
+  { label: 'Research',   href: '/research',   category: 'research' },
+  { label: 'Contact',    href: '/contact',    category: 'contact' },
 ]
 
 export const SOCIAL_LINKS = {

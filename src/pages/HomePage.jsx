@@ -1,659 +1,688 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { useRef, useEffect } from 'react'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { ArrowRight, Check } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { PoweredBySection } from '@/components/PoweredBySection'
-import { RevealText, StaggerReveal } from '@/components/RevealText'
-import { HorizontalRule } from '@/components/HorizontalRule'
-import { ScrollFade3D, SectionDepth } from '@/components/ScrollScene'
-import {
-  ENGINEER_PEDIGREE,
-  CAPABILITIES_SUMMARY,
-} from '@/lib/constants'
-import { staggerHero, heroWordReveal } from '@/lib/animations'
-import { ArrowRight, ChevronDown, Server, Shield, Users } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { useRef, useEffect } from 'react'
 import SEO from '@/components/SEO'
+import WordsPullUp from '@/components/WordsPullUp'
+import WordsPullUpMultiStyle from '@/components/WordsPullUpMultiStyle'
 
-const HERO_VIDEO_SRC = '/hero-curve.webm'
+// ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
-import imgHealthcare from '@/assets/gpu-server/healthcare-tech.png'
-import imgDefense from '@/assets/gpu-server/defense-server.png'
-import imgFinance from '@/assets/gpu-server/server-1.png'
-import imgTech from '@/assets/gpu-server/server-2.png'
-import imgManufacturing from '@/assets/gpu-server/manufacturing-server.png'
+const CREAM = '#E1E0CC'
+const CREAM_70 = 'rgba(225,224,204,0.7)'
 
-const SOVEREIGN_PILLARS = [
+const FEATURE_CARDS = [
   {
-    icon: Shield,
-    title: 'Sovereign by design',
-    body: 'Build, deploy, and run AI with full control—on-premise, private cloud, or fully air-gapped environments.',
+    id: 'bioformer',
+    title: 'BioFormer.',
+    icon: '/logo-icon.png',
+    items: [
+      'Original transformer architecture',
+      'Trained on ClinVar & gnomAD',
+      'Genetic mutation effect prediction',
+      'Built for diagnostic labs',
+    ],
+    href: '/research',
   },
   {
-    icon: Server,
-    title: 'Bare-metal performance',
-    body: 'Frontier-class inference on custom GPU clusters, engineered for ultra-low latency and production reliability.',
+    id: 'platform-agent',
+    title: 'Platform-Agent.',
+    icon: '/logo-icon.png',
+    items: [
+      'Open-source CLI coding agent',
+      'Composable tool workflows',
+      'Built for developer teams',
+    ],
+    href: '/solutions',
   },
   {
-    icon: Users,
-    title: 'Human at the core',
-    body: 'Forward-deployed engineers work alongside your teams until agents and pipelines are live in production.',
+    id: 'agentwatch',
+    title: 'AgentWatch.',
+    icon: '/logo-icon.png',
+    items: [
+      'LLM observability & tracing',
+      'Cost and performance explorer',
+      'Built for teams running agents in production',
+    ],
+    href: '/solutions',
   },
 ]
 
-const DEPLOYMENT_OPTIONS = [
-  {
-    title: 'Managed Infrastructure',
-    subtitle: 'SCL Cloud',
-    description: 'Fully orchestrated, auto-scaling compute with the fastest path to production and zero maintenance overhead.',
-  },
-  {
-    title: 'Sovereign VPC',
-    subtitle: 'Private Cloud',
-    description: 'Enterprise security within your perimeter. We manage infrastructure while you keep data sovereignty.',
-  },
-  {
-    title: 'Air-Gapped Clusters',
-    subtitle: 'On-Premises',
-    description: 'Physical isolation and hardware-level control for regulated, mission-critical AI workloads.',
-  },
-]
+// ─── ANIMATED LETTER (scroll-linked opacity) ─────────────────────────────────
 
-const INDUSTRY_CARDS = [
-  { id: 'finance', label: 'Finance', image: imgFinance, subtitle: 'High-frequency infrastructure', desc: 'High-frequency trading infrastructure and compliance-driven workflows.' },
-  { id: 'tech', label: 'Technology', image: imgTech, subtitle: 'Scalable LLM platforms', desc: 'Scalable LLM routing and vector databases for high-growth platforms.' },
-  { id: 'logistics', label: 'Logistics', image: imgManufacturing, subtitle: 'Supply chain intelligence', desc: 'AI-powered route optimization, demand forecasting, and real-time supply chain visibility.' },
-  { id: 'healthcare', label: 'Healthcare', image: imgHealthcare, subtitle: 'HIPAA-compliant processing', desc: 'HIPAA-compliant processing for EHR records and multimodal imaging.' },
-  { id: 'defense', label: 'Defense', image: imgDefense, subtitle: 'Sovereign AI systems', desc: 'Secure, air-gapped sovereign AI systems built for mission-critical operations.' },
-]
+function AnimatedChar({ char, index, total, targetRef }) {
+  const charProgress = index / total
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ['start 0.8', 'end 0.2'],
+  })
+  const opacity = useTransform(
+    scrollYProgress,
+    [charProgress - 0.1, charProgress + 0.05],
+    [0.15, 1]
+  )
+  if (char === ' ') return <span>&nbsp;</span>
+  return (
+    <motion.span style={{ opacity, display: 'inline' }}>
+      {char}
+    </motion.span>
+  )
+}
 
-// â”€â”€â”€ LOGO MARQUEE (backed by Engineers fromâ€¦) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  function LogoMarquee() {
-    const logos = [
-      ...ENGINEER_PEDIGREE,
-      ...ENGINEER_PEDIGREE,
-      ...ENGINEER_PEDIGREE,
-      ...ENGINEER_PEDIGREE,
-    ]
+function AnimatedBody({ text, className = '', style: customStyle }) {
+  const ref = useRef(null)
+  const chars = text.split('')
+  return (
+    <p ref={ref} className={className} style={{ display: 'block', wordBreak: 'break-word', ...customStyle }}>
+      {chars.map((ch, i) => (
+        <AnimatedChar key={i} char={ch} index={i} total={chars.length} targetRef={ref} />
+      ))}
+    </p>
+  )
+}
 
-    return (
-      <section
-        className="logo-marquee"
+// ─── SECTION 1: HERO ─────────────────────────────────────────────────────────
+
+function HeroSection() {
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.play().catch(() => {})
+    const resume = () => { if (v.paused) v.play().catch(() => {}) }
+    document.addEventListener('visibilitychange', resume)
+    return () => document.removeEventListener('visibilitychange', resume)
+  }, [])
+
+  const easeCustom = [0.16, 1, 0.3, 1]
+
+  return (
+    <section
+      style={{
+        background: '#000',
+        padding: 'clamp(12px, 1.5vw, 24px)',
+        height: '100dvh',
+        minHeight: '600px',
+        fontFamily: "'Almarai', -apple-system, BlinkMacSystemFont, sans-serif",
+      }}
+    >
+      {/* Inset rounded container */}
+      <div
         style={{
-          borderTop: '1px solid var(--color-border)',
-          borderBottom: '1px solid var(--color-border)',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          borderRadius: 'clamp(16px, 2vw, 32px)',
           overflow: 'hidden',
-          padding: 'var(--spacing-section) 0',
-          background: 'var(--color-bg)',
+          background: '#050505',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Static label */}
+        {/* Background video */}
+        <video
+          ref={videoRef}
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+          }}
+        />
+
+        {/* Noise overlay */}
+        <div
+          className="noise-overlay"
+          style={{ zIndex: 1, opacity: 0.7, mixBlendMode: 'overlay' }}
+        />
+
+        {/* Gradient overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 45%, rgba(0,0,0,0.65) 100%)',
+            zIndex: 2,
+          }}
+        />
+
+        {/* ── NAVBAR ── */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 50,
+          }}
+        >
           <div
             style={{
-              flexShrink: 0,
-              paddingLeft: 'clamp(20px, 5vw, 80px)',
-              paddingRight: 'clamp(24px, 3vw, 48px)',
-              borderRight: '1px solid var(--color-border)',
+              background: 'rgba(0,0,0,0.88)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              borderRadius: '0 0 20px 20px',
+              padding: 'clamp(10px, 1.2vw, 16px) clamp(20px, 3vw, 40px)',
               display: 'flex',
               alignItems: 'center',
+              gap: 'clamp(14px, 2.5vw, 56px)',
             }}
           >
-            <span
+            {[
+              { label: 'Research', href: '/research' },
+              { label: 'Solutions', href: '/solutions' },
+              { label: 'About', href: '/about' },
+              { label: 'Careers', href: '/careers' },
+              { label: 'Contact', href: '/contact' },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                style={{
+                  color: 'rgba(225,224,204,0.8)',
+                  textDecoration: 'none',
+                  fontSize: 'clamp(10px, 1vw, 14px)',
+                  fontWeight: 400,
+                  letterSpacing: '0.02em',
+                  transition: 'color 0.2s',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => (e.target.style.color = CREAM)}
+                onMouseLeave={(e) => (e.target.style.color = 'rgba(225,224,204,0.8)')}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* ── HERO CONTENT (bottom-aligned) ── */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 10,
+            display: 'grid',
+            gridTemplateColumns: '8fr 4fr',
+            alignItems: 'flex-end',
+            padding: 'clamp(20px, 3vw, 48px)',
+            paddingBottom: 'clamp(24px, 3.5vw, 52px)',
+            gap: 'clamp(16px, 2vw, 32px)',
+          }}
+        >
+          {/* Left: Giant SCL wordmark */}
+          <div style={{ overflow: 'hidden', lineHeight: 0 }}>
+            <h1
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '10px',
-                fontWeight: 600,
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-                color: 'var(--color-text-muted)',
-                whiteSpace: 'nowrap',
+                fontSize: 'clamp(18vw, 20vw, 22vw)',
+                fontWeight: 500,
+                lineHeight: 0.85,
+                letterSpacing: '-0.07em',
+                color: CREAM,
+                fontFamily: "'Almarai', sans-serif",
+                position: 'relative',
+                display: 'inline-block',
               }}
             >
-              backed by engineers from
-            </span>
+              <WordsPullUp
+                text="SCL"
+                showAsterisk
+                stagger={0.08}
+              />
+            </h1>
           </div>
 
-          {/* Scrolling names */}
-          <div style={{ overflow: 'hidden', flex: 1 }}>
-            <div
+          {/* Right: description + CTA */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'clamp(16px, 2vw, 28px)',
+              paddingBottom: 'clamp(8px, 1.5vw, 20px)',
+            }}
+          >
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.5, ease: easeCustom }}
               style={{
-                display: 'flex',
-                animation: 'marquee 20s linear infinite',
-                whiteSpace: 'nowrap',
+                color: CREAM_70,
+                fontSize: 'clamp(11px, 1.1vw, 16px)',
+                lineHeight: 1.2,
+                fontWeight: 300,
+                fontFamily: "'Almarai', sans-serif",
               }}
             >
-              {logos.map((name, i) => (
+              Single Core Labs is an applied AI research lab building foundation models and
+              end-to-end AI products — bound not by a single domain, but by a discipline
+              for turning novel architectures into systems that ship.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.7, ease: easeCustom }}
+            >
+              <Link
+                to="/research"
+                className="group"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: CREAM,
+                  borderRadius: '9999px',
+                  padding: 'clamp(6px, 0.7vw, 10px) clamp(6px, 0.7vw, 10px) clamp(6px, 0.7vw, 10px) clamp(16px, 1.8vw, 24px)',
+                  textDecoration: 'none',
+                  transition: 'gap 0.25s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.gap = '16px')}
+                onMouseLeave={(e) => (e.currentTarget.style.gap = '12px')}
+              >
                 <span
-                  key={i}
                   style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(14px, 1.5vw, 18px)',
+                    color: '#000',
                     fontWeight: 500,
-                    letterSpacing: '0.04em',
-                    color: 'var(--color-text-muted)',
-                    paddingInline: 'clamp(28px, 4vw, 56px)',
-                    flexShrink: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'clamp(28px, 4vw, 56px)',
+                    fontSize: 'clamp(12px, 1.1vw, 16px)',
+                    fontFamily: "'Almarai', sans-serif",
+                    whiteSpace: 'nowrap',
                   }}
                 >
-                  {name}
-                  <span style={{
-                    display: 'inline-block',
-                    width: '3px',
-                    height: '3px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--color-text-muted)',
-                    flexShrink: 0,
-                  }} />
+                  See our research
                 </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-// â”€â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  function HeroSection() {
-    const ref = useRef(null)
-    const videoRef = useRef(null)
-    const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-    const contentY = useSpring(useTransform(scrollYProgress, [0, 1], ['0%', '12%']), { stiffness: 60, damping: 20 })
-    const contentOpacity = useSpring(useTransform(scrollYProgress, [0, 0.5], [1, 0]), { stiffness: 60, damping: 20 })
-
-    useEffect(() => {
-      const video = videoRef.current
-      if (!video) return
-
-      video.loop = true
-      const ensurePlaying = () => {
-        if (video.paused) {
-          video.play().catch(() => {})
-        }
-      }
-
-      ensurePlaying()
-      video.addEventListener('ended', ensurePlaying)
-      document.addEventListener('visibilitychange', ensurePlaying)
-
-      return () => {
-        video.removeEventListener('ended', ensurePlaying)
-        document.removeEventListener('visibilitychange', ensurePlaying)
-      }
-    }, [])
-
-    return (
-      <section
-        ref={ref}
-        aria-labelledby="hero-heading"
-        className="hero-v2"
-      >
-        <div className="hero-v2__bg" aria-hidden="true" />
-
-        <motion.div
-          className="container-editorial hero-v2__grid"
-          style={{ y: contentY, opacity: contentOpacity }}
-        >
-          <motion.div
-            className="hero-v2__content"
-            variants={staggerHero}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.p variants={heroWordReveal} className="hero-v2__eyebrow">
-              India's Sovereign AI Platform
-            </motion.p>
-
-            <motion.h1
-              id="hero-heading"
-              variants={heroWordReveal}
-              className="hero-v2__headline"
-            >
-              AI at scale.{' '}
-              <em>Without the chaos.</em>
-            </motion.h1>
-
-            <motion.p variants={heroWordReveal} className="hero-v2__subtext">
-              Built on sovereign compute. Powered by frontier-class models.
-              Engineered from bare-metal kernels to secure, air-gapped deployments.
-            </motion.p>
-
-            <motion.div variants={heroWordReveal} className="hero-v2__actions">
-              <Link to="/contact" className="btn-primary">
-                Book a Demo
-                <ArrowRight size={15} />
-              </Link>
-              <Link to="/contact" className="btn-glass">
-                Contact Us
+                <span
+                  style={{
+                    background: '#000',
+                    borderRadius: '50%',
+                    width: 'clamp(32px, 3vw, 40px)',
+                    height: 'clamp(32px, 3vw, 40px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    transition: 'transform 0.25s ease',
+                  }}
+                >
+                  <ArrowRight size={16} color={CREAM} />
+                </span>
               </Link>
             </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="hero-v2__visual"
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="hero-v2__video-frame">
-              <video
-                ref={videoRef}
-                className="hero-v2__video hero-v2__video--alpha"
-                src={HERO_VIDEO_SRC}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                aria-label="Sovereign AI infrastructure visualization"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-
-        <a href="#pipeline" className="hero-v2__scroll" aria-label="Scroll to explore">
-          <ChevronDown size={18} strokeWidth={1.5} />
-        </a>
-      </section>
-    )
-  }
-
-// â”€â”€â”€ PLATFORM INFRASTRUCTURE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  function SovereignPillarsSection() {
-    return (
-      <section className="home-section home-section--mesh">
-        <div className="container-editorial home-section__inner">
-          <div className="home-section-header">
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>The Platform Enterprises Build On</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 className="text-display">
-                Powering sovereign
-                <br />
-                <span className="text-muted-line">AI-first infrastructure.</span>
-              </h2>
-            </RevealText>
-          </div>
-
-          <div className="home-card-grid home-card-grid--3">
-            {SOVEREIGN_PILLARS.map((pillar) => {
-              const Icon = pillar.icon
-              return (
-                <ScrollFade3D key={pillar.title}>
-                  <div className="glass-card glass-card--pad glass-card--feature">
-                    <div className="glass-card__icon">
-                      <Icon size={22} color="var(--color-accent)" strokeWidth={1.75} />
-                    </div>
-                    <h3 className="glass-card__title">{pillar.title}</h3>
-                    <p className="glass-card__body">{pillar.body}</p>
-                  </div>
-                </ScrollFade3D>
-              )
-            })}
           </div>
         </div>
-      </section>
-    )
-  }
-
-  function POCToProductionSection() {
-    return (
-      <section className="home-section" style={{ background: 'var(--color-bg)' }}>
-        <div className="container-editorial home-section__inner">
-          <div className="home-section-header">
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>From Idea to Impact</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 className="text-display">
-                From Proof of Concept to Production
-                <br />
-                <span className="text-muted-line">Sovereign AI Systems &amp; Agents Built for Enterprise Scale.</span>
-              </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p className="text-body" style={{ marginTop: '16px' }}>
-                We don't stop at demos. Our teams embed with yours to ship production-grade agentic systems—
-                built on sovereign infrastructure, engineered for reliability, and designed to scale without compromise.
-              </p>
-            </RevealText>
-          </div>
-
-          <div className="home-card-grid home-card-grid--3">
-            <ScrollFade3D>
-              <div className="glass-card glass-card--pad glass-card--feature">
-                <div className="glass-card__icon">
-                  <ArrowRight size={22} color="var(--color-accent)" strokeWidth={1.75} />
-                </div>
-                <h3 className="glass-card__title">Rapid POC Validation</h3>
-                <p className="glass-card__body">
-                  Prove business value fast with lightweight, focused proof of concepts tailored to your use case.
-                </p>
-              </div>
-            </ScrollFade3D>
-
-            <ScrollFade3D>
-              <div className="glass-card glass-card--pad glass-card--feature">
-                <div className="glass-card__icon">
-                  <Shield size={22} color="var(--color-accent)" strokeWidth={1.75} />
-                </div>
-                <h3 className="glass-card__title">Production-Grade Build</h3>
-                <p className="glass-card__body">
-                  Engineer robust, secure, and scalable agentic systems with full compliance and governance controls.
-                </p>
-              </div>
-            </ScrollFade3D>
-
-            <ScrollFade3D>
-              <div className="glass-card glass-card--pad glass-card--feature">
-                <div className="glass-card__icon">
-                  <Server size={22} color="var(--color-accent)" strokeWidth={1.75} />
-                </div>
-                <h3 className="glass-card__title">Sovereign Deployment</h3>
-                <p className="glass-card__body">
-                  Deploy on your infrastructure or ours—air-gapped, private cloud, or fully managed sovereign compute.
-                </p>
-              </div>
-            </ScrollFade3D>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  function PlatformInfrastructureSection() {
-    return (
-      <section id="pipeline" className="home-section" style={{ background: 'var(--color-bg)' }}>
-        <div className="container-editorial home-section__inner">
-          <div className="home-section-header">
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Sovereign GPU Infrastructure</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 className="text-display">
-                High-performance compute.
-                <br />
-                <span className="text-muted-line">Purpose-built for your industry.</span>
-              </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p className="text-body" style={{ marginTop: '16px' }}>
-                Custom-built GPU clusters for ultra-low latency inference, air-gapped security,
-                and sovereign data compliance—tailored to your enterprise requirements.
-              </p>
-            </RevealText>
-          </div>
-
-          <div className="home-card-grid home-card-grid--2">
-            <ScrollFade3D>
-              <div className="glass-card glass-card--pad glass-card--feature">
-                <div className="glass-card__icon">
-                  <Server size={22} color="var(--color-accent)" strokeWidth={1.75} />
-                </div>
-                <h3 className="glass-card__title">Bare-Metal Acceleration</h3>
-                <p className="glass-card__body">
-                  Direct access to ultra-low latency inference, bypassing slow high-level wrappers
-                  for mission-critical AI routing and semantic vector search.
-                </p>
-                <Link to="/solutions" className="btn-outline" style={{ width: 'fit-content', marginTop: '8px' }}>
-                  Learn more
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
-            </ScrollFade3D>
-
-            <ScrollFade3D>
-              <div className="glass-card glass-card--pad glass-card--feature">
-                <div className="glass-card__icon">
-                  <Shield size={22} color="var(--color-accent)" strokeWidth={1.75} />
-                </div>
-                <h3 className="glass-card__title">Air-Gapped Deployments</h3>
-                <p className="glass-card__body">
-                  Fully sovereign data centers and on-premise GPU clusters ensuring absolute
-                  privacy for your most sensitive enterprise workloads.
-                </p>
-                <Link to="/solutions" className="btn-outline" style={{ width: 'fit-content', marginTop: '8px' }}>
-                  Learn more
-                  <ArrowRight size={14} />
-                </Link>
-              </div>
-            </ScrollFade3D>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  function DeploymentFlexibilitySection() {
-    return (
-      <section className="home-section home-section--mesh">
-        <div className="container-editorial home-section__inner">
-          <div className="home-section-header home-section-header--left">
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Built to run anywhere</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 className="text-display">
-                Deployment flexibility
-                <br />
-                <span className="text-muted-line">your business demands.</span>
-              </h2>
-            </RevealText>
-          </div>
-
-          <div className="home-card-grid home-card-grid--3">
-            {DEPLOYMENT_OPTIONS.map((option) => (
-              <ScrollFade3D key={option.title}>
-                <div className="glass-card glass-card--pad glass-card--feature">
-                  <span className="glass-card__label">{option.subtitle}</span>
-                  <h3 className="glass-card__title">{option.title}</h3>
-                  <p className="glass-card__body">{option.description}</p>
-                </div>
-              </ScrollFade3D>
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  function IndustriesSection() {
-    return (
-      <section className="home-section" style={{ background: 'var(--color-bg)' }}>
-        <div className="container-editorial home-section__inner">
-          <div className="home-section-header">
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Industries</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h2 className="text-display">
-                AI solutions built for
-                <br />
-                <span className="text-muted-line">every sector.</span>
-              </h2>
-            </RevealText>
-            <RevealText delay={2}>
-              <p className="text-body" style={{ marginTop: '16px' }}>
-                Purpose-built AI for regulated, high-stakes sectors—from healthcare
-                diagnostics to financial compliance and defense operations.
-              </p>
-            </RevealText>
-          </div>
-
-          <div className="home-card-grid home-card-grid--industries">
-            {INDUSTRY_CARDS.map((industry) => (
-              <ScrollFade3D key={industry.id}>
-                <div className="glass-card industry-glass-card">
-                  <div className="industry-glass-card__image">
-                    <img src={industry.image} alt={industry.label} loading="lazy" />
-                  </div>
-                  <div className="industry-glass-card__content">
-                    <span className="glass-card__label">{industry.subtitle}</span>
-                    <h3 className="glass-card__title">{industry.label}</h3>
-                    <p className="glass-card__body">{industry.desc}</p>
-                    <Link
-                      to="/solutions"
-                      className="link-minimal"
-                      style={{ marginTop: 'auto', fontSize: '13px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                    >
-                      Learn More
-                      <ArrowRight size={12} />
-                    </Link>
-                  </div>
-                </div>
-              </ScrollFade3D>
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  function SocialProofSection() {
-    return (
-      <section className="home-section home-section--mesh">
-        <div className="container-editorial home-section__inner">
-          <div className="grid grid-cols-1 lg:grid-cols-2" style={{ gap: 'clamp(40px, 8vw, 80px)', alignItems: 'center' }}>
-            <div>
-              <RevealText>
-                <p className="text-eyebrow" style={{ marginBottom: '20px' }}>AI for the Enterprise</p>
-              </RevealText>
-              <RevealText delay={1}>
-                <h2 className="text-display home-section-title">
-                  Full-Stack
-                  <br />
-                  <span className="text-muted-line">AI Solutions.</span>
-                </h2>
-              </RevealText>
-              <RevealText delay={2}>
-                <p className="text-body" style={{ maxWidth: '480px', marginBottom: '32px' }}>
-                  Outcomes delivered with data, models, agents, and deployment.
-                  We don't just wrap APIs. We build systems that actually perform in production.
-                </p>
-              </RevealText>
-              <RevealText delay={3}>
-                <Link to="/solutions" className="btn-glass">
-                  Learn More
-                  <ArrowRight size={14} />
-                </Link>
-              </RevealText>
-            </div>
-
-            <RevealText delay={2}>
-              <div className="glass-panel capability-glass-panel">
-                <StaggerReveal>
-                  {CAPABILITIES_SUMMARY.slice(0, 4).map((cap) => (
-                    <div key={cap} className="capability-glass-panel__item">
-                      <span className="capability-glass-panel__dot" />
-                      {cap}
-                    </div>
-                  ))}
-                </StaggerReveal>
-              </div>
-            </RevealText>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-// â”€â”€â”€ CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  function CTASection() {
-    return (
-      <section id="contact" aria-labelledby="cta-heading" className="home-section" style={{ background: 'var(--color-bg)' }}>
-        <div className="container-editorial home-section__inner">
-          <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
-
-          <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Connect</p>
-          </RevealText>
-
-          <RevealText delay={1}>
-            <h2 id="cta-heading" className="text-display" style={{ maxWidth: '800px', marginBottom: '20px' }}>
-              Let's build something{' '}
-              <span className="text-muted-line">exceptional.</span>
-            </h2>
-          </RevealText>
-
-          <RevealText delay={2}>
-            <p className="text-body" style={{ maxWidth: '480px', marginBottom: '28px' }}>
-              As an applied AI research company, we deploy cutting-edge solutions for
-              enterprises and build innovative in-house products. Book a free 30-minute
-              consultation to learn how we can help.
-            </p>
-          </RevealText>
-
-          <RevealText delay={3}>
-            <div className="hero-v2__actions">
-              <Link to="/contact" className="btn-primary">
-                Start the Conversation
-                <ArrowRight size={15} />
-              </Link>
-              <Link to="/contact" className="btn-glass">
-                Contact Us
-              </Link>
-            </div>
-          </RevealText>
-        </div>
-      </section>
-    )
-  }
-
-// â”€â”€â”€ PAGE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  export default function HomePage() {
-    const schema = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "name": "Single Core Labs",
-          "url": "https://singlecorelabs.com",
-          "logo": "https://singlecorelabs.com/og-image.jpg",
-          "description": "Single Core Labs is an elite applied AI research lab and systems engineering firm providing custom AI infrastructure and agentic architectures.",
-          "knowsAbout": ["AI Systems Engineering", "Agentic Architectures", "Sovereign AI Infrastructure", "Air-Gapped AI Deployments", "Applied AI Research"],
-          "founder": [
-            {
-              "@type": "Person",
-              "name": "Manav Sutar"
-            }
-          ],
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "email": "hello@singlecorelabs.com",
-            "availableLanguage": ["English"]
-          }
-        }
-      ]
-    };
-
-    return (
-      <div className="page-consulting">
-        <SEO
-          title="Single Core Labs"
-          description="Single Core Labs provides custom AI systems engineering and sovereign AI infrastructure. We build, deploy, and operate bespoke agentic architectures for enterprises."
-          keywords="AI systems engineering, sovereign AI infrastructure, custom agentic architectures, applied AI research, enterprise AI solutions"
-          schema={schema}
-        />
-        <Navbar />
-        <main id="main-content" className="home-page">
-          <HeroSection />
-          <div className="consulting-block"><LogoMarquee /></div>
-          <SovereignPillarsSection />
-          <POCToProductionSection />
-          <PlatformInfrastructureSection />
-          <DeploymentFlexibilitySection />
-          <IndustriesSection />
-          <SocialProofSection />
-          <PoweredBySection />
-          <CTASection />
-        </main>
-        <Footer />
       </div>
-    )
-  }
+    </section>
+  )
+}
+
+// ─── SECTION 2: ABOUT ────────────────────────────────────────────────────────
+
+function AboutSection() {
+  return (
+    <section
+      style={{
+        background: '#000',
+        padding: 'clamp(64px, 8vw, 120px) clamp(20px, 4vw, 60px)',
+        fontFamily: "'Almarai', sans-serif",
+      }}
+    >
+      <div
+        style={{
+          background: '#101010',
+          borderRadius: 'clamp(16px, 2vw, 28px)',
+          padding: 'clamp(48px, 6vw, 96px) clamp(28px, 5vw, 80px)',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          textAlign: 'center',
+        }}
+      >
+        {/* Label */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            color: CREAM,
+            fontSize: 'clamp(10px, 0.9vw, 12px)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            fontWeight: 400,
+            marginBottom: 'clamp(24px, 3vw, 44px)',
+          }}
+        >
+          Applied AI research
+        </motion.p>
+
+        {/* Heading */}
+        <div
+          style={{
+            fontSize: 'clamp(28px, 5vw, 72px)',
+            lineHeight: 0.95,
+            maxWidth: '860px',
+            margin: '0 auto',
+            marginBottom: 'clamp(36px, 4vw, 64px)',
+          }}
+        >
+          <WordsPullUpMultiStyle
+            wrapperClassName=""
+            segments={[
+              {
+                text: 'We build foundation models',
+                className: '',
+                style: { fontWeight: 400, color: CREAM, fontFamily: "'Almarai', sans-serif" },
+              },
+              {
+                text: 'and the products',
+                className: 'font-serif',
+                style: { fontStyle: 'italic', color: CREAM, fontFamily: "'Instrument Serif', serif" },
+              },
+              {
+                text: 'that put them to work.',
+                className: '',
+                style: { fontWeight: 400, color: CREAM, fontFamily: "'Almarai', sans-serif" },
+              },
+            ]}
+            stagger={0.045}
+            defaultStyle={{ color: CREAM, fontSize: 'inherit', lineHeight: 'inherit' }}
+          />
+        </div>
+
+        {/* Body — scroll-linked character reveal in box */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            border: '1px solid rgba(225, 224, 204, 0.12)',
+            borderRadius: 'clamp(12px, 1.5vw, 20px)',
+            padding: 'clamp(24px, 3vw, 40px)',
+            background: 'rgba(255, 255, 255, 0.02)',
+          }}
+        >
+          <AnimatedBody
+            text="Over the past year, our team has designed original transformer architectures from scratch, shipped MLOps pipelines from training to deployment, and built AI systems for enterprise clients across healthcare, infrastructure, and developer tooling. Together, we're building toward a research lab that publishes as seriously as it ships."
+            className=""
+            style={{
+              color: CREAM,
+              fontSize: 'clamp(13px, 1.2vw, 17px)',
+              lineHeight: 1.65,
+              fontWeight: 300,
+            }}
+          />
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 3: FEATURES ─────────────────────────────────────────────────────
+
+function FeatureCard({ card, index }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-100px' })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.15,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      style={{
+        background: '#212121',
+        borderRadius: 'clamp(12px, 1.5vw, 20px)',
+        padding: 'clamp(24px, 2.5vw, 36px)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+        height: '100%',
+        minHeight: '320px',
+      }}
+    >
+      {/* Icon */}
+      <img
+        src={card.icon}
+        alt=""
+        style={{
+          width: 'clamp(36px, 3vw, 48px)',
+          height: 'clamp(36px, 3vw, 48px)',
+          borderRadius: '10px',
+          objectFit: 'contain',
+        }}
+      />
+
+      {/* Title */}
+      <h3
+        style={{
+          color: CREAM,
+          fontSize: 'clamp(18px, 1.8vw, 26px)',
+          fontWeight: 700,
+          fontFamily: "'Almarai', sans-serif",
+          lineHeight: 1.1,
+        }}
+      >
+        {card.title}
+      </h3>
+
+      {/* Checklist */}
+      <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+        {card.items.map((item) => (
+          <li
+            key={item}
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '10px',
+              color: '#9CA3AF',
+              fontSize: 'clamp(12px, 1vw, 14px)',
+              fontFamily: "'Almarai', sans-serif",
+              fontWeight: 300,
+              lineHeight: 1.4,
+            }}
+          >
+            <Check
+              size={14}
+              style={{ color: CREAM, flexShrink: 0, marginTop: '2px' }}
+              strokeWidth={2.5}
+            />
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      {/* Learn more */}
+      <Link
+        to={card.href}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
+          color: CREAM,
+          textDecoration: 'none',
+          fontSize: 'clamp(12px, 1vw, 14px)',
+          fontWeight: 500,
+          fontFamily: "'Almarai', sans-serif",
+          opacity: 0.8,
+          transition: 'opacity 0.2s',
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
+      >
+        Learn more
+        <ArrowRight size={13} style={{ transform: 'rotate(-45deg)' }} />
+      </Link>
+    </motion.div>
+  )
+}
+
+function VideoFeatureCard({ index }) {
+  const videoRef = useRef(null)
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-100px' })
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.play().catch(() => {})
+  }, [])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: 'relative',
+        borderRadius: 'clamp(12px, 1.5vw, 20px)',
+        overflow: 'hidden',
+        minHeight: '320px',
+        height: '100%',
+      }}
+    >
+      <video
+        ref={videoRef}
+        src="/original-a9b30b0413131d806620dc5db95c99f1.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+      />
+      {/* Dark gradient at bottom */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)',
+        }}
+      />
+      <p
+        style={{
+          position: 'absolute',
+          bottom: 'clamp(20px, 2.5vw, 32px)',
+          left: 'clamp(20px, 2.5vw, 32px)',
+          color: CREAM,
+          fontSize: 'clamp(14px, 1.3vw, 19px)',
+          fontWeight: 500,
+          fontFamily: "'Almarai', sans-serif",
+          lineHeight: 1.2,
+        }}
+      >
+        Where models get built.
+      </p>
+    </motion.div>
+  )
+}
+
+function FeaturesSection() {
+  const titleRef = useRef(null)
+  const titleInView = useInView(titleRef, { once: true, margin: '-80px' })
+
+  return (
+    <section
+      style={{
+        background: '#000',
+        minHeight: '100vh',
+        position: 'relative',
+        padding: 'clamp(64px, 8vw, 120px) clamp(20px, 4vw, 48px)',
+        fontFamily: "'Almarai', sans-serif",
+      }}
+    >
+      {/* Noise background */}
+      <div className="bg-noise" style={{ zIndex: 0, opacity: 0.15 }} />
+
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1440px', margin: '0 auto' }}>
+        {/* Header */}
+        <div
+          ref={titleRef}
+          style={{ marginBottom: 'clamp(40px, 5vw, 72px)' }}
+        >
+          <div
+            style={{
+              fontSize: 'clamp(20px, 3.2vw, 44px)',
+              fontWeight: 400,
+              lineHeight: 1.15,
+            }}
+          >
+            <WordsPullUpMultiStyle
+              segments={[
+                {
+                  text: 'Research-grade systems for enterprise AI.',
+                  style: { color: CREAM, display: 'block' },
+                },
+              ]}
+              stagger={0.04}
+              defaultStyle={{ color: CREAM, fontFamily: "'Almarai', sans-serif" }}
+            />
+            <br />
+            <WordsPullUpMultiStyle
+              segments={[
+                {
+                  text: 'Built for rigor. Shipped like a product.',
+                  style: { color: '#6B7280' },
+                },
+              ]}
+              stagger={0.04}
+              defaultStyle={{ color: '#6B7280', fontFamily: "'Almarai', sans-serif" }}
+            />
+          </div>
+        </div>
+
+        {/* 4-col card grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: 'clamp(8px, 1vw, 12px)',
+          }}
+        >
+          <VideoFeatureCard index={0} />
+          {FEATURE_CARDS.map((card, i) => (
+            <FeatureCard key={card.id} card={card} index={i + 1} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
+
+export default function HomePage() {
+  return (
+    <div style={{ background: '#000', minHeight: '100vh' }}>
+      <SEO
+        title="Single Core Labs — Applied AI Research"
+        description="Single Core Labs is an applied AI research lab building foundation models and end-to-end AI products — bound not by a single domain, but by a discipline for turning novel architectures into systems that ship."
+        keywords="applied AI research, foundation models, AI products, BioFormer, machine learning, enterprise AI"
+      />
+      <HeroSection />
+      <AboutSection />
+      <FeaturesSection />
+      <Footer />
+    </div>
+  )
+}

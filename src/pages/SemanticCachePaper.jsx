@@ -498,7 +498,7 @@ export default function SemanticCachePaper() {
   }
 
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO
         title="SemanticCache: Reducing LLM Inference Cost | Single Core Labs Research"
         description="SemanticCache achieves 47.3% average token reduction and 61% latency improvement via embedding-based prompt similarity matching with adaptive threshold calibration."
@@ -755,7 +755,7 @@ async fn handle(req: Request) -> Response {
               </Section>
 
               {/* REFERENCES */}
-              <div id="references" style={{ borderTop:'1px solid #E5E7EB', marginTop:'3rem', paddingTop:'2.5rem', scrollMarginTop:'96px' }}>
+              <div id="references" style={{ borderTop:'1px solid var(--color-border)', marginTop:'3rem', paddingTop:'2.5rem', scrollMarginTop:'96px' }}>
                 <div style={{ display:'flex', alignItems:'baseline', gap:'14px', marginBottom:'1.5rem' }}>
                   <span style={{ fontFamily:"'DM Sans', sans-serif", fontSize:'11px', fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'#5B47E0', flexShrink:0 }}>Ref</span>
                   <h2 style={{ fontFamily:"'DM Sans', var(--font-sans), ui-sans-serif", fontSize:'1.875rem', fontWeight:700, letterSpacing:'-0.025em', lineHeight:1.2, color:'#000000', margin:0 }}>References</h2>

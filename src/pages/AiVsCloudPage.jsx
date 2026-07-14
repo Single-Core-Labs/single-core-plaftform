@@ -83,7 +83,7 @@ const schema = {
 
 export default function AiVsCloudPage() {
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO
         title="Custom AI Infrastructure vs Cloud GPUs | Single Core Labs"
         description="Compare custom, sovereign AI infrastructure against traditional cloud GPU rental. Learn the trade-offs in data sovereignty, compliance, cost, and model accuracy."
@@ -93,11 +93,7 @@ export default function AiVsCloudPage() {
       <Navbar />
 
       <main style={{ minHeight: '100vh' }}>
-        <div className="consulting-block">
-          <div className="consulting-grid">
-            <div className="consulting-col--full">
-              {/* Hero */}
-              <div style={{ paddingTop: '80px', paddingBottom: '32px' }}>
+        <div style={{ paddingTop: '80px', paddingBottom: '32px' }}>
           <div style={{ maxWidth: '800px' }}>
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Deep Dive</p>
@@ -142,7 +138,7 @@ export default function AiVsCloudPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {COMPARISON.map((row) => (
-              <div key={row.dimension} className="glass-card" style={{ padding: 'clamp(20px, 3vh, 32px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', alignItems: 'start' }}>
+              <div key={row.dimension} className="card card--rounded card--pad" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', alignItems: 'start' }}>
                 <div>
                   <h3 style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: '8px' }}>{row.dimension}</h3>
                   <div style={{ height: '2px', width: '24px', background: 'var(--color-accent-dim)' }} />
@@ -187,9 +183,6 @@ export default function AiVsCloudPage() {
             <ArrowRight size={15} />
           </Link>
         </section>
-          </div>
-          </div>
-        </div>
       </main>
 
       <Footer />

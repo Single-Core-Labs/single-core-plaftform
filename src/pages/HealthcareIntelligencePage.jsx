@@ -68,8 +68,6 @@ const SECURITY_FEATURES = [
   { icon: Settings, title: 'Workflow Integration', description: 'Custom APIs for Epic, Cerner, and specialized EHRs.' }
 ]
 
-const highlight = { color: '#00695C' }
-
 function FadeIn({ children, delay = 0 }) {
   return (
     <motion.div
@@ -91,26 +89,27 @@ function VisualPlaceholder({ icon: Icon, label }) {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '260px',
-      border: '1px solid #e8e8e8',
+      border: '1px solid var(--color-border)',
       borderRadius: '8px',
       padding: '32px',
       textAlign: 'center',
+      background: 'var(--color-bg-card)',
     }}>
       <div style={{
         width: '64px',
         height: '64px',
         borderRadius: '50%',
-        background: '#f5f5f5',
-        border: '1px solid #e0e0e0',
+        background: 'var(--color-bg-surface)',
+        border: '1px solid var(--color-border)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#00695C',
+        color: 'var(--color-accent)',
         marginBottom: '16px',
       }}>
         <Icon size={28} />
       </div>
-      <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: '#909090', fontWeight: 400 }}>
+      <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--color-text-dim)', fontWeight: 400 }}>
         {label}
       </p>
     </div>
@@ -119,7 +118,7 @@ function VisualPlaceholder({ icon: Icon, label }) {
 
 export default function HealthcareIntelligencePage() {
   return (
-    <div className="page-consulting" style={{ color: '#1a1a1a' }}>
+    <div className="page-dark">
       <SEO
         title="Healthcare Intelligence & EHR-Native AI | Single Core Labs"
         description="Deploy secure, FHIR/HL7-compliant clinical intelligence layers that transform raw medical data into actionable insights directly within your EHR."
@@ -130,28 +129,28 @@ export default function HealthcareIntelligencePage() {
       <main style={{ minHeight: '100vh' }}>
 
         {/* Hero Block */}
-        <div className="consulting-block" style={{ marginTop: '120px' }}>
-          <div className="consulting-grid">
-            <div className="consulting-col--divider">
+        <div className="card card--rounded card--pad" style={{ marginTop: '120px', padding: '64px', background: 'var(--color-bg-elevated)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+            <div>
               <FadeIn>
-                <p className="consulting-eyebrow">Industry / Healthcare Intelligence</p>
-                <h1 className="consulting-heading" style={{ fontSize: 'clamp(32px, 4vw, 48px)' }}>
-                  Clinical intelligence. <span style={{ fontStyle: 'italic', color: '#00695C' }}>Integrated by design.</span>
+                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Industry / Healthcare Intelligence</p>
+                <h1 className="text-display" style={{ fontSize: 'clamp(32px, 4vw, 48px)' }}>
+                  Clinical intelligence. <span style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>Integrated by design.</span>
                 </h1>
-                <p className="consulting-body" style={{ marginBottom: '28px', fontSize: '16px' }}>
+                <p className="text-body" style={{ marginBottom: '28px', fontSize: '16px' }}>
                   We build secure, FHIR-compliant cognitive layers that sit on top of your EHR, turning unstructured clinical data into immediate, explainable reasoning for care teams.
                 </p>
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                  <a href="/contact" className="consulting-btn consulting-btn--primary">
+                  <a href="/contact" className="btn-primary">
                     Request a Demo <ArrowRight size={14} />
                   </a>
-                  <a href="#use-cases" className="consulting-btn">
+                  <a href="#use-cases" className="btn-outline">
                     View Use Cases
                   </a>
                 </div>
               </FadeIn>
             </div>
-            <div className="consulting-col">
+            <div>
               <FadeIn delay={0.15}>
                 <VisualPlaceholder icon={Heart} label="Clinical Intelligence Platform" />
               </FadeIn>
@@ -160,36 +159,36 @@ export default function HealthcareIntelligencePage() {
         </div>
 
         {/* Core Benefits Block */}
-        <div className="consulting-block">
-          <div className="consulting-grid">
-            <div className="consulting-col--divider">
+        <div className="card card--rounded card--pad" style={{ marginTop: '80px', padding: '64px', background: 'var(--color-bg-elevated)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px' }}>
+            <div style={{ borderRight: '1px solid var(--color-border)', paddingRight: '64px' }}>
               <FadeIn>
-                <p className="consulting-eyebrow">Core Pillars</p>
-                <h2 className="consulting-heading">
-                  Intelligence that respects <span style={{ fontStyle: 'italic', color: '#00695C' }}>the clinical stakes</span>
+                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Core Pillars</p>
+                <h2 className="text-display">
+                  Intelligence that respects <span style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>the clinical stakes</span>
                 </h2>
               </FadeIn>
             </div>
-            <div className="consulting-col">
+            <div>
               <FadeIn delay={0.1}>
                 {CORE_BENEFITS.map((b, i) => (
                   <div key={b.id} style={{
                     padding: '20px 0',
-                    borderBottom: i < CORE_BENEFITS.length - 1 ? '1px solid #e8e8e8' : 'none',
+                    borderBottom: i < CORE_BENEFITS.length - 1 ? '1px solid var(--color-border)' : 'none',
                   }}>
                     <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                      <b.icon size={18} style={{ color: '#00695C', marginTop: '2px', flexShrink: 0 }} />
+                      <b.icon size={18} style={{ color: 'var(--color-accent)', marginTop: '2px', flexShrink: 0 }} />
                       <div>
                         <h3 style={{
                           fontFamily: 'var(--font-serif)',
                           fontSize: '18px',
                           fontWeight: 400,
                           marginBottom: '4px',
-                          color: '#1a1a1a',
+                          color: 'var(--color-text)',
                         }}>
                           {b.title}
                         </h3>
-                        <p className="consulting-body" style={{ fontSize: '14px', margin: 0 }}>
+                        <p className="text-body" style={{ fontSize: '14px', margin: 0 }}>
                           {b.description}
                         </p>
                       </div>
@@ -205,16 +204,16 @@ export default function HealthcareIntelligencePage() {
         {USE_CASES.map((uc, i) => {
           const Icon = uc.icon
           return (
-            <div key={uc.id} className="consulting-block">
-              <div className="consulting-grid">
-                <div className={i % 2 === 0 ? 'consulting-col--divider' : 'consulting-col'}>
+            <div key={uc.id} className="card card--rounded card--pad" style={{ marginTop: '40px', padding: '64px', background: 'var(--color-bg-elevated)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+                <div>
                   <FadeIn>
                     {i % 2 === 0 ? (
                       <>
-                        <p className="consulting-eyebrow">{uc.category}</p>
-                        <h2 className="consulting-heading">{uc.title}</h2>
-                        <p className="consulting-body" style={{ marginBottom: '24px' }}>{uc.description}</p>
-                        <a href="/contact" className="consulting-btn" style={{ borderColor: '#00695C', color: '#00695C' }}>
+                        <p className="text-eyebrow" style={{ marginBottom: '16px' }}>{uc.category}</p>
+                        <h2 className="text-display">{uc.title}</h2>
+                        <p className="text-body" style={{ marginBottom: '24px' }}>{uc.description}</p>
+                        <a href="/contact" className="btn-outline">
                           Learn more <ArrowRight size={14} />
                         </a>
                       </>
@@ -223,16 +222,16 @@ export default function HealthcareIntelligencePage() {
                     )}
                   </FadeIn>
                 </div>
-                <div className={i % 2 === 0 ? 'consulting-col' : 'consulting-col--divider'}>
+                <div>
                   <FadeIn delay={0.1}>
                     {i % 2 === 0 ? (
                       <VisualPlaceholder icon={Icon} label={uc.category} />
                     ) : (
                       <>
-                        <p className="consulting-eyebrow">{uc.category}</p>
-                        <h2 className="consulting-heading">{uc.title}</h2>
-                        <p className="consulting-body" style={{ marginBottom: '24px' }}>{uc.description}</p>
-                        <a href="/contact" className="consulting-btn" style={{ borderColor: '#00695C', color: '#00695C' }}>
+                        <p className="text-eyebrow" style={{ marginBottom: '16px' }}>{uc.category}</p>
+                        <h2 className="text-display">{uc.title}</h2>
+                        <p className="text-body" style={{ marginBottom: '24px' }}>{uc.description}</p>
+                        <a href="/contact" className="btn-outline">
                           Learn more <ArrowRight size={14} />
                         </a>
                       </>
@@ -245,36 +244,36 @@ export default function HealthcareIntelligencePage() {
         })}
 
         {/* Deployment Block */}
-        <div className="consulting-block">
-          <div className="consulting-grid">
-            <div className="consulting-col--divider">
+        <div className="card card--rounded card--pad" style={{ marginTop: '40px', padding: '64px', background: 'var(--color-bg-elevated)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+            <div style={{ borderRight: '1px solid var(--color-border)', paddingRight: '64px' }}>
               <FadeIn>
-                <p className="consulting-eyebrow">Deployment Architecture</p>
-                <h2 className="consulting-heading">Sovereign AI for Health Systems</h2>
-                <p className="consulting-body" style={{ marginBottom: '24px' }}>
+                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Deployment Architecture</p>
+                <h2 className="text-display">Sovereign AI for Health Systems</h2>
+                <p className="text-body" style={{ marginBottom: '24px' }}>
                   Unlike generic cloud AI, our infrastructure is built for the specific regulatory and technical requirements of modern health systems.
                 </p>
-                <ul className="consulting-list">
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0, margin: 0 }}>
                   {[
                     'On-premise deployment for maximum PHI security',
                     'Bidirectional FHIR/HL7 data orchestration',
                     'Custom fine-tuned models for clinical specialties',
                     'End-to-end observability and clinical audit logs'
                   ].map((item, idx) => (
-                    <li key={idx}>
-                      <span className="consulting-check">
+                    <li key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                      <span style={{ color: 'var(--color-accent)', flexShrink: 0, marginTop: '3px' }}>
                         <Check size={11} strokeWidth={3} />
                       </span>
-                      {item}
+                      <span style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>{item}</span>
                     </li>
                   ))}
                 </ul>
-                <a href="/contact" className="consulting-btn">
+                <a href="/contact" className="btn-outline" style={{ marginTop: '24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                   Talk to an Infrastructure Expert <ArrowRight size={14} />
                 </a>
               </FadeIn>
             </div>
-            <div className="consulting-col">
+            <div>
               <FadeIn delay={0.1}>
                 <div style={{
                   display: 'flex',
@@ -282,22 +281,23 @@ export default function HealthcareIntelligencePage() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   minHeight: '260px',
-                  border: '1px solid #e8e8e8',
+                  border: '1px solid var(--color-border)',
                   borderRadius: '8px',
                   padding: '32px',
                   textAlign: 'center',
+                  background: 'var(--color-bg-card)',
                 }}>
-                  <Server size={40} style={{ color: '#00695C', marginBottom: '12px' }} />
+                  <Server size={40} style={{ color: 'var(--color-accent)', marginBottom: '12px' }} />
                   <h3 style={{
                     fontFamily: 'var(--font-serif)',
                     fontSize: '20px',
                     fontWeight: 400,
                     marginBottom: '8px',
-                    color: '#1a1a1a',
+                    color: 'var(--color-text)',
                   }}>
                     Secure Infrastructure
                   </h3>
-                  <p className="consulting-body" style={{ fontSize: '14px', margin: 0 }}>
+                  <p className="text-body" style={{ fontSize: '14px', margin: 0 }}>
                     Deploying LLMs safely within the hospital network boundary.
                   </p>
                 </div>
@@ -307,85 +307,80 @@ export default function HealthcareIntelligencePage() {
         </div>
 
         {/* Security Block */}
-        <div className="consulting-block">
-          <div className="consulting-grid">
-            <div className="consulting-col--full">
-              <FadeIn>
-                <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                  <p className="consulting-eyebrow">Governance & Compliance</p>
-                  <h2 className="consulting-heading">
-                    Built for <span style={{ fontStyle: 'italic', color: '#00695C' }}>Governance & Compliance</span>
-                  </h2>
-                  <p className="consulting-body" style={{ maxWidth: '650px', margin: '0 auto' }}>
-                    We prioritize data integrity and patient privacy above all else. Our systems meet HIPAA, SOC-2, and international healthcare regulations.
-                  </p>
-                </div>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <div className="consulting-card-grid">
-                  {SECURITY_FEATURES.map((f, i) => {
-                    const Icon = f.icon
-                    return (
-                      <div key={i} style={{
-                        textAlign: 'center',
-                        padding: '24px 16px',
-                        border: '1px solid #e8e8e8',
-                        borderRadius: '8px',
-                      }}>
-                        <div style={{
-                          width: '40px',
-                          height: '40px',
-                          margin: '0 auto 12px',
-                          borderRadius: '50%',
-                          background: '#f5f5f5',
-                          border: '1px solid #e0e0e0',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#00695C',
-                        }}>
-                          <Icon size={18} />
-                        </div>
-                        <h4 style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '13px',
-                          fontWeight: 400,
-                          marginBottom: '4px',
-                          color: '#1a1a1a',
-                        }}>
-                          {f.title}
-                        </h4>
-                        <p style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '12px',
-                          fontWeight: 400,
-                          color: '#909090',
-                          lineHeight: 1.5,
-                          margin: 0,
-                        }}>
-                          {f.description}
-                        </p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </FadeIn>
+        <div className="card card--rounded card--pad" style={{ marginTop: '40px', padding: '64px', background: 'var(--color-bg-elevated)' }}>
+          <FadeIn>
+            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Governance & Compliance</p>
+              <h2 className="text-display">
+                Built for <span style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>Governance & Compliance</span>
+              </h2>
+              <p className="text-body" style={{ maxWidth: '650px', margin: '0 auto' }}>
+                We prioritize data integrity and patient privacy above all else. Our systems meet HIPAA, SOC-2, and international healthcare regulations.
+              </p>
             </div>
-          </div>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+              {SECURITY_FEATURES.map((f, i) => {
+                const Icon = f.icon
+                return (
+                  <div key={i} style={{
+                    textAlign: 'center',
+                    padding: '24px 16px',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '8px',
+                    background: 'var(--color-bg-card)',
+                  }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      margin: '0 auto 12px',
+                      borderRadius: '50%',
+                      background: 'var(--color-bg-surface)',
+                      border: '1px solid var(--color-border)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--color-accent)',
+                    }}>
+                      <Icon size={18} />
+                    </div>
+                    <h4 style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '13px',
+                      fontWeight: 400,
+                      marginBottom: '4px',
+                      color: 'var(--color-text)',
+                    }}>
+                      {f.title}
+                    </h4>
+                    <p style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '12px',
+                      fontWeight: 400,
+                      color: 'var(--color-text-dim)',
+                      lineHeight: 1.5,
+                      margin: 0,
+                    }}>
+                      {f.description}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
+          </FadeIn>
         </div>
 
         {/* CTA Block */}
-        <div className="consulting-block" style={{ marginBottom: '40px' }}>
-          <div className="consulting-col--full" style={{ textAlign: 'center' }}>
-            <FadeIn>
-              <h2 className="consulting-heading" style={{ marginBottom: '24px' }}>
-                Modernize your health system with <span style={{ fontStyle: 'italic', color: '#00695C' }}>sovereign AI.</span>
-              </h2>
-              <a href="/contact" className="consulting-btn consulting-btn--primary" style={{ padding: '14px 36px' }}>
-                Book a Clinical Demo <ArrowRight size={16} />
-              </a>
-            </FadeIn>
-          </div>
+        <div style={{ marginTop: '40px', marginBottom: '40px', textAlign: 'center' }}>
+          <FadeIn>
+            <h2 className="text-display" style={{ marginBottom: '24px' }}>
+              Modernize your health system with <span style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>sovereign AI.</span>
+            </h2>
+            <a href="/contact" className="btn-primary" style={{ padding: '14px 36px' }}>
+              Book a Clinical Demo <ArrowRight size={16} />
+            </a>
+          </FadeIn>
         </div>
 
       </main>

@@ -27,7 +27,7 @@ const baseInput = {
   color: 'var(--color-text)',
   background: 'transparent',
   border: 'none',
-  borderBottom: '1px solid rgba(0,0,0,0.18)',
+  borderBottom: '1px solid var(--color-border)',
   outline: 'none',
   borderRadius: 0,
   appearance: 'none',
@@ -41,15 +41,15 @@ function Field({ label, id, type = 'text', required, placeholder, value, onChang
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
       <label htmlFor={id} style={{
         fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'rgba(0,0,0,0.55)', letterSpacing: '0.01em',
+        color: 'var(--color-text-muted)', letterSpacing: '0.01em',
       }}>
-        {label}{required && <span style={{ color: '#c0392b' }}> *</span>}
+        {label}{required && <span style={{ color: 'var(--color-accent)' }}> *</span>}
       </label>
       <input
         id={id} type={type} required={required}
         placeholder={placeholder} value={value} onChange={onChange}
         onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-        style={{ ...baseInput, borderBottomColor: focused ? 'var(--color-accent)' : 'rgba(0,0,0,0.18)' }}
+        style={{ ...baseInput, borderBottomColor: focused ? 'var(--color-accent)' : 'var(--color-border)' }}
       />
     </div>
   )
@@ -61,9 +61,9 @@ function SelectField({ label, id, required, value, onChange, children }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
       <label htmlFor={id} style={{
         fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'rgba(0,0,0,0.55)', letterSpacing: '0.01em',
+        color: 'var(--color-text-muted)', letterSpacing: '0.01em',
       }}>
-        {label}{required && <span style={{ color: '#c0392b' }}> *</span>}
+        {label}{required && <span style={{ color: 'var(--color-accent)' }}> *</span>}
       </label>
       <div style={{ position: 'relative' }}>
         <select
@@ -71,14 +71,14 @@ function SelectField({ label, id, required, value, onChange, children }) {
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           style={{
             ...baseInput,
-            borderBottomColor: focused ? 'var(--color-accent)' : 'rgba(0,0,0,0.18)',
+            borderBottomColor: focused ? 'var(--color-accent)' : 'var(--color-border)',
             paddingRight: '24px', cursor: 'pointer',
           }}
         >
           {children}
         </select>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
-          style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'rgba(0,0,0,0.4)' }}>
+          style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--color-text-dim)' }}>
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>
@@ -127,11 +127,11 @@ export default function ContactPage() {
   // ── Success state ──────────────────────────────────────────────────────────
   if (submitted) {
     return (
-      <div className="page-consulting">
+      <div className="page-dark">
         <SEO title="Message Sent | Single Core Labs" description="Thank you for reaching out." />
         <Navbar />
         <main id="main-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-          <div className="consulting-block" style={{ width: '100%', maxWidth: '700px' }}>
+          <div style={{ width: '100%', maxWidth: '700px', padding: '0 clamp(24px, 6vw, 48px)' }}>
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -159,7 +159,7 @@ export default function ContactPage() {
 
   // ── Main layout ────────────────────────────────────────────────────────────
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO
         title="Get a Demo | Single Core Labs"
         description="Book a personalised demo and see how Single Core Labs can build, deploy, and operate bespoke AI systems for your enterprise."
@@ -168,23 +168,15 @@ export default function ContactPage() {
       <Navbar />
 
       <main id="main-content" style={{ minHeight: '100vh' }}>
-        <div className="consulting-block" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          backgroundImage: 'url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
         }}
           className="contact-grid"
         >
           {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
           <div style={{
-            background: 'rgba(250, 250, 250, 0.85)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            borderRight: '1px solid rgba(0, 0, 0, 0.05)',
+            background: 'var(--color-bg-elevated)',
             padding: 'clamp(100px, 14vh, 160px) clamp(32px, 6vw, 88px) clamp(60px, 8vh, 100px)',
             display: 'flex',
             flexDirection: 'column',
@@ -271,9 +263,7 @@ export default function ContactPage() {
 
           {/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
           <div style={{
-            background: 'rgba(250, 250, 250, 0.75)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
+            background: 'var(--color-bg-surface)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -283,20 +273,19 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="glass-card"
+              className="card card--rounded card--pad"
               style={{
                 width: '100%',
                 maxWidth: '480px',
-                padding: 'clamp(28px, 4vh, 44px) clamp(24px, 3.5vw, 40px)',
-                background: 'rgba(255, 255, 255, 0.9)',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
+                background: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border)',
               }}
             >
               <h2 style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
                 fontWeight: 600,
-                color: '#1a1a1a',
+                color: 'var(--color-text)',
                 letterSpacing: '-0.01em',
                 marginBottom: '28px',
               }}>
@@ -342,7 +331,7 @@ export default function ContactPage() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                     <label htmlFor="message" style={{
                       fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-                      color: 'rgba(0,0,0,0.55)', letterSpacing: '0.01em',
+                      color: 'var(--color-text-muted)', letterSpacing: '0.01em',
                     }}>
                       How can our team help you?
                     </label>
@@ -358,10 +347,10 @@ export default function ContactPage() {
                         padding: '8px 0',
                         fontFamily: 'var(--font-sans)',
                         fontSize: '14px',
-                        color: '#1a1a1a',
+                        color: 'var(--color-text)',
                         background: 'transparent',
                         border: 'none',
-                        borderBottom: `1px solid ${msgFocused ? 'var(--color-accent)' : 'rgba(0,0,0,0.18)'}`,
+                        borderBottom: `1px solid ${msgFocused ? 'var(--color-accent)' : 'var(--color-border)'}`,
                         outline: 'none',
                         resize: 'none',
                         transition: 'border-color 0.2s',
@@ -385,12 +374,12 @@ export default function ContactPage() {
                       fontFamily: 'var(--font-sans)',
                       fontSize: '11px',
                       lineHeight: 1.6,
-                      color: 'rgba(0,0,0,0.6)',
+                      color: 'var(--color-text-muted)',
                     }}>
                       I agree to receive communications from Single Core Labs about its products,
                       services, and events, and acknowledge that my information will be used in
                       accordance with the{' '}
-                      <a href="/privacy" style={{ color: '#1a1a1a', textDecoration: 'underline' }}>
+                      <a href="/privacy" style={{ color: 'var(--color-text)', textDecoration: 'underline' }}>
                         Privacy Policy
                       </a>.
                     </span>
@@ -398,7 +387,7 @@ export default function ContactPage() {
 
                   {/* Error */}
                   {error && (
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: '#c0392b', fontWeight: 500 }}>
+                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--color-accent)', fontWeight: 500 }}>
                       {error}
                     </p>
                   )}
@@ -410,8 +399,8 @@ export default function ContactPage() {
                     style={{
                       width: '100%',
                       padding: '14px',
-                      background: loading || !form.consent ? 'rgba(0,0,0,0.35)' : 'var(--color-text)',
-                      color: '#fff',
+                      background: loading || !form.consent ? 'var(--color-border-strong)' : 'var(--color-accent)',
+                      color: loading || !form.consent ? 'var(--color-text-dim)' : '#0B0B0B',
                       fontFamily: 'var(--font-sans)',
                       fontSize: '14px',
                       fontWeight: 600,
@@ -436,7 +425,6 @@ export default function ContactPage() {
             </motion.div>
           </div>
         </div>
-        </div>
       </main>
 
       <Footer />
@@ -445,7 +433,6 @@ export default function ContactPage() {
         @media (max-width: 860px) {
           .contact-grid {
             grid-template-columns: 1fr !important;
-            background-attachment: scroll !important;
           }
         }
         @keyframes spin {

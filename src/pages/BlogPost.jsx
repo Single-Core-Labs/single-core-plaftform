@@ -109,7 +109,7 @@ export default function BlogPost() {
   };
 
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO 
         title={`${post.title} | Single Core Labs`}
         description={post.excerpt}

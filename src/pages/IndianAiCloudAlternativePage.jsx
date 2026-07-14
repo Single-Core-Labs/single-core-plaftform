@@ -57,7 +57,7 @@ const schema = {
 
 export default function IndianAiCloudAlternativePage() {
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO
         title="Indian AI Infrastructure: Cloud Alternatives | Single Core Labs"
         description="Compare Indian GPU cloud providers and discover why enterprises in regulated sectors choose sovereign, on-premise AI infrastructure over cloud GPU rental."
@@ -67,11 +67,7 @@ export default function IndianAiCloudAlternativePage() {
       <Navbar />
 
       <main style={{ minHeight: '100vh' }}>
-        <div className="consulting-block">
-          <div className="consulting-grid">
-            <div className="consulting-col--full">
-              {/* Hero */}
-              <div style={{ paddingTop: '80px', paddingBottom: '32px' }}>
+        <div style={{ paddingTop: '80px', paddingBottom: '32px' }}>
           <div style={{ maxWidth: '800px' }}>
             <RevealText>
               <p className="text-eyebrow" style={{ marginBottom: '28px' }}>India Market Guide</p>
@@ -120,7 +116,7 @@ export default function IndianAiCloudAlternativePage() {
             {PROVIDERS.map((p) => {
               const isSCL = p.name === 'Single Core Labs'
               return (
-                <div key={p.name} className="glass-card" style={{ 
+                <div key={p.name} className="card card--rounded card--pad" style={{ 
                   padding: 'clamp(20px, 3vh, 32px)', 
                   display: 'grid', 
                   gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
@@ -182,9 +178,6 @@ export default function IndianAiCloudAlternativePage() {
             <ArrowRight size={15} />
           </Link>
         </section>
-          </div>
-          </div>
-        </div>
       </main>
 
       <Footer />

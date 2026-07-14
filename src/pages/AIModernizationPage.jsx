@@ -9,7 +9,7 @@ import SEO from '@/components/SEO'
 
 export default function AIModernizationPage() {
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO 
         title="AI-Led Modernization | Single Core Labs"
         description="Rebuild your legacy systems using AI-guided specification and controlled modernization."

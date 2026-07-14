@@ -41,15 +41,15 @@ const FOOTER_LINKS = [
 const linkStyle = {
   fontFamily: 'var(--font-sans)',
   fontSize: '13px',
-  color: 'var(--color-text-dim)',
+  color: 'rgba(228, 222, 201, 0.5)',
   textDecoration: 'none',
   transition: 'color 0.2s',
 };
 
 const FooterLink = memo(function FooterLink({ link }) {
-  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={linkStyle}>{link.label}</a>;
-  if (link.isHash) return <a href={link.href} style={linkStyle}>{link.label}</a>;
-  return <Link to={link.href} style={linkStyle}>{link.label}</Link>;
+  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={linkStyle} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}>{link.label}</a>;
+  if (link.isHash) return <a href={link.href} style={linkStyle} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}>{link.label}</a>;
+  return <Link to={link.href} style={linkStyle} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}>{link.label}</Link>;
 });
 
 export function Footer() {
@@ -58,10 +58,10 @@ export function Footer() {
       role="contentinfo"
       style={{
         position: 'relative',
-        background: 'rgba(255, 255, 255, 0.7)',
+        background: 'rgba(11, 11, 11, 0.9)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.4)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.04)',
       }}
     >
       <div className="container-editorial" style={{ paddingTop: '64px', paddingBottom: '40px' }}>
@@ -78,31 +78,29 @@ export function Footer() {
               gap: '40px',
               alignItems: 'start',
             }}>
-              {/* Brand */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <Link to="/" style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '15px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: 'var(--color-text)',
                   textDecoration: 'none',
                   letterSpacing: '0.02em',
                 }}>
                   Single Core Labs
                 </Link>
-                <p style={{ fontSize: '12px', color: 'var(--color-text-dim)' }}>Pune, Maharashtra</p>
+                <p style={{ fontSize: '12px', color: 'rgba(228, 222, 201, 0.4)' }}>Pune, Maharashtra</p>
               </div>
 
-              {/* Link columns */}
               {FOOTER_LINKS.map((col) => (
                 <nav key={col.heading} aria-label={`${col.heading} links`}>
                   <p style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: '11px',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     letterSpacing: '0.14em',
                     textTransform: 'uppercase',
-                    color: 'var(--color-text-muted)',
+                    color: 'rgba(228, 222, 201, 0.6)',
                     marginBottom: '16px',
                   }}>
                     {col.heading}
@@ -115,15 +113,14 @@ export function Footer() {
                 </nav>
               ))}
 
-              {/* Socials */}
               <div>
                 <p style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '11px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   letterSpacing: '0.14em',
                   textTransform: 'uppercase',
-                  color: 'var(--color-text-muted)',
+                  color: 'rgba(228, 222, 201, 0.6)',
                   marginBottom: '16px',
                 }}>
                   Connect
@@ -140,7 +137,9 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Single Core Labs on ${social.label}`}
-                      style={{ color: 'var(--color-text-dim)', transition: 'color 0.2s' }}
+                      style={{ color: 'rgba(228, 222, 201, 0.5)', transition: 'color 0.2s' }}
+                      onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
+                      onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d={social.path} /></svg>
                     </a>
@@ -149,8 +148,6 @@ export function Footer() {
               </div>
             </div>
           </motion.div>
-
-          {/* Bottom bar — floating inset rectangle matching navbar */}
         </motion.div>
       </div>
 
@@ -163,16 +160,16 @@ export function Footer() {
         pointerEvents: 'none',
         userSelect: 'none',
         marginTop: '20px',
-        paddingBottom: '40px', // Space for the watermark
+        paddingBottom: '40px',
       }}>
         <span style={{
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(60px, 14vw, 200px)',
-          fontWeight: 700,
+          fontWeight: 600,
           lineHeight: 0.8,
           letterSpacing: '-0.05em',
           color: 'transparent',
-          WebkitTextStroke: '1px rgba(0,0,0,0.1)',
+          WebkitTextStroke: '1px rgba(255,255,255,0.05)',
           whiteSpace: 'nowrap',
         }}>
           Single Core Labs
@@ -202,16 +199,15 @@ export function Footer() {
             padding: '12px clamp(16px, 2.5vw, 32px)',
             maxWidth: '1200px',
             marginInline: 'auto',
-            border: '1px solid rgba(255,255,255,0.4)',
-            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            border: '1px solid rgba(255,255,255,0.06)',
+            backgroundColor: 'rgba(11, 11, 11, 0.85)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
-            borderRadius: '12px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', letterSpacing: '0.04em', fontWeight: 600, textTransform: 'uppercase' }}>
+            <p style={{ fontSize: '11px', color: 'rgba(228, 222, 201, 0.5)', letterSpacing: '0.04em', fontWeight: 500, textTransform: 'uppercase' }}>
               © {new Date().getFullYear()} Single Core Labs. <span style={{ opacity: 0.6 }}>All rights reserved.</span>
             </p>
           </div>
@@ -230,15 +226,15 @@ export function Footer() {
                 to={link.href}
                 style={{
                   fontSize: '11px',
-                  color: 'var(--color-text-dim)',
+                  color: 'rgba(228, 222, 201, 0.4)',
                   textDecoration: 'none',
                   transition: 'color 0.2s',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   letterSpacing: '0.02em',
                   textTransform: 'uppercase',
                 }}
                 onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
-                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-dim)'}
+                onMouseLeave={(e) => e.target.style.color = 'rgba(228, 222, 201, 0.4)'}
               >
                 {link.label}
               </Link>

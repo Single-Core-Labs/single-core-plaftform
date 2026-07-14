@@ -79,7 +79,7 @@ export default function SolutionsPage() {
   const toggle = (id) => setOpenId((prev) => (prev === id ? null : id))
 
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO 
         title="AI Solutions | Single Core Labs"
         description="Single Core Labs provides custom AI systems engineering: agentic workflows, private LLM deployments, sovereign AI infrastructure, and regulated MLOps pipelines for enterprises."
@@ -95,9 +95,7 @@ export default function SolutionsPage() {
             position: 'relative',
             paddingTop: 'clamp(140px, 20vh, 220px)',
             paddingBottom: 'clamp(80px, 12vh, 120px)',
-            background: 'linear-gradient(rgba(250, 250, 250, 0.9), rgba(250, 250, 250, 0.95)), url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            background: 'radial-gradient(ellipse at 50% 0%, rgba(184, 164, 120, 0.08), transparent 70%), var(--color-bg)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -139,15 +137,14 @@ export default function SolutionsPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 + (i * 0.1) }}
-                  className="glass-card" 
-                  style={{ padding: '24px', background: 'rgba(255,255,255,0.6)' }}
+                  className="card card--rounded card--pad"
                 >
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'start' }}>
                     <div style={{ color: 'var(--color-accent)', marginTop: '4px' }}>
                       <Check size={18} strokeWidth={3} />
                     </div>
                     <div>
-                      <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '4px' }}>{item.title}</h3>
+                      <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '4px', color: 'var(--color-text)' }}>{item.title}</h3>
                       <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{item.detail}</p>
                     </div>
                   </div>
@@ -170,8 +167,8 @@ export default function SolutionsPage() {
               return (
                 <div key={solution.id} className="glass-card" style={{ 
                   overflow: 'hidden',
-                  background: isOpen ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.5)',
-                  border: isOpen ? '1px solid var(--color-accent-dim)' : '1px solid var(--color-border)',
+                  background: isOpen ? 'var(--color-bg-elevated)' : 'var(--color-bg-card)',
+                  border: isOpen ? '1px solid var(--color-accent)' : '1px solid var(--color-border)',
                   transition: 'all 0.3s ease'
                 }}>
                   <button
@@ -265,12 +262,12 @@ export default function SolutionsPage() {
 
         {/* Closing CTA */}
         <section className="container-editorial" style={{ marginTop: '100px', textAlign: 'center' }}>
-          <div className="glass-card" style={{ padding: '64px', background: 'var(--color-bg-dark)', color: 'white' }}>
-            <h2 className="text-display" style={{ color: 'white', marginBottom: '24px' }}>
+          <div className="card card--rounded card--pad" style={{ padding: '64px', background: 'var(--color-bg-elevated)' }}>
+            <h2 className="text-display" style={{ color: 'var(--color-text)', marginBottom: '24px' }}>
               Let's architect your next intelligent system, <br />
               precisely and securely.
             </h2>
-            <a href="/contact" className="btn-primary" style={{ background: 'white', color: 'black' }}>
+            <a href="/contact" className="btn-primary">
               Get Started
               <ArrowRight size={18} />
             </a>

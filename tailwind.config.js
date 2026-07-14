@@ -4,9 +4,10 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['Newsreader', 'Georgia', 'serif'],
+        serif: ['"Instrument Serif"', 'Newsreader', 'Georgia', 'serif'],
         display: ['"Plus Jakarta Sans"', 'Sora', 'ui-sans-serif', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        almarai: ['Almarai', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
         bg:      '#0A0A0A',
@@ -15,7 +16,9 @@ export default {
         muted:   '#777777',
         dim:     '#444444',
         accent:  '#00897B',
+        primary: '#DEDBC8',
       },
     },
   },
 }
+

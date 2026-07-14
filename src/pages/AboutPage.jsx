@@ -82,7 +82,7 @@ export default function AboutPage() {
     fontFamily: 'var(--font-sans)',
     fontSize: '14px',
     color: 'var(--color-text)',
-    background: '#FFFFFF',
+    background: 'var(--color-bg-surface)',
     border: `1px solid ${focusedField === fieldName ? 'var(--color-accent)' : 'var(--color-border-strong)'}`,
     borderRadius: '8px',
     outline: 'none',
@@ -100,7 +100,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="page-consulting">
+    <div className="page-dark">
       <SEO 
         title="About Us | Single Core Labs"
         description="Single Core Labs is an elite applied AI research lab and systems engineering firm. We design, deploy, and operate custom agentic architectures."
@@ -109,29 +109,27 @@ export default function AboutPage() {
       <Navbar />
 
       <main style={{ minHeight: '100vh', paddingTop: '120px' }}>
-        <div className="consulting-block">
-          <div style={{ maxWidth: '800px' }}>
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Who We Are</p>
-            </RevealText>
-            <RevealText delay={1}>
-              <h1 className="text-display" style={{ marginBottom: '28px' }}>
-                Applied AI research,
-                <br />
-                translated into <span className="text-italic-serif">enterprise outcomes.</span>
-              </h1>
-            </RevealText>
-            <RevealText delay={2}>
-              <div className="text-body" style={{ maxWidth: '600px' }}>
-                Single Core Labs is an elite applied AI research lab and AI systems engineering firm. We provide:
-                <ul style={{ paddingLeft: '20px', marginTop: '12px', marginBottom: '12px', listStyleType: 'disc' }}>
-                  <li style={{ marginBottom: '8px' }}><strong>Custom AI Systems Engineering:</strong> Designing and deploying bespoke agentic architectures.</li>
-                  <li style={{ marginBottom: '8px' }}><strong>Sovereign AI Infrastructure:</strong> Implementing air-gapped and on-premise models for strict privacy.</li>
-                  <li><strong>Applied AI Research:</strong> Fine-tuning open-source frontier models for enterprise outcomes.</li>
-                </ul>
-              </div>
-            </RevealText>
-          </div>
+        <div className="container-editorial" style={{ maxWidth: '800px' }}>
+          <RevealText>
+            <p className="text-eyebrow" style={{ marginBottom: '28px' }}>Who We Are</p>
+          </RevealText>
+          <RevealText delay={1}>
+            <h1 className="text-display" style={{ marginBottom: '28px' }}>
+              Applied AI research,
+              <br />
+              translated into <span className="text-italic-serif">enterprise outcomes.</span>
+            </h1>
+          </RevealText>
+          <RevealText delay={2}>
+            <div className="text-body" style={{ maxWidth: '600px' }}>
+              Single Core Labs is an elite applied AI research lab and AI systems engineering firm. We provide:
+              <ul style={{ paddingLeft: '20px', marginTop: '12px', marginBottom: '12px', listStyleType: 'disc' }}>
+                <li style={{ marginBottom: '8px' }}><strong>Custom AI Systems Engineering:</strong> Designing and deploying bespoke agentic architectures.</li>
+                <li style={{ marginBottom: '8px' }}><strong>Sovereign AI Infrastructure:</strong> Implementing air-gapped and on-premise models for strict privacy.</li>
+                <li><strong>Applied AI Research:</strong> Fine-tuning open-source frontier models for enterprise outcomes.</li>
+              </ul>
+            </div>
+          </RevealText>
         </div>
 
         {/* Core Pillars (Who We Are, Mission, Vision) */}
@@ -156,9 +154,8 @@ export default function AboutPage() {
             <ScrollFade3D>
               <Card3D intensity={5}>
                 <div
-                  className="glass-card"
+                  className="card card--rounded card--pad"
                   style={{
-                    padding: 'clamp(24px, 3vh, 36px)',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -193,9 +190,8 @@ export default function AboutPage() {
             <ScrollFade3D>
               <Card3D intensity={5}>
                 <div
-                  className="glass-card"
+                  className="card card--rounded card--pad"
                   style={{
-                    padding: 'clamp(24px, 3vh, 36px)',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -230,9 +226,8 @@ export default function AboutPage() {
             <ScrollFade3D>
               <Card3D intensity={5}>
                 <div
-                  className="glass-card"
+                  className="card card--rounded card--pad"
                   style={{
-                    padding: 'clamp(24px, 3vh, 36px)',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -270,7 +265,7 @@ export default function AboutPage() {
           <section
             style={{
               padding: 'var(--spacing-section-lg) 0',
-              background: '#F5F5F7',
+              background: 'var(--color-bg-elevated)',
               position: 'relative',
               zIndex: 1,
             }}
@@ -293,12 +288,11 @@ export default function AboutPage() {
                 {/* Value 1 */}
                 <ScrollFade3D>
                   <article
-                    className="glass-card"
+                    className="card card--rounded card--pad"
                     style={{
                       display: 'grid',
                       gridTemplateColumns: '1fr 1.2fr',
                       gap: 'clamp(20px, 4vw, 64px)',
-                      padding: 'clamp(28px, 4vh, 48px)',
                       alignItems: 'start',
                     }}
                   >
@@ -430,23 +424,18 @@ export default function AboutPage() {
             <div
               style={{
                 position: 'relative',
-                background: '#1A1A1A',
-                backgroundImage: 'url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                background: 'var(--color-bg-elevated)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
                 padding: 'clamp(32px, 5vw, 64px)',
-                color: '#FFFFFF',
               }}
             >
-              {/* Dark  Backdrop overlay */}
               <div
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(135deg, rgba(0, 137, 123, 0.92) 0%, rgba(26, 26, 26, 0.94) 100%)',
+                  background: 'radial-gradient(ellipse at 20% 50%, var(--color-accent-dim) 0%, transparent 70%)',
                   zIndex: 0,
                 }}
               />
@@ -460,6 +449,7 @@ export default function AboutPage() {
                     lineHeight: 1.1,
                     letterSpacing: '-0.025em',
                     marginBottom: '16px',
+                    color: 'var(--color-text)',
                   }}
                 >
                   Need help with
@@ -471,8 +461,7 @@ export default function AboutPage() {
                     fontFamily: 'var(--font-sans)',
                     fontSize: '15px',
                     fontWeight: 400,
-                    opacity: 0.9,
-                    color: 'rgba(255, 255, 255, 0.85)',
+                    color: 'var(--color-text-muted)',
                   }}
                 >
                   Don't worry, we've got your back.
@@ -483,7 +472,7 @@ export default function AboutPage() {
             {/* Right Side: Form Panel */}
             <div
               style={{
-                background: '#FAFAFA',
+                background: 'var(--color-bg-surface)',
                 padding: 'clamp(32px, 5vw, 64px)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -575,7 +564,7 @@ export default function AboutPage() {
                               style={{
                                 padding: '12px 28px 12px 12px',
                                 border: '1px solid var(--color-border-strong)',
-                                background: '#FFFFFF',
+                                background: 'var(--color-bg-surface)',
                                 fontFamily: 'var(--font-sans)',
                                 fontSize: '14px',
                                 color: 'var(--color-text)',

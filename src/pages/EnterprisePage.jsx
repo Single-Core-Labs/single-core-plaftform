@@ -95,7 +95,7 @@ export default function EnterprisePage() {
   };
 
   return (
-    <>
+    <div className="page-dark">
       <SEO 
         title="Enterprise AI | Single Core Labs"
         description="Forward-thinking enterprises trust Single Core Labs to build, deploy, and operate AI systems that actually perform in production."
@@ -138,11 +138,11 @@ export default function EnterprisePage() {
           {PILLARS.map((pillar) => {
             const isOpen = openId === pillar.id
             return (
-              <div key={pillar.id} className="glass-card" style={{ 
+              <div key={pillar.id} className="card card--rounded card--pad" style={{ 
                 marginBottom: '20px', 
                 padding: '0 clamp(20px, 4vw, 40px)',
-                background: isOpen ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.45)',
-                transform: 'none' // Disable global hover transform here
+                background: isOpen ? 'var(--color-bg-elevated)' : 'var(--color-bg-card)',
+                transform: 'none'
               }}>
                 <button
                   onClick={() => toggle(pillar.id)}
@@ -206,8 +206,8 @@ export default function EnterprisePage() {
                     width: '28px',
                     height: '28px',
                     borderRadius: '50%',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    border: `1px solid ${isOpen ? 'var(--color-accent)' : 'var(--glass-border)'}`,
+                    background: 'var(--color-bg-surface)',
+                    border: `1px solid ${isOpen ? 'var(--color-accent)' : 'var(--color-border)'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -315,6 +315,6 @@ export default function EnterprisePage() {
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }
