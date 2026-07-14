@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import SEO from '@/components/SEO'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { ArrowRight, Shield, Cpu, Cloud, Code2, Workflow, LineChart, BookOpen, Building2, Users, CheckCircle, Lock, Server, GitBranch, BarChart3, MessagesSquare, ChevronRight } from 'lucide-react'
+
+const HERO_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4'
 
 const CAPABILITIES = [
   {
@@ -127,6 +129,72 @@ const DEPLOYMENT_FEATURES = [
   { icon: Users, title: 'Expert-implemented', detail: 'Work with our forward-deployed engineers for fast, secure implementation.' },
 ]
 
+function LazyHeroVideo() {
+  const containerRef = useRef(null)
+  const videoRef = useRef(null)
+  const [loaded, setLoaded] = useState(false)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          obs.disconnect()
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!visible || !videoRef.current) return
+    const vid = videoRef.current
+    vid.src = HERO_VIDEO
+    vid.load()
+    const onLoad = () => setLoaded(true)
+    vid.addEventListener('loadeddata', onLoad)
+    return () => vid.removeEventListener('loadeddata', onLoad)
+  }, [visible])
+
+  return (
+    <div ref={containerRef} className="hero-video-wrap">
+      {/* 3D cube — always visible as placeholder */}
+      <div className="hero-3d-scene" style={{ opacity: loaded ? 0 : 1, transition: 'opacity 0.6s ease' }}>
+        <div className="hero-3d-container">
+          <div className="hero-3d-cube">
+            <div className="hero-3d-face hero-3d-face--front"><span className="hero-3d-code">&lt;AI /&gt;</span></div>
+            <div className="hero-3d-face hero-3d-face--back"><span className="hero-3d-code">import</span></div>
+            <div className="hero-3d-face hero-3d-face--right"><span className="hero-3d-code">deploy()</span></div>
+            <div className="hero-3d-face hero-3d-face--left"><span className="hero-3d-code">scale()</span></div>
+            <div className="hero-3d-face hero-3d-face--top"><span className="hero-3d-code">build</span></div>
+            <div className="hero-3d-face hero-3d-face--bottom"><span className="hero-3d-code">{'{ }'}</span></div>
+          </div>
+        </div>
+        <svg className="hero-3d-ring" viewBox="0 0 300 300" style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0 }}>
+          <ellipse cx="150" cy="150" rx="130" ry="45" fill="none" stroke="rgba(184,164,120,0.08)" strokeWidth="1" transform="rotate(-30 150 150)" />
+          <ellipse cx="150" cy="150" rx="130" ry="45" fill="none" stroke="rgba(184,164,120,0.06)" strokeWidth="1" transform="rotate(30 150 150)" />
+          <ellipse cx="150" cy="150" rx="130" ry="45" fill="none" stroke="rgba(184,164,120,0.04)" strokeWidth="1" transform="rotate(90 150 150)" />
+        </svg>
+      </div>
+      {/* Video — fades in once loaded */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="hero-video-player"
+        style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.8s ease' }}
+      />
+    </div>
+  )
+}
+
 export default function TechPage() {
   const [activeTeam, setActiveTeam] = useState('engineering')
 
@@ -145,38 +213,152 @@ export default function TechPage() {
         <section
           style={{
             position: 'relative',
-            paddingTop: 'clamp(140px, 20vh, 220px)',
-            paddingBottom: 'clamp(100px, 14vh, 160px)',
+            paddingTop: 'clamp(120px, 18vh, 180px)',
+            paddingBottom: 'clamp(80px, 12vh, 140px)',
             background: 'radial-gradient(ellipse at 50% 0%, rgba(184, 164, 120, 0.08), transparent 70%), var(--color-bg)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            textAlign: 'center',
+            overflow: 'hidden',
           }}
         >
           <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
-            <RevealText>
-              <p className="text-eyebrow" style={{ marginBottom: '24px' }}>For Technology Companies</p>
-            </RevealText>
-            <RevealText delay={0.15}>
-              <h1 className="solutions-hero__title" style={{ marginBottom: '28px', maxWidth: '1050px', marginInline: 'auto' }}>
-                Ship smarter software <br />
-                with <em>sovereign AI.</em>
-              </h1>
-            </RevealText>
-            <RevealText delay={0.3}>
-              <p className="text-body" style={{ maxWidth: '680px', marginInline: 'auto', fontSize: 'clamp(17px, 1.3vw, 21px)', color: 'var(--color-text)', marginBottom: '40px' }}>
-                Turn your data into your competitive advantage. Build, deploy, and scale AI systems
-                engineered for precision, privacy, and performance.
-              </p>
-            </RevealText>
-            <RevealText delay={0.45}>
-              <a href="/contact" className="btn-primary">
-                Request a demo
-                <ArrowRight size={18} />
-              </a>
-            </RevealText>
+            <div className="hero-split">
+              <div className="hero-split__text">
+                <RevealText>
+                  <p className="text-eyebrow" style={{ marginBottom: '20px' }}>For Technology Companies</p>
+                </RevealText>
+                <RevealText delay={0.15}>
+                  <h1 className="solutions-hero__title" style={{ marginBottom: '24px', maxWidth: '600px' }}>
+                    Ship smarter software <br />
+                    with <em>sovereign AI.</em>
+                  </h1>
+                </RevealText>
+                <RevealText delay={0.3}>
+                  <p className="text-body" style={{ maxWidth: '520px', fontSize: 'clamp(16px, 1.2vw, 20px)', color: 'var(--color-text)', marginBottom: '36px', lineHeight: 1.6 }}>
+                    Turn your data into your competitive advantage. Build, deploy, and scale AI systems
+                    engineered for precision, privacy, and performance.
+                  </p>
+                </RevealText>
+                <RevealText delay={0.45}>
+                  <a href="/contact" className="btn-primary">
+                    Request a demo
+                    <ArrowRight size={18} />
+                  </a>
+                </RevealText>
+              </div>
+              <div className="hero-split__media">
+                <LazyHeroVideo />
+              </div>
+            </div>
           </div>
+
+          <style>{`
+            .hero-split {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 48px;
+              align-items: center;
+            }
+            .hero-split__text { text-align: left; }
+
+            .hero-video-wrap {
+              position: relative;
+              width: 100%;
+              max-width: 440px;
+              margin: 0 auto;
+              aspect-ratio: 1 / 1;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .hero-video-player {
+              position: absolute;
+              inset: 0;
+              width: 100%;
+              height: 100%;
+              border-radius: 16px;
+              object-fit: cover;
+              border: 1px solid rgba(184,164,120,0.1);
+              box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            }
+
+            .hero-3d-scene {
+              perspective: 800px;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              z-index: 1;
+            }
+            .hero-3d-container {
+              width: 140px;
+              height: 140px;
+              position: relative;
+              transform-style: preserve-3d;
+              animation: hero3dRotate 12s ease-in-out infinite;
+            }
+            @keyframes hero3dRotate {
+              0%, 100% { transform: rotateX(-20deg) rotateY(0deg); }
+              25% { transform: rotateX(-20deg) rotateY(90deg); }
+              50% { transform: rotateX(20deg) rotateY(180deg); }
+              75% { transform: rotateX(20deg) rotateY(270deg); }
+            }
+            .hero-3d-cube {
+              width: 140px;
+              height: 140px;
+              position: relative;
+              transform-style: preserve-3d;
+              animation: hero3dFloat 3s ease-in-out infinite;
+            }
+            @keyframes hero3dFloat {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-10px); }
+            }
+            .hero-3d-face {
+              position: absolute;
+              width: 140px;
+              height: 140px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: rgba(17,17,17,0.85);
+              border: 1px solid rgba(184,164,120,0.15);
+              backdrop-filter: blur(8px);
+              border-radius: 12px;
+            }
+            .hero-3d-code {
+              font-family: monospace;
+              font-size: 15px;
+              color: rgba(184,164,120,0.6);
+              letter-spacing: 1px;
+            }
+            .hero-3d-face--front  { transform: translateZ(70px); }
+            .hero-3d-face--back   { transform: rotateY(180deg) translateZ(70px); }
+            .hero-3d-face--right  { transform: rotateY(90deg) translateZ(70px); }
+            .hero-3d-face--left   { transform: rotateY(-90deg) translateZ(70px); }
+            .hero-3d-face--top    { transform: rotateX(90deg) translateZ(70px); }
+            .hero-3d-face--bottom { transform: rotateX(-90deg) translateZ(70px); }
+
+            .hero-3d-ring { animation: heroRingSpin 20s linear infinite; }
+            @keyframes heroRingSpin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+
+            @media (max-width: 900px) {
+              .hero-split { grid-template-columns: 1fr; gap: 32px; }
+              .hero-split__text { text-align: center; }
+              .hero-video-wrap { max-width: 320px; }
+              .hero-3d-container, .hero-3d-cube, .hero-3d-face { width: 110px; height: 110px; }
+              .hero-3d-face--front  { transform: translateZ(55px); }
+              .hero-3d-face--back   { transform: rotateY(180deg) translateZ(55px); }
+              .hero-3d-face--right  { transform: rotateY(90deg) translateZ(55px); }
+              .hero-3d-face--left   { transform: rotateY(-90deg) translateZ(55px); }
+              .hero-3d-face--top    { transform: rotateX(90deg) translateZ(55px); }
+              .hero-3d-face--bottom { transform: rotateX(-90deg) translateZ(55px); }
+              .hero-3d-code { font-size: 12px; }
+            }
+          `}</style>
         </section>
 
         {/* ──────── Core Capabilities ──────── */}
@@ -316,21 +498,150 @@ export default function TechPage() {
                         </span>
                       </div>
                     </div>
-                    <div className="card card--rounded card--pad" style={{
-                      padding: '48px',
+                    <div style={{
+                      padding: '0',
+                      borderRadius: '16px',
                       background: 'var(--color-bg-elevated)',
                       border: '1px solid var(--color-border)',
-                      minHeight: '320px',
+                      minHeight: '340px',
                       display: 'flex',
-                      flexDirection: 'column',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      textAlign: 'center',
+                      overflow: 'hidden',
+                      position: 'relative',
                     }}>
-                      <team.icon size={64} strokeWidth={1} style={{ color: 'var(--color-accent)', marginBottom: '24px', opacity: 0.4 }} />
-                      <p style={{ fontSize: '14px', color: 'var(--color-text-dim)', fontStyle: 'italic', maxWidth: '280px' }}>
-                        Visual illustration of {team.label} workflow will appear here.
-                      </p>
+                      {team.id === 'engineering' && (
+                        <svg viewBox="0 0 400 340" style={{ width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid meet">
+                          <rect width="400" height="340" fill="var(--color-bg-elevated)" />
+                          {/* Divider */}
+                          <line x1="200" y1="26" x2="200" y2="322" stroke="rgba(184,164,120,0.08)" strokeWidth="1" strokeDasharray="3,3" />
+                          {/* ── LEFT: Traditional ── */}
+                          <rect x="36" y="26" width="158" height="18" rx="4" fill="rgba(184,164,120,0.04)" />
+                          <text x="44" y="38" fontSize="8" fill="rgba(184,164,120,0.3)" fontFamily="monospace" letterSpacing="1">TRADITIONAL</text>
+                          {/* Editor frame */}
+                          <rect x="20" y="52" width="174" height="258" rx="6" fill="rgba(0,0,0,0.3)" stroke="rgba(184,164,120,0.06)" strokeWidth="1" />
+                          <circle cx="32" cy="66" r="3" fill="#ff5f57" />
+                          <circle cx="42" cy="66" r="3" fill="#ffbd2e" />
+                          <circle cx="52" cy="66" r="3" fill="#28c840" />
+                          {/* Live code — Traditional */}
+                          {[' 1  // Manual implementation',' 2  function fetchUser(id: any) {',' 3    // TODO: add error handling',' 4    const res = await fetch(',' 5      /api/user/{id}',' 6    );',' 7    return res.json(); // X no type',' 8  }'].map((line, li) => (
+                            <motion.text key={li} x={li===0||li===1||li===7?28:44} y={88+li*12} fontSize="7" fill={li===1?'rgba(100,180,255,0.4)':li===6?'rgba(255,95,87,0.5)':'rgba(200,200,200,0.25)'} fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.1+li*0.1}}>{line}</motion.text>
+                          ))}
+                          {/* Problem pane */}
+                          <rect x="28" y="186" width="158" height="42" rx="4" fill="rgba(255,95,87,0.04)" stroke="rgba(255,95,87,0.08)" strokeWidth="1" />
+                          <motion.text x="34" y="200" fontSize="6.5" fill="rgba(255,95,87,0.45)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.9}}>✕  PROBLEMS (3)</motion.text>
+                          <motion.text x="34" y="211" fontSize="6.5" fill="rgba(255,95,87,0.3)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.0}}>  TS2345  id: any → no type safety</motion.text>
+                          <motion.text x="34" y="221" fontSize="6.5" fill="rgba(255,95,87,0.3)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.1}}>  TS7006  missing return type</motion.text>
+                          {/* Timer */}
+                          <motion.text x="54" y="252" fontSize="7.5" fill="rgba(184,164,120,0.2)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.2}}>⏱ Manual review: ~35 min</motion.text>
+                          <motion.text x="54" y="264" fontSize="7.5" fill="rgba(184,164,120,0.15)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.3}}>  3 bugs to fix in PR</motion.text>
+                          {/* ── RIGHT: AI-Native ── */}
+                          <rect x="210" y="26" width="158" height="18" rx="4" fill="rgba(40,200,64,0.04)" />
+                          <rect x="210" y="26" width="3" height="18" rx="1.5" fill="rgba(40,200,64,0.3)" />
+                          <text x="218" y="38" fontSize="8" fill="rgba(40,200,64,0.5)" fontFamily="monospace" letterSpacing="1">AI-NATIVE</text>
+                          {/* Editor frame */}
+                          <rect x="208" y="52" width="174" height="258" rx="6" fill="rgba(0,0,0,0.3)" stroke="rgba(40,200,64,0.06)" strokeWidth="1" />
+                          <circle cx="220" cy="66" r="3" fill="#ff5f57" />
+                          <circle cx="230" cy="66" r="3" fill="#ffbd2e" />
+                          <circle cx="240" cy="66" r="3" fill="#28c840" />
+                          {/* AI badge */}
+                          <rect x="340" y="54" width="36" height="14" rx="7" fill="rgba(40,200,64,0.1)" />
+                          <motion.text x="346" y="64" fontSize="6.5" fill="rgba(40,200,64,0.5)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.1}}>AI ⚡</motion.text>
+                          {/* Live code — AI-native */}
+                          {[
+                            ' 1  // AI-suggested implementation',
+                            ' 2  function fetchUser<T>(id: T):',
+                            ' 3    Promise<UserResponse> {',
+                            ' 4    const url = buildEndpoint(',
+                            " 5      'users', { id }         // <- auto",
+                            ' 6    );',
+                            ' 7    return request<UserResp>(url);',
+                            ' 8  }',
+                          ].map((line, li) => (
+                            <motion.text key={li} x={li===2||li===4?'232':'216'} y={88+li*12} fontSize="7" fill={li===1||li===2?'rgba(100,180,255,0.5)':li===4?'rgba(255,200,100,0.35)':'rgba(200,200,200,0.3)'} fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.2+li*0.1}}>{line}</motion.text>
+                          ))}
+                          {/* AI suggestion pane */}
+                          <rect x="216" y="186" width="158" height="42" rx="4" fill="rgba(40,200,64,0.04)" stroke="rgba(40,200,64,0.08)" strokeWidth="1" />
+                          <motion.text x="222" y="200" fontSize="6.5" fill="rgba(40,200,64,0.45)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.0}}>✓  AI SUGGESTIONS (2)</motion.text>
+                          <motion.text x="222" y="211" fontSize="6.5" fill="rgba(40,200,64,0.3)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.1}}>  Generic type T inferred → </motion.text>
+                          <motion.text x="222" y="221" fontSize="6.5" fill="rgba(40,200,64,0.3)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.2}}>  Error handling auto-added</motion.text>
+                          {/* Timer */}
+                          <motion.text x="240" y="252" fontSize="7.5" fill="rgba(40,200,64,0.3)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.3}}>⚡ AI review: ~12 sec</motion.text>
+                          <motion.text x="240" y="264" fontSize="7.5" fill="rgba(40,200,64,0.2)" fontFamily="monospace" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.4}}>  0 bugs — merges automatically</motion.text>
+                          {/* Blinking cursor */}
+                          <motion.rect x="340" y="166" width="5" height="9" rx="1" fill="rgba(184,164,120,0.4)" animate={{opacity:[1,0,1]}} transition={{duration:0.8,repeat:Infinity}} />
+                        </svg>
+                      )}
+                      {team.id === 'operations' && (
+                        <svg viewBox="0 0 400 340" style={{ width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid meet">
+                          <rect width="400" height="340" fill="var(--color-bg-elevated)" />
+                          {/* Pipeline flow */}
+                          <rect x="40" y="60" width="80" height="40" rx="6" fill="rgba(184,164,120,0.08)" stroke="rgba(184,164,120,0.15)" strokeWidth="1" />
+                          <text x="52" y="84" fontSize="10" fill="rgba(184,164,120,0.5)" fontFamily="monospace">CI BUILD</text>
+                          {/* Arrow */}
+                          <line x1="120" y1="80" x2="150" y2="80" stroke="rgba(184,164,120,0.2)" strokeWidth="1.5" />
+                          <polygon points="148,76 156,80 148,84" fill="rgba(184,164,120,0.2)" />
+                          {/* Test */}
+                          <rect x="156" y="60" width="80" height="40" rx="6" fill="rgba(184,164,120,0.08)" stroke="rgba(184,164,120,0.15)" strokeWidth="1" />
+                          <text x="168" y="84" fontSize="10" fill="rgba(184,164,120,0.5)" fontFamily="monospace">TESTS</text>
+                          <line x1="236" y1="80" x2="266" y2="80" stroke="rgba(184,164,120,0.2)" strokeWidth="1.5" />
+                          <polygon points="264,76 272,80 264,84" fill="rgba(184,164,120,0.2)" />
+                          {/* Deploy */}
+                          <rect x="272" y="60" width="80" height="40" rx="6" fill="rgba(184,164,120,0.12)" stroke="rgba(184,164,120,0.25)" strokeWidth="1" />
+                          <text x="280" y="84" fontSize="10" fill="rgba(184,164,120,0.6)" fontFamily="monospace">DEPLOY</text>
+                          {/* Service boxes */}
+                          <rect x="40" y="140" width="100" height="60" rx="6" fill="rgba(0,0,0,0.15)" stroke="rgba(184,164,120,0.08)" strokeWidth="1" />
+                          <rect x="52" y="154" width="76" height="4" rx="2" fill="rgba(184,164,120,0.15)" />
+                          <rect x="52" y="166" width="50" height="4" rx="2" fill="rgba(184,164,120,0.08)" />
+                          <rect x="52" y="178" width="60" height="4" rx="2" fill="rgba(184,164,120,0.08)" />
+                          <rect x="150" y="140" width="100" height="60" rx="6" fill="rgba(0,0,0,0.15)" stroke="rgba(184,164,120,0.08)" strokeWidth="1" />
+                          <rect x="162" y="154" width="76" height="4" rx="2" fill="rgba(184,164,120,0.15)" />
+                          <rect x="162" y="166" width="50" height="4" rx="2" fill="rgba(184,164,120,0.08)" />
+                          <rect x="162" y="178" width="60" height="4" rx="2" fill="rgba(184,164,120,0.08)" />
+                          <rect x="260" y="140" width="100" height="60" rx="6" fill="rgba(0,0,0,0.15)" stroke="rgba(184,164,120,0.08)" strokeWidth="1" />
+                          <rect x="272" y="154" width="76" height="4" rx="2" fill="rgba(184,164,120,0.15)" />
+                          <rect x="272" y="166" width="50" height="4" rx="2" fill="rgba(184,164,120,0.08)" />
+                          <rect x="272" y="178" width="60" height="4" rx="2" fill="rgba(184,164,120,0.08)" />
+                          {/* Success checkmark */}
+                          <circle cx="345" cy="235" r="20" fill="none" stroke="rgba(40,200,64,0.3)" strokeWidth="2" />
+                          <polyline points="337,235 343,241 353,229" fill="none" stroke="rgba(40,200,64,0.4)" strokeWidth="2" strokeLinecap="round" />
+                          {/* Metrics */}
+                          <rect x="40" y="240" width="80" height="30" rx="4" fill="rgba(184,164,120,0.04)" />
+                          <text x="48" y="258" fontSize="10" fill="rgba(184,164,120,0.35)" fontFamily="monospace">99.9% uptime</text>
+                          <rect x="130" y="240" width="80" height="30" rx="4" fill="rgba(184,164,120,0.04)" />
+                          <text x="138" y="258" fontSize="10" fill="rgba(184,164,120,0.35)" fontFamily="monospace">0 failures</text>
+                        </svg>
+                      )}
+                      {team.id === 'customer' && (
+                        <svg viewBox="0 0 400 340" style={{ width: '100%', height: '100%' }} preserveAspectRatio="xMidYMid meet">
+                          <rect width="400" height="340" fill="var(--color-bg-elevated)" />
+                          {/* Dashboard card */}
+                          <rect x="30" y="40" width="340" height="260" rx="10" fill="rgba(0,0,0,0.2)" stroke="rgba(184,164,120,0.1)" strokeWidth="1" />
+                          {/* Chart area */}
+                          <rect x="48" y="72" width="150" height="100" rx="6" fill="rgba(0,0,0,0.15)" />
+                          {/* Line chart */}
+                          <polyline points="60,152 90,130 110,140 140,110 170,120 185,95" fill="none" stroke="rgba(184,164,120,0.4)" strokeWidth="2" strokeLinecap="round" />
+                          <polyline points="60,152 90,145 110,148 140,135 170,138 185,130" fill="none" stroke="rgba(184,164,120,0.15)" strokeWidth="1.5" strokeLinecap="round" />
+                          {/* Bar chart */}
+                          <rect x="216" y="120" width="22" height="52" rx="3" fill="rgba(184,164,120,0.15)" />
+                          <rect x="246" y="100" width="22" height="72" rx="3" fill="rgba(184,164,120,0.25)" />
+                          <rect x="276" y="130" width="22" height="42" rx="3" fill="rgba(184,164,120,0.15)" />
+                          <rect x="306" y="110" width="22" height="62" rx="3" fill="rgba(184,164,120,0.2)" />
+                          {/* KPI cards */}
+                          <rect x="48" y="190" width="100" height="50" rx="6" fill="rgba(184,164,120,0.04)" stroke="rgba(184,164,120,0.06)" strokeWidth="1" />
+                          <text x="56" y="210" fontSize="9" fill="rgba(184,164,120,0.3)" fontFamily="monospace">NPS Score</text>
+                          <text x="56" y="228" fontSize="16" fill="rgba(184,164,120,0.6)" fontFamily="var(--font-display)" fontWeight="600">72</text>
+                          <rect x="160" y="190" width="100" height="50" rx="6" fill="rgba(184,164,120,0.04)" stroke="rgba(184,164,120,0.06)" strokeWidth="1" />
+                          <text x="168" y="210" fontSize="9" fill="rgba(184,164,120,0.3)" fontFamily="monospace">Retention</text>
+                          <text x="168" y="228" fontSize="16" fill="rgba(40,200,64,0.5)" fontFamily="var(--font-display)" fontWeight="600">94%</text>
+                          <rect x="272" y="190" width="80" height="50" rx="6" fill="rgba(184,164,120,0.04)" stroke="rgba(184,164,120,0.06)" strokeWidth="1" />
+                          <text x="278" y="210" fontSize="9" fill="rgba(184,164,120,0.3)" fontFamily="monospace">ARR</text>
+                          <text x="278" y="228" fontSize="16" fill="rgba(184,164,120,0.6)" fontFamily="var(--font-display)" fontWeight="600">$2.4M</text>
+                          {/* Pulse dot */}
+                          <circle cx="48" cy="40" r="3" fill="rgba(40,200,64,0.5)" />
+                          <circle cx="48" cy="40" r="6" fill="none" stroke="rgba(40,200,64,0.2)" strokeWidth="1" />
+                        </svg>
+                      )}
                     </div>
                   </motion.div>
                 ))}
