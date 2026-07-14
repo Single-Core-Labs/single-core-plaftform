@@ -314,103 +314,34 @@ function HeroSection() {
 // ─── SECTION 2: ABOUT ────────────────────────────────────────────────────────
 
 function AboutSection() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
   return (
     <section
+      ref={ref}
       style={{
         background: '#000',
         padding: 'clamp(64px, 8vw, 120px) clamp(20px, 4vw, 60px)',
         fontFamily: "'Almarai', sans-serif",
       }}
     >
-      <div
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          background: '#101010',
-          borderRadius: 'clamp(16px, 2vw, 28px)',
-          padding: 'clamp(48px, 6vw, 96px) clamp(28px, 5vw, 80px)',
-          maxWidth: '1200px',
+          color: CREAM,
+          fontSize: 'clamp(22px, 3.5vw, 48px)',
+          lineHeight: 1.2,
+          fontWeight: 300,
+          maxWidth: '800px',
           margin: '0 auto',
           textAlign: 'center',
         }}
       >
-        {/* Label */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            color: CREAM,
-            fontSize: 'clamp(10px, 0.9vw, 12px)',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            fontWeight: 400,
-            marginBottom: 'clamp(24px, 3vw, 44px)',
-          }}
-        >
-          Applied AI research
-        </motion.p>
-
-        {/* Heading */}
-        <div
-          style={{
-            fontSize: 'clamp(28px, 5vw, 72px)',
-            lineHeight: 0.95,
-            maxWidth: '860px',
-            margin: '0 auto',
-            marginBottom: 'clamp(36px, 4vw, 64px)',
-          }}
-        >
-          <WordsPullUpMultiStyle
-            wrapperClassName=""
-            segments={[
-              {
-                text: 'We build foundation models',
-                className: '',
-                style: { fontWeight: 400, color: CREAM, fontFamily: "'Almarai', sans-serif" },
-              },
-              {
-                text: 'and the products',
-                className: 'font-serif',
-                style: { fontStyle: 'italic', color: CREAM, fontFamily: "'Instrument Serif', serif" },
-              },
-              {
-                text: 'that put them to work.',
-                className: '',
-                style: { fontWeight: 400, color: CREAM, fontFamily: "'Almarai', sans-serif" },
-              },
-            ]}
-            stagger={0.045}
-            defaultStyle={{ color: CREAM, fontSize: 'inherit', lineHeight: 'inherit' }}
-          />
-        </div>
-
-        {/* Body — scroll-linked character reveal in box */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            border: '1px solid rgba(225, 224, 204, 0.12)',
-            borderRadius: 'clamp(12px, 1.5vw, 20px)',
-            padding: 'clamp(24px, 3vw, 40px)',
-            background: 'rgba(255, 255, 255, 0.02)',
-          }}
-        >
-          <AnimatedBody
-            text="Over the past year, our team has designed original transformer architectures from scratch, shipped MLOps pipelines from training to deployment, and built AI systems for enterprise clients across healthcare, infrastructure, and developer tooling. Together, we're building toward a research lab that publishes as seriously as it ships."
-            className=""
-            style={{
-              color: CREAM,
-              fontSize: 'clamp(13px, 1.2vw, 17px)',
-              lineHeight: 1.65,
-              fontWeight: 300,
-            }}
-          />
-      </motion.div>
-      </div>
+        We design original architectures and ship them into production — across healthcare, infrastructure, and developer tooling.
+      </motion.p>
     </section>
   )
 }
