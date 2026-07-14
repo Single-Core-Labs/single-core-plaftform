@@ -15,9 +15,6 @@ export default defineConfig({
     cssCodeSplit: true,
     rollupOptions: {
       output: {
-        // Merge any chunk smaller than 15 kB into its importer — eliminates
-        // the tiny HorizontalRule / RevealText / ScrollScene / icon fragments
-        experimentalMinChunkSize: 15_000,
         manualChunks(id) {
           if (id.includes('node_modules')) {
             // React Router family
