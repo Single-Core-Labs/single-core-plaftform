@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import SEO from '@/components/SEO'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
-import DnaModel from '@/components/DnaModel'
 import {
   ArrowRight, Shield, Activity, Microscope,
   Stethoscope, FileText, Lock, CheckCircle,
@@ -133,10 +132,52 @@ const DEPLOYMENT_FEATURES = [
   { icon: Users, title: 'Expert-implemented', detail: 'Work with our forward-deployed engineers who understand healthcare infrastructure and compliance.' },
 ]
 
+const HERO_IMAGE = 'https://images.pexels.com/photos/3912992/pexels-photo-3912992.jpeg'
+
 function LazyHeroVisual() {
+  const imgRef = useRef(null)
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    const el = imgRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const img = new Image()
+          img.onload = () => setLoaded(true)
+          img.src = HERO_IMAGE
+          obs.disconnect()
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
-    <div className="hc-hero-visual">
-      <DnaModel />
+    <div ref={imgRef} className="hc-hero-visual">
+      <div
+        className="hc-hero-image-wrap"
+        style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.8s ease' }}
+      >
+        <img
+          src={HERO_IMAGE}
+          alt="Healthcare AI technology"
+          className="hc-hero-image"
+        />
+        <div className="hc-hero-image-overlay" />
+      </div>
+      {/* Placeholder shown while loading */}
+      {!loaded && (
+        <div className="hc-hero-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(184,164,120,0.2)" strokeWidth="1">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+        </div>
+      )}
     </div>
   )
 }
@@ -215,10 +256,46 @@ export default function HealthcareIntelligencePage() {
               align-items: center;
               justify-content: center;
             }
+            .hc-hero-image-wrap {
+              position: absolute;
+              inset: 0;
+              border-radius: 16px;
+              overflow: hidden;
+              border: 1px solid rgba(184,164,120,0.1);
+              box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            }
+            .hc-hero-image {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              display: block;
+            }
+            .hc-hero-image-overlay {
+              position: absolute;
+              inset: 0;
+              background: linear-gradient(
+                135deg,
+                rgba(11, 11, 11, 0.55) 0%,
+                rgba(11, 11, 11, 0.15) 50%,
+                rgba(11, 11, 11, 0.4) 100%
+              );
+              mix-blend-mode: multiply;
+            }
+            .hc-hero-placeholder {
+              position: absolute;
+              inset: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background: rgba(17, 17, 17, 0.6);
+              border-radius: 16px;
+              border: 1px solid rgba(184,164,120,0.06);
+            }
+
             @media (max-width: 900px) {
               .hc-hero-split { grid-template-columns: 1fr; gap: 32px; }
               .hc-hero-split__text { text-align: center; }
-              .hc-hero-visual { max-width: 280px; }
+              .hc-hero-visual { max-width: 320px; }
             }
           `}</style>
         </section>
