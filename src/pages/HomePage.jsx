@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Shield, Cloud, Settings } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -15,37 +15,24 @@ const CREAM_70 = 'rgba(225,224,204,0.7)'
 
 const FEATURE_CARDS = [
   {
-    id: 'bioformer',
-    title: 'BioFormer.',
-    icon: '/logo-icon.png',
-    items: [
-      'Original transformer architecture',
-      'Trained on ClinVar & gnomAD',
-      'Genetic mutation effect prediction',
-      'Built for diagnostic labs',
-    ],
-    href: '/research',
+    id: 'security',
+    title: 'Security',
+    icon: Shield,
+    description: 'Your data stays under your control with multi-layered protection and industry-certified security standards.',
+    href: '/security',
   },
   {
-    id: 'platform-agent',
-    title: 'Platform-Agent.',
-    icon: '/logo-icon.png',
-    items: [
-      'Open-source CLI coding agent',
-      'Composable tool workflows',
-      'Built for developer teams',
-    ],
+    id: 'deployment',
+    title: 'Deployment',
+    icon: Cloud,
+    description: 'Secure within your virtual private cloud (VPC), on-premises, or dedicated, Single Core Labs-managed Model Vault.',
     href: '/solutions',
   },
   {
-    id: 'agentwatch',
-    title: 'AgentWatch.',
-    icon: '/logo-icon.png',
-    items: [
-      'LLM observability & tracing',
-      'Cost and performance explorer',
-      'Built for teams running agents in production',
-    ],
+    id: 'customization',
+    title: 'Customization',
+    icon: Settings,
+    description: 'Train on your proprietary data and build unique AI solutions made for your use cases, needs, and infrastructure.',
     href: '/solutions',
   },
 ]
@@ -433,80 +420,52 @@ function AboutSection() {
 function FeatureCard({ card, index }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
+  const Icon = card.icon
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{
         duration: 0.7,
         delay: index * 0.15,
         ease: [0.22, 1, 0.36, 1],
       }}
       style={{
-        background: '#212121',
-        borderRadius: 'clamp(12px, 1.5vw, 20px)',
-        padding: 'clamp(24px, 2.5vw, 36px)',
+        background: '#111',
+        border: '1px solid rgba(255,255,255,0.06)',
+        borderRadius: 'clamp(14px, 1.5vw, 20px)',
+        padding: 'clamp(28px, 3vw, 44px)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '20px',
+        gap: 'clamp(16px, 1.5vw, 24px)',
         height: '100%',
-        minHeight: '320px',
       }}
     >
-      {/* Icon */}
-      <img
-        src={card.icon}
-        alt=""
-        style={{
-          width: 'clamp(36px, 3vw, 48px)',
-          height: 'clamp(36px, 3vw, 48px)',
-          borderRadius: '10px',
-          objectFit: 'contain',
-        }}
-      />
+      <Icon size={32} strokeWidth={1.5} style={{ color: CREAM }} />
 
-      {/* Title */}
-      <h3
-        style={{
-          color: CREAM,
-          fontSize: 'clamp(18px, 1.8vw, 26px)',
-          fontWeight: 700,
-          fontFamily: "'Almarai', sans-serif",
-          lineHeight: 1.1,
-        }}
-      >
+      <h3 style={{
+        color: CREAM,
+        fontSize: 'clamp(18px, 1.6vw, 24px)',
+        fontWeight: 600,
+        fontFamily: "'Almarai', sans-serif",
+        lineHeight: 1.2,
+      }}>
         {card.title}
       </h3>
 
-      {/* Checklist */}
-      <ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
-        {card.items.map((item) => (
-          <li
-            key={item}
-            style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '10px',
-              color: '#9CA3AF',
-              fontSize: 'clamp(12px, 1vw, 14px)',
-              fontFamily: "'Almarai', sans-serif",
-              fontWeight: 300,
-              lineHeight: 1.4,
-            }}
-          >
-            <Check
-              size={14}
-              style={{ color: CREAM, flexShrink: 0, marginTop: '2px' }}
-              strokeWidth={2.5}
-            />
-            {item}
-          </li>
-        ))}
-      </ul>
+      <p style={{
+        color: '#9CA3AF',
+        fontSize: 'clamp(13px, 1vw, 15px)',
+        fontFamily: "'Almarai', sans-serif",
+        fontWeight: 300,
+        lineHeight: 1.6,
+        flex: 1,
+      }}>
+        {card.description}
+      </p>
 
-      {/* Learn more */}
       <Link
         to={card.href}
         style={{
@@ -520,6 +479,7 @@ function FeatureCard({ card, index }) {
           fontFamily: "'Almarai', sans-serif",
           opacity: 0.8,
           transition: 'opacity 0.2s',
+          marginTop: 'auto',
         }}
         onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
         onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
@@ -527,72 +487,6 @@ function FeatureCard({ card, index }) {
         Learn more
         <ArrowRight size={13} style={{ transform: 'rotate(-45deg)' }} />
       </Link>
-    </motion.div>
-  )
-}
-
-function VideoFeatureCard({ index }) {
-  const videoRef = useRef(null)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
-
-  useEffect(() => {
-    const v = videoRef.current
-    if (!v) return
-    v.play().catch(() => {})
-  }, [])
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-      style={{
-        position: 'relative',
-        borderRadius: 'clamp(12px, 1.5vw, 20px)',
-        overflow: 'hidden',
-        minHeight: '320px',
-        height: '100%',
-      }}
-    >
-      <video
-        ref={videoRef}
-        src="/original-a9b30b0413131d806620dc5db95c99f1.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-      />
-      {/* Dark gradient at bottom */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)',
-        }}
-      />
-      <p
-        style={{
-          position: 'absolute',
-          bottom: 'clamp(20px, 2.5vw, 32px)',
-          left: 'clamp(20px, 2.5vw, 32px)',
-          color: CREAM,
-          fontSize: 'clamp(14px, 1.3vw, 19px)',
-          fontWeight: 500,
-          fontFamily: "'Almarai', sans-serif",
-          lineHeight: 1.2,
-        }}
-      >
-        Where models get built.
-      </p>
     </motion.div>
   )
 }
@@ -605,63 +499,39 @@ function FeaturesSection() {
     <section
       style={{
         background: '#000',
-        minHeight: '100vh',
         position: 'relative',
-        padding: 'clamp(64px, 8vw, 120px) clamp(20px, 4vw, 48px)',
+        padding: 'clamp(80px, 10vw, 160px) clamp(20px, 4vw, 48px)',
         fontFamily: "'Almarai', sans-serif",
       }}
     >
-      {/* Noise background */}
       <div className="bg-noise" style={{ zIndex: 0, opacity: 0.15 }} />
 
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1440px', margin: '0 auto' }}>
-        {/* Header */}
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1200px', margin: '0 auto' }}>
         <div
           ref={titleRef}
-          style={{ marginBottom: 'clamp(40px, 5vw, 72px)' }}
+          style={{ marginBottom: 'clamp(48px, 5vw, 80px)', textAlign: 'center' }}
         >
-          <div
-            style={{
-              fontSize: 'clamp(20px, 3.2vw, 44px)',
-              fontWeight: 400,
-              lineHeight: 1.15,
-            }}
-          >
-            <WordsPullUpMultiStyle
-              segments={[
-                {
-                  text: 'Research-grade systems for enterprise AI.',
-                  style: { color: CREAM, display: 'block' },
-                },
-              ]}
-              stagger={0.04}
-              defaultStyle={{ color: CREAM, fontFamily: "'Almarai', sans-serif" }}
-            />
-            <br />
-            <WordsPullUpMultiStyle
-              segments={[
-                {
-                  text: 'Built for rigor. Shipped like a product.',
-                  style: { color: '#6B7280' },
-                },
-              ]}
-              stagger={0.04}
-              defaultStyle={{ color: '#6B7280', fontFamily: "'Almarai', sans-serif" }}
-            />
-          </div>
+          <WordsPullUpMultiStyle
+            segments={[
+              {
+                text: 'Secure. Adaptable. Sovereign.',
+                style: { color: CREAM, display: 'block' },
+              },
+            ]}
+            stagger={0.04}
+            defaultStyle={{ color: CREAM, fontFamily: "'Almarai', sans-serif", fontSize: 'clamp(28px, 3.5vw, 52px)', fontWeight: 400, lineHeight: 1.15 }}
+          />
         </div>
 
-        {/* 4-col card grid */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: 'clamp(8px, 1vw, 12px)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 'clamp(16px, 2vw, 24px)',
           }}
         >
-          <VideoFeatureCard index={0} />
           {FEATURE_CARDS.map((card, i) => (
-            <FeatureCard key={card.id} card={card} index={i + 1} />
+            <FeatureCard key={card.id} card={card} index={i} />
           ))}
         </div>
       </div>

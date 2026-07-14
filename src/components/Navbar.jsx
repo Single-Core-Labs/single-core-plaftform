@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Factory, Landmark, Monitor, Shield, SquarePlus } from 'lucide-react'
+import { ChevronDown, Factory, Landmark, Monitor, Shield, SquarePlus } from 'lucide-react'
 import { NAV_LINKS } from '@/lib/constants'
 
 const RESOURCES_LEFT = {
@@ -30,9 +30,11 @@ const INDUSTRIES = [
 
 const darkBg = 'rgba(11, 11, 11, 0.88)'
 
-function SolutionsDropdown({ onClose }) {
+function SolutionsDropdown({ onClose, onMouseEnter, onMouseLeave }) {
   return (
     <motion.div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -4 }}
@@ -220,9 +222,10 @@ export function Navbar({ category }) {
   const [solutionsOpen, setSolutionsOpen] = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
 
-  const solutionsRef  = useRef(null)
-  const resourcesRef  = useRef(null)
-  const { scrollY }   = useScroll()
+  const solutionsRef       = useRef(null)
+  const resourcesRef       = useRef(null)
+  const solutionsTimeout   = useRef(null)
+  const { scrollY }        = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (latest) => setScrolled(latest > 60))
 
@@ -230,6 +233,10 @@ export function Navbar({ category }) {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
+
+  useEffect(() => {
+    return () => { if (solutionsTimeout.current) clearTimeout(solutionsTimeout.current) }
+  }, [])
 
   useEffect(() => {
     function handleClick(e) {
@@ -251,6 +258,15 @@ export function Navbar({ category }) {
     setMenuOpen(false)
   }
 
+  const handleSolutionsEnter = () => {
+    if (solutionsTimeout.current) clearTimeout(solutionsTimeout.current)
+    setSolutionsOpen(true)
+  }
+
+  const handleSolutionsLeave = () => {
+    solutionsTimeout.current = setTimeout(() => setSolutionsOpen(false), 120)
+  }
+
   const linkStyle = {
     fontFamily: 'var(--font-sans)',
     fontSize: '13px',
@@ -262,10 +278,9 @@ export function Navbar({ category }) {
   }
 
   const chevron = (open) => (
-    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"
-      style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', marginTop: '1px' }}>
-      <path d="M2 4l4 4 4-4" />
-    </svg>
+    <ChevronDown size={14} strokeWidth={2.5}
+      style={{ transition: 'transform 0.25s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+    />
   )
 
   const dropdownBtn = (label, open, toggle) => (
@@ -326,10 +341,19 @@ export function Navbar({ category }) {
           </Link>
 
           <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-            <div ref={solutionsRef} style={{ position: 'relative' }}>
-              {dropdownBtn('Solutions', solutionsOpen, () => setSolutionsOpen(o => !o))}
+            <div ref={solutionsRef} style={{ position: 'relative' }}
+              onMouseEnter={handleSolutionsEnter}
+              onMouseLeave={handleSolutionsLeave}
+            >
+              {dropdownBtn('Solutions', solutionsOpen, () => setSolutionsOpen(true))}
               <AnimatePresence>
-                {solutionsOpen && <SolutionsDropdown onClose={closeAll} />}
+                {solutionsOpen && (
+                  <SolutionsDropdown
+                    onClose={closeAll}
+                    onMouseEnter={handleSolutionsEnter}
+                    onMouseLeave={handleSolutionsLeave}
+                  />
+                )}
               </AnimatePresence>
             </div>
 
