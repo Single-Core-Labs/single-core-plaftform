@@ -26,7 +26,7 @@ const FEATURE_CARDS = [
     title: 'Deployment',
     icon: Cloud,
     description: 'Secure within your virtual private cloud (VPC), on-premises, or dedicated, Single Core Labs-managed Model Vault.',
-    href: '/solutions',
+    href: '/deployment',
   },
   {
     id: 'customization',

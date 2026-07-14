@@ -39,6 +39,7 @@ const ROUTES = [
   '/research',
   '/research/semantic-cache',
   '/security',
+  '/deployment',
   '/ai-infrastructure-vs-cloud',
   '/indian-ai-cloud-market-alternative',
 ]
