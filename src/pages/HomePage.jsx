@@ -409,13 +409,79 @@ function AboutSection() {
               fontWeight: 300,
             }}
           />
-        </motion.div>
+      </motion.div>
       </div>
     </section>
   )
 }
 
-// ─── SECTION 3: FEATURES ─────────────────────────────────────────────────────
+// ─── SECTION 3: BACKED BY ────────────────────────────────────────────────────
+
+function BackedBySection() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-80px' })
+
+  const companies = ['Cognizant', 'Bank of America', 'Global Logic']
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: '#000',
+        padding: 'clamp(40px, 5vw, 80px) clamp(20px, 4vw, 60px)',
+        fontFamily: "'Almarai', sans-serif",
+      }}
+    >
+      <div style={{
+        textAlign: 'center',
+      }}>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            color: 'rgba(225,224,204,0.5)',
+            fontSize: 'clamp(10px, 0.85vw, 12px)',
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            fontWeight: 400,
+            marginBottom: 'clamp(24px, 3vw, 40px)',
+          }}
+        >
+          Backed by engineers from
+        </motion.p>
+
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 'clamp(24px, 4vw, 56px)',
+          flexWrap: 'wrap',
+        }}>
+          {companies.map((c, i) => (
+            <motion.span
+              key={c}
+              initial={{ opacity: 0, y: 15 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1.2, delay: 0.3 + i * 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                color: CREAM,
+                fontSize: 'clamp(18px, 1.8vw, 26px)',
+                fontWeight: 600,
+                letterSpacing: '-0.02em',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {c}
+            </motion.span>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 4: FEATURES ─────────────────────────────────────────────────────
 
 function FeatureCard({ card, index }) {
   const ref = useRef(null)
@@ -539,7 +605,7 @@ function FeaturesSection() {
   )
 }
 
-// ─── SECTION 4: NEWSLETTER ────────────────────────────────────────────────────
+// ─── SECTION 5: NEWSLETTER ────────────────────────────────────────────────────
 
 function NewsletterSection() {
   const ref = useRef(null)
@@ -691,6 +757,7 @@ export default function HomePage() {
         keywords="applied AI research, foundation models, AI products, BioFormer, machine learning, enterprise AI"
       />
       <HeroSection />
+      <BackedBySection />
       <AboutSection />
       <FeaturesSection />
       <NewsletterSection />
