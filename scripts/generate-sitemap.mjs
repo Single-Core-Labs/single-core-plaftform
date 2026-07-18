@@ -7,6 +7,7 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
+import WebSocket from 'ws'
 import {
   SITE_URL,
   STATIC_ROUTES,
@@ -104,7 +105,7 @@ async function fetchSupabaseBlogPosts() {
     return []
   }
 
-  const supabase = createClient(url, key)
+  const supabase = createClient(url, key, { transport: WebSocket })
   const { data, error } = await supabase
     .from(BLOG_TABLE)
     .select('slug, updated_at, published_at')
