@@ -7,9 +7,10 @@ import { NAV_LINKS } from '@/lib/constants'
 const RESOURCES_LEFT = {
   label: 'Single Core Labs',
   items: [
-    { label: 'About',    href: '/about' },
-    { label: 'Security', href: '/security' },
-    { label: 'Careers',  href: '/careers' },
+    { label: 'About',               href: '/about' },
+    { label: 'Security',            href: '/security' },
+    { label: 'Careers',             href: '/careers' },
+    { label: 'Research Collective', href: '/research-collective' },
   ],
 }
 

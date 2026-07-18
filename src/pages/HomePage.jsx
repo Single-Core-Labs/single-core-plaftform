@@ -141,55 +141,7 @@ function HeroSection() {
           }}
         />
 
-        {/* ── NAVBAR ── */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 50,
-          }}
-        >
-          <div
-            style={{
-              background: 'rgba(0,0,0,0.88)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              borderRadius: '0 0 20px 20px',
-              padding: 'clamp(10px, 1.2vw, 16px) clamp(20px, 3vw, 40px)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'clamp(14px, 2.5vw, 56px)',
-            }}
-          >
-            {[
-              { label: 'Research', href: '/research' },
-              { label: 'Solutions', href: '/solutions' },
-              { label: 'About', href: '/about' },
-              { label: 'Careers', href: '/careers' },
-              { label: 'Contact', href: '/contact' },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                to={item.href}
-                style={{
-                  color: 'rgba(225,224,204,0.8)',
-                  textDecoration: 'none',
-                  fontSize: 'clamp(10px, 1vw, 14px)',
-                  fontWeight: 400,
-                  letterSpacing: '0.02em',
-                  transition: 'color 0.2s',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={(e) => (e.target.style.color = CREAM)}
-                onMouseLeave={(e) => (e.target.style.color = 'rgba(225,224,204,0.8)')}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Navbar />
 
         {/* ── HERO CONTENT (bottom-aligned) ── */}
         <div

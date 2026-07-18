@@ -22,6 +22,7 @@ export const STATIC_ROUTES = [
   { path: '/indian-ai-cloud-market-alternative', priority: 0.85, changefreq: 'monthly' },
   { path: '/security', priority: 0.85, changefreq: 'monthly' },
   { path: '/deployment', priority: 0.85, changefreq: 'monthly' },
+  { path: '/research-collective', priority: 0.85, changefreq: 'monthly' },
 ]
 
 /** Default priority for individual blog post URLs (/blog/:slug). */
