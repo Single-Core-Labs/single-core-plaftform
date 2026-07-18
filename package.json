@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@fontsource/plus-jakarta-sans": "^5.2.8",
+    "@supabase/server": "^1.4.0",
     "@supabase/supabase-js": "^2.106.0",
     "@tailwindcss/vite": "^4.3.0",
     "framer-motion": "^12.38.0",
