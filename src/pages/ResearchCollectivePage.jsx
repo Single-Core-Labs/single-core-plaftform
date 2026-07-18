@@ -6,7 +6,7 @@ import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { supabase } from '@/lib/supabase'
+import { submitResearchApplication } from '@/lib/researchCollective'
 import SEO from '@/components/SEO'
 
 const RESEARCH_TRACKS = [
@@ -426,24 +426,12 @@ function ApplicationFormSection() {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    try {
-      const payload = {
-        first_name: form.fullName.trim().split(' ')[0] || '',
-        last_name: form.fullName.trim().split(' ').slice(1).join(' ') || '',
-        email: form.email,
-        research_area: form.researchArea,
-        affiliation: form.affiliation || null,
-        statement: form.statement,
-        work_link: form.link || null,
-      }
-      const { error: err } = await supabase.from('research_collective_applications').insert([payload])
-      if (err) throw err
+    const { error: err } = await submitResearchApplication(form)
+    setLoading(false)
+    if (err) {
+      setError(err)
+    } else {
       setSubmitted(true)
-    } catch (e) {
-      console.error(e)
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
     }
   }
 
