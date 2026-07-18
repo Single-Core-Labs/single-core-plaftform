@@ -105,7 +105,9 @@ async function fetchSupabaseBlogPosts() {
     return []
   }
 
-  const supabase = createClient(url, key, { transport: WebSocket })
+  const supabase = createClient(url, key, {
+    realtime: { transport: WebSocket },
+  })
   const { data, error } = await supabase
     .from(BLOG_TABLE)
     .select('slug, updated_at, published_at')
