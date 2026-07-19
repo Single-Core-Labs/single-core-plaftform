@@ -1,59 +1,68 @@
-# Single Core Labs Ecosystem
+# Single Core Labs
 
-Unified repository for Single Core Labs' high-performance marketing website and the **SCL Aggregator** platform.
+**AI Infrastructure Platform — Marketing Website & SCL Aggregator**
 
-## 🚀 Overview
-
-This repository is a monorepo that houses two primary domains:
-
-1.  **Marketing Website**: A React-based, SEO-optimized marketing site for Single Core Labs.
-2.  **SCL Aggregator**: A distributed AI platform for intelligent LLM routing, semantic caching, and unified provider abstraction.
+Unified monorepo for Single Core Labs' high-performance marketing site and the distributed backend platform for intelligent LLM routing, semantic caching, and multi-provider abstraction.
 
 ---
 
-## 🏗️ Architecture & Monorepo Structure
+## Architecture
 
-```text
-.
-├── src/                    # Website: React 19 Frontend
-├── scl-aggregator/         # Aggregator: Backend Monorepo (Turbo-managed)
-│   ├── apps/               # Services (Gateway, Router, Cache, Dashboard, Billing)
-│   ├── packages/           # Shared Libraries (Provider Adapters, Semantic Cache)
-│   └── infra/              # Infrastructure as Code (Terraform)
-├── scripts/                # Shared build & deployment scripts
-└── public/                 # Website static assets
+```
+single-core-platform
+├── src/                    # Marketing website (React 19, Vite 8, Tailwind v4)
+├── scripts/                # Build, prerender, and sitemap generation
+├── public/                 # Static assets
+└── scl-aggregator/         # Backend monorepo (Turborepo)
+    ├── apps/
+    │   ├── gateway/        # Rust Axum API gateway
+    │   ├── router/         # Python FastAPI routing engine
+    │   ├── cache/          # Python FastAPI semantic cache (ChromaDB)
+    │   ├── dashboard/      # Next.js 14 admin dashboard
+    │   └── billing/        # Node.js/TS billing service (Stripe, Razorpay)
+    ├── packages/
+    │   ├── provider-adapters/  # Rust provider traits (OpenAI, Anthropic, etc.)
+    │   ├── semantic-cache/     # Python vector search library
+    │   └── scl-cli/            # Rust CLI (route cards, benchmark, cache inspect)
+    └── infra/              # Terraform (AWS — VPC, ECS, RDS, Redis, ALB)
 ```
 
-For a deep dive into the architecture, see [PLATFORM_ENGINEERING.md](./PLATFORM_ENGINEERING.md) and [context.md](./context.md).
-
 ---
 
-## 🌐 Marketing Website
+## Marketing Website
 
-High-performance site built with **React 19**, **Vite 8**, and **Tailwind CSS v4**.
+SEO-optimized landing and product pages with smooth scroll, Framer Motion animations, and Puppeteer-based prerendering.
 
-- **Tech Stack**: Framer Motion 12, Lenis Smooth Scroll, Supabase.
-- **SEO**: Puppeteer-based prerendering and dynamic sitemap generation.
-- **Deployment**: Automated via [Render](https://render.com) (defined in `render.yaml`).
+**Stack:** React 19, Vite 8, Tailwind CSS v4, Framer Motion 12, Lenis, Supabase
 
-### Quick Start (Website)
 ```bash
 npm install
 npm run dev
 ```
 
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Build + generate sitemap + prerender |
+| `npm run lint` | ESLint check |
+| `npm run ci` | Lint + build |
+
 ---
 
-## ⚡ SCL Aggregator
+## SCL Aggregator
 
-A polyglot AI infrastructure platform managed by **Turborepo**.
+Polyglot AI infrastructure platform — routes LLM requests through intelligent provider selection, semantic caching, and usage-based billing.
 
-- **API Gateway**: High-speed Rust (Axum) proxy with unified authentication.
-- **Intelligent Router**: Python (FastAPI) engine for dynamic model selection.
-- **Semantic Cache**: Vector-based caching using ChromaDB and SentenceTransformers.
-- **Web Dashboard**: Next.js 14 dashboard for usage analytics and key management.
+**Services:**
 
-### Quick Start (Aggregator)
+| Service | Language | Role |
+|---------|----------|------|
+| Gateway | Rust (Axum) | Auth, rate limiting, SSE streaming |
+| Router | Python (FastAPI) | Intent classification, model selection |
+| Cache | Python (ChromaDB) | Semantic response caching |
+| Dashboard | Next.js 14 | API key management, usage analytics |
+| Billing | Node.js/TS | Credit system, Stripe & Razorpay |
+
 ```bash
 cd scl-aggregator
 npm install
@@ -62,40 +71,24 @@ turbo run dev
 
 ---
 
-## 🛠️ Development Standards
+## Requirements
 
-- **Node.js**: 20+ (managed via `.nvmrc`)
-- **Package Manager**: npm 10+
-- **Monorepo Tooling**: [Turborepo](https://turbo.build/)
-- **Infrastructure**: Terraform (AWS)
-
-### Global Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Starts the marketing website locally |
-| `npm run build` | Builds the marketing website + sitemap |
-| `npm run ci` | Lint + build check for the website |
-
-For backend commands, navigate to `scl-aggregator` and use `turbo` or `cargo` commands as documented in `scl-aggregator/README.md`.
+- **Node.js** 20+ (`.nvmrc`)
+- **npm** 10+
+- **Rust** (for Gateway, Provider Adapters, CLI)
+- **Python** 3.11+ (for Router, Cache)
+- **Docker** (for local stack via `scl-aggregator/docker-compose.yml`)
 
 ---
 
-## 📜 Documentation
+## Documentation
 
-- **[PLATFORM_ENGINEERING.md](./PLATFORM_ENGINEERING.md)**: Engineering standards, security, and integration guidelines.
-- **[context.md](./context.md)**: Comprehensive codebase orientation and architectural mapping.
-- **[scl-aggregator/context.md](./scl-aggregator/context.md)**: Deep dive into backend services and AI logic.
-
----
-
-## 🚢 CI/CD
-
-On every push to `main`, our [GitHub Workflows](.github/workflows/) execute:
-- **Website CI**: Build validation, linting, and prerendering.
-- **Backend CI**: Rust builds, Python testing, and Docker image validation.
-
-Deployment for the website is handled by **Render**, while the Aggregator services are containerized via **Docker** and deployed to **AWS**.
+| Document | Contents |
+|----------|----------|
+| [PLATFORM_ENGINEERING.md](./PLATFORM_ENGINEERING.md) | Engineering standards, security, integrations |
+| [context.md](./context.md) | Full codebase orientation |
+| [scl-aggregator/context.md](./scl-aggregator/context.md) | Backend services deep dive |
 
 ---
+
 © 2026 Single Core Labs. All rights reserved.
