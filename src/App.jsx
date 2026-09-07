@@ -28,6 +28,7 @@ const IndustryPage = lazy(() => import('./pages/IndustryPage'))
 const ResearchPage = lazy(() => import('./pages/ResearchPage'))
 const ResearchCollectivePage = lazy(() => import('./pages/ResearchCollectivePage'))
 const OpenPage = lazy(() => import('./pages/OpenPage'))
+const MarshalDashboardPage = lazy(() => import('./pages/MarshalDashboardPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 
@@ -188,6 +189,7 @@ function App() {
           <Route path="/research" element={<ResearchPage />} />
           <Route path="/research-collective" element={<ResearchCollectivePage />} />
           <Route path="/open" element={<OpenPage />} />
+          <Route path="/dashboard" element={<MarshalDashboardPage />} />
           <Route path="/security" element={<SecurityPage />} />
           <Route path="/deployment" element={<DeploymentPage />} />
           <Route path="/terms" element={<TermsPage />} />
