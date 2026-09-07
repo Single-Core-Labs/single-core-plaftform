@@ -116,11 +116,69 @@ Without it, you can still verify the gate renders and the config-error paths.
 
 ---
 
-## 7. Uncommitted work (as of 2026-09-06)
+## 7. Untested surface & required credentials (as of 2026-09-06)
 
-- **single-core-platform**: `src/App.jsx` (route wiring), `src/pages/MarshalDashboardPage.jsx`,
-  `supabase/functions/marshal-dashboard-token/` — all uncommitted.
-- **Marshal** (`feat/dashboard-issue-101`): token-exchange endpoint + hardening +
-  rate-limiter rework are uncommitted on top of the Issue-101 PR branch.
+The Marshal gateway itself is tested end-to-end (57 gateway tests; live GLM
+run with real tokens/spend on localhost). The WEBSITE integration has been
+written and code-reviewed but NEVER EXECUTED. Untested items, in order:
 
-Both must be committed before deployment.
+| # | Untested | Risk | Needs credentials? |
+|---|---|---|---|
+| 1 | Website dev/build with the new page (`npm run dev`, `npm run build`, `npm run ci`) | JSX/import errors (e.g. lucide `Clock` icon availability in the installed version), lint | No |
+| 2 | `/dashboard` route renders at all | route wiring, lazy chunk, Navbar/Footer on dark page | No |
+| 3 | Config-error states (missing `VITE_MARSHAL_GATEWAY_URL`, missing Supabase env) | error UI may not display as designed | No |
+| 4 | Supabase client init on the page | repo clone has NO `.env*` file — `supabase` is `null` locally → only the "auth not configured" path is exercisable | Site env values (URL + anon key) |
+| 5 | GitHub OAuth sign-in | provider must be enabled in Supabase | Yes (Supabase dashboard) |
+| 6 | Edge function deployed + invoked | runtime Deno/TS correctness, `getUser`, fetch to gateway, CORS preflight | Yes (Supabase dashboard) |
+| 7 | Full exchange chain browser → edge fn → gateway | response shapes, `functions.invoke` headers | Yes |
+| 8 | Iframe embed (gateway page inside website origin) | load, styling, height | Local: no (with own secret); hosted: yes |
+| 9 | 5-min keepalive re-issue (C3 fix) | only observable in a long-running session | Local: partially |
+| 10 | `postbuild` prerender doesn't publish `/dashboard` as static HTML | build pipeline behavior | No (`npm run build`) |
+
+### Credentials / access required (all currently founder-held)
+
+**Blocking for anything beyond local static checks:**
+- Supabase project dashboard access — to (a) read `VITE_SUPABASE_URL` /
+  `VITE_SUPABASE_ANON_KEY` for a local `.env.local`, (b) deploy the
+  `marshal-dashboard-token` function, (c) set its secrets, (d) enable the
+  GitHub auth provider.
+- A GitHub OAuth App wired into Supabase (may already exist; if not, one must
+  be created — callback URL is provided by Supabase when enabling the provider).
+
+**Not blocking for local testing:**
+- `MARSHAL_DASHBOARD_EXCHANGE_SECRET` — invent any value locally and set it on
+  both the gateway and (if testing the function locally via
+  `supabase functions serve`) the function env.
+- ZAI key — already working locally; hosting access only matters for real deploy.
+
+### Zero-credential local test (run now, catches items 1–4 + 10)
+
+```powershell
+# Terminal 1 — Marshal gateway with a self-invented exchange secret
+$env:ZAI_API_KEY="your-key"
+$env:MARSHAL_DASHBOARD_EXCHANGE_SECRET="local-test-secret"
+cargo run -p marshal-gateway -- 127.0.0.1:8090
+
+# Terminal 2 — website
+cd path\to\single-core-platform
+npm install
+# create .env.local:
+#   VITE_MARSHAL_GATEWAY_URL=http://127.0.0.1:8090
+npm run dev          # then open http://localhost:5173/dashboard
+npm run build        # verifies build + prerender exclusion (item 10)
+```
+
+Expected without Supabase env: the page shows the explicit "Authentication is
+not configured" error — that IS the correct behavior of the tested path.
+
+---
+
+## 8. Commit status (updated 2026-09-06)
+
+- **single-core-platform** (branch `feat/marshal-dashboard-auth`): all integration
+  work committed — edge function, `/dashboard` page, route wiring, deployment notes.
+- **Marshal** (`feat/dashboard-issue-101`): dashboard + token-exchange + hardening
+  committed on the PR branch (PR #101 open; stacked on the #100 branch until it merges).
+
+Nothing uncommitted remains on either side. Remaining pre-deploy steps are the
+ops items in sections 2 and 7 (Supabase setup, gateway hosting, env vars).
