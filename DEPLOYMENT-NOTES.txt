@@ -1,0 +1,184 @@
+# Marshal Dashboard Integration — Deployment Notes & Known Limitations
+
+**Scope:** `/dashboard` page (GitHub OAuth via Supabase) embedding the Marshal
+cost dashboard served by the Marshal gateway. This file records the operational
+requirements, the environment variables/secrets, and the known medium/low
+findings from the pre-deployment code review (2026-09-06). Anything marked
+**BLOCKER** must be resolved or explicitly accepted before a public demo.
+
+---
+
+## 1. Architecture (what talks to what)
+
+```
+Browser
+  → website /dashboard (React, public)
+    → Supabase Auth (GitHub OAuth)              [identity]
+    → Supabase Edge Function: marshal-dashboard-token
+        ├─ verifies Supabase session (server-side)
+        ├─ checks allowlist (optional)
+        └─ POST {MARSHAL_GATEWAY_URL}/dashboard/exchange  (shared secret)
+             └─ Marshal gateway mints 15-min VIEWER scoped token
+  ← iframe: {MARSHAL_GATEWAY_URL}/dashboard?token=<scoped>
+```
+
+The browser never sees the broker secret. Exchanged tokens are viewer-role,
+15 minutes, audit-logged per user (`github:<login>`) and per peer IP.
+
+---
+
+## 2. Required configuration (owner: founder / infra)
+
+### Supabase (dashboard → Auth + Edge Functions)
+
+| Item | Value |
+|---|---|
+| Auth → Providers → GitHub | **enabled** (needs a GitHub OAuth App: client id/secret) |
+| Edge function deployed | `supabase/functions/marshal-dashboard-token` |
+| Secret `MARSHAL_GATEWAY_URL` | e.g. `https://marshal.<domain>` (no trailing slash) |
+| Secret `MARSHAL_DASHBOARD_EXCHANGE_SECRET` | strong random string (same value as gateway env) |
+| Secret `MARSHAL_DASHBOARD_ALLOWED_ORIGIN` | the website origin, e.g. `https://singlecorelabs.in` — **required, there is no wildcard default** |
+| Secret `MARSHAL_DASHBOARD_ALLOWLIST` | optional, comma-separated GitHub logins/emails; empty = any signed-in user |
+
+### Marshal gateway (private client cloud)
+
+| Env var | Value |
+|---|---|
+| `MARSHAL_DASHBOARD_EXCHANGE_SECRET` | same value as the Supabase secret |
+| `MARSHAL_DASHBOARD_DEV_TOKEN` | **must be unset / not "1"** in production |
+| `MARSHAL_DASHBOARD_CACHE_TTL_SECS` | optional (default 60; `0` = always-fresh) |
+| HTTPS | required in front of the gateway (token in URL) |
+
+### Website build (Vite)
+
+| Env var | Value |
+|---|---|
+| `VITE_MARSHAL_GATEWAY_URL` | gateway origin — **required**; if missing the page shows an explicit config error (never an infinite spinner) |
+| `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` | already used by the site |
+
+---
+
+## 3. BLOCKER-class findings — status
+
+| ID | Finding | Status |
+|---|---|---|
+| C1 | Missing `VITE_MARSHAL_GATEWAY_URL` caused an infinite "Verifying…" spinner | **FIXED** — page fails fast with an explicit error message at mount |
+| C2 | Rate limiter counted successful exchanges → legit viewers could 429 each other (all traffic shares a few edge-function egress IPs) | **FIXED** — only FAILED secret attempts consume the budget; successes reset it; brute-force grinding still locks out (tested) |
+| C3 | Gateway restart invalidates all tokens (per-boot HMAC secret) → dead iframe until the original 15-min expiry | **FIXED** — page re-issues the token every 5 min (keepalive interval), so a restart heals within one interval; manual Refresh button also exists |
+
+---
+
+## 4. Medium findings — accepted for v1, revisit before scale
+
+| ID | Finding | Impact | Mitigation / trigger to fix |
+|---|---|---|---|
+| M1 | Marshal `AuditStore.persist()` re-reads + rewrites the whole audit file with fsync **per event**; dashboard telemetry multiplies event volume (`route_request` + skip notices + exchange events) | Per-call I/O grows linearly with audit-file size over gateway uptime | Fine for a fresh demo instance. Fix (append-only writes or batching) when a gateway is expected to run for weeks or serve high call volume. |
+| M2 | No HTML escaping in the gateway's `dashboard.html` when rendering `provider`, `model`, `agent_id` into `innerHTML` | No live XSS path today (all sources are internal: catalog, config, session filenames written by our own CLI), but latent risk if any field ever carries external text | Add an `escapeHtml()` helper before extending the dashboard to any externally-sourced fields. |
+| M3 | Edge function allows exactly ONE origin (`MARSHAL_DASHBOARD_ALLOWED_ORIGIN`) | `localhost` dev and production domain cannot both be enabled simultaneously | Documented; to test locally against the deployed function, temporarily set the origin to the dev URL, or run the function locally via `supabase functions serve`. |
+| M4 | Marshal token travels in the iframe URL (`?token=...`) | Lands in browser history on the gateway origin | Accepted: token is viewer-role, 15-min TTL. A postMessage handshake removes it — v2 polish. |
+
+---
+
+## 5. Low / informational
+
+- **L1** `/dashboard` is intentionally absent from `scripts/prerender.mjs` ROUTES and the sitemap config — the auth-gated page is not prerendered into public HTML and not advertised to crawlers. Keep it that way.
+- **L2** The iframe uses `sandbox="allow-scripts allow-same-origin"`. This combination is only dangerous when iframe and parent share an origin. Here parent = website origin, iframe = gateway origin (cross-origin), so the iframe cannot reach the parent DOM. It would become unsafe if website and gateway were ever hosted on the SAME origin — don't do that.
+- **L3** The gateway's dev-token endpoint (`GET /dashboard/token`) is opt-in only (`MARSHAL_DASHBOARD_DEV_TOKEN=1`, default 403, audit-logged). It exists for local development; it must simply never be enabled in production.
+- **L4** GitHub logins land in the gateway audit trail as `github:<login>` (correct for auditing; note it is PII in the audit log).
+- **L5** Demo content: the dashboard is honest by design — it will show real task success rates (historically low single digits in dev data, because failures are counted truthfully and pending runs are excluded). Decide what data the demo gateway contains, and be ready to explain the semantics: success = passed the verify hierarchy; `—` = no finalized runs / no cost data; "Not yet tracked" = the source doesn't exist yet (e.g. compression).
+- **L6** Behind a reverse proxy, the gateway's per-IP rate limit keys on the proxy's address (direct peer). The brute-force protection still holds; add a proxy-level `limit_req` on `/dashboard/exchange` for defense in depth when deploying publicly.
+- **L7** The website page keeps the Marshal token in memory only (no localStorage), clears it on signout, and cleans up its refresh interval on unmount.
+
+---
+
+## 6. Local verification (no founder credentials needed)
+
+```bash
+# 1. Marshal gateway (repo root) — dev mode
+$env:ZAI_API_KEY="..."; $env:MARSHAL_DASHBOARD_DEV_TOKEN="1"
+cargo run -p marshal-gateway -- 127.0.0.1:8090
+# generate traffic:
+Invoke-RestMethod -Uri http://127.0.0.1:8090/route -Method Post -ContentType "application/json" -Body '{"task":"edit","prompt":"hello"}'
+
+# 2. Website (this repo)
+npm install
+# .env.local:
+#   VITE_SUPABASE_URL=...        (existing site values)
+#   VITE_SUPABASE_ANON_KEY=...
+#   VITE_MARSHAL_GATEWAY_URL=http://127.0.0.1:8090
+npm run dev
+# open http://localhost:5173/dashboard → "Continue with GitHub"
+```
+
+Note: full end-to-end (GitHub login → edge function → exchange) requires the
+founder's Supabase project (GitHub provider + deployed function + secrets).
+Without it, you can still verify the gate renders and the config-error paths.
+
+---
+
+## 7. Untested surface & required credentials (as of 2026-09-06)
+
+The Marshal gateway itself is tested end-to-end (57 gateway tests; live GLM
+run with real tokens/spend on localhost). The WEBSITE integration has been
+written and code-reviewed but NEVER EXECUTED. Untested items, in order:
+
+| # | Untested | Risk | Needs credentials? |
+|---|---|---|---|
+| 1 | Website dev/build with the new page (`npm run dev`, `npm run build`, `npm run ci`) | JSX/import errors (e.g. lucide `Clock` icon availability in the installed version), lint | No |
+| 2 | `/dashboard` route renders at all | route wiring, lazy chunk, Navbar/Footer on dark page | No |
+| 3 | Config-error states (missing `VITE_MARSHAL_GATEWAY_URL`, missing Supabase env) | error UI may not display as designed | No |
+| 4 | Supabase client init on the page | repo clone has NO `.env*` file — `supabase` is `null` locally → only the "auth not configured" path is exercisable | Site env values (URL + anon key) |
+| 5 | GitHub OAuth sign-in | provider must be enabled in Supabase | Yes (Supabase dashboard) |
+| 6 | Edge function deployed + invoked | runtime Deno/TS correctness, `getUser`, fetch to gateway, CORS preflight | Yes (Supabase dashboard) |
+| 7 | Full exchange chain browser → edge fn → gateway | response shapes, `functions.invoke` headers | Yes |
+| 8 | Iframe embed (gateway page inside website origin) | load, styling, height | Local: no (with own secret); hosted: yes |
+| 9 | 5-min keepalive re-issue (C3 fix) | only observable in a long-running session | Local: partially |
+| 10 | `postbuild` prerender doesn't publish `/dashboard` as static HTML | build pipeline behavior | No (`npm run build`) |
+
+### Credentials / access required (all currently founder-held)
+
+**Blocking for anything beyond local static checks:**
+- Supabase project dashboard access — to (a) read `VITE_SUPABASE_URL` /
+  `VITE_SUPABASE_ANON_KEY` for a local `.env.local`, (b) deploy the
+  `marshal-dashboard-token` function, (c) set its secrets, (d) enable the
+  GitHub auth provider.
+- A GitHub OAuth App wired into Supabase (may already exist; if not, one must
+  be created — callback URL is provided by Supabase when enabling the provider).
+
+**Not blocking for local testing:**
+- `MARSHAL_DASHBOARD_EXCHANGE_SECRET` — invent any value locally and set it on
+  both the gateway and (if testing the function locally via
+  `supabase functions serve`) the function env.
+- ZAI key — already working locally; hosting access only matters for real deploy.
+
+### Zero-credential local test (run now, catches items 1–4 + 10)
+
+```powershell
+# Terminal 1 — Marshal gateway with a self-invented exchange secret
+$env:ZAI_API_KEY="your-key"
+$env:MARSHAL_DASHBOARD_EXCHANGE_SECRET="local-test-secret"
+cargo run -p marshal-gateway -- 127.0.0.1:8090
+
+# Terminal 2 — website
+cd path\to\single-core-platform
+npm install
+# create .env.local:
+#   VITE_MARSHAL_GATEWAY_URL=http://127.0.0.1:8090
+npm run dev          # then open http://localhost:5173/dashboard
+npm run build        # verifies build + prerender exclusion (item 10)
+```
+
+Expected without Supabase env: the page shows the explicit "Authentication is
+not configured" error — that IS the correct behavior of the tested path.
+
+---
+
+## 8. Commit status (updated 2026-09-06)
+
+- **single-core-platform** (branch `feat/marshal-dashboard-auth`): all integration
+  work committed — edge function, `/dashboard` page, route wiring, deployment notes.
+- **Marshal** (`feat/dashboard-issue-101`): dashboard + token-exchange + hardening
+  committed on the PR branch (PR #101 open; stacked on the #100 branch until it merges).
+
+Nothing uncommitted remains on either side. Remaining pre-deploy steps are the
+ops items in sections 2 and 7 (Supabase setup, gateway hosting, env vars).
