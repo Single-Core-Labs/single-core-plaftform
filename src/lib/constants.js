@@ -1,8 +1,9 @@
 export const NAV_LINKS = [
-  { label: 'About',     href: '/about',     category: 'about' },
-  { label: 'Product',   href: '/product',   category: 'product' },
-  { label: 'Research',  href: '/research',  category: 'research' },
-  { label: 'Contact',   href: '/contact',   category: 'contact' },
+  { label: 'About',            href: '/about',      category: 'about' },
+  { label: 'Product',          href: '/product',    category: 'product' },
+  { label: 'For Enterprises',  href: '/enterprise', category: 'enterprise' },
+  { label: 'Research',         href: '/research',   category: 'research' },
+  { label: 'Contact',          href: '/contact',    category: 'contact' },
 ]
 
 export const PRODUCT_MENU = [
