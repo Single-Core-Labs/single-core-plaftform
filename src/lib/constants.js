@@ -62,8 +62,6 @@ export const PRODUCT_MENU = [
 
 export const SOCIAL_LINKS = {
   linkedin: 'https://www.linkedin.com/company/single-core-labs/',
-  twitter:  'https://twitter.com',
-  github:   'https://github.com',
 }
 
 export const CONTACT_EMAIL = 'singlecorelabs.in@gmail.com'

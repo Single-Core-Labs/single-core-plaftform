@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ArrowRight, Box, FileText, Code2, Layers, Factory, Puzzle, CheckCircle, Users, Building2, Landmark } from 'lucide-react'
+import { ArrowRight, Box, FileText, Code2, Layers, Factory, Puzzle, Building2, Landmark } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'

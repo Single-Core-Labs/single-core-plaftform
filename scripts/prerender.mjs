@@ -14,35 +14,18 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { mkdirSync } from 'node:fs'
+import { STATIC_ROUTES } from './sitemap-config.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT      = path.resolve(__dirname, '..')
 const DIST      = path.join(ROOT, 'dist')
 const PORT      = 4173
 
-// ─── Auto-extract blog slugs from blog-content.jsx ──────────────────────────
-async function extractBlogSlugs() {
-  const src = await fs.readFile(
-    path.join(ROOT, 'src', 'lib', 'blog-content.jsx'),
-    'utf-8',
-  )
-  const slugs = []
-  // Match only top-level blog post slugs (4-space indent), not nested
-  // diagram/guide-link slugs (8-space indent)
-  for (const m of src.matchAll(/^ {4}slug:\s*['"]([^'"]+)['"]/gm)) {
-    slugs.push(m[1])
-  }
-  return slugs
-}
-
-const GUIDE_SLUGS = [
-  'sovereign-ai-infrastructure',
-  'agentic-workflows',
-  'llm-fine-tuning',
-  'semantic-caching',
-  'healthcare-data-pipelines',
-  'llm-security-patterns',
-]
+// ─── Route list — single source of truth ─────────────────────────────────────
+// Routes are imported from scripts/sitemap-config.mjs (STATIC_ROUTES), the
+// same registry that generates public/sitemap.xml. Sitemap and prerender can
+// therefore never drift apart. Register new pages in sitemap-config.mjs ONLY.
+const ROUTES = STATIC_ROUTES.map((r) => r.path)
 
 // ─── Strip duplicate homepage meta tags from pre-rendered HTML ───────────────
 // index.html contains hardcoded homepage OG / Twitter / title / description
@@ -73,44 +56,6 @@ function cleanDuplicateMeta(html) {
 
 async function prerender() {
   console.log('\n🔧  Pre-render starting...\n')
-
-  // 0. Build route list (blog slugs auto-extracted from source)
-  const BLOG_SLUGS = await extractBlogSlugs()
-  console.log(`  ✓ Found ${BLOG_SLUGS.length} blog slugs: ${BLOG_SLUGS.join(', ')}\n`)
-
-  const ROUTES = [
-    '/',
-    '/product',
-    '/product/data-foundry',
-    '/training',
-    '/model-lab',
-    '/solutions',
-    '/services',
-    '/solutions/healthcare-intelligence',
-    '/solutions/ai-modernization',
-    '/solutions/rl-environments',
-    '/solutions/rl-lab',
-    '/solutions/tech',
-    '/solutions/logistics',
-    '/solutions/manufacturing',
-    '/solutions/energy',
-    '/solutions/defense',
-    '/enterprise',
-    '/contact',
-    '/case-studies',
-    '/about',
-    '/guides',
-    ...GUIDE_SLUGS.map(s => `/guides/${s}`),
-    '/blog',
-    ...BLOG_SLUGS.map(s => `/blog/${s}`),
-    '/research',
-    '/security',
-    '/deployment',
-    '/research-collective',
-    '/open',
-    '/terms',
-    '/privacy',
-  ]
 
   // 1. Start Vite preview server (serves built dist/)
   const server = await preview({
