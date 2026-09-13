@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "npm install && vite",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "prebuild": "npm run generate:sitemap",
     "build": "vite build",
     "postbuild": "node scripts/prerender.mjs",
     "prerender": "node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "ci": "npm run lint && npm run build"
+    "ci": "npm run lint && npm run check:links && npm run build"
   },
   "engines": {
     "node": ">=20.0.0",

@@ -172,6 +172,7 @@ export function GradientCarousel({
   useEffect(() => {
     const idx = activeFromOffset(offset)
     if (idx !== active) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: derived card index is synced after scroll settles; it cannot be computed during render because onCardChange is a side effect that must fire on change
       setActive(idx)
       onCardChange?.(idx)
     }

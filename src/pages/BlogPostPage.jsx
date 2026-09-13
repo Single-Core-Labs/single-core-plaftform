@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import SEO from '@/components/SEO'
 import { BLOG_POSTS } from '@/lib/blog-content.jsx'
-import { GUIDE_CONTENT, DiagramBox } from '@/lib/guide-content.jsx'
+import { GUIDE_CONTENT } from '@/lib/guide-content.jsx'
 
 const containerStyle = {
   maxWidth: '800px',

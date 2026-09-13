@@ -7,7 +7,8 @@ const SEO = ({
   keywords, 
   type = 'website',
   image = '/og-image.png',
-  schema
+  schema,
+  noindex
 }) => {
   const { pathname } = useLocation();
   const siteUrl = 'https://singlecorelabs.in'
@@ -21,6 +22,7 @@ const SEO = ({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
+      {noindex && <meta name="robots" content="noindex" />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph / Facebook */}

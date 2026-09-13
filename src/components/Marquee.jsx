@@ -99,21 +99,7 @@ export function Marquee({
 /**
  * Scale-like logo/text marquee presets
  */
-export function TrustedMarquee({ variant = 'light' }) {
-  const dot = (
-    <span
-      aria-hidden="true"
-      style={{
-        width: '4px',
-        height: '4px',
-        borderRadius: '50%',
-        background: 'var(--color-text)',
-        opacity: 0.2,
-        display: 'inline-block',
-      }}
-    />
-  )
-
+export function TrustedMarquee() {
   const itemStyle = {
     fontFamily: 'var(--font-display)',
     fontSize: '13px',
