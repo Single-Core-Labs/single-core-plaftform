@@ -30,12 +30,12 @@ const ResearchCollectivePage = lazy(() => import('./pages/ResearchCollectivePage
 const OpenPage = lazy(() => import('./pages/OpenPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 function ScrollProgress() {
   useEffect(() => {
     const bar = document.getElementById('scroll-progress')
     if (!bar) return
-    // Promote to compositor layer once
     bar.style.willChange = 'transform'
     bar.style.transform = 'scaleX(0) translateZ(0)'
     let raf = 0
@@ -61,27 +61,7 @@ function ScrollProgress() {
     window.addEventListener('scroll', onWinScroll, { passive: true })
     return () => { window.removeEventListener('scroll', onWinScroll); if (raf) cancelAnimationFrame(raf) }
   }, [])
-  return (
-    <div
-      id="scroll-progress"
-      aria-hidden="true"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '2px',
-        background: 'var(--color-text)',
-        transformOrigin: 'left',
-        transform: 'scaleX(0) translateZ(0)',
-        zIndex: 9999,
-        pointerEvents: 'none',
-        opacity: 0.9,
-        willChange: 'transform',
-        backfaceVisibility: 'hidden',
-      }}
-    />
-  )
+  return <div id="scroll-progress" aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '2px', background: 'var(--color-text)', transformOrigin: 'left', transform: 'scaleX(0) translateZ(0)', zIndex: 9999, pointerEvents: 'none', opacity: 0.9, willChange: 'transform', backfaceVisibility: 'hidden' }} />
 }
 
 function ScrollToHashAndTop() {
@@ -111,33 +91,14 @@ function ScrollToHashAndTop() {
 }
 
 function App() {
-  // Smooth but efficient — lerp OR duration (not both). We use duration + easing.
-  // Reduced-motion disables smoothing entirely to save main-thread work.
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const prefersReducedMotion = mq.matches
-    if (prefersReducedMotion) {
+    if (mq.matches) {
       document.documentElement.classList.remove('lenis', 'lenis-smooth')
       return
     }
-
-    const lenis = new Lenis({
-      autoRaf: true,
-      // Use duration-based easing rather than lerp — avoids double interpolation / extra frames
-      duration: 1.05,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 0.92,
-      touchMultiplier: 1.0,
-      syncTouch: false,
-      anchors: true,
-      autoToggle: true,
-      allowNestedScroll: true,
-      gestureOrientation: 'vertical',
-    })
-
+    const lenis = new Lenis({ duration: 1.05, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, wheelMultiplier: 0.92, touchMultiplier: 1.0, syncTouch: false, anchors: true, autoToggle: true, allowNestedScroll: true, gestureOrientation: 'vertical', autoRaf: true })
     document.documentElement.classList.add('lenis', 'lenis-smooth')
-
     window.lenis = lenis
     const onReduce = (e) => {
       if (e.matches) {
@@ -147,19 +108,14 @@ function App() {
       }
     }
     mq.addEventListener?.('change', onReduce)
-    return () => {
-      mq.removeEventListener?.('change', onReduce)
-      document.documentElement.classList.remove('lenis', 'lenis-smooth')
-      window.lenis = undefined
-      lenis.destroy()
-    }
+    return () => { mq.removeEventListener?.('change', onReduce); document.documentElement.classList.remove('lenis', 'lenis-smooth'); window.lenis = undefined; lenis.destroy() }
   }, [])
 
   return (
     <BrowserRouter>
       <ScrollProgress />
       <ScrollToHashAndTop />
-      <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>        
+      <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/training" element={<TrainingPage />} />
@@ -192,7 +148,7 @@ function App() {
           <Route path="/deployment" element={<DeploymentPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/:slug" element={<ComingSoonPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
