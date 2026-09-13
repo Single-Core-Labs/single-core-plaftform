@@ -25,7 +25,6 @@ const SecurityPage = lazy(() => import('./pages/SecurityPage'))
 const TechPage = lazy(() => import('./pages/TechPage'))
 const IndustryPage = lazy(() => import('./pages/IndustryPage'))
 const ResearchPage = lazy(() => import('./pages/ResearchPage'))
-const ResearchCollectivePage = lazy(() => import('./pages/ResearchCollectivePage'))
 const OpenPage = lazy(() => import('./pages/OpenPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
@@ -141,7 +140,6 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:postSlug" element={<BlogPostPage />} />
           <Route path="/research" element={<ResearchPage />} />
-          <Route path="/research-collective" element={<ResearchCollectivePage />} />
           <Route path="/open" element={<OpenPage />} />
           <Route path="/security" element={<SecurityPage />} />
           <Route path="/deployment" element={<DeploymentPage />} />

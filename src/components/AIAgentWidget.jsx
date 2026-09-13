@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Bot, User } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 
 export default function AIAgentWidget() {
   const [open, setOpen] = useState(false);
@@ -10,8 +9,6 @@ export default function AIAgentWidget() {
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [awaitingEmail, setAwaitingEmail] = useState(false);
-  const pendingQuestion = useRef(null);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -25,20 +22,6 @@ export default function AIAgentWidget() {
     return () => cancelAnimationFrame(raf)
   }, [messages]);
 
-  const submitLead = async (email, question) => {
-    const { error } = await supabase.from('contact_submissions').insert([{
-      first_name: '',
-      last_name:  '',
-      email,
-      phone:      '',
-      company:    '',
-      role:       'Website Chat',
-      country:    '—',
-      message:    question,
-    }])
-    return error
-  }
-
   const handleSend = async (e) => {
     e.preventDefault();
     const trimmed = input.trim();
@@ -48,22 +31,6 @@ export default function AIAgentWidget() {
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
-
-    if (awaitingEmail) {
-      const email = trimmed
-      const question = pendingQuestion.current || ''
-      const err = await submitLead(email, question)
-      setAwaitingEmail(false)
-      pendingQuestion.current = null
-      setMessages((prev) => [...prev, {
-        role: 'assistant',
-        content: err
-          ? 'Sorry — we could not save your details right now. Please try again or email us directly at contact@singlecorelabs.in.'
-          : 'Thanks! Your question is with our team and someone will follow up shortly.',
-      }])
-      setIsTyping(false)
-      return
-    }
 
     // Create a placeholder for the assistant's response
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
@@ -144,14 +111,12 @@ export default function AIAgentWidget() {
     } catch (error) {
       console.error("Chat error:", error);
 
-      // Gateway unreachable — capture the question as a lead instead of faking a reply
-      pendingQuestion.current = trimmed;
-      setAwaitingEmail(true);
+      // Gateway unreachable — point users to email directly
       setMessages((prev) => {
         const newMsgs = [...prev];
         newMsgs[newMsgs.length - 1] = {
           role: 'assistant',
-          content: 'The live assistant is temporarily offline. Drop your email and I will make sure our team follows up on your question.'
+          content: 'The live assistant is temporarily offline. Please email us at singlecorelabs.in@gmail.com and our team will follow up on your question.'
         };
         return newMsgs;
       });
@@ -253,7 +218,7 @@ export default function AIAgentWidget() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder={awaitingEmail ? 'Your email...' : 'Ask a question...'}
+                  placeholder="Ask a question..."
                   className="w-full outline-none transition-all"
                   style={{
                     padding: '12px 48px 12px 16px',

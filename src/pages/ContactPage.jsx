@@ -1,164 +1,19 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { Loader2 } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { ArrowRight } from 'lucide-react'
 import SEO from '@/components/SEO'
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '@/lib/constants'
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
-const COUNTRIES = [
-  'India', 'United States', 'United Kingdom', 'Canada', 'Australia',
-  'Germany', 'France', 'Singapore', 'UAE', 'Other',
-]
-
 const BENEFITS = [
   'Custom AI systems engineered around your data, infrastructure, and compliance requirements.',
   'From agentic workflows to air-gapped deployments — built for production, not demos.',
   'Embedded experts who work alongside your team from day one through go-live.',
 ]
 
-// ─── FIELD ATOMS ─────────────────────────────────────────────────────────────
-const baseInput = {
-  width: '100%',
-  padding: '10px 0',
-  fontFamily: 'var(--font-sans)',
-  fontSize: '14px',
-  color: 'var(--color-text)',
-  background: 'transparent',
-  border: 'none',
-  borderBottom: '1px solid var(--color-border)',
-  outline: 'none',
-  borderRadius: 0,
-  appearance: 'none',
-  WebkitAppearance: 'none',
-  transition: 'border-color 0.2s',
-}
-
-function Field({ label, id, type = 'text', required, placeholder, value, onChange }) {
-  const [focused, setFocused] = useState(false)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-      <label htmlFor={id} style={{
-        fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'var(--color-text-muted)', letterSpacing: '0.01em',
-      }}>
-        {label}{required && <span style={{ color: 'var(--color-accent)' }}> *</span>}
-      </label>
-      <input
-        id={id} type={type} required={required}
-        placeholder={placeholder} value={value} onChange={onChange}
-        onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-        style={{ ...baseInput, borderBottomColor: focused ? 'var(--color-accent)' : 'var(--color-border)' }}
-      />
-    </div>
-  )
-}
-
-function SelectField({ label, id, required, value, onChange, children }) {
-  const [focused, setFocused] = useState(false)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-      <label htmlFor={id} style={{
-        fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'var(--color-text-muted)', letterSpacing: '0.01em',
-      }}>
-        {label}{required && <span style={{ color: 'var(--color-accent)' }}> *</span>}
-      </label>
-      <div style={{ position: 'relative' }}>
-        <select
-          id={id} required={required} value={value} onChange={onChange}
-          onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-          style={{
-            ...baseInput,
-            borderBottomColor: focused ? 'var(--color-accent)' : 'var(--color-border)',
-            paddingRight: '24px', cursor: 'pointer',
-          }}
-        >
-          {children}
-        </select>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
-          style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--color-text-dim)' }}>
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </div>
-    </div>
-  )
-}
-
 // ─── PAGE ─────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
-  const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', phone: '',
-    company: '', jobTitle: '', country: '', message: '', consent: false, website: '',
-  })
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading]   = useState(false)
-  const [error, setError]       = useState(null)
-  const [msgFocused, setMsgFocused] = useState(false)
-
-  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }))
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (form.website) return
-    setLoading(true)
-    setError(null)
-    try {
-      const { error: err } = await supabase.from('contact_submissions').insert([{
-        first_name: form.firstName,
-        last_name:  form.lastName,
-        email:      form.email,
-        phone:      form.phone,
-        company:    form.company,
-        role:       form.jobTitle,
-        country:    form.country,
-        message:    form.message,
-      }])
-      if (err) throw err
-      setSubmitted(true)
-    } catch (e) {
-      console.error(e)
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // ── Success state ──────────────────────────────────────────────────────────
-  if (submitted) {
-    return (
-      <div className="page-dark">
-        <SEO title="Message Sent | Single Core Labs" description="Thank you for reaching out." />
-        <Navbar />
-        <main id="main-content" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-          <div style={{ width: '100%', maxWidth: '700px', padding: '0 clamp(24px, 6vw, 48px)' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Message sent</p>
-              <h1 style={{
-                fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.4rem, 6vw, 5rem)',
-                fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '20px',
-              }}>
-                We'll be in touch{' '}
-                <span className="text-italic-serif">shortly.</span>
-              </h1>
-              <p className="text-body" style={{ maxWidth: '440px' }}>
-                Thanks for reaching out. Someone from our team will review your enquiry
-                and get back to you within one business day.
-              </p>
-            </motion.div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
-  }
-
-  // ── Main layout ────────────────────────────────────────────────────────────
   return (
     <div className="page-dark">
       <SEO
@@ -169,10 +24,11 @@ export default function ContactPage() {
       <Navbar />
 
       <main id="main-content" style={{ minHeight: '100vh' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-        }}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+          }}
           className="contact-grid"
         >
           {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
@@ -261,8 +117,7 @@ export default function ContactPage() {
               </motion.div>
             </div>
           </div>
-
-          {/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
+{/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
           <div style={{
             background: 'var(--color-bg-surface)',
             display: 'flex',
@@ -290,149 +145,70 @@ export default function ContactPage() {
                 letterSpacing: '-0.01em',
                 marginBottom: '28px',
               }}>
-                Start the conversation
+                Get in touch
               </h2>
 
-              <form onSubmit={handleSubmit} noValidate>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14px',
+                lineHeight: 1.7,
+                color: 'var(--color-text-muted)',
+                marginBottom: '28px',
+              }}>
+                Send us an email and we'll get back to you within one business day.
+                Prefer LinkedIn? Connect with us there.
+              </p>
 
-                  <input
-                    type="text"
-                    value={form.website}
-                    onChange={set('website')}
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                    style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
-                  />
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  width: '100%',
+                  padding: '14px',
+                  background: 'var(--color-accent)',
+                  color: 'var(--color-bg)',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  letterSpacing: '0.02em',
+                  border: 'none',
+                  borderRadius: '6px',
+                  textDecoration: 'none',
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                Email {CONTACT_EMAIL}
+                <ArrowRight size={15} />
+              </a>
 
-                  {/* Row: First / Last name */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <Field label="First name" id="firstName" required
-                      value={form.firstName} onChange={set('firstName')} />
-                    <Field label="Last name" id="lastName" required
-                      value={form.lastName} onChange={set('lastName')} />
-                  </div>
-
-                  {/* Work email */}
-                  <Field label="Work email" id="email" type="email" required
-                    value={form.email} onChange={set('email')} />
-
-                  {/* Row: Phone / Company */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <Field label="Phone number (optional)" id="phone"
-                      value={form.phone} onChange={set('phone')} />
-                    <Field label="Company name" id="company" required
-                      value={form.company} onChange={set('company')} />
-                  </div>
-
-                  {/* Row: Job title / Country */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <Field label="Job title" id="jobTitle" required
-                      value={form.jobTitle} onChange={set('jobTitle')} />
-                    <SelectField label="Country" id="country" required
-                      value={form.country} onChange={set('country')}
-                    >
-                      <option value="" disabled>Country</option>
-                      {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
-                    </SelectField>
-                  </div>
-
-                  {/* How can we help */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                    <label htmlFor="message" style={{
-                      fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-                      color: 'var(--color-text-muted)', letterSpacing: '0.01em',
-                    }}>
-                      How can our team help you?
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={3}
-                      value={form.message}
-                      onChange={set('message')}
-                      onFocus={() => setMsgFocused(true)}
-                      onBlur={() => setMsgFocused(false)}
-                      style={{
-                        width: '100%',
-                        padding: '8px 0',
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '14px',
-                        color: 'var(--color-text)',
-                        background: 'transparent',
-                        border: 'none',
-                        borderBottom: `1px solid ${msgFocused ? 'var(--color-accent)' : 'var(--color-border)'}`,
-                        outline: 'none',
-                        resize: 'none',
-                        transition: 'border-color 0.2s',
-                        lineHeight: 1.6,
-                      }}
-                    />
-                  </div>
-
-                  {/* Consent checkbox */}
-                  <label style={{
-                    display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
-                  }}>
-                    <input
-                      type="checkbox"
-                      checked={form.consent}
-                      onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))}
-                      required
-                      style={{ marginTop: '3px', accentColor: 'var(--color-accent)', flexShrink: 0 }}
-                    />
-                    <span style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '11px',
-                      lineHeight: 1.6,
-                      color: 'var(--color-text-muted)',
-                    }}>
-                      I agree to receive communications from Single Core Labs about its products,
-                      services, and events, and acknowledge that my information will be used in
-                      accordance with the{' '}
-                      <a href="/privacy" style={{ color: 'var(--color-text)', textDecoration: 'underline' }}>
-                        Privacy Policy
-                      </a>.
-                    </span>
-                  </label>
-
-                  {/* Error */}
-                  {error && (
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--color-accent)', fontWeight: 500 }}>
-                      {error}
-                    </p>
-                  )}
-
-                  {/* Submit */}
-                  <button
-                    type="submit"
-                    disabled={loading || !form.consent}
-                    style={{
-                      width: '100%',
-                      padding: '14px',
-                      background: loading || !form.consent ? 'var(--color-border-strong)' : 'var(--color-accent)',
-                      color: loading || !form.consent ? 'var(--color-text-dim)' : 'var(--color-bg)',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      letterSpacing: '0.02em',
-                      border: 'none',
-                      cursor: loading || !form.consent ? 'not-allowed' : 'pointer',
-                      transition: 'background 0.2s',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    {loading ? (
-                      <><Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> Sending...</>
-                    ) : (
-                      'Submit'
-                    )}
-                  </button>
-                </div>
-              </form>
+              <a
+                href={SOCIAL_LINKS.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  width: '100%',
+                  marginTop: '16px',
+                  padding: '14px',
+                  background: 'transparent',
+                  color: 'var(--color-text)',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  letterSpacing: '0.02em',
+                  border: '1px solid var(--color-border-strong)',
+                  borderRadius: '6px',
+                  textDecoration: 'none',
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                Connect on LinkedIn
+                <ArrowRight size={15} />
+              </a>
             </motion.div>
           </div>
         </div>
@@ -445,10 +221,6 @@ export default function ContactPage() {
           .contact-grid {
             grid-template-columns: 1fr !important;
           }
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
         }
       `}</style>
     </div>

@@ -30,7 +30,7 @@ single-core-platform
 
 SEO-optimized landing and product pages with smooth scroll, Framer Motion animations, and Puppeteer-based prerendering.
 
-**Stack:** React 19, Vite 8, Tailwind CSS v4, Framer Motion 12, Lenis, Supabase
+**Stack:** React 19, Vite 8, Tailwind CSS v4, Framer Motion 12, Lenis
 
 ```bash
 npm install

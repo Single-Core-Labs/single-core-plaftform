@@ -62,7 +62,6 @@ export const STATIC_ROUTES = [
   { path: '/security', priority: 0.85, changefreq: 'monthly' },
   { path: '/deployment', priority: 0.85, changefreq: 'monthly' },
   { path: '/research', priority: 0.85, changefreq: 'monthly' },
-  { path: '/research-collective', priority: 0.85, changefreq: 'monthly' },
   { path: '/open', priority: 0.9, changefreq: 'weekly' },
   { path: '/blog', priority: 0.9, changefreq: 'weekly' },
   { path: '/terms', priority: 0.5, changefreq: 'monthly' },
@@ -70,5 +69,3 @@ export const STATIC_ROUTES = [
   ...BLOG_SLUGS.map(s => ({ path: `/blog/${s}`, priority: 0.8, changefreq: 'monthly' })),
   ...GUIDE_ROUTES,
 ]
-
-export const BLOG_TABLE = 'blog_posts'

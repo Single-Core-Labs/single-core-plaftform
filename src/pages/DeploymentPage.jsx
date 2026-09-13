@@ -1,48 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Lock, Sliders, Zap, Server, Cloud, Shield, Check, ArrowRight, Loader2 } from 'lucide-react'
+import { Lock, Sliders, Zap, Server, Cloud, Shield, ArrowRight } from 'lucide-react'
 import SEO from '@/components/SEO'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { supabase } from '@/lib/supabase'
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '@/lib/constants'
 
 const CREAM = '#FAFAFA'
-
-const baseInput = {
-  width: '100%',
-  padding: '10px 0',
-  fontFamily: 'var(--font-sans)',
-  fontSize: '14px',
-  color: 'var(--color-text)',
-  background: 'transparent',
-  border: 'none',
-  borderBottom: '1px solid color-mix(in srgb, var(--color-text) 12%, transparent)',
-  outline: 'none',
-  borderRadius: 0,
-  appearance: 'none',
-  WebkitAppearance: 'none',
-  transition: 'border-color 0.2s',
-}
-
-function Field({ label, id, type = 'text', required, value, onChange }) {
-  const [focused, setFocused] = useState(false)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-      <label htmlFor={id} style={{
-        fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-        color: 'color-mix(in srgb, var(--color-text) 40%, transparent)', letterSpacing: '0.01em',
-      }}>
-        {label}{required && <span style={{ color: CREAM }}> *</span>}
-      </label>
-      <input
-        id={id} type={type} required={required}
-        value={value} onChange={onChange}
-        onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-        style={{ ...baseInput, borderBottomColor: focused ? CREAM : 'color-mix(in srgb, var(--color-text) 12%, transparent)' }}
-      />
-    </div>
-  )
-}
 
 const FEATURES = [
   {
@@ -187,45 +151,6 @@ function RevealSection({ children, delay = 0 }) {
 }
 
 export default function DeploymentPage() {
-  const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', company: '', message: '', consent: false, website: '',
-  })
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  const set = (key) => (e) => {
-    const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setForm(f => ({ ...f, [key]: val }))
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (form.website) return
-    setLoading(true)
-    setError(null)
-    try {
-      if (!supabase) throw new Error('Supabase is not configured')
-      const { error: insertError } = await supabase.from('contact_submissions').insert([{
-        first_name: form.firstName,
-        last_name:  form.lastName,
-        email:      form.email,
-        phone:      '',
-        company:    form.company,
-        role:       'Private Deployment',
-        country:    '—',
-        message:    form.message,
-      }])
-      if (insertError) throw insertError
-      setSubmitted(true)
-    } catch (err) {
-      console.error('[deployment] Insert error:', err)
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <div className="page-dark">
       <SEO
@@ -494,143 +419,82 @@ export default function DeploymentPage() {
 
             <div style={{ flex: '1 1 420px', minWidth: 0 }}>
               <RevealSection delay={0.15}>
-                {submitted ? (
-                  <div style={{
-                    background: 'var(--color-bg-card)',
-                    border: '1px solid color-mix(in srgb, var(--color-text) 6%, transparent)',
-                    borderRadius: '20px',
-                    padding: 'clamp(48px, 6vw, 72px)',
-                    textAlign: 'center',
+                <div style={{
+                  background: 'var(--color-bg-card)',
+                  border: '1px solid color-mix(in srgb, var(--color-text) 6%, transparent)',
+                  borderRadius: '20px',
+                  padding: 'clamp(48px, 6vw, 72px)',
+                }}>
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(20px, 2vw, 28px)',
+                    fontWeight: 500,
+                    color: CREAM,
+                    marginBottom: '12px',
                   }}>
-                    <Check size={40} strokeWidth={1.5} style={{ color: '#5A9E8F', marginBottom: '20px' }} />
-                    <h3 style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 'clamp(20px, 2vw, 28px)',
-                      fontWeight: 500,
-                      color: CREAM,
-                      marginBottom: '12px',
-                    }}>
-                      Thank you
-                    </h3>
-                    <p style={{
+                    Get in touch directly
+                  </h3>
+                  <p style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '14px',
+                    color: 'color-mix(in srgb, var(--color-text) 50%, transparent)',
+                    lineHeight: 1.7,
+                    marginBottom: '24px',
+                  }}>
+                    Send us an email and we'll get back to you within one business day to discuss your private deployment.
+                  </p>
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      width: '100%',
+                      padding: '14px',
+                      background: CREAM,
+                      color: '#050505',
                       fontFamily: 'var(--font-sans)',
                       fontSize: '14px',
-                      color: 'color-mix(in srgb, var(--color-text) 50%, transparent)',
-                    }}>
-                      Our team will be in touch within 24 hours to discuss your private deployment.
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} noValidate>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                      <input
-                        type="text"
-                        value={form.website}
-                        onChange={set('website')}
-                        tabIndex={-1}
-                        autoComplete="off"
-                        aria-hidden="true"
-                        style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
-                      />
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                        <Field label="First name" id="dfn" required value={form.firstName} onChange={set('firstName')} />
-                        <Field label="Last name" id="dln" required value={form.lastName} onChange={set('lastName')} />
-                      </div>
-                      <Field label="Business email" id="dem" type="email" required value={form.email} onChange={set('email')} />
-                      <Field label="Company" id="dcn" required value={form.company} onChange={set('company')} />
-
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                        <label htmlFor="dmsg" style={{
-                          fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 500,
-                          color: 'color-mix(in srgb, var(--color-text) 40%, transparent)', letterSpacing: '0.01em',
-                        }}>
-                          How do you plan to use AI? *
-                        </label>
-                        <textarea
-                          id="dmsg"
-                          rows={3}
-                          required
-                          value={form.message}
-                          onChange={set('message')}
-                          style={{
-                            width: '100%',
-                            padding: '8px 0',
-                            fontFamily: 'var(--font-sans)',
-                            fontSize: '14px',
-                            color: CREAM,
-                            background: 'transparent',
-                            border: 'none',
-                            borderBottom: '1px solid color-mix(in srgb, var(--color-text) 12%, transparent)',
-                            outline: 'none',
-                            resize: 'none',
-                            transition: 'border-color 0.2s',
-                            lineHeight: 1.6,
-                          }}
-                          onFocus={e => e.currentTarget.style.borderBottomColor = CREAM}
-                          onBlur={e => e.currentTarget.style.borderBottomColor = 'color-mix(in srgb, var(--color-text) 12%, transparent)'}
-                        />
-                      </div>
-
-                      <label style={{
-                        display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
-                      }}>
-                        <input
-                          type="checkbox"
-                          checked={form.consent}
-                          onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))}
-                          required
-                          style={{ marginTop: '3px', accentColor: CREAM, flexShrink: 0 }}
-                        />
-                        <span style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '11px',
-                          lineHeight: 1.6,
-                          color: 'color-mix(in srgb, var(--color-text) 40%, transparent)',
-                        }}>
-                          I agree to receive communications from Single Core Labs about its products,
-                          services, and events.
-                        </span>
-                      </label>
-
-                      <button
-                        type="submit"
-                        disabled={!form.consent || loading}
-                        style={{
-                          width: '100%',
-                          padding: '14px',
-                          background: (form.consent && !loading) ? CREAM : 'color-mix(in srgb, var(--color-text) 8%, transparent)',
-                          color: (form.consent && !loading) ? '#050505' : 'color-mix(in srgb, var(--color-text) 30%, transparent)',
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '14px',
-                          fontWeight: 600,
-                          letterSpacing: '0.02em',
-                          border: 'none',
-                          cursor: (form.consent && !loading) ? 'pointer' : 'not-allowed',
-                          transition: 'opacity 0.2s',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '8px',
-                          borderRadius: '6px',
-                        }}
-                      >
-                        {loading ? (
-                          <><Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> Sending...</>
-                        ) : (
-                          <>
-                            Submit
-                            <ArrowRight size={15} />
-                          </>
-                        )}
-                      </button>
-                      {error && (
-                        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--color-accent)', fontWeight: 500 }}>
-                          {error}
-                        </p>
-                      )}
-                    </div>
-                  </form>
-                )}
+                      fontWeight: 600,
+                      letterSpacing: '0.02em',
+                      border: 'none',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s',
+                    }}
+                  >
+                    Email {CONTACT_EMAIL}
+                    <ArrowRight size={15} />
+                  </a>
+                  <a
+                    href={SOCIAL_LINKS.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      width: '100%',
+                      marginTop: '16px',
+                      padding: '14px',
+                      background: 'transparent',
+                      color: CREAM,
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      letterSpacing: '0.02em',
+                      border: '1px solid color-mix(in srgb, var(--color-text) 20%, transparent)',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s',
+                    }}
+                  >
+                    Connect on LinkedIn
+                    <ArrowRight size={15} />
+                  </a>
+                </div>
               </RevealSection>
             </div>
           </div>

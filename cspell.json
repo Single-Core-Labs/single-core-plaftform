@@ -7,7 +7,6 @@
     "framer",
     "lucide",
     "Vite",
-    "Supabase",
     "BFSI"
   ],
   "ignorePaths": [
