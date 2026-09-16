@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SEO from '@/components/SEO'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
@@ -15,6 +15,9 @@ const CROSSFADE = 0.8
 function SeamlessLoop() {
   const aRef = useRef(null)
   const bRef = useRef(null)
+  // Stays hidden behind the glow fallback until the first frame can
+  // actually play — then fades in instead of popping over it.
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const a = aRef.current
@@ -96,7 +99,16 @@ function SeamlessLoop() {
   }
 
   return (
-    <>
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        opacity: ready ? 1 : 0,
+        transition: 'opacity 1.1s ease',
+      }}
+    >
       <video
         ref={aRef}
         aria-hidden="true"
@@ -105,6 +117,7 @@ function SeamlessLoop() {
         preload="auto"
         disablePictureInPicture
         src={VIDEO_SRC}
+        onPlaying={() => setReady(true)}
         style={base}
       />
       <video
@@ -117,7 +130,7 @@ function SeamlessLoop() {
         src={VIDEO_SRC}
         style={{ ...base, opacity: 0 }}
       />
-    </>
+    </div>
   )
 }
 
