@@ -38,9 +38,9 @@ const ROUTES = STATIC_ROUTES.map((r) => r.path)
 function cleanDuplicateMeta(html) {
   return html
     // Remove the hardcoded homepage <title>
-    .replace(/<title>Single Core Labs<\/title>/, '')
+    .replace(/<title>Single Core Labs — AI Infrastructure, Data &amp; Intelligence<\/title>/, '')
     // Remove hardcoded homepage meta description
-    .replace(/<meta\s+name="description"\s+content="Building the infrastructure[^"]*"\s*\/?>/, '')
+    .replace(/<meta\s+name="description"\s+content="Single Core Labs builds AI infrastructure[^"]*"\s*\/?>/, '')
     // Remove hardcoded homepage robots
     .replace(/<meta\s+name="robots"\s+content="index, follow"\s*\/?>/, '')
     // Remove hardcoded homepage canonical (exact root URL only)

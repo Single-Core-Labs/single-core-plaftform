@@ -139,8 +139,8 @@ export default function HomePage() {
       }}
     >
       <SEO
-        title="Single Core Labs"
-        description="Building the infrastructure, data and intelligence for the next era of AI."
+        title="AI Infrastructure, Data & Intelligence"
+        description="Single Core Labs builds AI infrastructure, data pipelines and intelligence for the next era of AI. Based in Pune, India."
       />
 
       {/* Video background — seamless crossfade loop, no restart flash */}
@@ -170,6 +170,23 @@ export default function HomePage() {
           padding: '24px',
         }}
       >
+        {/* Crawler / AI-readable heading — visually hidden, design unchanged */}
+        <div
+          style={{
+            position: 'absolute',
+            width: '1px',
+            height: '1px',
+            overflow: 'hidden',
+            clip: 'rect(0 0 0 0)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <h1>Single Core Labs — AI Infrastructure, Data & Intelligence</h1>
+          <p>
+            Single Core Labs builds AI infrastructure, data pipelines and
+            intelligence for the next era of AI. Based in Pune, India.
+          </p>
+        </div>
         <div
           className="scl-lockup"
           style={{

@@ -4,6 +4,19 @@
 User-agent: *
 Allow: /
 
+# AI crawlers and answer engines are welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 # Build artifacts / tooling (not published on static host)
 Disallow: /src/
 

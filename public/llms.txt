@@ -1,0 +1,20 @@
+# Single Core Labs
+
+> Building the infrastructure, data and intelligence for the next era of AI.
+
+Single Core Labs is an AI infrastructure company based in Pune, India.
+It builds AI infrastructure, data pipelines and intelligence for production AI.
+
+## Focus
+
+- AI infrastructure
+- AI data pipelines
+- Model training and tuning
+- AI deployment
+
+## Links
+
+- Website: https://singlecorelabs.in/
+- LinkedIn: https://www.linkedin.com/company/single-core-labs/
+- X: https://x.com/Singlecorelabs
+- Sitemap: https://singlecorelabs.in/sitemap.xml
