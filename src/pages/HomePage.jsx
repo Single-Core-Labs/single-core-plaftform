@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import SEO from '@/components/SEO'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
@@ -15,9 +15,6 @@ const CROSSFADE = 0.8
 function SeamlessLoop() {
   const aRef = useRef(null)
   const bRef = useRef(null)
-  // Stays hidden behind the glow fallback until the first frame can
-  // actually play — then fades in instead of popping over it.
-  const [ready, setReady] = useState(false)
 
   useEffect(() => {
     const a = aRef.current
@@ -99,16 +96,7 @@ function SeamlessLoop() {
   }
 
   return (
-    <div
-      aria-hidden="true"
-      style={{
-        position: 'absolute',
-        inset: 0,
-        pointerEvents: 'none',
-        opacity: ready ? 1 : 0,
-        transition: 'opacity 1.1s ease',
-      }}
-    >
+    <>
       <video
         ref={aRef}
         aria-hidden="true"
@@ -117,7 +105,6 @@ function SeamlessLoop() {
         preload="auto"
         disablePictureInPicture
         src={VIDEO_SRC}
-        onPlaying={() => setReady(true)}
         style={base}
       />
       <video
@@ -130,7 +117,7 @@ function SeamlessLoop() {
         src={VIDEO_SRC}
         style={{ ...base, opacity: 0 }}
       />
-    </div>
+    </>
   )
 }
 
@@ -156,20 +143,6 @@ export default function HomePage() {
         description="Building the infrastructure, data and intelligence for the next era of AI."
       />
 
-      {/* Warm glow fallback — shows while video loads or if it fails */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background: [
-            'radial-gradient(90% 120% at 0% 0%, rgba(255,252,240,0.95) 0%, rgba(255,200,130,0.55) 14%, rgba(255,122,26,0.50) 26%, rgba(150,45,0,0.28) 42%, transparent 62%)',
-            'radial-gradient(70% 90% at 0% 100%, rgba(255,110,20,0.38) 0%, rgba(120,35,0,0.18) 30%, transparent 60%)',
-            'linear-gradient(115deg, rgba(255,140,40,0.14) 0%, transparent 45%)',
-          ].join(', '),
-        }}
-      />
       {/* Video background — seamless crossfade loop, no restart flash */}
       <SeamlessLoop />
       {/* Dark overlay for text legibility */}
@@ -208,16 +181,15 @@ export default function HomePage() {
             justifyContent: 'center',
           }}
         >
-          {/* Brand */}
+          {/* Brand — white S mark + wordmark */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
             <img
-              src="/logo-icon.original.png"
+              src="/logo-mark-white.png"
               alt="Single Core Labs"
               style={{
                 height: 'clamp(40px, 5vw, 62px)',
                 width: 'auto',
                 display: 'block',
-                filter: 'brightness(0) invert(1)',
               }}
             />
             <span
