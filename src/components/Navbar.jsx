@@ -4,7 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { NAV_LINKS } from '@/lib/constants'
 
 // Scale-like navbar — fixed, Aeonik-style, h-10 rounded 8px, grid
-export function Navbar({ overlay = false }) {
+// theme: "editorial" (paper, home) | "dark" (default, /deployment /security)
+export function Navbar({ overlay = false, theme = "dark" }) {
+  const isEditorial = theme === "editorial"
   const [open, setOpen] = useState(false)
   const [solutionsOpen, setSolutionsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -60,17 +62,25 @@ export function Navbar({ overlay = false }) {
   return (
     <>
       <header
-        data-theme="dark"
+        data-theme={isEditorial ? undefined : "dark"}
         style={{
           position: overlay ? 'absolute' : 'fixed',
           left: 0,
           right: 0,
           top: 0,
           zIndex: 50,
-          background: overlay ? 'transparent' : (isScrolled ? 'rgba(10,10,10,0.82)' : '#0A0A0A'),
+          background: overlay
+            ? 'transparent'
+            : isEditorial
+              ? (isScrolled ? 'rgba(250,247,242,0.92)' : 'transparent')
+              : (isScrolled ? 'rgba(10,10,10,0.82)' : '#0A0A0A'),
           backdropFilter: overlay ? 'none' : (isScrolled ? 'blur(12px)' : 'none'),
           WebkitBackdropFilter: overlay ? 'none' : (isScrolled ? 'blur(12px)' : 'none'),
-          borderBottom: overlay ? 'none' : '1px solid rgba(255,255,255,0.08)',
+          borderBottom: overlay
+            ? 'none'
+            : isEditorial
+              ? (isScrolled ? '1px solid rgba(15,35,34,0.10)' : 'none')
+              : '1px solid rgba(255,255,255,0.08)',
           transition: 'background 0.25s, backdrop-filter 0.25s',
           willChange: 'transform',
           transform: 'translateZ(0)',
@@ -80,7 +90,7 @@ export function Navbar({ overlay = false }) {
         <div style={{ maxWidth: '1472px', margin: '0 auto', padding: '12px 24px', display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: '16px' }}>
           {/* Logo — correct brand mark (public/logo-icon.original.png) at left corner */}
           <Link to="/" aria-label="Home" onClick={close} style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flexShrink: 0, justifySelf: 'start' }}>
-            <img src="/logo-icon.original.png" alt="Single Core Labs" style={{ height: '28px', width: 'auto', display: 'block', objectFit: 'contain' }} />
+            <img src="/logo-icon.original.png" alt="Single Core Labs" style={{ height: '28px', width: 'auto', display: 'block', objectFit: 'contain', filter: isEditorial ? 'brightness(0)' : 'none' }} />
           </Link>
 
           {/* Center nav — Scale: Products/Solutions/Research/Resources */}
@@ -100,7 +110,7 @@ export function Navbar({ overlay = false }) {
                           fontSize: '14px',
                           fontWeight: 500,
                           letterSpacing: '-0.01em',
-                          color: 'rgba(255,255,255,0.85)',
+                          color: isEditorial ? '#0F2322' : 'rgba(255,255,255,0.85)',
                           textDecoration: 'none',
                           borderRadius: '8px 0 0 8px',
                           transition: 'background 0.2s, color 0.2s',
@@ -113,7 +123,7 @@ export function Navbar({ overlay = false }) {
                         aria-label="Toggle Product menu"
                         aria-expanded={solutionsOpen}
                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSolutionsOpen((o) => !o) }}
-                        style={{ height: '40px', padding: '0 10px 0 2px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.85)', cursor: 'pointer', borderRadius: '0 8px 8px 0' }}
+                        style={{ height: '40px', padding: '0 10px 0 2px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', color: isEditorial ? '#0F2322' : 'rgba(255,255,255,0.85)', cursor: 'pointer', borderRadius: '0 8px 8px 0' }}
                       >
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ opacity: 0.6, transform: solutionsOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}><path d="M6 9l6 6 6-6" /></svg>
                       </button>
@@ -170,7 +180,7 @@ export function Navbar({ overlay = false }) {
                     fontSize: '14px',
                     fontWeight: 500,
                     letterSpacing: '-0.01em',
-                    color: 'rgba(255,255,255,0.85)',
+                    color: isEditorial ? '#0F2322' : 'rgba(255,255,255,0.85)',
                     textDecoration: 'none',
                     borderRadius: '8px',
                   }}
@@ -184,7 +194,7 @@ export function Navbar({ overlay = false }) {
           {/* CTAs — Scale: Book demo solid */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, justifySelf: 'end' }}>
             <div className="hidden md:flex" style={{ gap: '8px' }}>
-              <Link to="/contact" style={{ height: '40px', padding: '0 16px', display: 'inline-flex', alignItems: 'center', fontSize: '14px', fontWeight: 600, borderRadius: '8px', textDecoration: 'none', background: '#FFFFFF', color: '#0A0A0A', border: '1px solid transparent' }}>
+              <Link to="/contact" style={{ height: '40px', padding: '0 16px', display: 'inline-flex', alignItems: 'center', fontSize: '14px', fontWeight: 600, borderRadius: '8px', textDecoration: 'none', background: isEditorial ? '#0F2322' : '#FFFFFF', color: isEditorial ? '#FAF7F2' : '#0A0A0A', border: '1px solid transparent' }}>
                 Get Started
               </Link>
             </div>
@@ -193,7 +203,7 @@ export function Navbar({ overlay = false }) {
               aria-expanded={open}
               onClick={() => setOpen((o) => !o)}
               className="md:hidden"
-              style={{ width: '40px', height: '40px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.14)', background: 'rgba(255,255,255,0.06)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              style={{ width: '40px', height: '40px', borderRadius: '8px', border: isEditorial ? '1px solid rgba(15,35,34,0.16)' : '1px solid rgba(255,255,255,0.14)', background: isEditorial ? 'rgba(15,35,34,0.06)' : 'rgba(255,255,255,0.06)', color: isEditorial ? '#0F2322' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <span style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                 <span style={{ width: '16px', height: '2px', background: 'currentColor', display: 'block', transform: open ? 'rotate(45deg) translateY(4px)' : 'none', transition: 'transform 0.2s' }} />
@@ -212,7 +222,7 @@ export function Navbar({ overlay = false }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{ position: 'fixed', inset: 0, zIndex: 49, background: '#FFFFFF', padding: '80px 24px 32px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '24px' }}
+            style={{ position: 'fixed', inset: 0, zIndex: 49, background: isEditorial ? '#FAF7F2' : '#FFFFFF', padding: '80px 24px 32px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '24px' }}
           >
             {NAV_LINKS.map((item) => (
               <div key={item.label}>

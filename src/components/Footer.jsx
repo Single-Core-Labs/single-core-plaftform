@@ -53,19 +53,32 @@ const FooterLink = memo(function FooterLink({ link }) {
   return <Link to={link.href} style={style} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = leaveColor}>{link.label}</Link>;
 });
 
-export function Footer() {
+export function Footer({ theme = "dark" }) {
+  const isEditorial = theme === "editorial"
   return (
     <footer
       role="contentinfo"
-      data-theme="dark"
+      data-theme={isEditorial ? undefined : "dark"}
       style={{
         position: 'relative',
-        background: '#0A0A0A',
-        color: '#FAFAFA',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        background: isEditorial ? 'var(--e-canvas, #FAF7F2)' : '#0A0A0A',
+        color: isEditorial ? 'var(--e-ink-deep, #0F2322)' : '#FAFAFA',
+        borderTop: isEditorial ? '1px solid var(--e-rule-thin, rgba(15,35,34,0.10))' : '1px solid rgba(255,255,255,0.08)',
       }}
     >
       <div className="container-editorial" style={{ paddingTop: '64px', paddingBottom: '40px' }}>
+        {isEditorial && (
+          <p style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            letterSpacing: '0.20em',
+            textTransform: 'uppercase',
+            color: 'var(--e-ink-muted, #5A6B69)',
+            margin: '0 0 32px',
+          }}>
+            <span style={{ color: 'var(--e-bracket, #94A3A1)' }}>[</span> AI infrastructure · data platform <span style={{ color: 'var(--e-bracket, #94A3A1)' }}>]</span>
+          </p>
+        )}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -169,7 +182,7 @@ export function Footer() {
             lineHeight: 0.8,
             letterSpacing: '-0.05em',
             color: 'transparent',
-            WebkitTextStroke: '1px color-mix(in srgb, var(--color-text) 5%, transparent)',
+            WebkitTextStroke: isEditorial ? '1px var(--e-rule-thin, rgba(15,35,34,0.10))' : '1px color-mix(in srgb, var(--color-text) 5%, transparent)',
             whiteSpace: 'nowrap',
             transition: 'filter 0.4s ease, text-shadow 0.4s ease',
             cursor: 'default',
@@ -210,11 +223,11 @@ export function Footer() {
             padding: '12px clamp(16px, 2.5vw, 32px)',
             maxWidth: '1200px',
             marginInline: 'auto',
-            border: '1px solid color-mix(in srgb, var(--color-text) 6%, transparent)',
-            backgroundColor: 'color-mix(in srgb, var(--color-bg) 85%, transparent)',
+            border: isEditorial ? '1px solid var(--e-rule-thin, rgba(15,35,34,0.10))' : '1px solid color-mix(in srgb, var(--color-text) 6%, transparent)',
+            backgroundColor: isEditorial ? 'rgba(250,247,242,0.85)' : 'color-mix(in srgb, var(--color-bg) 85%, transparent)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+            boxShadow: isEditorial ? 'none' : '0 4px 20px rgba(0,0,0,0.3)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
