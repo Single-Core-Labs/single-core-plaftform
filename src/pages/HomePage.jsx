@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
@@ -263,7 +264,13 @@ export default function HomePage() {
           color: 'rgba(250,250,250,0.55)',
         }}
       >
-        <span>© 2026 Single Core Labs</span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '12px' }}>
+          <span>© 2026 Single Core Labs</span>
+          <span aria-hidden="true" style={{ opacity: 0.4 }}>·</span>
+          <Link to="/privacy" style={{ color: 'rgba(250,250,250,0.75)', textDecoration: 'none' }}>
+            Privacy Policy
+          </Link>
+        </span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '16px' }}>
           <a
             href={SOCIAL_LINKS.linkedin}
