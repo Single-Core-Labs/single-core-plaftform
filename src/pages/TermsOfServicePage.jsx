@@ -4,82 +4,87 @@ import { SOCIAL_LINKS } from '@/lib/constants'
 
 const SECTIONS = [
   {
-    heading: '1. Information we collect',
+    heading: '1. Acceptance of terms',
     body: [
-      'Contact information you share with us directly (such as your name, email address, or company) when you reach out via email, forms, or social channels.',
-      'Technical information collected automatically when you visit the site, such as pages viewed, browser type, device information, and approximate location derived from IP address.',
-      'We do not intentionally collect sensitive personal data through this website.',
+      'By accessing singlecorelabs.in (the "Site"), you agree to these Terms of Service ("Terms") and to our Privacy Policy. If you do not agree, please do not use the Site.',
+      'Single Core Labs ("we", "us") may update these Terms from time to time. Continued use of the Site after changes are posted constitutes acceptance of the updated Terms.',
     ],
   },
   {
-    heading: '2. How we use information',
+    heading: '2. About the site',
     body: [
-      'To operate and improve the website, understand usage patterns, and fix issues.',
-      'To respond to enquiries, partnership requests, and hiring interest.',
-      'To protect the security and integrity of our systems.',
-      'We do not sell your personal information.',
+      'The Site is an informational website describing Single Core Labs, our research, infrastructure work, and ways to contact us. It does not currently offer accounts, paid products, or self-serve services.',
+      'Content on the Site is provided for general information only and does not constitute professional, legal, or investment advice.',
     ],
   },
   {
-    heading: '3. Cookies and analytics',
+    heading: '3. Intellectual property',
     body: [
-      'We use only minimal, privacy-respecting measurement. The site does not use advertising trackers or cross-site profiling cookies.',
-      'Where analytics or embedded media (for example, video delivery via CDN) is used, the provider may process technical data such as IP address under their own policies.',
-      'You can block cookies in your browser settings; the site will continue to work.',
+      'Unless otherwise stated, all content on the Site — including text, graphics, logos, and the "Single Core Labs" wordmark — is owned by Single Core Labs or its licensors and is protected by applicable intellectual property laws.',
+      'You may view and link to the Site for personal, non-commercial purposes. You may not copy, reproduce, modify, distribute, or create derivative works from our content without prior written permission, except as permitted by applicable law (such as fair use).',
     ],
   },
   {
-    heading: '4. Sharing',
+    heading: '4. Acceptable use',
     body: [
-      'We share personal information only when necessary: with service providers who host and operate the site (under confidentiality obligations), to comply with applicable law, or to protect our rights and users.',
+      'You agree not to misuse the Site. Prohibited conduct includes attempting to gain unauthorised access to our systems, probing or scanning for vulnerabilities, disrupting availability (including denial-of-service attacks), sending spam, or using the Site for any unlawful purpose.',
+      'You agree not to misrepresent your identity when contacting us or to submit false, misleading, or infringing material.',
     ],
   },
   {
-    heading: '5. Data retention',
+    heading: '5. Third-party links and content',
     body: [
-      'We keep contact correspondence only as long as needed for the purpose it was collected, then delete or anonymise it. Server and access logs are retained for a limited period for security and debugging.',
+      'The Site links to third-party platforms such as LinkedIn and X, and may embed media served via content delivery networks. We do not control third-party sites or services, and we are not responsible for their content, policies, or practices.',
+      'Your use of third-party services is governed by their own terms and privacy policies.',
     ],
   },
   {
-    heading: '6. Security',
+    heading: '6. No warranties',
     body: [
-      'We apply reasonable technical and organisational measures (HTTPS, access controls, least-privilege infrastructure) to protect information. No method of transmission over the internet is completely secure, and we cannot guarantee absolute security.',
+      'The Site is provided on an "as is" and "as available" basis, without warranties of any kind, whether express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement.',
+      'We do not warrant that the Site will be uninterrupted, error-free, or free of harmful components, or that information on the Site is complete, accurate, or current.',
     ],
   },
   {
-    heading: '7. Your rights',
+    heading: '7. Limitation of liability',
     body: [
-      'Depending on where you live (including under India\u2019s DPDP Act and, where applicable, the GDPR), you may have the right to access, correct, delete, or restrict processing of your personal data, and to withdraw consent.',
-      'To exercise these rights, email us at the address below. We will respond within a reasonable timeframe.',
+      'To the maximum extent permitted by applicable law, Single Core Labs will not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of (or inability to use) the Site.',
+      'Our total liability for any claim arising out of or relating to the Site will not exceed INR 1,000 or the amount you paid us to use the Site (if any), whichever is greater.',
     ],
   },
   {
-    heading: '8. Third-party links',
+    heading: '8. Indemnity',
     body: [
-      'This site links to third-party platforms such as LinkedIn and X. Their privacy practices are governed by their own policies, and we encourage you to review them.',
+      'You agree to indemnify and hold harmless Single Core Labs and its founders, contributors, and partners from claims, damages, and expenses (including reasonable legal fees) arising from your misuse of the Site or violation of these Terms.',
     ],
   },
   {
-    heading: '9. Children',
+    heading: '9. Termination',
     body: [
-      'This website is not directed at children under 16, and we do not knowingly collect their personal information.',
+      'We may restrict or terminate access to the Site at any time if we reasonably believe you have violated these Terms or to protect the security of our systems.',
     ],
   },
   {
-    heading: '10. Changes to this policy',
+    heading: '10. Governing law',
     body: [
-      'We may update this policy to reflect changes in our practices or for legal reasons. The current version will always be posted here with an updated effective date.',
+      'These Terms are governed by the laws of India. Courts located in Pune, Maharashtra will have exclusive jurisdiction over disputes arising out of or relating to the Site or these Terms, subject to applicable law.',
     ],
   },
   {
-    heading: '11. Contact',
+    heading: '11. Changes to these terms',
     body: [
-      'Single Core Labs, Pune, India. For privacy questions or requests, contact us via LinkedIn or X linked in the footer, or email the address published on our official company profiles.',
+      'We may revise these Terms to reflect changes in the Site or legal requirements. The current version will always be posted here with an updated effective date. Material changes will be reflected in the "Last updated" date below.',
+    ],
+  },
+  {
+    heading: '12. Contact',
+    body: [
+      'Single Core Labs, Pune, India. For questions about these Terms, contact us via LinkedIn or X linked in the footer, or email the address published on our official company profiles.',
     ],
   },
 ]
 
-export default function PrivacyPolicyPage() {
+export default function TermsOfServicePage() {
   return (
     <div
       style={{
@@ -93,8 +98,8 @@ export default function PrivacyPolicyPage() {
       }}
     >
       <SEO
-        title="Privacy Policy"
-        description="Privacy Policy for Single Core Labs — what we collect, how we use it, and your rights."
+        title="Terms of Service"
+        description="Terms of Service for Single Core Labs — rules for using singlecorelabs.in, intellectual property, disclaimers, and governing law."
       />
 
       <header
@@ -139,15 +144,16 @@ export default function PrivacyPolicyPage() {
           Legal
         </p>
         <h1 style={{ margin: '0 0 8px', fontSize: 'clamp(30px, 4vw, 44px)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-          Privacy Policy
+          Terms of Service
         </h1>
         <p style={{ margin: '0 0 32px', color: 'rgba(250,250,250,0.6)', fontSize: '14px' }}>
           Effective date: September 17, 2026 · Last updated: September 17, 2026
         </p>
 
         <p style={{ color: 'rgba(250,250,250,0.82)', lineHeight: 1.7, fontSize: '15.5px', margin: '0 0 32px' }}>
-          Single Core Labs (&quot;we&quot;, &quot;us&quot;) respects your privacy. This policy explains what
-          information we collect through singlecorelabs.in, how we use it, and the choices you have.
+          These terms govern your use of singlecorelabs.in. Please read them carefully.
+          Our <Link to="/privacy" style={{ color: '#FF5A00', textDecoration: 'none' }}>Privacy Policy</Link> explains
+          how we handle information.
         </p>
 
         {SECTIONS.map((s) => (

@@ -270,6 +270,10 @@ export default function HomePage() {
           <Link to="/privacy" style={{ color: 'rgba(250,250,250,0.75)', textDecoration: 'none' }}>
             Privacy Policy
           </Link>
+          <span aria-hidden="true" style={{ opacity: 0.4 }}>·</span>
+          <Link to="/terms" style={{ color: 'rgba(250,250,250,0.75)', textDecoration: 'none' }}>
+            Terms of Service
+          </Link>
         </span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '16px' }}>
           <a
