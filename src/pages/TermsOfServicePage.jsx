@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
+import LegalBackground from '@/components/LegalBackground'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
 const SECTIONS = [
@@ -95,8 +96,10 @@ export default function TermsOfServicePage() {
         display: 'flex',
         flexDirection: 'column',
         fontFamily: 'var(--font-sans)',
+        overflow: 'hidden',
       }}
     >
+      <LegalBackground />
       <SEO
         title="Terms of Service"
         description="Terms of Service for Single Core Labs — rules for using singlecorelabs.in, intellectual property, disclaimers, and governing law."
@@ -104,6 +107,8 @@ export default function TermsOfServicePage() {
 
       <header
         style={{
+          position: 'relative',
+          zIndex: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -133,6 +138,8 @@ export default function TermsOfServicePage() {
       <main
         id="main-content"
         style={{
+          position: 'relative',
+          zIndex: 1,
           flex: 1,
           width: '100%',
           maxWidth: '760px',
@@ -170,6 +177,8 @@ export default function TermsOfServicePage() {
 
       <footer
         style={{
+          position: 'relative',
+          zIndex: 1,
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
@@ -180,6 +189,7 @@ export default function TermsOfServicePage() {
           letterSpacing: '0.01em',
           color: 'rgba(250,250,250,0.55)',
           borderTop: '1px solid rgba(255,255,255,0.08)',
+          background: 'rgba(6,6,6,0.55)',
         }}
       >
         <span>© 2026 Single Core Labs</span>
