@@ -1818,3 +1818,34 @@ button:focus-visible, a:focus-visible {
   .home-editorial .e-ornament { transform: none !important; }
 }
 
+/* ─────────────────────────────────────────
+   SPLASH ENTRANCE + MODAL MOTION
+   Staggered rise for hero lockup / CTA / footer,
+   soft pop for the sales modal. GPU-friendly
+   (opacity + transform only). Disabled entirely
+   under prefers-reduced-motion.
+   ───────────────────────────────────────── */
+@keyframes scl-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.scl-rise {
+  animation: scl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform;
+}
+.scl-rise-1 { animation-delay: 0.12s; }
+.scl-rise-2 { animation-delay: 0.24s; }
+
+@keyframes scl-modal-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.scl-modal-pop {
+  animation: scl-modal-pop 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scl-rise, .scl-modal-pop { animation: none; will-change: auto; }
+}
+

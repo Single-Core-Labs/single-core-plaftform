@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const SALES_COPY =
   'We will discuss your project and requirements and help you find the right plan and pricing for your business needs.'
@@ -71,6 +71,7 @@ export default function SalesCTA() {
   const [form, setForm] = useState(initial)
   const [errors, setErrors] = useState({})
   const [sent, setSent] = useState(false)
+  const closeBtnRef = useRef(null)
 
   useEffect(() => {
     if (!open) return
@@ -80,9 +81,14 @@ export default function SalesCTA() {
     document.addEventListener('keydown', onKey)
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    // Pause background smooth-scroll while the modal owns the wheel
+    window.__lenis?.stop()
+    // Move focus into the dialog for keyboard / screen-reader users
+    closeBtnRef.current?.focus({ preventScroll: true })
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = prev
+      window.__lenis?.start()
     }
   }, [open ])
 
@@ -139,6 +145,7 @@ export default function SalesCTA() {
     <>
       <button
         type="button"
+        className="scl-rise scl-rise-1"
         onClick={() => setOpen(true)}
         style={{
           marginTop: '28px',
@@ -189,7 +196,8 @@ export default function SalesCTA() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="scl-sales-modal"
+            className="scl-sales-modal scl-modal-pop"
+            data-lenis-prevent
             style={{
               width: '100%',
               maxWidth: '1020px',
@@ -263,6 +271,7 @@ export default function SalesCTA() {
                 </div>
                 <button
                   type="button"
+                  ref={closeBtnRef}
                   onClick={close}
                   aria-label="Close"
                   style={{

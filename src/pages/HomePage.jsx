@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
 import SalesCTA from '@/components/SalesCTA'
@@ -17,15 +17,46 @@ const CROSSFADE = 0.8
 function SeamlessLoop() {
   const aRef = useRef(null)
   const bRef = useRef(null)
+  // Defer the second copy until the first can play — halves the
+  // initial bandwidth so first paint + first frame arrive sooner.
+  const [standbyArmed, setStandbyArmed] = useState(false)
+
+  // Play the first copy immediately on mount.
+  useEffect(() => {
+    const a = aRef.current
+    if (!a) return
+    a.muted = true
+    a.defaultMuted = true
+    try {
+      const p = a.play()
+      if (p && typeof p.catch === 'function') p.catch(() => {})
+    } catch {
+      /* autoplay blocked — dark canvas remains */
+    }
+  }, [])
 
   useEffect(() => {
     const a = aRef.current
-    const b = bRef.current
-    if (!a || !b) return
-    for (const v of [a, b]) {
-      v.muted = true
-      v.defaultMuted = true
+    if (!a) return
+    if (a.readyState >= 3) {
+      const t = window.setTimeout(() => setStandbyArmed(true), 1500)
+      return () => window.clearTimeout(t)
     }
+    const arm = () => {
+      const idle = window.requestIdleCallback || ((cb) => window.setTimeout(cb, 1500))
+      idle(() => setStandbyArmed(true))
+    }
+    a.addEventListener('canplay', arm, { once: true })
+    return () => a.removeEventListener('canplay', arm)
+  }, [])
+
+  // Seamless crossfade handoff — only once the standby copy exists.
+  useEffect(() => {
+    const a = aRef.current
+    const b = bRef.current
+    if (!a || !b || !standbyArmed) return
+    b.muted = true
+    b.defaultMuted = true
 
     let active = a
     let standby = b
@@ -43,14 +74,14 @@ function SeamlessLoop() {
 
     a.style.opacity = '1'
     b.style.opacity = '0'
-    tryPlay(a)
 
     const tick = () => {
       if (stopped) return
       const d = active.duration
       if (d && Number.isFinite(d)) {
         const remaining = d - active.currentTime
-        if (remaining <= CROSSFADE && standby.paused) {
+        // Only hand off once the standby copy actually has frames.
+        if (remaining <= CROSSFADE && standby.paused && standby.readyState >= 2) {
           try {
             standby.currentTime = 0
           } catch {
@@ -85,7 +116,7 @@ function SeamlessLoop() {
       stopped = true
       cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [standbyArmed])
 
   const base = {
     position: 'absolute',
@@ -105,20 +136,23 @@ function SeamlessLoop() {
         muted
         playsInline
         preload="auto"
+        fetchPriority="high"
         disablePictureInPicture
         src={VIDEO_SRC}
         style={base}
       />
-      <video
-        ref={bRef}
-        aria-hidden="true"
-        muted
-        playsInline
-        preload="auto"
-        disablePictureInPicture
-        src={VIDEO_SRC}
-        style={{ ...base, opacity: 0 }}
-      />
+      {standbyArmed && (
+        <video
+          ref={bRef}
+          aria-hidden="true"
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          src={VIDEO_SRC}
+          style={{ ...base, opacity: 0 }}
+        />
+      )}
     </>
   )
 }
@@ -192,7 +226,7 @@ export default function HomePage() {
           </p>
         </div>
         <div
-          className="scl-lockup"
+          className="scl-lockup scl-rise"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -254,6 +288,7 @@ export default function HomePage() {
 
       {/* Bottom bar — honest status, no hype */}
       <footer
+        className="scl-rise scl-rise-2"
         style={{
           position: 'relative',
           zIndex: 1,
