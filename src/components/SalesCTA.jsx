@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const SALES_COPY =
-  'We will discuss your project and requirements and help you find the right plan and pricing for your business needs.'
+  "Tell us about your project and requirements — we'll help you find the right plan and pricing for your needs."
 
 const INTERESTS = [
   'AI Infrastructure & Deployment',
@@ -172,14 +172,14 @@ export default function SalesCTA() {
           e.currentTarget.style.background = 'transparent'
         }}
       >
-        Talk to our Sales team
+        Talk to our sales team
       </button>
 
       {open && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Talk to our Sales team"
+          aria-label="Talk to our sales team"
           onClick={close}
           style={{
             position: 'fixed',
@@ -262,7 +262,7 @@ export default function SalesCTA() {
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
                 <div>
                   <h3 style={{ margin: 0, fontSize: 'clamp(22px, 2.6vw, 30px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15, color: '#FAFAFA' }}>
-                    Talk to our Sales team
+                    Talk to our sales team
                   </h3>
                   <p style={{ margin: '10px 0 0', fontSize: '14px', lineHeight: 1.6, color: 'rgba(250,250,250,0.6)' }}>
                     Join leading enterprises partnering with Single Core Labs. Book a 1:1 intro call with us to get
@@ -341,7 +341,7 @@ export default function SalesCTA() {
                   </div>
 
                   <p style={{ margin: '20px 0 10px', fontSize: '14px', fontWeight: 500, color: '#FAFAFA' }}>
-                    What can we help with? Select all that apply.:
+                    What can we help with? Select all that apply:
                   </p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '11px' }}>
                     {INTERESTS.map((item) => (

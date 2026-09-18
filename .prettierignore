@@ -1,0 +1,6 @@
+dist
+node_modules
+scl-aggregator
+public/sitemap.xml
+*.min.js
+package-lock.json

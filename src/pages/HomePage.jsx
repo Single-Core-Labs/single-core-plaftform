@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
-import SalesCTA from '@/components/SalesCTA'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
 const VIDEO_SRC =
@@ -176,7 +175,7 @@ export default function HomePage() {
     >
       <SEO
         title="AI Infrastructure, Data & Intelligence"
-        description="Single Core Labs builds AI infrastructure, data pipelines and intelligence for the next era of AI. Based in Pune, India."
+        description="Single Core Labs builds AI infrastructure, data pipelines, and intelligence for the next era of AI. Based in Pune, India."
       />
 
       {/* Video background — seamless crossfade loop, no restart flash */}
@@ -221,7 +220,7 @@ export default function HomePage() {
         >
           <h1>Single Core Labs — AI Infrastructure, Data & Intelligence</h1>
           <p>
-            Single Core Labs builds AI infrastructure, data pipelines and
+            Single Core Labs builds AI infrastructure, data pipelines, and
             intelligence for the next era of AI. Based in Pune, India.
           </p>
         </div>
@@ -278,12 +277,11 @@ export default function HomePage() {
               maxWidth: '30ch',
             }}
           >
-            Building the infrastructure,
+            We build infrastructure,
             <br />
-            data and intelligence for the next era of AI.
+            data, and intelligence for the next era of AI.
           </p>
         </div>
-        <SalesCTA />
       </main>
 
       {/* Bottom bar — honest status, no hype */}
