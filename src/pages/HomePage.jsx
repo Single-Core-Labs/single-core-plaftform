@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
+import SalesCTA from '@/components/SalesCTA'
 import { SOCIAL_LINKS } from '@/lib/constants'
 
 const VIDEO_SRC =
@@ -166,9 +167,11 @@ export default function HomePage() {
           zIndex: 1,
           flex: 1,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '24px',
+          textAlign: 'center',
         }}
       >
         {/* Crawler / AI-readable heading — visually hidden, design unchanged */}
@@ -246,6 +249,7 @@ export default function HomePage() {
             data and intelligence for the next era of AI.
           </p>
         </div>
+        <SalesCTA />
       </main>
 
       {/* Bottom bar — honest status, no hype */}
