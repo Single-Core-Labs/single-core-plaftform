@@ -1,0 +1,48 @@
+/* ─────────────────────────────────────────
+   SCL grid system — design tokens.
+   Single source of truth for the Mistral-inspired
+   visible-structure layout. One accent only.
+   Colors alias the app theme in src/index.css.
+   ───────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --scl-bg: var(--color-bg, #0b0b0b);
+  --scl-surface: var(--color-bg-card, #141414);
+  --scl-surface-hover: var(--color-bg-hover, #1c1c1c);
+
+  /* Hairlines */
+  --scl-border: rgba(255, 255, 255, 0.08);
+  --scl-border-bright: rgba(255, 255, 255, 0.18);
+  --scl-guide: rgba(255, 255, 255, 0.06);
+  --scl-grid-line: rgba(255, 255, 255, 0.06);
+
+  /* Type */
+  --scl-text: var(--color-text, #ffffff);
+
+  --scl-muted: var(--color-text-muted, #b5b5b5);
+  /* The one accent */
+  --scl-accent: var(--color-accent, #b8a478);
+
+  /* Grid */
+  --scl-grid-max: 1280px;
+  --scl-grid-cols: 12;
+  --scl-gutter: 24px;
+
+  /* Section rhythm: 64px mobile → 96–128px desktop */
+  --scl-section-y: clamp(64px, 8vw, 128px);
+
+  /* Shape */
+  --scl-radius: 12px;
+
+  /* Pixel-grid pattern */
+  --scl-cell: 24px;
+
+  /* Focus */
+  --scl-focus: var(--scl-accent);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --scl-gutter: 16px;
+  }
+}

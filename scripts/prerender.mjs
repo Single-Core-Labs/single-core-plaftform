@@ -14,45 +14,41 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'node:fs/promises'
 import { mkdirSync } from 'node:fs'
-import { STATIC_ROUTES } from './sitemap-config.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT      = path.resolve(__dirname, '..')
 const DIST      = path.join(ROOT, 'dist')
 const PORT      = 4173
 
-// ─── Route list — single source of truth ─────────────────────────────────────
-// Routes are imported from scripts/sitemap-config.mjs (STATIC_ROUTES), the
-// same registry that generates public/sitemap.xml. Sitemap and prerender can
-// therefore never drift apart. Register new pages in sitemap-config.mjs ONLY.
-const ROUTES = STATIC_ROUTES.map((r) => r.path)
-
-// ─── Strip duplicate homepage meta tags from pre-rendered HTML ───────────────
-// index.html contains hardcoded homepage OG / Twitter / title / description
-// tags.  react-helmet-async injects the correct per-page tags later in <head>.
-// Crawlers (LinkedIn, Twitter) read the *first* og:title they find, so we must
-// remove the homepage defaults and keep only Helmet's tags.
-//
-// We match by EXACT content values from index.html so we never accidentally
-// strip Helmet's per-page tags.
-function cleanDuplicateMeta(html) {
-  return html
-    // Remove the hardcoded homepage <title>
-    .replace(/<title>Single Core Labs — AI Infrastructure, Data &amp; Intelligence<\/title>/, '')
-    // Remove hardcoded homepage meta description
-    .replace(/<meta\s+name="description"\s+content="Single Core Labs builds AI infrastructure[^"]*"\s*\/?>/, '')
-    // Remove hardcoded homepage robots
-    .replace(/<meta\s+name="robots"\s+content="index, follow"\s*\/?>/, '')
-    // Remove hardcoded homepage canonical (exact root URL only)
-    .replace(/<link\s+rel="canonical"\s+href="https:\/\/singlecorelabs\.in\/"\s*\/?>/, '')
-    // Remove hardcoded homepage OG tags (match by exact homepage content values)
-    .replace(/<meta\s+property="og:type"\s+content="website"\s*\/?>\s*\n?\s*<meta\s+property="og:site_name"\s+content="Single Core Labs"\s*\/?>\s*\n?\s*<meta\s+property="og:title"\s+content="Single Core Labs[^"]*"\s*\/?>\s*\n?\s*<meta\s+property="og:description"\s+content="Applied AI research lab\.[^"]*"\s*\/?>\s*\n?\s*<meta\s+property="og:url"\s+content="https:\/\/singlecorelabs\.in\/"\s*\/?>\s*\n?\s*<meta\s+property="og:image"\s+content="https:\/\/singlecorelabs\.in\/og-image\.png"\s*\/?>\s*\n?\s*<meta\s+property="og:image:alt"[^>]*\/?>\s*\n?\s*<meta\s+property="og:image:width"[^>]*\/?>\s*\n?\s*<meta\s+property="og:image:height"[^>]*\/?>/, '')
-    // Remove hardcoded homepage Twitter Card tags (match by exact homepage content)
-    .replace(/<meta\s+name="twitter:card"\s+content="summary_large_image"\s*\/?>\s*\n?\s*<meta\s+name="twitter:title"\s+content="Single Core Labs[^"]*"\s*\/?>\s*\n?\s*<meta\s+name="twitter:description"\s+content="AI at scale\.[^"]*"\s*\/?>\s*\n?\s*<meta\s+name="twitter:image"\s+content="https:\/\/singlecorelabs\.in\/og-image\.png"\s*\/?>/, '')
-    // Remove sitemap link (Helmet doesn't add this, keep it if present)
-    // Clean up blank lines left behind
-    .replace(/\n{3,}/g, '\n\n')
-}
+// ─── All routes to pre-render ────────────────────────────────────────────────
+// Keep in sync with App.jsx. Dynamic /:slug routes use ComingSoon so skip them.
+const ROUTES = [
+  '/',
+  '/cloud/overview',
+  '/cloud/managed-inference',
+  '/cloud/serverless-fine-tuning',
+  '/solutions/reinforcement-learning',
+  '/solutions/data-prep',
+  '/solutions/model-training',
+  '/solutions/model-inference',
+  '/sovereign-ai',
+  '/solutions/ai-modernization',
+  '/enterprise',
+  '/contact',
+  '/case-studies',
+  '/blog',
+  '/blog/medical-imaging-ai',
+  '/blog/large-language-models',
+  '/blog/why-sovereign-ai-matters',
+  '/about',
+  '/guides',
+  '/research',
+  '/research/semantic-cache',
+  '/security',
+  '/deployment',
+  '/ai-infrastructure-vs-cloud',
+  '/indian-ai-cloud-market-alternative',
+]
 
 async function prerender() {
   console.log('\n🔧  Pre-render starting...\n')
@@ -91,10 +87,7 @@ async function prerender() {
       // Extra wait for lazy-loaded / animated content to settle
       await new Promise(r => setTimeout(r, 600))
 
-      let html = await page.content()
-
-      // Strip duplicate homepage meta tags so crawlers see only Helmet's tags
-      html = cleanDuplicateMeta(html)
+      const html = await page.content()
 
       // Write to dist/<route>/index.html
       const outDir  = path.join(DIST, route === '/' ? '' : route)

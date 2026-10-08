@@ -1,0 +1,370 @@
+import { memo, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { SOCIAL_LINKS } from '@/lib/constants'
+import { fadeUp, viewport, staggerContainer } from '@/lib/animations'
+import { PixelGrid } from '@/system/PixelGrid'
+
+const FOOTER_LINKS = [
+  {
+    heading: 'Company',
+    links: [
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Privacy Choices', href: '/privacy-choices' },
+      { label: 'Data Processing Agreement', href: '/dpa' },
+      { label: 'Trust Center', href: '/trust-center' },
+      { label: 'Legal Notice', href: '/legal' },
+      { label: 'LinkedIn', href: SOCIAL_LINKS.linkedin, isExternal: true },
+    ],
+  },
+  {
+    heading: 'Industries',
+    links: [
+      { label: 'Financial Services', href: '/enterprise' },
+      { label: 'Healthcare', href: '/enterprise' },
+      { label: 'Defense & Government', href: '/enterprise' },
+      { label: 'Technology', href: '/enterprise' },
+    ],
+  },
+  {
+    heading: 'AI Infrastructure',
+    links: [
+      { label: 'Data Centers', href: '/enterprise' },
+      { label: 'Manufacturing', href: '/enterprise' },
+      { label: 'Energy', href: '/enterprise' },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'Blog', href: '/blog' },
+    ],
+  },
+]
+
+const FOOTER_VIDEO_SRC = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260815_034306_b4af8200-cdba-4dc8-b46d-ba7eb9c68c44.mp4'
+
+/* Full-bleed cinematic video band at the very end of the footer.
+   Loads idle so it never blocks first paint; static for reduced motion. */
+const FooterVideo = memo(function FooterVideo() {
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const load = () => {
+      if (v.dataset.loaded) return
+      v.dataset.loaded = '1'
+      v.src = FOOTER_VIDEO_SRC
+      v.load()
+      v.play().catch(() => {})
+    }
+    const idle = window.requestIdleCallback || ((cb) => window.setTimeout(cb, 1500))
+    const idleId = idle(load)
+    return () => {
+      if (window.cancelIdleCallback) window.cancelIdleCallback(idleId)
+      else window.clearTimeout(idleId)
+    }
+  }, [])
+
+  return (
+    <div style={{ position: 'relative', width: '100%', height: 'clamp(320px, 52vh, 560px)', overflow: 'hidden', background: '#000' }}>
+      <video
+        ref={videoRef}
+        loop
+        muted
+        playsInline
+        preload="none"
+        aria-hidden="true"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(11,11,11,0.9) 0%, rgba(11,11,11,0) 30%, rgba(11,11,11,0) 70%, rgba(11,11,11,0.65) 100%)',
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 62%)',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '20px',
+            flexWrap: 'wrap',
+          }}
+        >
+          <p
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(22px, 3vw, 36px)',
+              fontWeight: 400,
+              letterSpacing: '-0.015em',
+              color: '#fff',
+              margin: 0,
+              textAlign: 'center',
+              textWrap: 'balance',
+            }}
+          >
+            Decide how AI runs in your organization.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link to="/contact" className="btn-outline" style={{ textDecoration: 'none', borderColor: 'rgba(255,255,255,0.5)', color: '#fff' }}>
+            Contact us
+          </Link>
+          <Link to="/contact" className="btn-primary" style={{ textDecoration: 'none' }}>
+            Get started
+          </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+})
+
+const linkStyle = {
+  fontFamily: 'var(--font-sans)',
+  fontSize: '13px',
+  color: 'rgba(228, 222, 201, 0.5)',
+  textDecoration: 'none',
+  transition: 'color 0.2s',
+};
+
+const FooterLink = memo(function FooterLink({ link }) {
+  if (link.isExternal) return <a href={link.href} target="_blank" rel="noopener noreferrer" style={linkStyle} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}>{link.label}</a>;
+  if (link.isHash) return <a href={link.href} style={linkStyle} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}>{link.label}</a>;
+  return <Link to={link.href} style={linkStyle} onMouseEnter={e => e.target.style.color = 'var(--color-text)'} onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}>{link.label}</Link>;
+});
+
+export function Footer() {
+  return (
+    <footer
+      role="contentinfo"
+      style={{
+        position: 'relative',
+        background: 'rgba(11, 11, 11, 0.9)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.04)',
+      }}
+    >
+      <FooterVideo />
+      <PixelGrid cover seed={21} accents={10} mask="top" opacity={0.3} />
+      <div className="container-editorial" style={{ paddingTop: '64px', paddingBottom: '40px', position: 'relative', zIndex: 1 }}>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
+          <motion.div variants={fadeUp} style={{ marginBottom: '48px' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '40px',
+              alignItems: 'start',
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Link to="/" style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  color: 'var(--color-text)',
+                  textDecoration: 'none',
+                  letterSpacing: '0.02em',
+                }}>
+                  Single Core Labs
+                </Link>
+                <p style={{ fontSize: '12px', color: 'rgba(228, 222, 201, 0.4)' }}>Pune, Maharashtra</p>
+                <p style={{ fontSize: '12px', color: 'rgba(228, 222, 201, 0.55)', lineHeight: 1.6, maxWidth: '220px' }}>
+                  Single Core Labs lets you decide how AI runs in your organization.
+                </p>
+              </div>
+
+              {FOOTER_LINKS.map((col) => (
+                <nav key={col.heading} aria-label={`${col.heading} links`}>
+                  <p style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    color: 'rgba(228, 222, 201, 0.6)',
+                    marginBottom: '16px',
+                  }}>
+                    {col.heading}
+                  </p>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {col.links.map((link) => (
+                      <li key={link.label}><FooterLink link={link} /></li>
+                    ))}
+                  </ul>
+                </nav>
+              ))}
+
+              <div>
+                <p style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '11px',
+                  fontWeight: 500,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(228, 222, 201, 0.6)',
+                  marginBottom: '16px',
+                }}>
+                  Connect
+                </p>
+                <div style={{ display: 'flex', gap: '16px' }}>
+                  {[
+                    { href: SOCIAL_LINKS.linkedin, label: 'LinkedIn', path: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.851-3.037-1.853 0-2.135 1.445-2.135 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.604 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.813 20.452H3.861V9h2.952v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.225 0z' },
+                    { href: SOCIAL_LINKS.twitter, label: 'X', path: 'M18.244 2.25h3.308l-7.227 8.26 8.504 11.24h-6.66l-5.214-6.82-5.967 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.713 6.23 5.451-6.23zm-1.16 17.52h1.833L7.13 4.126H5.163l11.92 15.644z' },
+                    { href: SOCIAL_LINKS.github, label: 'GitHub', path: 'M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z' },
+                  ].map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Single Core Labs on ${social.label}`}
+                      style={{ color: 'rgba(228, 222, 201, 0.5)', transition: 'color 0.2s' }}
+                      onMouseEnter={e => e.target.style.color = 'var(--color-text)'}
+                      onMouseLeave={e => e.target.style.color = 'rgba(228, 222, 201, 0.5)'}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d={social.path} /></svg>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        userSelect: 'none',
+        marginTop: '20px',
+        paddingBottom: '40px',
+      }}>
+        <span
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(60px, 14vw, 200px)',
+            fontWeight: 600,
+            lineHeight: 0.8,
+            letterSpacing: '-0.05em',
+            color: 'transparent',
+            WebkitTextStroke: '1px rgba(255,255,255,0.05)',
+            whiteSpace: 'nowrap',
+            transition: 'filter 0.4s ease, text-shadow 0.4s ease',
+            cursor: 'default',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.filter = 'drop-shadow(0 0 30px rgba(228, 222, 201, 0.15)) drop-shadow(0 0 60px rgba(228, 222, 201, 0.08))'
+            e.currentTarget.style.WebkitTextStroke = '1px rgba(228, 222, 201, 0.25)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.filter = 'none'
+            e.currentTarget.style.WebkitTextStroke = '1px rgba(255,255,255,0.05)'
+          }}
+        >
+          Single Core Labs
+        </span>
+      </div>
+
+      <div style={{
+        position: 'absolute',
+        bottom: '24px',
+        left: 0,
+        right: 0,
+        padding: '0 clamp(16px, 3vw, 40px)',
+        zIndex: 10,
+      }}>
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '16px 32px',
+            minHeight: '56px',
+            padding: '12px clamp(16px, 2.5vw, 32px)',
+            maxWidth: '1200px',
+            marginInline: 'auto',
+            border: '1px solid rgba(255,255,255,0.06)',
+            backgroundColor: 'rgba(11, 11, 11, 0.85)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <p style={{ fontSize: '11px', color: 'rgba(228, 222, 201, 0.5)', letterSpacing: '0.04em', fontWeight: 500, textTransform: 'uppercase' }}>
+              © {new Date().getFullYear()} Single Core Labs. <span style={{ opacity: 0.6 }}>All rights reserved.</span>
+            </p>
+          </div>
+          
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px 24px' }}>
+            {[
+              { label: 'Terms of Use', href: '/terms' },
+              { label: 'Privacy Policy', href: '/privacy' },
+              { label: 'Acceptable Use', href: '/acceptable-use' },
+              { label: 'Cookie Settings', href: '#cookie-settings' },
+              { label: 'Trust Center', href: '/trust-center' },
+              { label: 'Report a Vulnerability', href: '/vulnerability' },
+            ].map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                style={{
+                  fontSize: '11px',
+                  color: 'rgba(228, 222, 201, 0.4)',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  fontWeight: 500,
+                  letterSpacing: '0.02em',
+                  textTransform: 'uppercase',
+                }}
+                onMouseEnter={(e) => e.target.style.color = 'var(--color-text)'}
+                onMouseLeave={(e) => e.target.style.color = 'rgba(228, 222, 201, 0.4)'}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </footer>
+  )
+}
