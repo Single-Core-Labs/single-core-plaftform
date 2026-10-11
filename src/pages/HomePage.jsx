@@ -553,6 +553,154 @@ function ComputeIntro() {
   )
 }
 
+// ─── PRODUCTS & CAPABILITIES ─────────────────────────────────────────────────
+
+const PRODUCT_CARDS = [
+  {
+    kicker: 'Marshal Code',
+    headline: 'AI-assisted software engineering.',
+    text: 'Repository analysis, implementation, testing, and verification under developer supervision and review.',
+    href: '/product/marshal',
+    linkLabel: 'Explore Marshal',
+  },
+  {
+    kicker: 'Private AI infrastructure',
+    headline: 'Model serving inside your boundary.',
+    text: 'Serve and orchestrate models on cloud, private cloud, or on-premise infrastructure you control.',
+    href: '/cloud/overview',
+    linkLabel: 'Explore SCL Cloud',
+  },
+  {
+    kicker: 'Governed agents',
+    headline: 'Automation with approval points.',
+    text: 'Permissions, tool-access boundaries, human review, and full audit trails on every run.',
+    href: '/enterprise',
+    linkLabel: 'See enterprise controls',
+  },
+  {
+    kicker: 'Evaluation & reliability',
+    headline: 'Testing before trust.',
+    text: 'Benchmarks, regression tracking, and promotion gates so models earn production use.',
+    href: '/research',
+    linkLabel: 'See research',
+  },
+]
+
+function ProductsSection() {
+  return (
+    <Section>
+      <SectionHead
+        kicker="Products & capabilities"
+        heading="Four capabilities, one coherent system."
+        lede="Marshal Code, private infrastructure, governed agents, and evaluation fit together — each useful alone, stronger combined."
+      />
+      <BentoGrid>
+        {PRODUCT_CARDS.map((c) => (
+          <BentoCard
+            key={c.kicker}
+            kicker={c.kicker}
+            headline={c.headline}
+            text={c.text}
+            href={c.href}
+            linkLabel={c.linkLabel}
+          />
+        ))}
+      </BentoGrid>
+    </Section>
+  )
+}
+
+// ─── INDUSTRIES ──────────────────────────────────────────────────────────────
+
+const INDUSTRY_CARDS = [
+  {
+    kicker: 'Defense & National Security',
+    headline: 'Controlled models, data, and execution.',
+    text: 'Private AI deployment, governed agents, and evaluation for mission-critical engineering.',
+    href: '/industries/defense',
+    linkLabel: 'Explore',
+  },
+  {
+    kicker: 'Federal & Public Sector',
+    headline: 'Modernize document-heavy workflows.',
+    text: 'Processing, integration, and governed automation with human review built in.',
+    href: '/industries/federal',
+    linkLabel: 'Explore',
+  },
+  {
+    kicker: 'Financial Services',
+    headline: 'Private inference with evidence.',
+    text: 'Evaluation, controlled automation, and replayable audit trails for financial teams.',
+    href: '/industries/financial-services',
+    linkLabel: 'Explore',
+  },
+  {
+    kicker: 'Healthcare & Life Sciences',
+    headline: 'Authorized data, professional oversight.',
+    text: 'Pipelines, research infrastructure, and evaluation with professionals in the loop.',
+    href: '/industries/healthcare',
+    linkLabel: 'Explore',
+  },
+  {
+    kicker: 'Technology',
+    headline: 'Engineering leverage that ships.',
+    text: 'Marshal-assisted development your platform team governs across repositories.',
+    href: '/industries/technology',
+    linkLabel: 'Explore',
+  },
+  {
+    kicker: 'Telecommunications',
+    headline: 'Support for network operations.',
+    text: 'Incident-analysis assistance, edge inference architecture, and software maintenance.',
+    href: '/industries/telecom',
+    linkLabel: 'Explore',
+  },
+]
+
+function IndustriesSection() {
+  return (
+    <Section>
+      <SectionHead
+        kicker="Industries"
+        heading="Deployed where constraints are real."
+        lede="Each sector gets its own engagement scope — distinct data boundaries, review requirements, and validation criteria."
+      />
+      <BentoGrid>
+        {INDUSTRY_CARDS.map((c) => (
+          <BentoCard
+            key={c.kicker}
+            kicker={c.kicker}
+            headline={c.headline}
+            text={c.text}
+            href={c.href}
+            linkLabel={c.linkLabel}
+          />
+        ))}
+      </BentoGrid>
+    </Section>
+  )
+}
+
+// ─── DEPLOYMENT & ENGAGEMENT ─────────────────────────────────────────────────
+
+function DeploymentSection() {
+  return (
+    <Section>
+      <SectionHead
+        kicker="Deployment & engagement"
+        heading="Run where your data lives."
+        lede="Cloud, private cloud, or on-premise — scoped per engagement with governance controls and validation gates. Most engagements follow a simple path: assess, architect, build, validate, integrate."
+      />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+        <PillCta to="/contact">Discuss an Enterprise Project</PillCta>
+        <Link to="/deployment" style={{ color: CREAM, fontSize: '15px', fontWeight: 500, textDecoration: 'none', opacity: 0.8 }}>
+          Explore deployment options <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+    </Section>
+  )
+}
+
 // ─── BOTTLENECK ──────────────────────────────────────────────────────────────
 
 function BottleneckSection() {
@@ -716,11 +864,14 @@ export default function HomePage() {
       <BackedBySection />
       <StartupProgramsSection />
       <ComputeIntro />
+      <ProductsSection />
       <BottleneckSection />
       <FullStackSection />
       <GainsSection />
+      <IndustriesSection />
       <WorkloadsSection />
       <EnvironmentsSection />
+      <DeploymentSection />
       <ClosingSection />
       <Footer />
     </div>

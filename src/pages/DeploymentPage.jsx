@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Lock, Sliders, Zap, Server, Cloud, Shield, Check, ArrowRight, Loader2 } from 'lucide-react'
+import { Lock, Sliders, Zap, Server, Cloud, Shield, Check, ArrowRight } from 'lucide-react'
 import SEO from '@/components/SEO'
 import { Footer } from '@/components/Footer'
 
@@ -69,7 +69,7 @@ const DEPLOYMENT_OPTIONS = [
   {
     icon: Server,
     title: 'On-Premises',
-    description: 'Ensure complete data sovereignty with an air-gapped deployment securely housed behind your firewall.',
+    description: 'Keep data sovereignty with an on-premises deployment inside your firewall, scoped to your infrastructure and requirements.',
   },
   {
     icon: Shield,

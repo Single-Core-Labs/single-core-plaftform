@@ -7,43 +7,45 @@ import { RevealText } from '@/components/RevealText'
 import { ScrollFade3D } from '@/components/ScrollScene'
 import SEO from '@/components/SEO'
 
-// ─── Case study data ──────────────────────────────────────────────────────────
+// ─── Engagement patterns ────────────────────────────────────────────────────
+// Representative engagement types for discussion. These are illustrative
+// scenarios describing the shape of the work — not customer claims or results.
 const CASE_STUDIES = [
   {
     id: 'radiology-ai',
     eyebrow: 'Healthcare · Medical Imaging',
-    headline: 'Automating Radiology Report Generation with Air-Gapped LLMs',
+    headline: 'Radiology report drafting inside an isolated deployment',
     summary:
-      'A 400-bed hospital in Pune needed faster turnaround on chest X-ray reads. We deployed a fine-tuned vision-language model on-premise, reducing report generation time by 68% while maintaining full data sovereignty.',
-    tags: ['Medical Imaging', 'LLM Fine-Tuning', 'Air-Gapped Deployment'],
-    stat: { value: '68%', label: 'Faster report turnaround' },
+      'A representative pattern: a vision-language model fine-tuned for chest X-ray reads, deployed on-premise so data never leaves the facility, with radiologists reviewing every draft before sign-off.',
+    tags: ['Medical Imaging', 'LLM Fine-Tuning', 'Private Deployment'],
+    stat: { value: 'Review-led', label: 'Every draft reviewed by a specialist' },
   },
   {
     id: 'credit-risk',
     eyebrow: 'Finance · Risk Intelligence',
-    headline: 'Real-Time Credit Risk Scoring for an NBFC',
+    headline: 'Agentic pipelines for high-volume credit decisions',
     summary:
-      'A non-banking financial company required sub-second credit decisions across 50,000 daily applications. We built an agentic pipeline that ingests bureau data, bank statements, and behavioural signals into a unified risk score.',
-    tags: ['Agentic AI', 'Data Pipelines', 'Real-Time Inference'],
-    stat: { value: '50K+', label: 'Daily decisions automated' },
+      'A representative pattern: ingesting bureau data, bank statements, and behavioural signals into a unified risk score with evaluation gates and full journals for reviewer inspection.',
+    tags: ['Agentic AI', 'Data Pipelines', 'Evaluation'],
+    stat: { value: 'Evidence-first', label: 'Every score traceable to sources' },
   },
   {
     id: 'logistics-optimisation',
     eyebrow: 'Logistics · Route Intelligence',
-    headline: 'Last-Mile Delivery Optimisation for a D2C Brand',
+    headline: 'Delivery operations assisted by live-signal routing',
     summary:
-      'A fast-growing D2C brand was losing 12% of revenue to failed deliveries. Our agent continuously re-routes drivers based on live traffic, weather, and customer availability signals, cutting failed deliveries by half.',
-    tags: ['Agentic AI', 'Optimisation', 'Real-Time Data'],
-    stat: { value: '50%', label: 'Reduction in failed deliveries' },
+      'A representative pattern: an agent that factors traffic, weather, and customer availability into routing suggestions, with dispatchers approving changes before they go out.',
+    tags: ['Agentic AI', 'Optimisation', 'Human Approval'],
+    stat: { value: 'Human-approved', label: 'Dispatchers decide every change' },
   },
   {
     id: 'emr-integration',
     eyebrow: 'Healthcare · Clinical Intelligence',
-    headline: 'Epic-Native Clinical Intelligence & Bidirectional EMR Integration',
+    headline: 'Clinical intelligence that meets staff inside the EMR',
     summary:
-      'A multi-specialty clinic chain ran incompatible EMR systems. We built a secure, FHIR/HL7-compliant clinical intelligence layer that syncs patient records in real time and automates chart summaries directly within their Epic environment.',
-    tags: ['Epic Integration', 'FHIR/HL7 APIs', 'Clinical Reasoning'],
-    stat: { value: '94%', label: 'Clinical charting accuracy' },
+      'A representative pattern: a standards-based clinical intelligence layer that syncs records and drafts chart summaries for qualified review within existing clinical systems.',
+    tags: ['Systems Integration', 'Standards-Based APIs', 'Clinical Review'],
+    stat: { value: 'Standards-based', label: 'Built on FHIR/HL7-style interfaces' },
   },
 ]
 
@@ -152,9 +154,9 @@ export default function CaseStudiesPage() {
   return (
     <div className="page-dark">
       <SEO 
-        title="Case Studies | Single Core Labs"
-        description="Real problems. Real results. We've deployed production AI systems for enterprises across healthcare, finance, and logistics."
-        keywords="AI case studies, enterprise AI deployments, healthcare AI results"
+        title="Engagement Patterns | Single Core Labs"
+        description="Representative engagement patterns across healthcare, finance, and logistics — the shape of the AI infrastructure and engineering work SCL scopes with teams."
+        keywords="AI engagement examples, enterprise AI patterns, healthcare AI, finance AI"
       />
       <main id="main-content">
         {/* Header */}
@@ -178,7 +180,7 @@ export default function CaseStudiesPage() {
             >
               <RevealText>
                 <div>
-                  <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Case Studies</p>
+                  <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Engagement patterns</p>
                   <h1
                     style={{
                       fontFamily: 'var(--font-serif)',
@@ -188,16 +190,17 @@ export default function CaseStudiesPage() {
                       lineHeight: 1.05,
                     }}
                   >
-                    Real problems.{' '}
-                    <span className="text-italic-serif">Real results.</span>
+                    Representative problems.{' '}
+                    <span className="text-italic-serif">Scoped approaches.</span>
                   </h1>
                 </div>
               </RevealText>
 
               <RevealText delay={2}>
                 <p className="text-body" style={{ maxWidth: '420px' }}>
-                  A selection of engagements where we've deployed production AI systems
-                  for enterprises across healthcare, finance, and logistics.
+                  Illustrative scenarios showing the shape of AI infrastructure and engineering
+                  work we scope with teams — not customer claims. Your engagement starts from
+                  your systems and success criteria.
                 </p>
               </RevealText>
             </div>

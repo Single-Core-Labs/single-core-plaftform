@@ -4,10 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
-import { ScrollFade3D, Card3D, SectionDepth } from '@/components/ScrollScene'
-import { ArrowRight, Eye, ShieldAlert, Cpu, Check, Loader2 } from 'lucide-react'
+import { SectionDepth } from '@/components/ScrollScene'
+import { ArrowRight, Check, Loader2 } from 'lucide-react'
 import { supabase } /* cspell:ignore supabase */ from '@/lib/supabase'
-import { PixelGrid } from '@/system/PixelGrid'
 
 export default function AboutPage() {
   const videoRef = useRef(null)
@@ -108,10 +107,10 @@ export default function AboutPage() {
     fontSize: '14px',
     color: 'var(--color-text)',
     background: 'var(--color-bg-surface)',
-    border: `1px solid ${focusedField === fieldName ? 'var(--color-accent)' : 'var(--color-border-strong)'}`,
+    border: `1px solid ${focusedField === fieldName ? '#FFFFFF' : 'var(--color-border-strong)'}`,
     borderRadius: '8px',
     outline: 'none',
-    boxShadow: focusedField === fieldName ? '0 0 0 3px var(--color-accent-dim)' : 'none',
+    boxShadow: focusedField === fieldName ? '0 0 0 3px rgba(255,255,255,0.15)' : 'none',
     transition: 'all 0.25s ease',
   })
 
@@ -127,8 +126,8 @@ export default function AboutPage() {
   return (
     <div className="page-dark">
       <SEO 
-        title="About Us | Single Core Labs"
-        description="SingleCore Labs (SCL) is an AI research and engineering company building the infrastructure, systems, and products required to develop, deploy, and operate AI at scale."
+        title="About SingleCore Labs — AI Research & Engineering"
+        description="SingleCore Labs builds the infrastructure behind production AI: model inference and orchestration, post-training and evaluation, and Marshal — our engineering-focused coding agent."
         keywords="AI infrastructure, AI research, post-training, AI agents, inference, singlecore labs"
       />
 
@@ -184,50 +183,37 @@ export default function AboutPage() {
           >
             <RevealText>
               <h1 className="text-display" style={{ color: '#f2efe2' }}>
-                About Us
+                About SingleCore Labs
               </h1>
             </RevealText>
             <RevealText delay={1}>
               <p className="text-body" style={{ color: 'rgba(242,239,226,0.85)', maxWidth: '480px' }}>
-                <strong>SingleCore Labs (SCL)</strong> builds the infrastructure, systems, and products
-                required to develop, deploy, and operate AI at scale.
+                <strong>Building the infrastructure behind production AI.</strong>
+                <br />
+                Artificial intelligence is moving beyond individual models toward systems that must
+                be trained, evaluated, deployed, and continuously improved.
               </p>
             </RevealText>
           </div>
         </section>
 
-        {/* Overlapping card */}
-        <div className="container-editorial" style={{ position: 'relative', zIndex: 2 }}>
-          <div
-            className="card card--rounded"
+        {/* Transition statement */}
+        <div className="container-editorial" style={{ position: 'relative', zIndex: 2, paddingTop: 'clamp(48px, 7vh, 88px)' }}>
+          <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>Who we are</p>
+          <p
             style={{
-              marginTop: 'clamp(-120px, -12vh, -80px)',
-              background: 'var(--color-bg-elevated)',
-              border: '1px solid var(--color-border-strong)',
-              padding: 'clamp(32px, 5vw, 64px)',
-              position: 'relative',
-              overflow: 'hidden',
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(22px, 3vw, 34px)',
+              lineHeight: 1.3,
+              letterSpacing: '-0.01em',
+              color: 'var(--color-text)',
+              maxWidth: '640px',
+              margin: 0,
             }}
           >
-            <PixelGrid cover seed={9} accents={12} fade mask="soft" opacity={0.5} />
-            <div style={{ position: 'relative' }}>
-              <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Our goal</p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontSize: 'clamp(22px, 3vw, 34px)',
-                  lineHeight: 1.3,
-                  letterSpacing: '-0.01em',
-                  color: 'var(--color-text)',
-                  maxWidth: '640px',
-                  margin: 0,
-                }}
-              >
-                Make advanced AI <span className="text-italic-serif">practical, reliable,</span> and
-                deployable in the real world.
-              </p>
-            </div>
-          </div>
+            SingleCore Labs builds the infrastructure and engineering systems that{' '}
+            <span className="text-italic-serif">make this transition possible.</span>
+          </p>
         </div>
 
         {/* What We Build */}
@@ -243,7 +229,7 @@ export default function AboutPage() {
           <div style={{ height: '1px', backgroundColor: 'var(--color-border)', marginBottom: 'clamp(32px, 4vh, 48px)' }} />
 
           <RevealText>
-            <p className="text-eyebrow" style={{ marginBottom: '16px' }}>What We Build</p>
+            <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>What We Build</p>
           </RevealText>
           <RevealText delay={1}>
             <h2 className="text-display" style={{ marginBottom: '16px', maxWidth: '700px' }}>
@@ -257,128 +243,69 @@ export default function AboutPage() {
             </p>
           </RevealText>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 'clamp(24px, 3vw, 40px)',
-            }}
-          >
-            {/* AI Infrastructure */}
-            <ScrollFade3D>
-              <Card3D intensity={5}>
-                <div
-                  className="card card--rounded card--pad"
-                  style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <div>
-                    <Cpu size={24} style={{ color: 'var(--color-accent)', marginBottom: '24px' }} />
-                    <h2
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'clamp(20px, 2.5vw, 26px)',
-                        fontWeight: 400,
-                        letterSpacing: '-0.015em',
-                        marginBottom: '16px',
-                        color: 'var(--color-text)',
-                      }}
-                    >
-                      AI Infrastructure
-                    </h2>
-                    <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.6, marginBottom: '16px' }}>
-                      Infrastructure for running AI workloads across cloud, private, on-premise, and specialized
-                      environments. Our work includes:
-                    </p>
-                    <ul className="text-body" style={{ fontSize: '14px', lineHeight: 1.7, paddingLeft: '20px', listStyleType: 'disc' }}>
-                      <li>Model inference infrastructure</li>
-                      <li>AI gateways and model routing</li>
-                      <li>GPU orchestration</li>
-                      <li>Serverless inference</li>
-                      <li>AI deployment systems</li>
-                      <li>Kubernetes-native AI infrastructure</li>
-                      <li>Private and air-gapped AI environments</li>
-                      <li>Performance and cost optimization</li>
-                    </ul>
-                  </div>
-                </div>
-              </Card3D>
-            </ScrollFade3D>
+          <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '680px' }}>
+            <div style={{ padding: '28px 0', borderTop: '1px solid var(--color-border)' }}>
+              <h3
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '17px',
+                  fontWeight: 700,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '10px',
+                  color: 'var(--color-text)',
+                }}
+              >
+                AI Infrastructure
+              </h3>
+              <p className="text-body" style={{ fontSize: '15px', lineHeight: 1.7, margin: 0 }}>
+                We engineer systems for model inference, routing, GPU orchestration, serverless
+                inference, and cloud-native deployment. Our focus is on scalable, cost-efficient
+                AI infrastructure across public cloud, private cloud, on-premises, and specialized
+                computing environments.
+              </p>
+            </div>
 
-            {/* AI Research & Post-Training */}
-            <ScrollFade3D>
-              <Card3D intensity={5}>
-                <div
-                  className="card card--rounded card--pad"
-                  style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <div>
-                    <Eye size={24} style={{ color: 'var(--color-accent)', marginBottom: '24px' }} />
-                    <h2
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'clamp(20px, 2.5vw, 26px)',
-                        fontWeight: 400,
-                        letterSpacing: '-0.015em',
-                        marginBottom: '16px',
-                        color: 'var(--color-text)',
-                      }}
-                    >
-                      AI Research &amp; Post-Training
-                    </h2>
-                    <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.6, marginBottom: '16px' }}>
-                      Techniques that make AI systems more capable and reliable after pretraining. Our research
-                      and engineering work spans:
-                    </p>
-                    <ul className="text-body" style={{ fontSize: '14px', lineHeight: 1.7, paddingLeft: '20px', listStyleType: 'disc' }}>
-                      <li>Reinforcement learning</li>
-                      <li>Synthetic data</li>
-                      <li>Training-data pipelines</li>
-                      <li>Supervised fine-tuning</li>
-                      <li>Post-training</li>
-                      <li>Evaluation systems</li>
-                      <li>Reward and feedback loops</li>
-                      <li>Model optimization</li>
-                      <li>Agent training environments</li>
-                    </ul>
-                  </div>
-                </div>
-              </Card3D>
-            </ScrollFade3D>
+            <div style={{ padding: '28px 0', borderTop: '1px solid var(--color-border)' }}>
+              <h3
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '17px',
+                  fontWeight: 700,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '10px',
+                  color: 'var(--color-text)',
+                }}
+              >
+                AI Research &amp; Post-Training
+              </h3>
+              <p className="text-body" style={{ fontSize: '15px', lineHeight: 1.7, margin: 0 }}>
+                We work across reinforcement learning, synthetic data, supervised fine-tuning,
+                post-training pipelines, evaluation frameworks, and agent training environments.
+                Our goal is to help teams improve model capabilities, measure performance, and
+                build more reliable AI systems.
+              </p>
+            </div>
 
-            {/* AI Agents & Software Engineering */}
-            <ScrollFade3D>
-              <Card3D intensity={5}>
-                <div
-                  className="card card--rounded card--pad"
-                  style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <div>
-                    <ShieldAlert size={24} style={{ color: 'var(--color-accent)', marginBottom: '24px' }} />
-                    <h2
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'clamp(20px, 2.5vw, 26px)',
-                        fontWeight: 400,
-                        letterSpacing: '-0.015em',
-                        marginBottom: '16px',
-                        color: 'var(--color-text)',
-                      }}
-                    >
-                      AI Agents &amp; Software Engineering
-                    </h2>
-                    <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.6 }}>
-                      Systems that allow AI agents to work on complex, long-horizon engineering problems —
-                      persistent agents, tool use, planning, verification, autonomous execution, evaluation
-                      harnesses, and continuous learning loops.
-                    </p>
-                    <p className="text-body" style={{ fontSize: '14px', lineHeight: 1.6, marginTop: '12px' }}>
-                      One example is <strong>Marshal</strong>, our engineering-focused coding agent designed to
-                      plan, implement, test, and verify complex changes across large codebases.
-                    </p>
-                  </div>
-                </div>
-              </Card3D>
-            </ScrollFade3D>
+            <div style={{ padding: '28px 0', borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
+              <h3
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '17px',
+                  fontWeight: 700,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '10px',
+                  color: 'var(--color-text)',
+                }}
+              >
+                AI Agents &amp; Software Engineering
+              </h3>
+              <p className="text-body" style={{ fontSize: '15px', lineHeight: 1.7, margin: 0 }}>
+                We develop systems that enable AI agents to tackle complex engineering tasks through
+                planning, tool use, implementation, testing, and verification. Marshal, our
+                engineering-focused coding agent, is designed to work across complex codebases and
+                support long-horizon software development.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -395,20 +322,21 @@ export default function AboutPage() {
             <div className="container-editorial">
               <div style={{ marginBottom: 'clamp(36px, 5vh, 56px)' }}>
                 <RevealText>
-                  <p className="text-eyebrow" style={{ marginBottom: '16px' }}>From Research to Production</p>
+                  <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>From Research to Production</p>
                 </RevealText>
                 <RevealText delay={1}>
                   <h2 className="text-display" style={{ maxWidth: '700px' }}>
-                    AI infrastructure should not stop
+                    Building capable AI is
                     <br />
-                    <span className="text-italic-serif">at experimentation.</span>
+                    <span className="text-italic-serif">only part of the challenge.</span>
                   </h2>
                 </RevealText>
                 <RevealText delay={2}>
                   <p className="text-body" style={{ maxWidth: '640px', marginTop: '16px' }}>
-                    Our systems are designed around the complete lifecycle, so organizations can move from an
-                    experimental model to a production AI system without rebuilding their infrastructure at
-                    every stage.
+                    Production systems require reliable data pipelines, rigorous evaluation, efficient
+                    inference, controlled deployment, and continuous monitoring. SingleCore Labs
+                    approaches AI as an end-to-end engineering discipline, connecting experimentation
+                    with the infrastructure needed to operate systems in real-world environments.
                   </p>
                 </RevealText>
               </div>
@@ -450,24 +378,22 @@ export default function AboutPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(32px, 5vw, 72px)' }}>
             <div>
               <RevealText>
-                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Engineering First</p>
+                <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>Engineering First</p>
               </RevealText>
               <RevealText delay={1}>
                 <h2 className="text-display" style={{ marginBottom: '16px' }}>
-                  Not just <span className="text-italic-serif">demos.</span>
+                  Not just <span className="text-italic-serif">demonstrations.</span>
                 </h2>
               </RevealText>
               <p className="text-body" style={{ maxWidth: '520px', marginBottom: '16px' }}>
-                We are an engineering-driven company. We build real systems, benchmark them, and improve
-                them continuously.
-              </p>
-              <p className="text-body" style={{ maxWidth: '520px', marginBottom: '16px' }}>
-                <strong>Performance. Reliability. Reproducibility. Security. Cost.</strong>
+                We prioritize measurable performance, reliability, reproducibility, security, and cost
+                efficiency. Rather than stopping at demonstrations, we focus on building, testing,
+                benchmarking, and improving systems against practical engineering requirements.
               </p>
             </div>
             <div>
               <RevealText>
-                <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Built for Real-World AI</p>
+                <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>Built for Real-World AI</p>
               </RevealText>
               <RevealText delay={1}>
                 <h2 className="text-display" style={{ marginBottom: '16px' }}>
@@ -482,7 +408,7 @@ export default function AboutPage() {
                 <li>Private cloud</li>
                 <li>Enterprise Kubernetes</li>
                 <li>On-premise infrastructure</li>
-                <li>Air-gapped environments</li>
+                <li>Isolated environments (scoped per engagement)</li>
                 <li>Edge devices</li>
                 <li>Dedicated GPU infrastructure</li>
               </ul>
@@ -504,7 +430,7 @@ export default function AboutPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'clamp(32px, 5vw, 72px)' }}>
                 <div>
                   <RevealText>
-                    <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Our Philosophy</p>
+                    <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>Our Philosophy</p>
                   </RevealText>
                   <RevealText delay={1}>
                     <h2 className="text-display" style={{ marginBottom: '16px' }}>
@@ -518,16 +444,16 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <RevealText>
-                    <p className="text-eyebrow" style={{ marginBottom: '16px' }}>Where We&apos;re Going</p>
+                    <p className="text-eyebrow" style={{ marginBottom: '16px', color: 'rgba(255,255,255,0.5)' }}>Our Direction</p>
                   </RevealText>
                   <RevealText delay={1}>
                     <h2 className="text-display" style={{ marginBottom: '16px' }}>
-                      From experimentation <span className="text-italic-serif">to operations.</span>
+                      An integrated <span className="text-italic-serif">engineering stack.</span>
                     </h2>
                   </RevealText>
                   <p className="text-body" style={{ maxWidth: '520px', marginBottom: '16px' }}>
-                    One engineering stack to <strong>develop, train, evaluate, optimize, deploy, operate, and
-                    improve</strong> AI systems.
+                    We are building toward an integrated engineering stack for developing, training,
+                    evaluating, optimizing, deploying, and operating AI systems.
                   </p>
                   <p className="text-body" style={{ maxWidth: '520px' }}>
                     <strong>SingleCore Labs — AI Research &amp; Engineering.</strong> Building the infrastructure
@@ -577,7 +503,7 @@ export default function AboutPage() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'radial-gradient(ellipse at 20% 50%, var(--color-accent-dim) 0%, transparent 70%)',
+                  background: 'radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.07) 0%, transparent 70%)',
                   zIndex: 0,
                 }}
               />
@@ -594,9 +520,9 @@ export default function AboutPage() {
                     color: 'var(--color-text)',
                   }}
                 >
-                  Need help with
+                  Discuss an engineering project
                   <br />
-                  your <span style={{ fontStyle: 'italic', fontFamily: 'var(--font-serif)' }}>Business?</span>
+                  with <span style={{ fontStyle: 'italic', fontFamily: 'var(--font-serif)' }}>our team.</span>
                 </h2>
                 <p
                   style={{
@@ -606,7 +532,7 @@ export default function AboutPage() {
                     color: 'var(--color-text-muted)',
                   }}
                 >
-                  Don't worry, we've got your back.
+                  Tell us about your infrastructure, workflow, or research problem.
                 </p>
               </div>
             </div>
@@ -636,14 +562,14 @@ export default function AboutPage() {
                         width: '48px',
                         height: '48px',
                         borderRadius: '50%',
-                        background: 'var(--color-accent-dim)',
+                        background: 'rgba(255,255,255,0.08)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         margin: '0 auto 20px',
                       }}
                     >
-                      <Check size={24} style={{ color: 'var(--color-accent)' }} />
+                      <Check size={24} style={{ color: '#FFFFFF' }} />
                     </div>
                     <h3
                       style={{
@@ -679,7 +605,7 @@ export default function AboutPage() {
                     >
                       <div>
                         <label htmlFor="fullName" style={labelStyle}>
-                          Full name <span style={{ color: 'var(--color-accent)' }}>*</span>
+                          Full name <span style={{ color: '#FFFFFF' }}>*</span>
                         </label>
                         <input
                           id="fullName"
@@ -696,7 +622,7 @@ export default function AboutPage() {
 
                       <div>
                         <label htmlFor="phone" style={labelStyle}>
-                          Mobile number <span style={{ color: 'var(--color-accent)' }}>*</span>
+                          Mobile number <span style={{ color: '#FFFFFF' }}>*</span>
                         </label>
                         <div style={{ display: 'flex', gap: '8px' }}>
                           <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -763,7 +689,7 @@ export default function AboutPage() {
                     >
                       <div>
                         <label htmlFor="email" style={labelStyle}>
-                          Email address <span style={{ color: 'var(--color-accent)' }}>*</span>
+                          Email address <span style={{ color: '#FFFFFF' }}>*</span>
                         </label>
                         <input
                           id="email"
@@ -816,7 +742,7 @@ export default function AboutPage() {
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
                         <label htmlFor="message" style={{ ...labelStyle, marginBottom: 0 }}>
-                          Message <span style={{ color: 'var(--color-accent)' }}>*</span>
+                          Message <span style={{ color: '#FFFFFF' }}>*</span>
                         </label>
                         <span style={{ fontSize: '11px', color: 'var(--color-text-dim)', fontFamily: 'var(--font-mono)' }}>
                           {form.message.length}/1000
@@ -842,7 +768,7 @@ export default function AboutPage() {
                     {/* Submit Row */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
                       {error && (
-                        <p style={{ color: 'var(--color-accent)', fontSize: '12px', fontWeight: 500 }}>
+                        <p style={{ color: '#e08080', fontSize: '12px', fontWeight: 500 }}>
                           {error}
                         </p>
                       )}

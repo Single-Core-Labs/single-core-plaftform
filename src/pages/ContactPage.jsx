@@ -13,7 +13,7 @@ const COUNTRIES = [
 
 const BENEFITS = [
   'Custom AI systems engineered around your data, infrastructure, and compliance requirements.',
-  'From agentic workflows to air-gapped deployments — built for production, not demos.',
+  'From agentic workflows to controlled deployments — built for production, not demos.',
   'Embedded experts who work alongside your team from day one through go-live.',
 ]
 

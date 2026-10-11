@@ -22,7 +22,7 @@ const SECURITY_CARDS = [
 ]
 
 const IDENTITY_GROUPS = [
-  { title: 'Sign in', items: ['SSO', 'SAML', 'OIDC', 'SCIM'] },
+  { title: 'Sign in', items: ['Your identity provider', 'Team workspaces', 'Service identities'] },
   { title: 'Access scope', items: ['RBAC', 'Organization and workspace isolation', 'Team-level permissions', 'Project-level permissions', 'Agent-level permissions'] },
   { title: 'Control', items: ['Approval policies', 'API keys and service identities'] },
 ]
@@ -54,13 +54,11 @@ const AUDIT_CAPTURE = [
   'Approvals', 'Test results', 'Timestamps', 'Outcome',
 ]
 
-const OBS_STATS = [
-  { value: '247', label: 'Agents' },
-  { value: '38', label: 'Active sessions' },
-  { value: '12,481', label: 'Tasks completed' },
-  { value: '87.4%', label: 'Success rate' },
-  { value: '$1.82', label: 'Avg. cost per task' },
-  { value: '18m', label: 'Avg. duration' },
+const OBS_VIEWS = [
+  { title: 'Live sessions', text: 'See active agents, their tasks, and current tool activity.' },
+  { title: 'Run history', text: 'Review completed work with outcomes, costs, and durations.' },
+  { title: 'Cost and usage', text: 'Track tokens and spend per team, project, and task.' },
+  { title: 'Quality signals', text: 'Follow task success, failure rates, and evaluation scores over time.' },
 ]
 
 const OBS_SIGNALS = [
@@ -446,15 +444,15 @@ export default function EnterprisePage() {
               }}
             >
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, margin: '0 0 16px', color: 'var(--color-text)', letterSpacing: '0.06em' }}>
-                Organization
+                What you can observe
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px' }}>
-                {OBS_STATS.map((s) => (
-                  <div key={s.label}>
-                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 650, letterSpacing: '-0.02em', margin: 0, color: 'var(--color-text)' }}>
-                      {s.value}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+                {OBS_VIEWS.map((s) => (
+                  <div key={s.title}>
+                    <p style={{ fontFamily: 'var(--font-sans)', fontSize: '15px', fontWeight: 650, margin: 0, color: 'var(--color-text)' }}>
+                      {s.title}
                     </p>
-                    <p className="text-body" style={{ fontSize: '13px', margin: '4px 0 0' }}>{s.label}</p>
+                    <p className="text-body" style={{ fontSize: '13px', margin: '4px 0 0' }}>{s.text}</p>
                   </div>
                 ))}
               </div>
@@ -551,12 +549,13 @@ export default function EnterprisePage() {
           </RevealText>
           <RevealText delay={1}>
             <h2 className="text-display" style={{ marginBottom: '16px' }}>
-              Built for regulated <span className="text-italic-serif">engineering environments.</span>
+              Security and governance topics <span className="text-italic-serif">we address with you.</span>
             </h2>
           </RevealText>
           <RevealText delay={2}>
             <p className="text-body" style={{ maxWidth: '640px', marginBottom: '24px' }}>
-              Marshal provides controls that can support your organization&apos;s compliance requirements.
+              Common frameworks and requirements we discuss during assessment. Controls are scoped
+              per engagement, and fit is confirmed with your reviewers — not assumed.
             </p>
           </RevealText>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
@@ -565,9 +564,36 @@ export default function EnterprisePage() {
             ))}
           </div>
           <p className="text-body" style={{ maxWidth: '680px', marginTop: '20px', fontSize: '14px' }}>
-            Frameworks are listed as areas Marshal&apos;s controls are designed to support — bring your
-            auditors and we will walk through the evidence together.
+            These names describe topics and requirements — not certifications held. Bring your
+            reviewers and we will walk through what is supported in your deployment together.
           </p>
+        </section>
+
+        {/* 11b. Industries — Defense & National Security (neutral, homepage-matched) */}
+        <section style={{ background: '#000', padding: 'var(--spacing-section-lg) 0' }}>
+          <div className="container-editorial" style={{ maxWidth: '880px' }}>
+            <RevealText>
+              <p style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>Industries</p>
+            </RevealText>
+            <RevealText delay={1}>
+              <h2 className="text-display" style={{ marginBottom: '16px', color: '#FFFFFF' }}>
+                Defense &amp; National Security
+              </h2>
+            </RevealText>
+            <RevealText delay={2}>
+              <p style={{ maxWidth: '640px', marginBottom: 'clamp(24px, 3vh, 32px)', color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(15px, 1.1vw, 17px)', lineHeight: 1.7 }}>
+                Private AI for defense and aerospace — controlled models, data, and execution.
+              </p>
+            </RevealText>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', alignItems: 'center' }}>
+              <a href="/solutions/defense" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '14px 36px', borderRadius: '9999px', background: '#FFFFFF', color: '#000', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
+                Explore Defense &amp; National Security
+              </a>
+              <a href="/contact" style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 500, textDecoration: 'none', opacity: 0.8 }}>
+                Discuss a Defense Project <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
         </section>
 
         {/* 12. Enterprise workflows */}

@@ -21,24 +21,30 @@ const FOOTER_LINKS = [
   {
     heading: 'Industries',
     links: [
-      { label: 'Financial Services', href: '/enterprise' },
-      { label: 'Healthcare', href: '/enterprise' },
-      { label: 'Defense & Government', href: '/enterprise' },
-      { label: 'Technology', href: '/enterprise' },
+      { label: 'Defense & National Security', href: '/industries/defense' },
+      { label: 'Federal & Public Sector', href: '/industries/federal' },
+      { label: 'Financial Services', href: '/industries/financial-services' },
+      { label: 'Healthcare & Life Sciences', href: '/industries/healthcare' },
+      { label: 'Technology', href: '/industries/technology' },
+      { label: 'Telecommunications', href: '/industries/telecom' },
     ],
   },
   {
     heading: 'AI Infrastructure',
     links: [
-      { label: 'Data Centers', href: '/enterprise' },
-      { label: 'Manufacturing', href: '/enterprise' },
-      { label: 'Energy', href: '/enterprise' },
+      { label: 'Enterprise', href: '/enterprise' },
+      { label: 'SCL Cloud Overview', href: '/cloud/overview' },
+      { label: 'Deployment Options', href: '/deployment' },
+      { label: 'Sovereign AI', href: '/sovereign-ai' },
     ],
   },
   {
     heading: 'Resources',
     links: [
       { label: 'Blog', href: '/blog' },
+      { label: 'Research', href: '/research' },
+      { label: 'Guides', href: '/guides' },
+      { label: 'Case Studies', href: '/case-studies' },
     ],
   },
 ]

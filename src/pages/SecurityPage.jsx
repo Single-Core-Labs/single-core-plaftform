@@ -15,7 +15,7 @@ const PILLARS = [
   {
     icon: Server,
     title: 'Infrastructure Security',
-    description: 'Hardened cloud infrastructure with strict network ACLs, intrusion detection, and 24/7 monitoring.',
+    description: 'Hardened cloud infrastructure with network controls, intrusion detection, and continuous monitoring.',
   },
   {
     icon: Shield,
@@ -30,12 +30,12 @@ const PILLARS = [
   {
     icon: Key,
     title: 'Access Control',
-    description: 'Role-based access control (RBAC) with SSO/MFA support. Granular permissions per model, dataset, and deployment.',
+    description: 'Role-based access control (RBAC) with identity-provider and MFA integration options. Granular permissions per model, dataset, and deployment — scoped per engagement.',
   },
   {
     icon: Bug,
     title: 'Vulnerability Management',
-    description: 'Quarterly penetration tests, continuous dependency scanning, and a responsible disclosure program for researchers.',
+    description: 'Regular penetration testing, continuous dependency scanning, and a responsible disclosure program for researchers.',
   },
 ]
 

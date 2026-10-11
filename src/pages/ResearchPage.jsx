@@ -1,58 +1,11 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useInView } from 'framer-motion'
-import { ArrowRight, Cpu, GitBranch, Globe, Repeat, Microscope, Atom, Brain, RotateCcw, Layers, Workflow } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { ArrowRight, Brain, RotateCcw, Layers, Workflow } from 'lucide-react'
 import { Footer } from '@/components/Footer'
 import { RevealText } from '@/components/RevealText'
 import { HorizontalRule } from '@/components/HorizontalRule'
 import SEO from '@/components/SEO'
-
-// ─── CONSTANTS ──────────────────────────────────────────────────────────────
-
-const RESEARCH_LINEAGE = [
-  {
-    year: '2024',
-    icon: Cpu,
-    title: 'BioFormer — Original Transformer Architecture',
-    summary: 'Designed and trained a novel transformer architecture from scratch for genetic mutation effect prediction, trained on ClinVar and gnomAD. Built for diagnostic labs requiring explainable, high-confidence genomic inference.',
-    tags: ['Transformer Design', 'Genomics', 'Foundation Model'],
-  },
-  {
-    year: '2024',
-    icon: Repeat,
-    title: 'Semantic Cache — Adaptive LLM Inference Optimisation',
-    summary: 'Developed a production-grade semantic caching system using embedding-based prompt similarity with Adaptive Threshold Calibration. Achieves 47.3% token savings and 61% latency reduction on cache hits with zero client-side changes.',
-    tags: ['LLM Inference', 'Semantic Search', 'Optimisation'],
-  },
-  {
-    year: '2025',
-    icon: GitBranch,
-    title: 'Platform-Agent — Open-Source Composable Agent Framework',
-    summary: 'Built an open-source CLI coding agent with composable tool workflows, designed for developer teams that need transparent, auditable AI-assisted engineering pipelines.',
-    tags: ['Agentic AI', 'Open Source', 'Developer Tools'],
-  },
-  {
-    year: '2025',
-    icon: Microscope,
-    title: 'Enterprise Agentic Workflows — Production Multi-Step Orchestration',
-    summary: 'Deployed autonomous orchestration systems for insurance claims processing, financial risk reporting, and clinical documentation — each operating under strict regulatory constraints with full audit trails.',
-    tags: ['Agentic Workflows', 'Enterprise', 'Regulated AI'],
-  },
-  {
-    year: '2026',
-    icon: Globe,
-    title: 'Sovereign AI Infrastructure — Air-Gapped Deployments',
-    summary: 'Designed and deployed fully offline, air-gapped AI systems for regulated healthcare and defence clients. Complete data sovereignty with HIPAA and SOC-2 compliance, fine-tuned open-source models running entirely within client networks.',
-    tags: ['Sovereign AI', 'Air-Gapped', 'Compliance'],
-  },
-  {
-    year: '2026',
-    icon: Atom,
-    title: 'AgentWatch — LLM Observability & Production Tracing',
-    summary: 'Built a comprehensive observability platform for LLM agents in production: cost and performance explorer, trace visualisation, and continuous drift monitoring for teams running mission-critical agent deployments.',
-    tags: ['Observability', 'MLOps', 'Production AI'],
-  },
-]
 
 // ─── HERO ────────────────────────────────────────────────────────────────────
 
@@ -76,7 +29,7 @@ function HeroSection() {
           width: 'clamp(240px, 40vw, 560px)',
           height: 'clamp(240px, 40vw, 560px)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, var(--color-accent-dim) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none',
         }}
@@ -84,7 +37,7 @@ function HeroSection() {
 
       <div className="container-editorial" style={{ position: 'relative', zIndex: 1 }}>
         <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Research</p>
+          <p className="text-eyebrow" style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.5)' }}>Research</p>
         </RevealText>
         <RevealText delay={1}>
           <h1
@@ -122,168 +75,6 @@ function HeroSection() {
             and language model architecture — translating that work into real-world enterprise impact.
           </p>
         </RevealText>
-      </div>
-    </section>
-  )
-}
-
-// ─── RESEARCH LINEAGE ───────────────────────────────────────────────────────
-
-function LineageItem({ item, index }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-  const Icon = item.icon
-  const isLeft = index % 2 === 0
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1fr)',
-        gap: 'clamp(20px, 3vw, 40px)',
-        padding: 'clamp(32px, 4vh, 48px)',
-        border: '1px solid var(--color-border)',
-        background: 'var(--color-bg-card)',
-        marginBottom: '16px',
-        position: 'relative',
-      }}
-    >
-      {/* Year badge */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '16px',
-          marginBottom: '16px',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '13px',
-            fontWeight: 500,
-            letterSpacing: '0.12em',
-            color: 'var(--color-accent)',
-            padding: '4px 12px',
-            border: '1px solid var(--color-accent-dim)',
-          }}
-        >
-          {item.year}
-        </span>
-        <div style={{ height: '1px', flex: 1, background: 'var(--color-border)' }} />
-      </div>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'auto 1fr',
-          gap: 'clamp(16px, 2.5vw, 28px)',
-          alignItems: 'start',
-        }}
-      >
-        {/* Icon */}
-        <div
-          style={{
-            width: '48px',
-            height: '48px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '1px solid var(--color-border-strong)',
-            background: 'var(--color-bg-elevated)',
-            color: 'var(--color-accent)',
-            flexShrink: 0,
-          }}
-        >
-          <Icon size={20} strokeWidth={1.5} />
-        </div>
-
-        <div>
-          <h3
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(1.15rem, 1.8vw, 1.45rem)',
-              fontWeight: 400,
-              lineHeight: 1.25,
-              letterSpacing: '-0.02em',
-              color: 'var(--color-text)',
-              marginBottom: '10px',
-            }}
-          >
-            {item.title}
-          </h3>
-          <p
-            className="text-body"
-            style={{
-              fontSize: '14px',
-              lineHeight: 1.7,
-              marginBottom: '16px',
-            }}
-          >
-            {item.summary}
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className="tag"
-                style={{ fontSize: '10px', padding: '4px 10px' }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
-function LineageSection() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-
-  return (
-    <section ref={ref} style={{ padding: 'var(--spacing-section-lg) 0' }}>
-      <div className="container-editorial">
-        <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Our Lineage</p>
-        </RevealText>
-        <RevealText delay={1}>
-          <h2
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2rem, 4.5vw, 3.5rem)',
-              fontWeight: 400,
-              lineHeight: 1.08,
-              letterSpacing: '-0.03em',
-              maxWidth: '720px',
-              marginBottom: '20px',
-            }}
-          >
-            From architecture design to{' '}
-            <span style={{ fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
-              production deployment.
-            </span>
-          </h2>
-        </RevealText>
-        <RevealText delay={2}>
-          <p className="text-body" style={{ maxWidth: '580px', marginBottom: 'clamp(40px, 5vh, 64px)' }}>
-            Every line of research we ship moves through the same loop: identify a hard constraint,
-            design an architecture that respects it, prove it works in production. Below is the work
-            that defines us.
-          </p>
-        </RevealText>
-
-        <div style={{ position: 'relative' }}>
-          {RESEARCH_LINEAGE.map((item, i) => (
-            <LineageItem key={item.title} item={item} index={i} />
-          ))}
-        </div>
       </div>
     </section>
   )
@@ -330,7 +121,7 @@ function TrajectorySection() {
     >
       <div className="container-editorial">
         <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Our Trajectory</p>
+          <p className="text-eyebrow" style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.5)' }}>Our Trajectory</p>
         </RevealText>
         <RevealText delay={1}>
           <h2
@@ -380,8 +171,7 @@ function TrajectorySection() {
                     fontSize: '28px',
                     fontWeight: 500,
                     letterSpacing: '-0.04em',
-                    color: 'var(--color-accent)',
-                    opacity: 0.4,
+                    color: 'rgba(255,255,255,0.4)',
                     lineHeight: 1,
                   }}
                 >
@@ -394,9 +184,9 @@ function TrajectorySection() {
                     fontWeight: 500,
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
-                    color: 'var(--color-accent)',
+                    color: '#FFFFFF',
                     padding: '3px 8px',
-                    border: '1px solid var(--color-accent-dim)',
+                    border: '1px solid rgba(255,255,255,0.2)',
                   }}
                 >
                   {phase.label}
@@ -436,7 +226,7 @@ function CTASection() {
       <div className="container-editorial">
         <HorizontalRule style={{ marginBottom: 'clamp(28px, 4vh, 48px)' }} />
         <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Collaborate</p>
+          <p className="text-eyebrow" style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.5)' }}>Collaborate</p>
         </RevealText>
         <RevealText delay={1}>
           <h2
@@ -509,7 +299,7 @@ function RSIDiagram() {
       {/* RL Loop: Agent → Environment → Reward → Update */}
       <defs>
         <marker id="arrowRight" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-accent)" />
+          <polygon points="0 0, 10 3.5, 0 7" fill="#FFFFFF" />
         </marker>
         <marker id="arrowDim" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
           <polygon points="0 0, 10 3.5, 0 7" fill="var(--color-text-dim)" />
@@ -521,12 +311,12 @@ function RSIDiagram() {
       </defs>
 
       {/* 1. Agent box */}
-      <rect x="40" y="100" width="170" height="70" rx="6" fill="url(#boxGrad)" stroke="var(--color-accent)" strokeWidth="1.5" />
+      <rect x="40" y="100" width="170" height="70" rx="6" fill="url(#boxGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
       <text x="125" y="135" textAnchor="middle" fill="var(--color-text)" fontFamily="var(--font-sans)" fontSize="13" fontWeight="600">Agent</text>
       <text x="125" y="153" textAnchor="middle" fill="var(--color-text-muted)" fontFamily="var(--font-sans)" fontSize="10">Policy π(a|s)</text>
 
       {/* 2. Environment box */}
-      <rect x="330" y="100" width="170" height="70" rx="6" fill="url(#boxGrad)" stroke="var(--color-accent)" strokeWidth="1.5" />
+      <rect x="330" y="100" width="170" height="70" rx="6" fill="url(#boxGrad)" stroke="#FFFFFF" strokeWidth="1.5" />
       <text x="415" y="135" textAnchor="middle" fill="var(--color-text)" fontFamily="var(--font-sans)" fontSize="13" fontWeight="600">Environment</text>
       <text x="415" y="153" textAnchor="middle" fill="var(--color-text-muted)" fontFamily="var(--font-sans)" fontSize="10">State s, Reward r</text>
 
@@ -536,20 +326,20 @@ function RSIDiagram() {
       <text x="270" y="294" textAnchor="middle" fill="var(--color-text-muted)" fontFamily="var(--font-sans)" fontSize="10">θ ← θ + α∇J(θ)</text>
 
       {/* 4. RSI Overlay box */}
-      <rect x="590" y="100" width="170" height="70" rx="6" fill="url(#boxGrad)" stroke="var(--color-accent)" strokeWidth="1.5" strokeDasharray="4 3" />
-      <text x="675" y="130" textAnchor="middle" fill="var(--color-accent)" fontFamily="var(--font-sans)" fontSize="12" fontWeight="600">Self-Improvement</text>
+      <rect x="590" y="100" width="170" height="70" rx="6" fill="url(#boxGrad)" stroke="#FFFFFF" strokeWidth="1.5" strokeDasharray="4 3" />
+      <text x="675" y="130" textAnchor="middle" fill="#FFFFFF" fontFamily="var(--font-sans)" fontSize="12" fontWeight="600">Self-Improvement</text>
       <text x="675" y="148" textAnchor="middle" fill="var(--color-text-muted)" fontFamily="var(--font-sans)" fontSize="10">Meta-Learning Loop</text>
       <text x="675" y="162" textAnchor="middle" fill="var(--color-text-dim)" fontFamily="var(--font-sans)" fontSize="9">RSI Controller</text>
 
       {/* Arrows: Agent → Environment */}
-      <line x1="210" y1="125" x2="325" y2="125" stroke="var(--color-accent)" strokeWidth="1.5" markerEnd="url(#arrowRight)" />
-      <text x="267" y="118" textAnchor="middle" fill="var(--color-accent)" fontFamily="var(--font-mono)" fontSize="10" fontWeight="500">action a</text>
+      <line x1="210" y1="125" x2="325" y2="125" stroke="#FFFFFF" strokeWidth="1.5" markerEnd="url(#arrowRight)" />
+      <text x="267" y="118" textAnchor="middle" fill="#FFFFFF" fontFamily="var(--font-mono)" fontSize="10" fontWeight="500">action a</text>
 
       {/* Arrows: Environment → Agent (reward) */}
-      <line x1="410" y1="170" x2="410" y2="225" stroke="var(--color-accent)" strokeWidth="1.2" markerEnd="url(#arrowRight)" />
-      <line x1="410" y1="225" x2="155" y2="225" stroke="var(--color-accent)" strokeWidth="1.2" />
-      <line x1="155" y1="225" x2="155" y2="170" stroke="var(--color-accent)" strokeWidth="1.2" markerEnd="url(#arrowRight)" />
-      <text x="285" y="220" textAnchor="middle" fill="var(--color-accent)" fontFamily="var(--font-mono)" fontSize="10" fontWeight="500">reward r, state s'</text>
+      <line x1="410" y1="170" x2="410" y2="225" stroke="#FFFFFF" strokeWidth="1.2" markerEnd="url(#arrowRight)" />
+      <line x1="410" y1="225" x2="155" y2="225" stroke="#FFFFFF" strokeWidth="1.2" />
+      <line x1="155" y1="225" x2="155" y2="170" stroke="#FFFFFF" strokeWidth="1.2" markerEnd="url(#arrowRight)" />
+      <text x="285" y="220" textAnchor="middle" fill="#FFFFFF" fontFamily="var(--font-mono)" fontSize="10" fontWeight="500">reward r, state s'</text>
 
       {/* Arrows: Environment → RSI (experience) */}
       <line x1="500" y1="115" x2="585" y2="115" stroke="var(--color-text-dim)" strokeWidth="1" strokeDasharray="4 3" markerEnd="url(#arrowDim)" />
@@ -575,7 +365,6 @@ function RSIDiagram() {
 
 function RSISection() {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
 
   return (
     <section ref={ref} style={{
@@ -584,7 +373,7 @@ function RSISection() {
     }}>
       <div className="container-editorial">
         <RevealText>
-          <p className="text-eyebrow" style={{ marginBottom: '20px' }}>Frontier Research</p>
+          <p className="text-eyebrow" style={{ marginBottom: '20px', color: 'rgba(255,255,255,0.5)' }}>Frontier Research</p>
         </RevealText>
         <RevealText delay={1}>
           <h2
@@ -666,7 +455,7 @@ function RSISection() {
                   justifyContent: 'center',
                   border: '1px solid var(--color-border-strong)',
                   background: 'var(--color-bg-elevated)',
-                  color: 'var(--color-accent)',
+                  color: '#FFFFFF',
                 }}>
                   <Icon size={18} strokeWidth={1.5} />
                 </div>
@@ -714,7 +503,6 @@ export default function ResearchPage() {
       />
       <main id="main-content" style={{ minHeight: '100vh' }}>
         <HeroSection />
-        <LineageSection />
         <TrajectorySection />
         <RSISection />
         <CTASection />

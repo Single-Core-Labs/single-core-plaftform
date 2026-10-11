@@ -93,8 +93,8 @@ const PLATFORM_CARDS = [
 
 const CONTROL_CARDS = [
   { title: 'Observability', text: 'Dashboards, logs, and metrics built in — zero extra cost. GPU health, power, thermals, ECC, throughput. Per-job telemetry, streamed to the tools you already run.' },
-  { title: 'Governance', text: 'SSO and SCIM out of the box. RBAC maps to workload accounts. Secrets, key management, audit trails, CI/CD webhooks.' },
-  { title: 'Reliability', text: 'Enterprise-grade SLAs across training and inference, with dedicated incident response.' },
+  { title: 'Governance', text: 'Identity integration, RBAC mapped to workload accounts, secrets and key management, audit trails, and CI/CD webhooks — scoped per engagement.' },
+  { title: 'Reliability', text: 'Health monitoring, fault detection, and remediation designed in, with support terms defined in your agreement.' },
   { title: 'Support', text: 'Infrastructure and AI specialists on every tier, with direct escalation to the engineering team behind the platform.' },
   { title: 'Security', text: 'Purpose-built security for large-scale AI workloads: isolated networks, AES-256 encryption at rest with BYOK, and defined data-wiping protocols.', span: 'wide' },
 ]

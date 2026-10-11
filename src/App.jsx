@@ -1,5 +1,5 @@
 import { useEffect, Suspense, lazy } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 
 import HomePage from './pages/HomePage'
@@ -27,6 +27,8 @@ const DataPrepPage = lazy(() => import('./pages/DataPrepPage'))
 const ModelTrainingPage = lazy(() => import('./pages/ModelTrainingPage'))
 const ModelInferencePage = lazy(() => import('./pages/ModelInferencePage'))
 const SovereignAIPage = lazy(() => import('./pages/SovereignAIPage'))
+const IndustryPage = lazy(() => import('./pages/industries/IndustryPage'))
+const DefensePage = lazy(() => import('./pages/DefensePage'))
 
 function ScrollToHashAndTop() {
   const { pathname, hash } = useLocation()
@@ -95,6 +97,12 @@ function App() {
           <Route path="/solutions/model-training" element={<ModelTrainingPage />} />
           <Route path="/solutions/model-inference" element={<ModelInferencePage />} />
           <Route path="/sovereign-ai" element={<SovereignAIPage />} />
+          <Route path="/industries/:slug" element={<IndustryPage />} />
+          {/* Legacy industry URLs — redirect to canonical /industries/* routes */}
+          <Route path="/solutions/defense" element={<DefensePage />} />
+          <Route path="/federal" element={<Navigate to="/industries/federal" replace />} />
+          <Route path="/telecom" element={<Navigate to="/industries/telecom" replace />} />
+          <Route path="/financial-services" element={<Navigate to="/industries/financial-services" replace />} />
           <Route path="/terms" element={<LegalPage doc="terms" />} />
           <Route path="/privacy" element={<LegalPage doc="privacy" />} />
           <Route path="/privacy-choices" element={<LegalPage doc="privacy-choices" />} />

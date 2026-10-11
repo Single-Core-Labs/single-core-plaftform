@@ -62,16 +62,16 @@ function TextLink({ to, children }) {
 }
 
 const INDUSTRIES = [
-  { label: 'Financial Services', text: 'Controlled autonomous development with auditability and policy enforcement.' },
-  { label: 'Healthcare', text: 'Isolated development workflows for sensitive code and infrastructure.' },
-  { label: 'Defense & Government', text: 'Private and air-gapped environments with approved models.' },
-  { label: 'Technology', text: 'Large-scale engineering automation across complex repositories.' },
+  { label: 'Financial Services', text: 'Controlled autonomous development with auditability and policy enforcement.', href: '/industries/financial-services' },
+  { label: 'Healthcare', text: 'Isolated development workflows for sensitive code and infrastructure.', href: '/industries/healthcare' },
+  { label: 'Defense & Government', text: 'Controlled development environments with approved models.', href: '/industries/defense' },
+  { label: 'Technology', text: 'Large-scale engineering automation across complex repositories.', href: '/industries/technology' },
 ]
 
 const ENTERPRISE_PILLARS = [
   { title: 'Security', items: ['Sandboxed execution', 'Granular permissions', 'Egress controls', 'Approved model endpoints'] },
   { title: 'Governance', items: ['Audit trails', 'Centralized configuration', 'Approval gates', 'Policy enforcement'] },
-  { title: 'Infrastructure', items: ['Private deployment', 'Air-gapped environments', 'Enterprise identity', 'OTEL observability'] },
+  { title: 'Infrastructure', items: ['Private deployment', 'Controlled environments', 'Identity integration', 'OTEL observability'] },
   { title: 'Economics', items: ['Model routing', 'Cost controls', 'Usage visibility', 'Provider flexibility'] },
 ]
 
@@ -80,16 +80,7 @@ const MODEL_ROWS = [
     { label: 'GPT', logo: '/models/openai.png' },
     { label: 'Claude', logo: '/models/anthropic.svg' },
     { label: 'Gemini', logo: '/models/googlegemini.svg' },
-    { label: 'Grok', logo: '/models/x.svg' },
-    { label: 'GLM' },
-    { label: 'Qwen', logo: '/models/qwen.svg' },
-  ],
-  [
     { label: 'Llama' },
-    { label: 'Mistral', logo: '/models/mistralai.svg' },
-    { label: 'Kimi', logo: '/models/kimi.svg' },
-    { label: 'GPT-OSS', logo: '/models/openai.png' },
-    { label: 'DeepSeek', logo: '/models/deepseek.svg' },
     { label: 'Custom endpoint' },
   ],
 ]
@@ -110,7 +101,7 @@ function ModelPills() {
         <Marquee key={r} items={row} pill bare duration={38 + r * 9} reverse={r % 2 === 1} />
       ))}
       <p className="scl-card-text" style={{ fontSize: '13px', margin: '8px 0 0' }}>
-        + Any model via OpenAI, Anthropic, or custom endpoints
+        + Any model via OpenAI, Anthropic, Google, or custom endpoints
       </p>
     </div>
   )
@@ -481,9 +472,8 @@ export default function MarshalPage() {
           </RevealText>
           <RevealText delay={2}>
             <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'clamp(14px, 1.4vw, 19px)', lineHeight: 1.6, maxWidth: '640px', margin: '0 auto 32px' }}>
-              Marshal is a <strong>self-improving autonomous coding harness</strong> — persistent
-              execution, verification, replay, evaluation, and model freedom across your repositories,
-              deployed with your infrastructure, models, and policies.
+              Self-improving coding automation with verification and replay — on your infrastructure,
+              models, and policies.
             </p>
           </RevealText>
           <RevealText delay={3}>
@@ -576,7 +566,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="When to use Marshal"
             heading="Give Marshal work, not prompts."
-            lede="Use Marshal when a software task has a clear outcome that can be verified in a repository, terminal, test suite, or CI pipeline — under your policies and controls."
+            lede="Use Marshal for verifiable software tasks — in your repo, terminal, tests, or CI, under your policies."
           />
           <BentoGrid>
             {WHEN_CARDS.map((c) => (
@@ -584,7 +574,7 @@ export default function MarshalPage() {
             ))}
           </BentoGrid>
           <p className="scl-lede" style={{ marginTop: '24px' }}>
-            Interactive TUI for engineers. Headless execution for automation and evals. ACP for editor integrations. SSO, audit trails, and policy controls for the organization.
+            Interactive TUI for engineers. Headless execution for automation and evals. ACP for editor integrations. Identity integration, audit trails, and policy controls for the organization.
           </p>
         </Section>
 
@@ -621,7 +611,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="Marshal learns from the work it does"
             heading="A closed engineering loop."
-            lede="Every completed task creates evidence about what worked — and what didn't. This is a much stronger story than simply saying “self-improving AI.”"
+            lede="Every completed task creates evidence about what worked — and what didn't."
           />
           <div style={{ marginBottom: 'clamp(32px, 4vh, 48px)' }}>
             <Terminal
@@ -661,7 +651,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="Evidence, not promises"
             heading="Every task leaves evidence."
-            lede="Marshal turns agent activity into inspectable engineering artifacts. No black box — you can inspect what happened, reproduce it, evaluate it, and improve it."
+            lede="Agent activity becomes inspectable artifacts — review, reproduce, and improve."
           />
           <BentoGrid>
             {ARTIFACTS.map((a) => (
@@ -726,7 +716,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="Supported models"
             heading="One agent, any model."
-            lede="Switch providers in a config change. Run the right model per task from a 30-preset catalog, or bring your own endpoint. Marshal never locks you to a lab."
+            lede="Switch providers in a config change. The right model per task — never locked to a lab."
           />
           <ModelPills />
         </Section>
@@ -740,7 +730,7 @@ export default function MarshalPage() {
           />
           <BentoGrid>
             {INDUSTRIES.map((ind) => (
-              <BentoCard key={ind.label} headline={ind.label} text={ind.text} />
+              <BentoCard key={ind.label} headline={ind.label} text={ind.text} href={ind.href} linkLabel="Explore" />
             ))}
           </BentoGrid>
           <div style={{ marginTop: '24px' }}>
@@ -753,7 +743,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="Enterprise"
             heading="Autonomous engineering without giving up control."
-            lede="Marshal is designed for organizations where software agents need to operate inside real security and governance boundaries."
+            lede="Marshal operates inside real security and governance boundaries."
           />
           <BentoGrid>
             {ENTERPRISE_PILLARS.map((p) => (
@@ -782,7 +772,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="Why Marshal"
             heading="Your models, your sessions, your evidence."
-            lede="Single-vendor agents rent you intelligence. Marshal gives you infrastructure: any model, durable sessions, and evidence that compounds."
+            lede="Single-vendor agents rent intelligence. Marshal gives you infrastructure."
           />
           <div style={{ overflowX: 'auto', border: `1px solid ${BORDER_STRONG}`, borderRadius: '16px', background: SURFACE }}>
             <div style={{ minWidth: '680px' }}>
@@ -840,7 +830,7 @@ export default function MarshalPage() {
           <SectionHead
             kicker="Autonomous software factory"
             heading="Make your software improve itself."
-            lede="Every turn Marshal works becomes training data for the next turn — a compounding asset for your engineering organization. Engineers design the factory; humans stay the governance layer. Trigger steps by hand with /qa, /triage, and /incident — or let scheduled headless runs handle nights and weekends."
+            lede="Every run improves the next — engineers design the factory, humans govern it."
           />
           <BentoGrid>
             {FACTORY_STEPS.map((s, i) => (

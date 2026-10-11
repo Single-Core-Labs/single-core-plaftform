@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 const CREAM = '#FFFFFF'
 
 const LINKS = [
-  { label: 'Product', href: '/product' },
+  { label: 'Product', href: '/product/marshal' },
   { label: 'Solutions', href: '/solutions/reinforcement-learning' },
   { label: 'Enterprise', href: '/enterprise' },
+  { label: 'Industries', href: '/industries/defense' },
   { label: 'Sovereign AI', href: '/sovereign-ai' },
   { label: 'SCL Cloud', href: '/cloud' },
   { label: 'Research', href: '/research' },
   { label: 'About', href: '/about' },
-  { label: 'Careers', href: '/careers' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -20,20 +20,34 @@ const PRODUCTS = [
 ]
 
 const INDUSTRIES = [
-  { label: 'Defense & NatSec', href: '/solutions/defense' },
-  { label: 'Federal', href: '/federal' },
-  { label: 'Financial Services', href: '/financial-services' },
-  { label: 'Healthcare', href: '/enterprise' },
-  { label: 'Technology', href: '/enterprise' },
-  { label: 'Telecom', href: '/telecom' },
+  { label: 'Defense & National Security', href: '/industries/defense' },
+  { label: 'Federal & Public Sector', href: '/industries/federal' },
+  { label: 'Financial Services', href: '/industries/financial-services' },
+  { label: 'Healthcare & Life Sciences', href: '/industries/healthcare' },
+  { label: 'Technology', href: '/industries/technology' },
+  { label: 'Telecommunications', href: '/industries/telecom' },
 ]
 
-const SOLUTIONS = [
-  { label: 'Solutions', href: '/solutions/ai-modernization' },
-  { label: 'Data Prep', href: '/solutions/data-prep' },
-  { label: 'Model Training', href: '/solutions/model-training' },
-  { label: 'Model Inference', href: '/solutions/model-inference' },
-  { label: 'RL Environments', href: '/solutions/reinforcement-learning' },
+const SOLUTIONS_MENU = [
+  {
+    heading: 'AI solutions for your workload stage',
+    items: [
+      { label: 'Pre-training', desc: 'Train any model, at any scale on one cloud platform', href: '/solutions/model-training' },
+      { label: 'Post-training', desc: 'Turn a foundation model into a production-ready asset', href: '/cloud/serverless-fine-tuning' },
+      { label: 'Inference', desc: 'Run AI models in production, optimized from hardware to token cost', href: '/solutions/model-inference' },
+      { label: 'Simulation', desc: 'Test and validate AI systems in virtual environments', href: '/solutions/reinforcement-learning' },
+    ],
+  },
+  {
+    heading: 'Solutions',
+    items: [
+      { label: 'Solutions', href: '/solutions/ai-modernization' },
+      { label: 'Data Prep', href: '/solutions/data-prep' },
+      { label: 'Model Training', href: '/solutions/model-training' },
+      { label: 'Model Inference', href: '/solutions/model-inference' },
+      { label: 'RL Environments', href: '/solutions/reinforcement-learning' },
+    ],
+  },
 ]
 
 const CLOUD_MENU = [
@@ -74,6 +88,8 @@ export function SiteNavbar() {
   const [prodMobileOpen, setProdMobileOpen] = useState(false)
   const [entOpen, setEntOpen] = useState(false)
   const [entMobileOpen, setEntMobileOpen] = useState(false)
+  const [indOpen, setIndOpen] = useState(false)
+  const [indMobileOpen, setIndMobileOpen] = useState(false)
   const [solOpen, setSolOpen] = useState(false)
   const [solMobileOpen, setSolMobileOpen] = useState(false)
   const [cloudOpen, setCloudOpen] = useState(false)
@@ -90,6 +106,7 @@ export function SiteNavbar() {
     setProdOpen(false)
     setSolOpen(false)
     setEntOpen(false)
+    setIndOpen(false)
     setCloudOpen(false)
   }
   const cancelClose = () => {
@@ -296,6 +313,87 @@ export function SiteNavbar() {
                 </div>
               )}
             </div>
+          ) : item.label === 'Industries' ? (
+            <div
+              key="Industries"
+              onMouseEnter={() => { cancelClose(); closeAll(); setIndOpen(true) }}
+              onMouseLeave={() => { closeTimer.current = setTimeout(() => setIndOpen(false), 150) }}
+              onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setIndOpen(false) }}
+              onKeyDown={(e) => { if (e.key === 'Escape') setIndOpen(false) }}
+              style={{ position: 'relative' }}
+            >
+              <Link
+                to={item.href}
+                aria-haspopup="true"
+                aria-expanded={indOpen}
+                onFocus={() => { closeAll(); setIndOpen(true) }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  color: 'rgba(255,255,255,0.8)',
+                  textDecoration: 'none',
+                  fontSize: 'clamp(10px, 1vw, 14px)',
+                  fontWeight: 400,
+                  letterSpacing: '0.02em',
+                  transition: 'color 0.2s',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => (e.target.style.color = CREAM)}
+                onMouseLeave={(e) => (e.target.style.color = 'rgba(255,255,255,0.8)')}
+              >
+                {item.label}
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" style={{ transition: 'transform 0.2s', transform: indOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                  <path strokeLinecap="round" d="M6 9l6 6 6-6" />
+                </svg>
+              </Link>
+              {indOpen && (
+                <div
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={() => setIndOpen(false)}
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 14px)',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'rgba(0,0,0,0.95)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    padding: '10px 8px',
+                    minWidth: '280px',
+                    zIndex: 70,
+                  }}
+                >
+                  <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '4px 12px 8px' }}>
+                    Industries
+                  </p>
+                  {INDUSTRIES.map((ind) => (
+                    <Link
+                      key={ind.label}
+                      to={ind.href}
+                      onClick={() => setIndOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        minHeight: '44px',
+                        padding: '8px 12px',
+                        borderRadius: '8px',
+                        color: 'rgba(255,255,255,0.85)',
+                        textDecoration: 'none',
+                        fontSize: '14px',
+                        whiteSpace: 'nowrap',
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.color = CREAM; e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.background = 'none' }}
+                    >
+                      {ind.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ) : item.label === 'Solutions' ? (
             <div
               key="Solutions"
@@ -345,35 +443,45 @@ export function SiteNavbar() {
                     border: '1px solid rgba(255,255,255,0.1)',
                     borderRadius: '12px',
                     padding: '10px 8px',
-                    minWidth: '250px',
+                    minWidth: '560px',
                     zIndex: 70,
+                    display: 'flex',
+                    gap: '8px',
                   }}
                 >
-                  <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '4px 12px 8px' }}>
-                    Solutions
-                  </p>
-                      {SOLUTIONS.map((sol) => (
-                    <Link
-                      key={sol.label}
-                      to={sol.href}
-                      onClick={() => setSolOpen(false)}
+                  {SOLUTIONS_MENU.map((group, gi) => (
+                    <div
+                      key={group.heading}
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        minHeight: '44px',
-                        padding: '8px 12px',
-                        paddingLeft: sol.indent ? '24px' : '12px',
-                        borderRadius: '8px',
-                        color: sol.indent ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.85)',
-                        textDecoration: 'none',
-                        fontSize: '14px',
-                        whiteSpace: 'nowrap',
+                        flex: group.heading === 'AI solutions for your workload stage' ? '1.4' : '1',
+                        borderLeft: gi === 0 ? 'none' : '1px solid rgba(255,255,255,0.08)',
+                        paddingLeft: gi === 0 ? '0' : '8px',
+                        minWidth: '0',
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.color = CREAM; e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.background = 'none' }}
                     >
-                      {sol.label}
-                    </Link>
+                      <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '4px 12px 8px' }}>
+                        {group.heading}
+                      </p>
+                      {group.items.map((sol) => (
+                        <Link
+                          key={sol.label}
+                          to={sol.href}
+                          onClick={() => setSolOpen(false)}
+                          style={{ display: 'block', padding: '10px 12px', textDecoration: 'none', minHeight: '44px', borderRadius: '8px', whiteSpace: 'normal' }}
+                          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
+                          onMouseLeave={(e) => { e.currentTarget.style.background = 'none' }}
+                        >
+                          <span style={{ display: 'block', color: CREAM, fontSize: '14px', fontWeight: 600 }}>
+                            {sol.label}
+                          </span>
+                          {sol.desc && (
+                            <span style={{ display: 'block', color: 'rgba(255,255,255,0.55)', fontSize: '12.5px', marginTop: '2px', lineHeight: 1.4 }}>
+                              {sol.desc}
+                            </span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
@@ -675,6 +783,68 @@ export function SiteNavbar() {
                 </div>
               )}
             </div>
+          ) : item.label === 'Industries' ? (
+            <div key="Industries" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Link
+                  to={item.href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    color: CREAM,
+                    textDecoration: 'none',
+                    fontSize: '17px',
+                    fontWeight: 500,
+                    padding: '12px 0',
+                  }}
+                >
+                  {item.label}
+                </Link>
+                <button
+                  aria-label={indMobileOpen ? 'Collapse industries' : 'Expand industries'}
+                  aria-expanded={indMobileOpen}
+                  onClick={() => setIndMobileOpen((o) => !o)}
+                  style={{
+                    background: 'none',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    borderRadius: '8px',
+                    color: CREAM,
+                    cursor: 'pointer',
+                    padding: '10px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" style={{ transition: 'transform 0.2s', transform: indMobileOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                    <path strokeLinecap="round" d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+              </div>
+              {indMobileOpen && (
+                <div style={{ paddingBottom: '8px' }}>
+                  <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '4px 0 4px' }}>
+                    Industries
+                  </p>
+                  {INDUSTRIES.map((ind) => (
+                    <Link
+                      key={ind.label}
+                      to={ind.href}
+                      onClick={() => setOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        minHeight: '44px',
+                        color: 'rgba(255,255,255,0.85)',
+                        textDecoration: 'none',
+                        fontSize: '16px',
+                        padding: '6px 0 6px 12px',
+                      }}
+                    >
+                      {ind.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ) : item.label === 'Solutions' ? (
             <div key="Solutions" style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -713,26 +883,34 @@ export function SiteNavbar() {
               </div>
               {solMobileOpen && (
                 <div style={{ paddingBottom: '8px' }}>
-                  <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '4px 0 4px' }}>
-                    Solutions
-                  </p>
-                      {SOLUTIONS.map((sol) => (
-                    <Link
-                      key={sol.label}
-                      to={sol.href}
-                      onClick={() => setOpen(false)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        minHeight: '44px',
-                        color: sol.indent ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.85)',
-                        textDecoration: 'none',
-                        fontSize: '16px',
-                        padding: sol.indent ? '6px 0 6px 24px' : '6px 0 6px 12px',
-                      }}
-                    >
-                      {sol.label}
-                    </Link>
+                  {SOLUTIONS_MENU.map((group) => (
+                    <div key={group.heading} style={{ marginTop: '12px' }}>
+                      <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '11px', letterSpacing: '0.14em', textTransform: 'uppercase', margin: '4px 0 4px' }}>
+                        {group.heading}
+                      </p>
+                      {group.items.map((sol) => (
+                        <Link
+                          key={sol.label}
+                          to={sol.href}
+                          onClick={() => setOpen(false)}
+                          style={{
+                            display: 'block',
+                            minHeight: '44px',
+                            color: 'rgba(255,255,255,0.85)',
+                            textDecoration: 'none',
+                            fontSize: '16px',
+                            padding: '10px 0 10px 12px',
+                          }}
+                        >
+                          {sol.label}
+                          {sol.desc && (
+                            <span style={{ display: 'block', color: 'rgba(255,255,255,0.55)', fontSize: '13px', marginTop: '2px', lineHeight: 1.4 }}>
+                              {sol.desc}
+                            </span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
