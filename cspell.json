@@ -1,0 +1,18 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "DPDP",
+    "Sutar",
+    "framer",
+    "lucide",
+    "Vite",
+    "Supabase",
+    "BFSI"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    ".git"
+  ]
+}

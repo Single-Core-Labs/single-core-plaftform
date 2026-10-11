@@ -6,12 +6,11 @@ const SEO = ({
   description, 
   keywords, 
   type = 'website',
-  image = '/og-image.png',
-  schema,
-  noindex
+  image = '/og-image.jpg',
+  schema
 }) => {
   const { pathname } = useLocation();
-  const siteUrl = 'https://singlecorelabs.in'
+  const siteUrl = 'https://singlecorelabs.com'; // Adjust if different
   const url = `${siteUrl}${pathname}`;
   const siteName = 'Single Core Labs';
   const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
@@ -22,7 +21,6 @@ const SEO = ({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      {noindex && <meta name="robots" content="noindex" />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph / Facebook */}

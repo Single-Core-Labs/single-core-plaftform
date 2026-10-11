@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "medical-imaging-ai",
+    "title": "Medical Imaging in the Age of Artificial Intelligence",
+    "excerpt": "Advances, Architectures, and the Road to Clinical Translation.",
+    "author": "Akshita Singh",
+    "authorBio": "AI Researcher",
+    "authorAvatar": "/logo.webp",
+    "authorLinks": {},
+    "date": "May 2025",
+    "published_at": "2025-05-01",
+    "readTime": "12 min read",
+    "category": "Research",
+    "heroImage": "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=80"
+  },
+  {
+    "slug": "large-language-models",
+    "title": "Large Language Models: What They Are, How They Work, and Why You Should Care",
+    "excerpt": "We're living through one of the most significant shifts in the history of computing — and most people still don't fully understand what's actually happening under the hood.",
+    "author": "Manav Sutar",
+    "authorBio": "Founder and CTO",
+    "authorAvatar": "/manav.jpg",
+    "authorLinks": {
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com"
+    },
+    "date": "June 2025",
+    "published_at": "2025-06-01",
+    "readTime": "8 min read",
+    "category": "AI Engineering",
+    "heroImage": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
+  },
+  {
+    "slug": "why-sovereign-ai-matters",
+    "title": "Why Sovereign AI Matters: The Case for On-Premise AI Infrastructure",
+    "excerpt": "As regulated enterprises rush to deploy AI, a quieter question becomes critical: who controls the AI running your business? Here is why sovereignty isn't optional.",
+    "author": "Manav Sutar",
+    "authorBio": "Founder and CTO",
+    "authorAvatar": "/manav.jpg",
+    "authorLinks": {
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com"
+    },
+    "date": "June 2025",
+    "published_at": "2025-06-01",
+    "readTime": "10 min read",
+    "category": "AI Infrastructure",
+    "heroImage": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80"
+  }
+]
